@@ -5,13 +5,17 @@
   import { untrack } from 'svelte';
   import { Button } from '../components/button/index.js';
   import { Skeleton } from '../components/skeleton/index.js';
-  import { createCoreTableModel } from './table-core.js';
+  import { createCoreTableModel, type ServerSideConfig } from './table-core.js';
   import {
     DEFAULT_PAGE_SIZE_OPTIONS,
     getPageCount,
     getVisibleRowRange,
     resolvePagination
   } from './table-pagination.js';
+
+  type PaginationChangeDetail = { pageIndex: number; pageSize: number };
+  type SortingChangeDetail = { id: string; desc: boolean }[];
+  type FilterChangeDetail = { globalFilter: string };
 
   let {
     data,
@@ -35,6 +39,20 @@
     exportable = true,
     densityToggle = true,
     columnToggle = true,
+    // Server-side props
+    serverSide = false,
+    rowCount = 0,
+    manualPagination = false,
+    manualSorting = false,
+    manualFiltering = false,
+    // Callbacks for server-side
+    onPaginationChange,
+    onSortingChange,
+    onFilterChange,
+    // External state control (for server-side)
+    externalSorting,
+    externalPagination,
+    externalFilter,
   }: {
     data: TData[];
     columns: ColumnDef<TData, unknown>[];
@@ -57,15 +75,47 @@
     exportable?: boolean;
     densityToggle?: boolean;
     columnToggle?: boolean;
+    // Server-side
+    serverSide?: boolean;
+    rowCount?: number;
+    manualPagination?: boolean;
+    manualSorting?: boolean;
+    manualFiltering?: boolean;
+    onPaginationChange?: (detail: PaginationChangeDetail) => void;
+    onSortingChange?: (detail: SortingChangeDetail) => void;
+    onFilterChange?: (detail: FilterChangeDetail) => void;
+    // External state
+    externalSorting?: SortingState;
+    externalPagination?: PaginationState;
+    externalFilter?: string;
   } = $props();
 
-  let sorting = $state<SortingState>([]);
-  let pagination = $state<PaginationState>({ pageIndex: 0, pageSize: untrack(() => pageSize) });
+  // Internal state (used when not in server-side mode)
+  let sorting = $state<SortingState>(externalSorting ?? []);
+  let pagination = $state<PaginationState>(externalPagination ?? { pageIndex: 0, pageSize: untrack(() => pageSize) });
+  let globalFilter = $state(externalFilter ?? '');
   let lastPageSizeProp = $state(untrack(() => pageSize));
-  let globalFilter = $state('');
   let density = $state<'compact' | 'spacious'>('spacious');
   let columnVisibility = $state<Record<string, boolean>>({});
   let showColumnsDropdown = $state(false);
+
+  // Sync external state
+  $effect(() => {
+    if (externalSorting) sorting = externalSorting;
+  });
+  $effect(() => {
+    if (externalPagination) pagination = externalPagination;
+  });
+  $effect(() => {
+    if (externalFilter !== undefined) globalFilter = externalFilter;
+  });
+
+  const serverSideConfig = $derived<ServerSideConfig | undefined>(
+    serverSide ? { rowCount, manualPagination, manualSorting, manualFiltering } : undefined
+  );
+
+  // Compute effective row count
+  const effectiveRowCount = $derived(serverSide ? rowCount : undefined);
 
   function toggleColumnVisibility(columnId: string, visible: boolean) {
     columnVisibility = { ...columnVisibility, [columnId]: visible };
@@ -102,13 +152,14 @@
     createCoreTableModel({
       data,
       columns,
-      state: { sorting, pagination, globalFilter, columnVisibility }
+      state: { sorting, pagination, globalFilter, columnVisibility },
+      serverSide: serverSideConfig
     })
   );
 
   const headerGroups = $derived(table.getHeaderGroups());
   const rowModel = $derived(table.getRowModel());
-  const filteredRowCount = $derived(table.getFilteredRowModel().rows.length);
+  const filteredRowCount = $derived(serverSide ? rowCount : table.getFilteredRowModel().rows.length);
   const pageCount = $derived(getPageCount(filteredRowCount, pagination.pageSize));
   const visibleRange = $derived(getVisibleRowRange(filteredRowCount, pagination));
   const safePageSizeOptions = $derived(
@@ -154,38 +205,60 @@
   });
 
   $effect(() => {
-    const next = resolvePagination(pagination, filteredRowCount);
-    if (next.pageIndex !== pagination.pageIndex || next.pageSize !== pagination.pageSize) {
-      pagination = next;
+    if (!serverSide) {
+      const next = resolvePagination(pagination, filteredRowCount);
+      if (next.pageIndex !== pagination.pageIndex || next.pageSize !== pagination.pageSize) {
+        pagination = next;
+      }
     }
   });
 
   function setGlobalFilter(value: string) {
     globalFilter = value;
-    pagination = resolvePagination(pagination, filteredRowCount, { pageIndex: 0 });
+    if (serverSide) {
+      onFilterChange?.({ globalFilter: value });
+    } else {
+      pagination = resolvePagination(pagination, filteredRowCount, { pageIndex: 0 });
+    }
   }
 
   function toggleSorting(columnId: string) {
     const current = sorting.find((item) => item.id === columnId);
+    let nextSorting: SortingState;
     if (!current) {
-      sorting = [{ id: columnId, desc: false }];
+      nextSorting = [{ id: columnId, desc: false }];
     } else if (!current.desc) {
-      sorting = [{ id: columnId, desc: true }];
+      nextSorting = [{ id: columnId, desc: true }];
     } else {
-      sorting = [];
+      nextSorting = [];
     }
-    pagination = resolvePagination(pagination, filteredRowCount, { pageIndex: 0 });
+
+    sorting = nextSorting;
+
+    if (serverSide) {
+      onSortingChange?.(nextSorting);
+    } else {
+      pagination = resolvePagination(pagination, filteredRowCount, { pageIndex: 0 });
+    }
   }
 
   function goToPage(pageIndex: number) {
-    pagination = resolvePagination(pagination, filteredRowCount, { pageIndex });
+    const next = resolvePagination(pagination, filteredRowCount, { pageIndex });
+    pagination = next;
+    if (serverSide) {
+      onPaginationChange?.(next);
+    }
   }
 
   function setPageSize(value: string) {
-    pagination = resolvePagination(pagination, filteredRowCount, {
+    const next = resolvePagination(pagination, filteredRowCount, {
       pageIndex: 0,
       pageSize: Number(value)
     });
+    pagination = next;
+    if (serverSide) {
+      onPaginationChange?.(next);
+    }
   }
 
   function columnAlign(columnDef: ColumnDef<TData, unknown>) {
@@ -414,7 +487,7 @@
         {#if filteredRowCount === 0}
           0 rows
         {:else}
-          {visibleRange.from}-{visibleRange.to} of {filteredRowCount}
+          {visibleRange.from}-{visibleRange.to} of {filteredRowCount.toLocaleString()}
         {/if}
       </span>
       <p>records</p>

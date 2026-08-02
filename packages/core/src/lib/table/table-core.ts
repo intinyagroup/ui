@@ -21,10 +21,22 @@ export type CoreTableState = {
   rowSelection: RowSelectionState;
 };
 
+export type ServerSideConfig = {
+  /** Total row count from server (required for server-side pagination) */
+  rowCount: number;
+  /** Disable client-side pagination (use server pagination) */
+  manualPagination?: boolean;
+  /** Disable client-side sorting (use server sorting) */
+  manualSorting?: boolean;
+  /** Disable client-side filtering (use server filtering) */
+  manualFiltering?: boolean;
+};
+
 export function createCoreTableModel<TData>(input: {
   data: TData[];
   columns: ColumnDef<TData, unknown>[];
   state?: Partial<CoreTableState>;
+  serverSide?: ServerSideConfig;
 }) {
   const state: CoreTableState = {
     sorting: input.state?.sorting ?? [],
@@ -35,13 +47,16 @@ export function createCoreTableModel<TData>(input: {
     rowSelection: input.state?.rowSelection ?? {},
   };
 
+  const serverSide = input.serverSide;
+
   return createTable<TData>({
     data: input.data,
     columns: input.columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: serverSide?.manualPagination ? undefined : getPaginationRowModel(),
+    getSortedRowModel: serverSide?.manualSorting ? undefined : getSortedRowModel(),
+    getFilteredRowModel: serverSide?.manualFiltering ? undefined : getFilteredRowModel(),
+    pageCount: serverSide?.manualPagination ? Math.ceil(serverSide.rowCount / (state.pagination.pageSize || 10)) : undefined,
     state,
     onStateChange: () => {},
     renderFallbackValue: null,
