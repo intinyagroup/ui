@@ -29,17 +29,17 @@
     chapters.filter((ch) => ch.content || ch.title)
   );
 
-  function repaginate() {
+  async function repaginate() {
     if (!containerEl || viewMode === 'flow') return;
     measuring = true;
 
-    const containerWidth = containerEl.clientWidth - 48; // padding
+    const containerWidth = containerEl.clientWidth - 48;
     const newMap = new Map<string, PaginatedPage[]>();
 
     for (const chapter of previewChapters) {
       const titleHtml = `<h2 style="font-size:${layout.chapterTitleSize}pt;font-weight:${layout.chapterTitleWeight};text-align:${layout.chapterTitleAlign};margin-bottom:1.5em;">${chapter.title}</h2>`;
       const contentHtml = titleHtml + (chapter.content || '<p><em>Empty chapter</em></p>');
-      const result = paginateContent(contentHtml, layout, containerWidth);
+      const result = await paginateContent(contentHtml, layout, containerWidth);
       newMap.set(chapter.id, result.pages);
     }
 

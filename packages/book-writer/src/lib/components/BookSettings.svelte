@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Settings } from 'lucide-svelte';
+  import { Settings, Image, Upload } from 'lucide-svelte';
   import { Input } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/grid-core/utils';
   import { fontOptions, type BookMetadata, type BookLayout } from '../book-model.js';
@@ -17,6 +17,7 @@
   } = $props();
 
   let activeTab = $state<'metadata' | 'layout' | 'typography'>('metadata');
+  let coverPreview = $state(metadata.coverImage || '');
 
   function updateMetadata(field: keyof BookMetadata, value: string) {
     onMetadataChange({ ...metadata, [field]: value });
@@ -24,6 +25,23 @@
 
   function updateLayout(field: keyof BookLayout, value: any) {
     onLayoutChange({ ...layout, [field]: value });
+  }
+
+  function handleCoverUpload(e: Event) {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target?.result as string;
+      coverPreview = dataUrl;
+      updateMetadata('coverImage', dataUrl);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removeCover() {
+    coverPreview = '';
+    updateMetadata('coverImage', '');
   }
 </script>
 
@@ -79,6 +97,26 @@
         Publisher
         <Input bind:value={metadata.publisher} class="mt-1 h-8 text-sm" oninput={(e) => updateMetadata('publisher', e.currentTarget.value)} />
       </label>
+
+      <!-- Cover image upload -->
+      <div class="block text-xs text-[var(--ui-muted-foreground)]">
+        Cover Image
+        {#if coverPreview}
+          <div class="mt-1 relative">
+            <img src={coverPreview} alt="Cover preview" class="w-full h-24 object-cover rounded border border-[var(--ui-border)]" />
+            <button
+              onclick={removeCover}
+              class="absolute top-1 right-1 p-1 rounded bg-[var(--ui-destructive)] text-white text-xs cursor-pointer"
+            >×</button>
+          </div>
+        {:else}
+          <label class="mt-1 flex items-center justify-center gap-2 h-16 border-2 border-dashed border-[var(--ui-border)] rounded-lg cursor-pointer hover:border-[var(--ui-primary)]/50 transition-colors">
+            <Upload class="size-4" />
+            <span>Upload cover</span>
+            <input type="file" accept="image/*" class="hidden" onchange={handleCoverUpload} />
+          </label>
+        {/if}
+      </div>
 
     {:else if activeTab === 'layout'}
       <label class="block text-xs text-[var(--ui-muted-foreground)]">

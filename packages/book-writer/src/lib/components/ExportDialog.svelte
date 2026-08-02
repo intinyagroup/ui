@@ -2,10 +2,11 @@
   import { Download, X, FileText, Printer, Loader2, BookOpen, FileCode } from 'lucide-svelte';
   import { Button } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/grid-core/utils';
-  import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+  import { PDFDocument, StandardFonts, rgb, PDFImage } from 'pdf-lib';
   import { type Chapter, type BookMetadata, type BookLayout, pageSizes } from '../book-model.js';
   import { exportToMarkdown, downloadAsFile, downloadBlob } from '../markdown-utils.js';
   import { exportToEpub } from '../epub-utils.js';
+  import { fetchImageAsBytes, getImageType, dataUrlToBytes } from '../image-utils.js';
 
   let {
     open,

@@ -18,19 +18,20 @@ export type PaginationResult = {
 /**
  * Paginate HTML content into fixed-size pages
  * by rendering to a hidden container and measuring heights.
+ * Handles images by waiting for them to load before measurement.
  */
-export function paginateContent(
+export async function paginateContent(
   html: string,
   layout: BookLayout,
   containerWidth: number
-): PaginationResult {
+): Promise<PaginationResult> {
   if (!html || !html.trim()) {
     return { pages: [{ pageNumber: 1, contentHtml: '', isEmpty: true }], totalPages: 1 };
   }
 
   const size = pageSizes[layout.pageSize] ?? pageSizes.a4;
   const margin = {
-    top: layout.marginTop * (96 / 25.4),  // mm to px (96dpi)
+    top: layout.marginTop * (96 / 25.4),
     bottom: layout.marginBottom * (96 / 25.4),
     left: layout.marginLeft * (96 / 25.4),
     right: layout.marginRight * (96 / 25.4),
@@ -56,11 +57,32 @@ export function paginateContent(
   measurer.innerHTML = html;
   document.body.appendChild(measurer);
 
+  // Wait for images to load
+  await waitForImages(measurer);
+
   try {
     return splitIntoPages(measurer, pageHeightPx, pageWidthPx, layout);
   } finally {
     document.body.removeChild(measurer);
   }
+}
+
+/** Wait for all images in container to load */
+function waitForImages(container: HTMLElement): Promise<void> {
+  const images = Array.from(container.querySelectorAll('img'));
+  if (images.length === 0) return Promise.resolve();
+
+  const promises = images.map((img) => {
+    if (img.complete) return Promise.resolve();
+    return new Promise<void>((resolve) => {
+      img.onload = () => resolve();
+      img.onerror = () => resolve(); // Continue even if image fails
+      // Timeout after 3 seconds
+      setTimeout(() => resolve(), 3000);
+    });
+  });
+
+  return Promise.all(promises).then(() => {});
 }
 
 function splitIntoPages(

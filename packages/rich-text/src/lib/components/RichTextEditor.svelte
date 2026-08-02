@@ -7,11 +7,15 @@
   import TextAlign from '@tiptap/extension-text-align';
   import Link from '@tiptap/extension-link';
   import Image from '@tiptap/extension-image';
+  import Table from '@tiptap/extension-table';
+  import TableRow from '@tiptap/extension-table-row';
+  import TableCell from '@tiptap/extension-table-cell';
+  import TableHeader from '@tiptap/extension-table-header';
   import {
     Bold, Italic, Underline as UnderlineIcon, Strikethrough,
     AlignLeft, AlignCenter, AlignRight, AlignJustify,
     List, ListOrdered, Quote, Code, Minus, Link as LinkIcon, Image as ImageIcon,
-    Undo, Redo, Heading1, Heading2, Heading3,
+    Undo, Redo, Heading1, Heading2, Heading3, TableIcon, Plus, Trash2,
   } from 'lucide-svelte';
   import { Button, Separator } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/grid-core/utils';
@@ -48,6 +52,10 @@
         TextAlign.configure({ types: ['heading', 'paragraph'] }),
         Link.configure({ openOnClick: false }),
         Image,
+        Table.configure({ resizable: true }),
+        TableRow,
+        TableCell,
+        TableHeader,
       ],
       content,
       editable,
@@ -106,6 +114,14 @@
     if (url) editor?.chain().focus().setImage({ src: url }).run();
   }
   function insertHorizontalRule() { editor?.chain().focus().setHorizontalRule().run(); }
+  function insertTable() { editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(); }
+  function addColumnBefore() { editor?.chain().focus().addColumnBefore().run(); }
+  function addColumnAfter() { editor?.chain().focus().addColumnAfter().run(); }
+  function deleteColumn() { editor?.chain().focus().deleteColumn().run(); }
+  function addRowBefore() { editor?.chain().focus().addRowBefore().run(); }
+  function addRowAfter() { editor?.chain().focus().addRowAfter().run(); }
+  function deleteRow() { editor?.chain().focus().deleteRow().run(); }
+  function deleteTable() { editor?.chain().focus().deleteTable().run(); }
   function undo() { editor?.chain().focus().undo().run(); }
   function redo() { editor?.chain().focus().redo().run(); }
 </script>
@@ -186,6 +202,9 @@
       <Button variant="ghost" size="sm" class="size-8 p-0" onclick={setImage}>
         <ImageIcon class="size-4" />
       </Button>
+      <Button variant="ghost" size="sm" class="size-8 p-0" onclick={insertTable}>
+        <TableIcon class="size-4" />
+      </Button>
       <Button variant="ghost" size="sm" class="size-8 p-0" onclick={insertHorizontalRule}>
         <Minus class="size-4" />
       </Button>
@@ -247,5 +266,68 @@
     border: none;
     border-top: 1px solid var(--ui-border);
     margin: 1rem 0;
+  }
+  :global(.tiptap table) {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+    overflow: hidden;
+  }
+  :global(.tiptap th),
+  :global(.tiptap td) {
+    border: 1px solid var(--ui-border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    position: relative;
+    min-width: 80px;
+  }
+  :global(.tiptap th) {
+    background: var(--ui-secondary);
+    font-weight: 600;
+  }
+  :global(.tiptap td.selectedCell) {
+    background: var(--ui-primary) / 10;
+  }
+  :global(.tiptap .selectedCell::after) {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.05);
+    pointer-events: none;
+  }
+  :global(.tiptap .column-resize-handle) {
+    position: absolute;
+    right: -2px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--ui-primary);
+    cursor: col-resize;
+  }
+  :global(.tiptap .image-container) {
+    margin: 1.5em 0;
+    text-align: center;
+  }
+  :global(.tiptap .image-container.align-left) { text-align: left; }
+  :global(.tiptap .image-container.align-center) { text-align: center; }
+  :global(.tiptap .image-container.align-right) { text-align: right; }
+  :global(.tiptap .image-container.align-full img) { width: 100%; }
+  :global(.tiptap .image-caption) {
+    font-size: 0.85em;
+    color: var(--ui-muted-foreground);
+    margin-top: 0.5em;
+    font-style: italic;
+  }
+  :global(.tiptap .footnote-marker) {
+    color: var(--ui-primary);
+    cursor: pointer;
+    font-size: 0.8em;
+  }
+  :global(.tiptap .footnote-definition) {
+    font-size: 0.9em;
+    color: var(--ui-muted-foreground);
+    border-top: 1px solid var(--ui-border);
+    padding-top: 0.5em;
+    margin-top: 1em;
   }
 </style>

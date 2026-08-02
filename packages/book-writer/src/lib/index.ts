@@ -11,6 +11,7 @@ export { default as ChapterEditor } from './components/ChapterEditor.svelte';
 export { default as BookPreview } from './components/BookPreview.svelte';
 export { default as BookSettings } from './components/BookSettings.svelte';
 export { default as ExportDialog } from './components/ExportDialog.svelte';
+export { default as ImageUploader } from './components/ImageUploader.svelte';
 
 // Data model & utilities
 export {
@@ -47,3 +48,22 @@ export {
 
 // EPUB utilities
 export { exportToEpub } from './epub-utils.js';
+
+// Footnote utilities
+export {
+  extractFootnotes,
+  insertFootnoteMarker,
+  addFootnoteDefinition,
+  renderFootnotesSection,
+  getNextFootnoteNumber,
+  type Footnote,
+} from './footnote-utils.js';
+
+// Image utilities
+export {
+  fetchImageAsBytes,
+  getImageType,
+  resizeImage,
+  dataUrlToBytes,
+  extractImageUrls,
+} from './image-utils.js';

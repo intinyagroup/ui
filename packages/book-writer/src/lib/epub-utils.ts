@@ -1,12 +1,13 @@
 // ============================================
-// EPUB export — create EPUB books
+// EPUB export — create EPUB books with images
 // ============================================
 
 import Epub from 'epubjs';
 import type { Chapter, BookMetadata, BookLayout } from './book-model.js';
 import { htmlToMarkdown, markdownToHtml } from './markdown-utils.js';
+import { extractImageUrls } from './image-utils.js';
 
-/** Generate EPUB from book data */
+/** Generate EPUB from book data with embedded images */
 export async function exportToEpub(
   metadata: BookMetadata,
   layout: BookLayout,
@@ -23,6 +24,44 @@ export async function exportToEpub(
     lang: metadata.language ?? 'en',
   });
 
+  // Embed cover image if URL provided
+  if (metadata.coverImage) {
+    try {
+      const coverResponse = await fetch(metadata.coverImage);
+      if (coverResponse.ok) {
+        const coverBlob = await coverResponse.blob();
+        const coverArrayBuffer = await coverBlob.arrayBuffer();
+        book.addCoverImage('cover.jpg', coverArrayBuffer, { mediaType: 'image/jpeg' });
+      }
+    } catch {
+      // Skip if cover image fails
+    }
+  }
+
+  // Collect and embed all images from chapters
+  const imageCache = new Map<string, string>();
+  for (const chapter of chapters) {
+    if (!chapter.content) continue;
+    const imageUrls = extractImageUrls(chapter.content);
+    for (const url of imageUrls) {
+      if (imageCache.has(url)) continue;
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          const blob = await response.blob();
+          const arrayBuffer = await blob.arrayBuffer();
+          const mediaType = blob.type || 'image/png';
+          const extension = mediaType.split('/')[1] || 'png';
+          const fileName = `images/${imageCache.size}.${extension}`;
+          book.addImage(url, fileName, arrayBuffer, { mediaType });
+          imageCache.set(url, fileName);
+        }
+      } catch {
+        // Skip failed images
+      }
+    }
+  }
+
   // Cover page
   if (layout.showCoverPage) {
     const coverHtml = generateCoverHtml(metadata, layout);
@@ -35,9 +74,25 @@ export async function exportToEpub(
     book.addSection('toc.xhtml', tocHtml, { spine: 'toc', properties: { nav: { label: 'Table of Contents' } } });
   }
 
-  // Chapters
+  // Chapters with image references updated
   for (let i = 0; i < chapters.length; i++) {
     const chapter = chapters[i];
+    let chapterHtml = generateChapterHtml(chapter, layout);
+
+    // Replace image URLs with embedded file references
+    for (const [originalUrl, embeddedPath] of imageCache.entries()) {
+      chapterHtml = chapterHtml.replaceAll(originalUrl, embeddedPath);
+    }
+
+    book.addSection(
+      `chapter-${i + 1}.xhtml`,
+      chapterHtml,
+      {
+        spine: `chapter-${i + 1}`,
+        properties: { nav: { label: chapter.title } }
+      }
+    );
+  }
     const chapterHtml = generateChapterHtml(chapter, layout);
     book.addSection(
       `chapter-${i + 1}.xhtml`,
@@ -167,7 +222,51 @@ function generateChapterHtml(chapter: Chapter, layout: BookLayout): string {
       padding: 0.1em 0.3em;
       border-radius: 3px;
     }
-    img { max-width: 100%; }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    .image-container {
+      margin: 1.5em 0;
+      text-align: center;
+    }
+    .image-container.align-left { text-align: left; }
+    .image-container.align-right { text-align: right; }
+    .image-container.align-center { text-align: center; }
+    .image-container.align-full img { width: 100%; }
+    .image-caption {
+      font-size: 0.85em;
+      color: #666;
+      margin-top: 0.5em;
+      font-style: italic;
+    }
+    .footnote-marker {
+      color: #2563eb;
+      cursor: pointer;
+      font-size: 0.8em;
+    }
+    .footnote-definition {
+      font-size: 0.9em;
+      color: #666;
+      border-top: 1px solid #eee;
+      padding-top: 0.5em;
+      margin-top: 1em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1em 0;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5em 0.75em;
+      text-align: left;
+    }
+    th {
+      background: #f5f5f5;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
