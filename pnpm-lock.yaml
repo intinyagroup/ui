@@ -158,6 +158,28 @@ importers:
         specifier: ^6.0.2
         version: 6.0.3
 
+  packages/spreadsheet:
+    dependencies:
+      '@intinyagroup/grid-core':
+        specifier: workspace:*
+        version: link:../grid-core
+      '@intinyagroup/ui':
+        specifier: workspace:*
+        version: link:../core
+      '@tanstack/svelte-virtual':
+        specifier: ^3.13.35
+        version: 3.13.35(svelte@5.56.8)
+    devDependencies:
+      '@sveltejs/package':
+        specifier: ^2.5.8
+        version: 2.5.8(svelte@5.56.8)(typescript@6.0.3)
+      svelte:
+        specifier: ^5.55.2
+        version: 5.56.8
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
+
   packages/storybook:
     dependencies:
       '@intinyagroup/tokens':
