@@ -2,6 +2,8 @@
   import type { Row } from '@tanstack/table-core';
   import type { Snippet } from 'svelte';
   import type { DataTableMeta } from '../../table/table-core.js';
+  import DataTableDetailRow from './DataTableDetailRow.svelte';
+  import { ChevronRight } from 'lucide-svelte';
 
   let {
     row,
@@ -11,6 +13,13 @@
     onRowClick,
     cell,
     density,
+    expanded = false,
+    onExpandToggle,
+    detail,
+    canExpand = false,
+    editableColumns = [],
+    onCellEdit,
+    columnCount,
   }: {
     row: Row<TData>;
     selectable: boolean;
@@ -19,6 +28,13 @@
     onRowClick?: (row: TData) => void;
     cell?: Snippet<[{ row: TData; columnId: string; value: unknown }]>;
     density: 'compact' | 'spacious';
+    expanded?: boolean;
+    onExpandToggle?: (id: string) => void;
+    detail?: Snippet<[{ row: TData; rowIndex: number }]>;
+    canExpand?: boolean;
+    editableColumns?: string[];
+    onCellEdit?: (rowId: string, columnId: string, value: unknown) => void;
+    columnCount: number;
   } = $props();
 
   function columnAlign(columnDef: any) {
@@ -26,7 +42,6 @@
   }
 
   function getCellStyle(column: any) {
-    const meta = column.columnDef.meta as DataTableMeta<any> | undefined;
     const width = column.getSize();
     const style: Record<string, string> = {};
     if (width !== 150) {
@@ -37,6 +52,7 @@
   }
 </script>
 
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <tr
   class="group border-t border-[var(--ui-border)]/70 transition-colors hover:bg-[var(--ui-secondary)]/45 {selectable ? 'cursor-pointer' : ''} {isSelected ? 'bg-[var(--ui-primary)]/5' : ''}"
   onclick={selectable ? () => onToggleSelect(row.id) : onRowClick ? () => onRowClick(row.original) : undefined}
@@ -54,10 +70,24 @@
     </td>
   {/if}
 
+  <!-- Expand toggle cell -->
+  {#if canExpand}
+    <td class="w-10 px-2 align-middle {density === 'compact' ? 'py-2' : 'py-4'}">
+      <button
+        onclick={(e) => { e.stopPropagation(); onExpandToggle?.(row.id); }}
+        class="flex items-center justify-center size-6 rounded-md text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] transition-colors cursor-pointer"
+        aria-label={expanded ? 'Collapse row' : 'Expand row'}
+      >
+        <ChevronRight class="size-4 transition-transform {expanded ? 'rotate-90' : ''}" />
+      </button>
+    </td>
+  {/if}
+
   {#each row.getVisibleCells() as tableCell (tableCell.id)}
     {@const meta = tableCell.column.columnDef.meta as DataTableMeta<any> | undefined}
     {@const isPinnedLeft = tableCell.column.getIsPinned() === 'left'}
     {@const isPinnedRight = tableCell.column.getIsPinned() === 'right'}
+    {@const isEditable = editableColumns.includes(tableCell.column.id) || meta?.editable}
 
     <td
       class="px-4 align-middle text-sm font-medium text-[var(--ui-foreground)]
@@ -81,13 +111,16 @@
   {/each}
 </tr>
 
+<!-- Expandable detail row -->
+<DataTableDetailRow
+  {row}
+  {expanded}
+  {detail}
+  {selectable}
+  {columnCount}
+/>
+
 <style>
-  .pinned-left {
-    position: sticky;
-    left: 0;
-  }
-  .pinned-right {
-    position: sticky;
-    right: 0;
-  }
+  .pinned-left { position: sticky; left: 0; }
+  .pinned-right { position: sticky; right: 0; }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import * as DropdownMenu from '../../dropdown-menu/index.js';
-  import { ArrowUp, ArrowDown, ArrowUpDown, Pin, PinOff, EyeOff, ArrowLeftFromLine, ArrowRightFromLine, Filter } from 'lucide-svelte';
+  import { ArrowUp, ArrowDown, ArrowUpDown, Pin, PinOff, EyeOff, ArrowLeftFromLine, ArrowRightFromLine, Filter, Expand, Shrink } from 'lucide-svelte';
   import type { Column } from '@tanstack/table-core';
 
   let {
@@ -10,6 +10,9 @@
     onHide,
     onFilter,
     isFiltered = false,
+    isExpanded = false,
+    canExpand = false,
+    onExpand,
   }: {
     column: Column<any, unknown>;
     onSort: (direction: 'asc' | 'desc' | null) => void;
@@ -17,6 +20,9 @@
     onHide: () => void;
     onFilter: () => void;
     isFiltered?: boolean;
+    isExpanded?: boolean;
+    canExpand?: boolean;
+    onExpand?: () => void;
   } = $props();
 
   const canSort = $derived(column.getCanSort());
@@ -98,6 +104,28 @@
     {#if canPin}
       <DropdownMenu.Separator />
     {/if}
+
+    <DropdownMenu.Item onclick={onFilter}>
+      <Filter class="size-4 mr-2" />
+      Filter
+      {#if isFiltered}
+        <span class="ml-auto text-[var(--ui-primary)] text-xs">✓</span>
+      {/if}
+    </DropdownMenu.Item>
+
+    {#if canExpand}
+      <DropdownMenu.Item onclick={onExpand}>
+        {#if isExpanded}
+          <Shrink class="size-4 mr-2" />
+          Collapse
+        {:else}
+          <Expand class="size-4 mr-2" />
+          Expand
+        {/if}
+      </DropdownMenu.Item>
+    {/if}
+
+    <DropdownMenu.Separator />
 
     {#if canHide}
       <DropdownMenu.Item onclick={onHide}>

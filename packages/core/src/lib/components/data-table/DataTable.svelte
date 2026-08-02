@@ -1,6 +1,6 @@
 <script lang="ts" generics="TData">
   import { Search, ChevronDown, Download, Plus } from 'lucide-svelte';
-  import type { ColumnDef, PaginationState, SortingState, RowSelectionState, ColumnPinningState, ColumnOrderState, ExpandedState } from '@tanstack/table-core';
+  import type { ColumnDef, PaginationState, SortingState, RowSelectionState, ColumnPinningState, ColumnOrderState, ExpandedState, ColumnFiltersState } from '@tanstack/table-core';
   import type { Snippet } from 'svelte';
   import { untrack } from 'svelte';
   import { Button } from '../../button/index.js';
@@ -38,6 +38,11 @@
     densityToggle = true,
     columnToggle = true,
     columnReorder = true,
+    // Expand/detail
+    expandable = false,
+    detail,
+    // Editable
+    editableColumns = [],
     // Server-side
     serverSide = false,
     rowCount = 0,
@@ -51,6 +56,8 @@
     onColumnFilterChange,
     onColumnReorder,
     onColumnPinningChange,
+    onExpandedChange,
+    onCellEdit,
     // External state
     externalSorting,
     externalPagination,
@@ -58,6 +65,7 @@
     externalColumnPinning,
     externalColumnOrder,
     externalExpanded,
+    externalColumnFilters,
   }: {
     data: TData[];
     columns: ColumnDef<TData, unknown>[];
@@ -81,6 +89,9 @@
     densityToggle?: boolean;
     columnToggle?: boolean;
     columnReorder?: boolean;
+    expandable?: boolean;
+    detail?: Snippet<[{ row: TData; rowIndex: number }]>;
+    editableColumns?: string[];
     // Server-side
     serverSide?: boolean;
     rowCount?: number;
@@ -94,6 +105,8 @@
     onColumnFilterChange?: (detail: { columnId: string; filterValue: unknown }) => void;
     onColumnReorder?: (detail: { fromId: string; toId: string }) => void;
     onColumnPinningChange?: (detail: ColumnPinningState) => void;
+    onExpandedChange?: (detail: ExpandedState) => void;
+    onCellEdit?: (detail: { rowId: string; columnId: string; value: unknown }) => void;
     // External state
     externalSorting?: SortingState;
     externalPagination?: PaginationState;
@@ -101,6 +114,7 @@
     externalColumnPinning?: ColumnPinningState;
     externalColumnOrder?: ColumnOrderState;
     externalExpanded?: ExpandedState;
+    externalColumnFilters?: ColumnFiltersState;
   } = $props();
 
   // Internal state
@@ -113,9 +127,11 @@
   let columnPinning = $state<ColumnPinningState>(externalColumnPinning ?? { left: [], right: [] });
   let columnOrder = $state<ColumnOrderState>(externalColumnOrder ?? []);
   let expanded = $state<ExpandedState>(externalExpanded ?? {});
+  let columnFilters = $state<ColumnFiltersState>(externalColumnFilters ?? []);
   let showColumnsDropdown = $state(false);
   let rowSelection = $state<RowSelectionState>({});
   let selectAllChecked = $state(false);
+  let activeFilterColumnId = $state<string | null>(null);
 
   // Sync external state
   $effect(() => { if (externalSorting) sorting = externalSorting; });
@@ -124,6 +140,7 @@
   $effect(() => { if (externalColumnPinning) columnPinning = externalColumnPinning; });
   $effect(() => { if (externalColumnOrder) columnOrder = externalColumnOrder; });
   $effect(() => { if (externalExpanded) expanded = externalExpanded; });
+  $effect(() => { if (externalColumnFilters) columnFilters = externalColumnFilters; });
 
   const serverSideConfig = $derived<ServerSideConfig | undefined>(
     serverSide ? { rowCount, manualPagination, manualSorting, manualFiltering } : undefined
@@ -133,7 +150,7 @@
     createCoreTableModel({
       data,
       columns,
-      state: { sorting, pagination, globalFilter, columnVisibility, columnPinning, columnOrder, expanded },
+      state: { sorting, pagination, globalFilter, columnVisibility, columnPinning, columnOrder, expanded, columnFilters },
       serverSide: serverSideConfig,
     })
   );
@@ -231,6 +248,25 @@
     onColumnReorder?.({ fromId, toId });
   }
 
+  function handleColumnFilter(columnId: string, filterValue: unknown) {
+    const col = table.getColumn(columnId);
+    if (col) {
+      col.setFilterValue(filterValue);
+      const nextFilters = col.getFilterValue() !== undefined
+        ? [...columnFilters.filter((f) => f.id !== columnId), { id: columnId, value: filterValue }]
+        : columnFilters.filter((f) => f.id !== columnId);
+      columnFilters = nextFilters;
+      onColumnFilterChange?.({ columnId, filterValue });
+    }
+  }
+
+  function toggleExpand(rowId: string) {
+    const next = { ...expanded };
+    if (next[rowId]) delete next[rowId]; else next[rowId] = true;
+    expanded = next;
+    onExpandedChange?.(next);
+  }
+
   function goToPage(pageIndex: number) {
     const next = resolvePagination(pagination, filteredRowCount, { pageIndex });
     pagination = next;
@@ -325,16 +361,8 @@
 
         {#if densityToggle}
           <div class="flex items-center rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] p-1">
-            <button
-              type="button"
-              onclick={() => density = 'compact'}
-              class="rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-colors {density === 'compact' ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-sm' : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'}"
-            >Compact</button>
-            <button
-              type="button"
-              onclick={() => density = 'spacious'}
-              class="rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-colors {density === 'spacious' ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-sm' : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'}"
-            >Normal</button>
+            <button type="button" onclick={() => density = 'compact'} class="rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-colors {density === 'compact' ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-sm' : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'}">Compact</button>
+            <button type="button" onclick={() => density = 'spacious'} class="rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-colors {density === 'spacious' ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-sm' : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'}">Normal</button>
           </div>
         {/if}
 
@@ -389,20 +417,26 @@
             onToggleSelect={toggleRow}
             {cell}
             {density}
+            expanded={!!expanded[row.id]}
+            onExpandToggle={toggleExpand}
+            {detail}
+            canExpand={expandable}
+            {editableColumns}
+            columnCount={table.getAllLeafColumns().length}
           />
         {/each}
 
         {#if loading}
           {#each [1, 2, 3, 4, 5] as idx (idx)}
             <tr>
-              <td colspan={columns.length + (selectable ? 1 : 0)} class="px-6 py-3">
+              <td colspan={table.getAllLeafColumns().length + (selectable ? 1 : 0) + (expandable ? 1 : 0)} class="px-6 py-3">
                 <Skeleton class="h-8 w-full" />
               </td>
             </tr>
           {/each}
         {:else if filteredRowCount === 0}
           <tr>
-            <td colspan={columns.length + (selectable ? 1 : 0)} class="px-6 py-12 text-center">
+            <td colspan={table.getAllLeafColumns().length + (selectable ? 1 : 0) + (expandable ? 1 : 0)} class="px-6 py-12 text-center">
               <div class="flex flex-col items-center gap-3">
                 <p class="text-sm font-medium text-[var(--ui-foreground)]">{emptyMessage}</p>
                 {#if emptyDescription}
