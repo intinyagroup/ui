@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
-import Button from '../lib/components/button/Button.svelte';
+import Button from '@intinyagroup/ui/components/button/Button.svelte';
 
 const meta = {
   title: 'Primitives/Button',
