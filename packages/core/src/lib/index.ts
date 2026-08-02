@@ -39,6 +39,10 @@ export { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, Comman
 // Data
 export { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption } from './components/table/index.js';
 export { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext, PaginationLink, PaginationEllipsis } from './components/pagination/index.js';
+export { DataTable } from './components/data-table/index.js';
+export { createCoreTableModel } from './table/table-core.js';
+export { resolvePagination, getPageCount, getVisibleRowRange, normalizePageSize, DEFAULT_PAGE_SIZE_OPTIONS } from './table/table-pagination.js';
+export type { CoreTableState } from './table/table-core.js';
 
 // Form
 export { Select, SelectTrigger, SelectContent, SelectItem, SelectValue, SelectGroup, SelectLabel, SelectSeparator } from './components/select/index.js';
