@@ -1,7 +1,7 @@
 {
-  "name": "@intinyagroup/data-table",
+  "name": "@intinyagroup/grid-core",
   "version": "0.1.0",
-  "description": "Enterprise DataTable component built on grid-core",
+  "description": "Shared grid infrastructure (TanStack Table + Virtual + keyboard + clipboard)",
   "type": "module",
   "exports": {
     ".": {
@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "@intinyagroup/ui": "workspace:*",
-    "@intinyagroup/grid-core": "workspace:*"
+    "@tanstack/table-core": "^8.21.3",
+    "@tanstack/svelte-virtual": "^3.13.35"
   },
   "devDependencies": {
     "@sveltejs/package": "^2.5.8",
@@ -31,6 +32,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intinyagroup/ui.git",
-    "directory": "packages/data-table"
+    "directory": "packages/grid-core"
   }
 }

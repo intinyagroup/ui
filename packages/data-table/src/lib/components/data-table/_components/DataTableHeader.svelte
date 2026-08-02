@@ -2,7 +2,7 @@
   import type { Header, HeaderGroup, Column, ColumnPinningState } from '@tanstack/table-core';
   import { ArrowUp, ArrowDown, ArrowUpDown, GripVertical } from 'lucide-svelte';
   import DataTableColumnMenu from './DataTableColumnMenu.svelte';
-  import type { DataTableMeta } from '../../table/table-core.js';
+  import type { DataTableMeta } from '@intinyagroup/grid-core';
 
   let {
     headerGroups,

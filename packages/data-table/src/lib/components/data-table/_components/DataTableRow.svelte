@@ -1,7 +1,7 @@
 <script lang="ts" generics="TData">
   import type { Row } from '@tanstack/table-core';
   import type { Snippet } from 'svelte';
-  import type { DataTableMeta } from '../../table/table-core.js';
+  import type { DataTableMeta } from '@intinyagroup/grid-core';
   import DataTableDetailRow from './DataTableDetailRow.svelte';
   import { ChevronRight } from 'lucide-svelte';
 

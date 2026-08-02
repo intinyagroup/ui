@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as DropdownMenu from '../../dropdown-menu/index.js';
+  import * as DropdownMenu from '@intinyagroup/ui';
   import { ArrowUp, ArrowDown, ArrowUpDown, Pin, PinOff, EyeOff, ArrowLeftFromLine, ArrowRightFromLine, Filter, Expand, Shrink } from 'lucide-svelte';
   import type { Column } from '@tanstack/table-core';
 

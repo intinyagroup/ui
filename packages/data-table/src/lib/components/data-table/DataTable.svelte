@@ -4,13 +4,9 @@
   import type { ColumnDef, PaginationState, SortingState, RowSelectionState, ColumnPinningState, ColumnOrderState, ExpandedState, ColumnFiltersState, GroupingState } from '@tanstack/table-core';
   import type { Snippet } from 'svelte';
   import { untrack } from 'svelte';
-  import { Button } from '../../button/index.js';
-  import { Skeleton } from '../../skeleton/index.js';
-  import { createCoreTableModel, type ServerSideConfig } from '../../../table/table-core.js';
-  import { resolvePagination, getPageCount, DEFAULT_PAGE_SIZE_OPTIONS } from '../../../table/table-pagination.js';
-  import { getTableSettings, saveTableSettings } from '../../../table/table-persist.js';
-  import { createKeyboardNavigation } from '../../../table/table-keyboard.js';
-  import { createClipboard } from '../../../table/table-clipboard.js';
+  import { Button, Skeleton } from '@intinyagroup/ui';
+  import { cn } from '@intinyagroup/grid-core/utils';
+  import { createCoreTableModel, type ServerSideConfig, resolvePagination, getPageCount, DEFAULT_PAGE_SIZE_OPTIONS, getTableSettings, saveTableSettings, createKeyboardNavigation, createClipboard } from '@intinyagroup/grid-core';
   import DataTableHeader from './_components/DataTableHeader.svelte';
   import DataTableRow from './_components/DataTableRow.svelte';
   import DataTablePagination from './_components/DataTablePagination.svelte';

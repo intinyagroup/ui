@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { PaginationState } from '@tanstack/table-core';
   import { ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from 'lucide-svelte';
-  import { Button } from '../../button/index.js';
-  import { getPageCount, getVisibleRowRange, normalizePageSize } from '../../../table/table-pagination.js';
+  import { Button } from '@intinyagroup/ui';
+  import { getPageCount, getVisibleRowRange, normalizePageSize } from '@intinyagroup/grid-core';
 
   let {
     pagination,

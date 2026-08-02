@@ -1,11 +1,9 @@
 <script lang="ts">
-  import * as Popover from '../../popover/index.js';
-  import * as DropdownMenu from '../../dropdown-menu/index.js';
+  import * as Popover from '@intinyagroup/ui';
+  import * as DropdownMenu from '@intinyagroup/ui';
   import { Filter, X } from 'lucide-svelte';
   import type { Column } from '@tanstack/table-core';
-  import { Input } from '../../input/index.js';
-  import { Button } from '../../button/index.js';
-  import { Checkbox } from '../../checkbox/index.js';
+  import { Input, Button, Checkbox } from '@intinyagroup/ui';
 
   let {
     column,

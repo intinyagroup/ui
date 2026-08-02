@@ -1,4 +1,8 @@
-// DataTable - Enterprise data grid component
+// ============================================
+// @intinyagroup/data-table — Enterprise Data Grid
+// ============================================
+
+// Components
 export { default as DataTable } from './components/data-table/DataTable.svelte';
 export { default as DataTableHeader } from './components/data-table/_components/DataTableHeader.svelte';
 export { default as DataTableRow } from './components/data-table/_components/DataTableRow.svelte';
@@ -9,9 +13,24 @@ export { default as DataTableStatusBar } from './components/data-table/_componen
 export { default as DataTableDetailRow } from './components/data-table/_components/DataTableDetailRow.svelte';
 export { default as DataTableCellEdit } from './components/data-table/_components/DataTableCellEdit.svelte';
 
-// Table utilities
-export { createCoreTableModel, type CoreTableState, type ServerSideConfig, type DataTableMeta } from './table/table-core.js';
-export { resolvePagination, getPageCount, getVisibleRowRange, normalizePageSize, DEFAULT_PAGE_SIZE_OPTIONS } from './table/table-pagination.js';
-export { createKeyboardNavigation, type FocusedCell } from './table/table-keyboard.js';
-export { createClipboard } from './table/table-clipboard.js';
-export { getTableSettings, saveTableSettings, clearTableSettings } from './table/table-persist.js';
+// Re-export grid-core infrastructure for convenience
+export {
+  createCoreTableModel,
+  resolvePagination,
+  getPageCount,
+  getVisibleRowRange,
+  normalizePageSize,
+  DEFAULT_PAGE_SIZE_OPTIONS,
+  createKeyboardNavigation,
+  createClipboard,
+  getTableSettings,
+  saveTableSettings,
+  clearTableSettings,
+} from '@intinyagroup/grid-core';
+
+export type {
+  CoreTableState,
+  ServerSideConfig,
+  DataTableMeta,
+  FocusedCell,
+} from '@intinyagroup/grid-core';
