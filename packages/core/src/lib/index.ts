@@ -42,7 +42,7 @@ export { Pagination, PaginationContent, PaginationItem, PaginationPrevious, Pagi
 export { DataTable } from './components/data-table/index.js';
 export { createCoreTableModel } from './table/table-core.js';
 export { resolvePagination, getPageCount, getVisibleRowRange, normalizePageSize, DEFAULT_PAGE_SIZE_OPTIONS } from './table/table-pagination.js';
-export type { CoreTableState, ServerSideConfig } from './table/table-core.js';
+export type { CoreTableState, ServerSideConfig, DataTableMeta } from './table/table-core.js';
 
 // Form
 export { Select, SelectTrigger, SelectContent, SelectItem, SelectValue, SelectGroup, SelectLabel, SelectSeparator } from './components/select/index.js';

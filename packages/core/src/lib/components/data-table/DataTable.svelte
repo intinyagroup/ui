@@ -1,17 +1,15 @@
 <script lang="ts" generics="TData">
-  import { ArrowDown, ArrowUp, ArrowUpDown, ChevronsLeft, ChevronsRight, Search, ChevronDown, ChevronLeft, ChevronRight, Download, Plus } from 'lucide-svelte';
-  import type { ColumnDef, PaginationState, SortingState, RowSelectionState } from '@tanstack/table-core';
+  import { Search, ChevronDown, Download, Plus } from 'lucide-svelte';
+  import type { ColumnDef, PaginationState, SortingState, RowSelectionState, ColumnPinningState, ColumnOrderState, ExpandedState } from '@tanstack/table-core';
   import type { Snippet } from 'svelte';
   import { untrack } from 'svelte';
-  import { Button } from '../components/button/index.js';
-  import { Skeleton } from '../components/skeleton/index.js';
-  import { createCoreTableModel, type ServerSideConfig } from './table-core.js';
-  import {
-    DEFAULT_PAGE_SIZE_OPTIONS,
-    getPageCount,
-    getVisibleRowRange,
-    resolvePagination
-  } from './table-pagination.js';
+  import { Button } from '../../button/index.js';
+  import { Skeleton } from '../../skeleton/index.js';
+  import { createCoreTableModel, type ServerSideConfig } from '../../../table/table-core.js';
+  import { resolvePagination, getPageCount, DEFAULT_PAGE_SIZE_OPTIONS } from '../../../table/table-pagination.js';
+  import DataTableHeader from './_components/DataTableHeader.svelte';
+  import DataTableRow from './_components/DataTableRow.svelte';
+  import DataTablePagination from './_components/DataTablePagination.svelte';
 
   type PaginationChangeDetail = { pageIndex: number; pageSize: number };
   type SortingChangeDetail = { id: string; desc: boolean }[];
@@ -39,20 +37,27 @@
     exportable = true,
     densityToggle = true,
     columnToggle = true,
-    // Server-side props
+    columnReorder = true,
+    // Server-side
     serverSide = false,
     rowCount = 0,
     manualPagination = false,
     manualSorting = false,
     manualFiltering = false,
-    // Callbacks for server-side
+    // Callbacks
     onPaginationChange,
     onSortingChange,
     onFilterChange,
-    // External state control (for server-side)
+    onColumnFilterChange,
+    onColumnReorder,
+    onColumnPinningChange,
+    // External state
     externalSorting,
     externalPagination,
     externalFilter,
+    externalColumnPinning,
+    externalColumnOrder,
+    externalExpanded,
   }: {
     data: TData[];
     columns: ColumnDef<TData, unknown>[];
@@ -75,85 +80,61 @@
     exportable?: boolean;
     densityToggle?: boolean;
     columnToggle?: boolean;
+    columnReorder?: boolean;
     // Server-side
     serverSide?: boolean;
     rowCount?: number;
     manualPagination?: boolean;
     manualSorting?: boolean;
     manualFiltering?: boolean;
+    // Callbacks
     onPaginationChange?: (detail: PaginationChangeDetail) => void;
     onSortingChange?: (detail: SortingChangeDetail) => void;
     onFilterChange?: (detail: FilterChangeDetail) => void;
+    onColumnFilterChange?: (detail: { columnId: string; filterValue: unknown }) => void;
+    onColumnReorder?: (detail: { fromId: string; toId: string }) => void;
+    onColumnPinningChange?: (detail: ColumnPinningState) => void;
     // External state
     externalSorting?: SortingState;
     externalPagination?: PaginationState;
     externalFilter?: string;
+    externalColumnPinning?: ColumnPinningState;
+    externalColumnOrder?: ColumnOrderState;
+    externalExpanded?: ExpandedState;
   } = $props();
 
-  // Internal state (used when not in server-side mode)
+  // Internal state
   let sorting = $state<SortingState>(externalSorting ?? []);
   let pagination = $state<PaginationState>(externalPagination ?? { pageIndex: 0, pageSize: untrack(() => pageSize) });
   let globalFilter = $state(externalFilter ?? '');
   let lastPageSizeProp = $state(untrack(() => pageSize));
   let density = $state<'compact' | 'spacious'>('spacious');
   let columnVisibility = $state<Record<string, boolean>>({});
+  let columnPinning = $state<ColumnPinningState>(externalColumnPinning ?? { left: [], right: [] });
+  let columnOrder = $state<ColumnOrderState>(externalColumnOrder ?? []);
+  let expanded = $state<ExpandedState>(externalExpanded ?? {});
   let showColumnsDropdown = $state(false);
+  let rowSelection = $state<RowSelectionState>({});
+  let selectAllChecked = $state(false);
 
   // Sync external state
-  $effect(() => {
-    if (externalSorting) sorting = externalSorting;
-  });
-  $effect(() => {
-    if (externalPagination) pagination = externalPagination;
-  });
-  $effect(() => {
-    if (externalFilter !== undefined) globalFilter = externalFilter;
-  });
+  $effect(() => { if (externalSorting) sorting = externalSorting; });
+  $effect(() => { if (externalPagination) pagination = externalPagination; });
+  $effect(() => { if (externalFilter !== undefined) globalFilter = externalFilter; });
+  $effect(() => { if (externalColumnPinning) columnPinning = externalColumnPinning; });
+  $effect(() => { if (externalColumnOrder) columnOrder = externalColumnOrder; });
+  $effect(() => { if (externalExpanded) expanded = externalExpanded; });
 
   const serverSideConfig = $derived<ServerSideConfig | undefined>(
     serverSide ? { rowCount, manualPagination, manualSorting, manualFiltering } : undefined
   );
 
-  // Compute effective row count
-  const effectiveRowCount = $derived(serverSide ? rowCount : undefined);
-
-  function toggleColumnVisibility(columnId: string, visible: boolean) {
-    columnVisibility = { ...columnVisibility, [columnId]: visible };
-  }
-
-  function exportToCSV() {
-    const rows = table.getFilteredRowModel().rows;
-    if (!rows.length) return;
-
-    const activeHeaders = table.getAllLeafColumns()
-      .filter(col => col.getIsVisible() && typeof col.columnDef.header === 'string');
-
-    const headerRow = activeHeaders.map(col => `"${col.columnDef.header}"`).join(',');
-    const dataRows = rows.map(row => {
-      return activeHeaders.map(col => {
-        const value = row.getValue(col.id);
-        const cellText = value !== undefined && value !== null ? String(value) : '';
-        return `"${cellText.replaceAll('"', '""')}"`;
-      }).join(',');
-    });
-
-    const csvContent = [headerRow, ...dataRows].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `${title?.toLowerCase().replaceAll(' ', '_') || 'export'}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
   const table = $derived.by(() =>
     createCoreTableModel({
       data,
       columns,
-      state: { sorting, pagination, globalFilter, columnVisibility },
-      serverSide: serverSideConfig
+      state: { sorting, pagination, globalFilter, columnVisibility, columnPinning, columnOrder, expanded },
+      serverSide: serverSideConfig,
     })
   );
 
@@ -161,21 +142,15 @@
   const rowModel = $derived(table.getRowModel());
   const filteredRowCount = $derived(serverSide ? rowCount : table.getFilteredRowModel().rows.length);
   const pageCount = $derived(getPageCount(filteredRowCount, pagination.pageSize));
-  const visibleRange = $derived(getVisibleRowRange(filteredRowCount, pagination));
-  const safePageSizeOptions = $derived(
-    Array.from(new Set([...pageSizeOptions, pageSize, pagination.pageSize]))
-      .filter((option) => Number.isFinite(option) && option > 0)
-      .map((option) => Math.floor(option))
-      .sort((a, b) => a - b)
-  );
-
-  let rowSelection = $state<RowSelectionState>({});
-  let selectAllChecked = $state(false);
   const selectedCount = $derived(Object.keys(rowSelection).length);
 
   $effect(() => {
     selectAllChecked = rowModel.rows.length > 0 && Object.keys(rowSelection).length === rowModel.rows.length;
   });
+
+  function toggleColumnVisibility(columnId: string, visible: boolean) {
+    columnVisibility = { ...columnVisibility, [columnId]: visible };
+  }
 
   function toggleSelectAll() {
     if (selectAllChecked) {
@@ -189,9 +164,7 @@
 
   function toggleRow(id: string) {
     if (rowSelection[id]) {
-      const next = { ...rowSelection };
-      delete next[id];
-      rowSelection = next;
+      const next = { ...rowSelection }; delete next[id]; rowSelection = next;
     } else {
       rowSelection = { ...rowSelection, [id]: true };
     }
@@ -222,47 +195,75 @@
     }
   }
 
-  function toggleSorting(columnId: string) {
-    const current = sorting.find((item) => item.id === columnId);
-    let nextSorting: SortingState;
-    if (!current) {
-      nextSorting = [{ id: columnId, desc: false }];
-    } else if (!current.desc) {
-      nextSorting = [{ id: columnId, desc: true }];
-    } else {
-      nextSorting = [];
-    }
-
+  function handleSort(columnId: string, direction: 'asc' | 'desc' | null) {
+    const nextSorting = direction === null ? [] : [{ id: columnId, desc: direction === 'desc' }];
     sorting = nextSorting;
+    if (serverSide) onSortingChange?.(nextSorting);
+    else pagination = resolvePagination(pagination, filteredRowCount, { pageIndex: 0 });
+  }
 
-    if (serverSide) {
-      onSortingChange?.(nextSorting);
-    } else {
-      pagination = resolvePagination(pagination, filteredRowCount, { pageIndex: 0 });
-    }
+  function handlePin(columnId: string, side: 'left' | 'right' | null) {
+    const next = { left: [...columnPinning.left], right: [...columnPinning.right] };
+    next.left = next.left.filter((id) => id !== columnId);
+    next.right = next.right.filter((id) => id !== columnId);
+    if (side === 'left') next.left.push(columnId);
+    else if (side === 'right') next.right.push(columnId);
+    columnPinning = next;
+    onColumnPinningChange?.(next);
+  }
+
+  function handleHide(columnId: string) {
+    const col = table.getColumn(columnId);
+    if (col) col.toggleVisibility(false);
+  }
+
+  function handleColumnReorder(fromId: string, toId: string) {
+    const currentOrder = columnOrder.length > 0
+      ? columnOrder
+      : columns.map((_, i) => String(i));
+    const fromIdx = currentOrder.indexOf(fromId);
+    const toIdx = currentOrder.indexOf(toId);
+    if (fromIdx === -1 || toIdx === -1) return;
+    const next = [...currentOrder];
+    next.splice(fromIdx, 1);
+    next.splice(toIdx, 0, fromId);
+    columnOrder = next;
+    onColumnReorder?.({ fromId, toId });
   }
 
   function goToPage(pageIndex: number) {
     const next = resolvePagination(pagination, filteredRowCount, { pageIndex });
     pagination = next;
-    if (serverSide) {
-      onPaginationChange?.(next);
-    }
+    if (serverSide) onPaginationChange?.(next);
   }
 
   function setPageSize(value: string) {
-    const next = resolvePagination(pagination, filteredRowCount, {
-      pageIndex: 0,
-      pageSize: Number(value)
-    });
+    const next = resolvePagination(pagination, filteredRowCount, { pageIndex: 0, pageSize: Number(value) });
     pagination = next;
-    if (serverSide) {
-      onPaginationChange?.(next);
-    }
+    if (serverSide) onPaginationChange?.(next);
   }
 
-  function columnAlign(columnDef: ColumnDef<TData, unknown>) {
-    return (columnDef.meta as { align?: 'left' | 'right' } | undefined)?.align;
+  function exportToCSV() {
+    const rows = table.getFilteredRowModel().rows;
+    if (!rows.length) return;
+    const activeHeaders = table.getAllLeafColumns()
+      .filter((col) => col.getIsVisible() && typeof col.columnDef.header === 'string');
+    const headerRow = activeHeaders.map((col) => `"${col.columnDef.header}"`).join(',');
+    const dataRows = rows.map((row) =>
+      activeHeaders.map((col) => {
+        const value = row.getValue(col.id);
+        return `"${value !== undefined && value !== null ? String(value).replaceAll('"', '""') : ''}"`;
+      }).join(',')
+    );
+    const csvContent = [headerRow, ...dataRows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${title?.toLowerCase().replaceAll(' ', '_') || 'export'}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 </script>
 
@@ -287,7 +288,7 @@
               value={globalFilter}
               placeholder={searchPlaceholder}
               class="h-10 w-full rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] pl-10 pr-4 text-sm text-[var(--ui-foreground)] outline-none transition-colors placeholder:text-[var(--ui-muted-foreground)]/60 focus:border-[var(--ui-primary)]/40 focus:ring-2 focus:ring-[var(--ui-ring)]/20"
-              oninput={(event) => setGlobalFilter((event.currentTarget as HTMLInputElement).value)}
+              oninput={(e) => setGlobalFilter((e.currentTarget as HTMLInputElement).value)}
             />
           </label>
         {/if}
@@ -301,10 +302,9 @@
             >
               Columns <ChevronDown class="size-3.5" />
             </button>
-
             {#if showColumnsDropdown}
               <button type="button" class="fixed inset-0 z-40 bg-transparent" onclick={() => showColumnsDropdown = false} aria-label="Close"></button>
-              <div class="absolute right-0 z-50 mt-1.5 w-48 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] p-2 shadow-lg">
+              <div class="absolute right-0 z-50 mt-1.5 w-52 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] p-2 shadow-lg">
                 {#each table.getAllLeafColumns() as column (column.id)}
                   {#if typeof column.columnDef.header === 'string'}
                     <label class="flex cursor-pointer select-none items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]">
@@ -329,16 +329,12 @@
               type="button"
               onclick={() => density = 'compact'}
               class="rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-colors {density === 'compact' ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-sm' : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'}"
-            >
-              Compact
-            </button>
+            >Compact</button>
             <button
               type="button"
               onclick={() => density = 'spacious'}
               class="rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-colors {density === 'spacious' ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-sm' : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'}"
-            >
-              Normal
-            </button>
+            >Normal</button>
           </div>
         {/if}
 
@@ -371,82 +367,33 @@
   <!-- Table -->
   <div class="max-w-full overflow-x-auto">
     <table class="min-w-full text-sm tabular-nums">
-      <thead class="sticky top-0 z-20 bg-[var(--ui-secondary)]/80 text-left text-[11px] font-semibold text-[var(--ui-muted-foreground)] backdrop-blur-md">
-        {#each headerGroups as headerGroup (headerGroup.id)}
-          <tr>
-            {#if selectable}
-              <th class="w-12 px-4 py-3">
-                <input
-                  type="checkbox"
-                  checked={selectAllChecked}
-                  onchange={toggleSelectAll}
-                  class="size-4 rounded border-[var(--ui-input)] text-[var(--ui-primary)]"
-                  aria-label="Select all"
-                />
-              </th>
-            {/if}
-            {#each headerGroup.headers as header (header.id)}
-              <th
-                class="px-6 py-3 transition-colors {header.column.getCanSort() ? 'cursor-pointer select-none hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]' : ''} {columnAlign(header.column.columnDef) === 'right' ? 'text-right' : ''}"
-                onclick={() => header.column.getCanSort() && toggleSorting(header.column.id)}
-              >
-                {#if !header.isPlaceholder}
-                  <span class="inline-flex items-center gap-2">
-                    {#if typeof header.column.columnDef.header === 'string'}
-                      {header.column.columnDef.header}
-                    {/if}
-                    {#if header.column.getCanSort()}
-                      {#if header.column.getIsSorted() === 'asc'}
-                        <ArrowUp class="size-3 text-[var(--ui-primary)]" />
-                      {:else if header.column.getIsSorted() === 'desc'}
-                        <ArrowDown class="size-3 text-[var(--ui-primary)]" />
-                      {:else}
-                        <ArrowUpDown class="size-3 opacity-20" />
-                      {/if}
-                    {/if}
-                  </span>
-                {/if}
-              </th>
-            {/each}
-          </tr>
-        {/each}
-      </thead>
+      <DataTableHeader
+        {headerGroups}
+        {selectable}
+        {selectAllChecked}
+        {density}
+        onToggleSelectAll={toggleSelectAll}
+        onSort={handleSort}
+        onPin={handlePin}
+        onHide={handleHide}
+        onFilter={() => {}}
+        onColumnReorder={handleColumnReorder}
+      />
+
       <tbody>
         {#each rowModel.rows as row (row.id)}
-          <tr
-            class="group border-t border-[var(--ui-border)]/70 transition-colors hover:bg-[var(--ui-secondary)]/45 {rowClass ? rowClass(row.original) : ''} {selectable ? 'cursor-pointer' : ''}"
-            onclick={selectable ? () => toggleRow(row.id) : undefined}
-          >
-            {#if selectable}
-              <td class="w-12 px-4 align-middle {density === 'compact' ? 'py-2.5' : 'py-4'}">
-                <input
-                  type="checkbox"
-                  checked={!!rowSelection[row.id]}
-                  onchange={() => toggleRow(row.id)}
-                  onclick={(e) => e.stopPropagation()}
-                  class="size-4 rounded border-[var(--ui-input)] text-[var(--ui-primary)]"
-                  aria-label="Select row"
-                />
-              </td>
-            {/if}
-            {#each row.getVisibleCells() as tableCell (tableCell.id)}
-              <td class="px-6 align-middle text-sm font-medium text-[var(--ui-foreground)] {density === 'compact' ? 'py-2.5' : 'py-4'} {columnAlign(tableCell.column.columnDef) === 'right' ? 'text-right' : ''}">
-                {#if cell}
-                  {@render cell({
-                    row: row.original,
-                    columnId: tableCell.column.id,
-                    value: tableCell.getValue()
-                  })}
-                {:else}
-                  {tableCell.getValue() ?? '-'}
-                {/if}
-              </td>
-            {/each}
-          </tr>
+          <DataTableRow
+            {row}
+            {selectable}
+            isSelected={!!rowSelection[row.id]}
+            onToggleSelect={toggleRow}
+            {cell}
+            {density}
+          />
         {/each}
 
         {#if loading}
-          {#each [1, 2, 3, 4, 5] as rowIndex (rowIndex)}
+          {#each [1, 2, 3, 4, 5] as idx (idx)}
             <tr>
               <td colspan={columns.length + (selectable ? 1 : 0)} class="px-6 py-3">
                 <Skeleton class="h-8 w-full" />
@@ -480,56 +427,12 @@
     </table>
   </div>
 
-  <!-- Footer -->
-  <div class="flex flex-col gap-4 border-t border-[var(--ui-border)] bg-[var(--ui-secondary)]/35 px-5 py-4 text-xs font-medium text-[var(--ui-muted-foreground)] sm:flex-row sm:items-center sm:justify-between sm:px-6">
-    <div class="flex items-center gap-3">
-      <span class="inline-flex h-6 items-center rounded-md bg-[var(--ui-card)] px-2.5 text-[11px] font-semibold text-[var(--ui-foreground)] shadow-sm">
-        {#if filteredRowCount === 0}
-          0 rows
-        {:else}
-          {visibleRange.from}-{visibleRange.to} of {filteredRowCount.toLocaleString()}
-        {/if}
-      </span>
-      <p>records</p>
-    </div>
-
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
-      <label class="flex items-center gap-3">
-        <span class="text-[11px] text-[var(--ui-muted-foreground)]">Per page</span>
-        <select
-          class="h-8 rounded-md border border-[var(--ui-border)] bg-[var(--ui-card)] px-2 text-[11px] font-semibold text-[var(--ui-foreground)] outline-none focus:ring-2 focus:ring-[var(--ui-ring)]/20"
-          value={pagination.pageSize}
-          onchange={(event) => setPageSize((event.currentTarget as HTMLSelectElement).value)}
-        >
-          {#each safePageSizeOptions as option (option)}
-            <option value={option}>{option}</option>
-          {/each}
-        </select>
-      </label>
-
-      <div class="flex items-center gap-1 rounded-lg bg-[var(--ui-card)] p-1 shadow-sm">
-        <Button type="button" variant="ghost" size="sm" class="size-8 p-0" disabled={pagination.pageIndex === 0} onclick={() => goToPage(0)}>
-          <ChevronsLeft class="size-3.5" />
-        </Button>
-        <Button type="button" variant="ghost" size="sm" class="size-8 p-0" disabled={pagination.pageIndex === 0} onclick={() => goToPage(pagination.pageIndex - 1)}>
-          <ChevronLeft class="size-3.5" />
-        </Button>
-
-        <div class="h-4 w-px bg-[var(--ui-border)]"></div>
-
-        <span class="px-3 text-[11px] font-bold tracking-wider text-[var(--ui-foreground)]">
-          {pagination.pageIndex + 1} / {pageCount}
-        </span>
-
-        <div class="h-4 w-px bg-[var(--ui-border)]"></div>
-
-        <Button type="button" variant="ghost" size="sm" class="size-8 p-0" disabled={pagination.pageIndex >= pageCount - 1} onclick={() => goToPage(pagination.pageIndex + 1)}>
-          <ChevronRight class="size-3.5" />
-        </Button>
-        <Button type="button" variant="ghost" size="sm" class="size-8 p-0" disabled={pagination.pageIndex >= pageCount - 1} onclick={() => goToPage(pageCount - 1)}>
-          <ChevronsRight class="size-3.5" />
-        </Button>
-      </div>
-    </div>
-  </div>
+  <!-- Pagination -->
+  <DataTablePagination
+    {pagination}
+    rowCount={filteredRowCount}
+    {pageSizeOptions}
+    onPageChange={goToPage}
+    onPageSizeChange={(size) => setPageSize(String(size))}
+  />
 </div>
