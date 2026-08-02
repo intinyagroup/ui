@@ -9,17 +9,21 @@
       "svelte": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "svelte-package -o dist",
     "check": "echo 'no check'",
     "dev": "svelte-package -o dist -w"
   },
   "dependencies": {
-    "@intinyagroup/ui": "workspace:*",
     "@intinyagroup/grid-core": "workspace:*",
-    "@intinyagroup/rich-text": "workspace:*",
     "@intinyagroup/pdf-viewer": "workspace:*",
+    "@intinyagroup/rich-text": "workspace:*",
+    "@intinyagroup/ui": "workspace:*",
+    "epubjs": "^0.3.93",
     "pdf-lib": "^1.17.1"
   },
   "devDependencies": {

@@ -27,3 +27,15 @@ export {
   type BookLayout,
   type BookSettings,
 } from './book-model.js';
+
+// Markdown utilities
+export {
+  htmlToMarkdown,
+  markdownToHtml,
+  exportToMarkdown,
+  downloadAsFile,
+  downloadBlob,
+} from './markdown-utils.js';
+
+// EPUB utilities
+export { exportToEpub } from './epub-utils.js';
