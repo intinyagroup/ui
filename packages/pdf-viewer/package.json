@@ -1,0 +1,38 @@
+{
+  "name": "@intinyagroup/pdf-viewer",
+  "version": "0.1.0",
+  "description": "PDF viewer component with annotations, form filling, and editing",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "svelte-package -o dist",
+    "check": "echo 'no check'",
+    "dev": "svelte-package -o dist -w"
+  },
+  "dependencies": {
+    "@intinyagroup/ui": "workspace:*",
+    "@intinyagroup/grid-core": "workspace:*",
+    "pdfjs-dist": "^4.10.38",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "@sveltejs/package": "^2.5.8",
+    "svelte": "^5.55.2",
+    "typescript": "^6.0.2"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intinyagroup/ui.git",
+    "directory": "packages/pdf-viewer"
+  }
+}
