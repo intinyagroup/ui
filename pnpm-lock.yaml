@@ -26,6 +26,9 @@ importers:
       '@intinyagroup/tokens':
         specifier: workspace:*
         version: link:../tokens
+      '@tanstack/svelte-virtual':
+        specifier: ^3.13.35
+        version: 3.13.35(svelte@5.56.8)
       '@tanstack/table-core':
         specifier: ^8.21.3
         version: 8.21.3
@@ -799,9 +802,17 @@ packages:
   '@swc/helpers@0.5.23':
     resolution: {integrity: sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==}
 
+  '@tanstack/svelte-virtual@3.13.35':
+    resolution: {integrity: sha512-4ur3bPzSXnZZtQWwns/ziCR9pJ/4x/AlBIeDZu96MKrRMbZBL1TQkGiO+ZaX5zCgdpXUZwJnehKzBp32KOumCQ==}
+    peerDependencies:
+      svelte: ^3.48.0 || ^4.0.0 || ^5.0.0
+
   '@tanstack/table-core@8.21.3':
     resolution: {integrity: sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==}
     engines: {node: '>=12'}
+
+  '@tanstack/virtual-core@3.17.7':
+    resolution: {integrity: sha512-bp+v10y65sp2H7WpWfIMyxTNfl8ZVfxFTLRjPIFRryi6FV/J33z4IS53WO4pTk36KlvJ4iLiQz+oaydDC1xbcA==}
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
@@ -2915,7 +2926,14 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
+  '@tanstack/svelte-virtual@3.13.35(svelte@5.56.8)':
+    dependencies:
+      '@tanstack/virtual-core': 3.17.7
+      svelte: 5.56.8
+
   '@tanstack/table-core@8.21.3': {}
+
+  '@tanstack/virtual-core@3.17.7': {}
 
   '@types/cookie@0.6.0': {}
 

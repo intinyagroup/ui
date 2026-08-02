@@ -1,5 +1,6 @@
 <script lang="ts" generics="TData">
   import { Search, ChevronDown, Download, Plus } from 'lucide-svelte';
+  import { createVirtualizer } from '@tanstack/svelte-virtual';
   import type { ColumnDef, PaginationState, SortingState, RowSelectionState, ColumnPinningState, ColumnOrderState, ExpandedState, ColumnFiltersState } from '@tanstack/table-core';
   import type { Snippet } from 'svelte';
   import { untrack } from 'svelte';
@@ -7,9 +8,11 @@
   import { Skeleton } from '../../skeleton/index.js';
   import { createCoreTableModel, type ServerSideConfig } from '../../../table/table-core.js';
   import { resolvePagination, getPageCount, DEFAULT_PAGE_SIZE_OPTIONS } from '../../../table/table-pagination.js';
+  import { getTableSettings, saveTableSettings } from '../../../table/table-persist.js';
   import DataTableHeader from './_components/DataTableHeader.svelte';
   import DataTableRow from './_components/DataTableRow.svelte';
   import DataTablePagination from './_components/DataTablePagination.svelte';
+  import DataTableStatusBar from './_components/DataTableStatusBar.svelte';
 
   type PaginationChangeDetail = { pageIndex: number; pageSize: number };
   type SortingChangeDetail = { id: string; desc: boolean }[];
@@ -43,6 +46,15 @@
     detail,
     // Editable
     editableColumns = [],
+    // Virtualization
+    virtualized = false,
+    virtualHeight = 500,
+    // Status bar
+    statusBar = false,
+    statusActions,
+    // Persistence
+    tableId,
+    persist = false,
     // Server-side
     serverSide = false,
     rowCount = 0,
@@ -92,6 +104,12 @@
     expandable?: boolean;
     detail?: Snippet<[{ row: TData; rowIndex: number }]>;
     editableColumns?: string[];
+    virtualized?: boolean;
+    virtualHeight?: number;
+    statusBar?: boolean;
+    statusActions?: Snippet;
+    tableId?: string;
+    persist?: boolean;
     // Server-side
     serverSide?: boolean;
     rowCount?: number;
@@ -132,6 +150,54 @@
   let rowSelection = $state<RowSelectionState>({});
   let selectAllChecked = $state(false);
   let activeFilterColumnId = $state<string | null>(null);
+  let scrollContainer = $state<HTMLElement | null>(null);
+
+  // Load persisted settings
+  $effect(() => {
+    if (persist && tableId && typeof window !== 'undefined') {
+      const saved = getTableSettings(tableId);
+      if (saved) {
+        if (saved.density) density = saved.density;
+        if (saved.columnVisibility) columnVisibility = saved.columnVisibility;
+        if (saved.columnPinning) columnPinning = saved.columnPinning;
+        if (saved.columnOrder) columnOrder = saved.columnOrder;
+        if (saved.columnSizing) {
+          // Apply saved column sizing to columns
+          for (const [colId, width] of Object.entries(saved.columnSizing)) {
+            table.getColumn(colId)?.setSize(width);
+          }
+        }
+        if (saved.sorting) sorting = saved.sorting;
+        if (saved.pageSize) pagination = { ...pagination, pageSize: saved.pageSize };
+      }
+    }
+  });
+
+  // Save settings on change
+  $effect(() => {
+    if (persist && tableId && typeof window !== 'undefined') {
+      saveTableSettings(tableId, {
+        density,
+        columnVisibility,
+        columnPinning,
+        columnOrder,
+        sorting,
+        pageSize: pagination.pageSize,
+      });
+    }
+  });
+
+  // Virtualizer for large datasets
+  const virtualizer = $derived(
+    virtualized && scrollContainer
+      ? createVirtualizer({
+          count: rowModel.rows.length,
+          getScrollElement: () => scrollContainer,
+          estimateSize: () => density === 'compact' ? 40 : 56,
+          overscan: 10,
+        })
+      : null
+  );
 
   // Sync external state
   $effect(() => { if (externalSorting) sorting = externalSorting; });
@@ -394,72 +460,167 @@
 
   <!-- Table -->
   <div class="max-w-full overflow-x-auto">
-    <table class="min-w-full text-sm tabular-nums">
-      <DataTableHeader
-        {headerGroups}
-        {selectable}
-        {selectAllChecked}
-        {density}
-        onToggleSelectAll={toggleSelectAll}
-        onSort={handleSort}
-        onPin={handlePin}
-        onHide={handleHide}
-        onFilter={() => {}}
-        onColumnReorder={handleColumnReorder}
-      />
-
-      <tbody>
-        {#each rowModel.rows as row (row.id)}
-          <DataTableRow
-            {row}
+    {#if virtualized}
+      <div bind:this={scrollContainer} class="overflow-auto" style="height: {virtualHeight}px;">
+        <table class="min-w-full text-sm tabular-nums" style="height: {virtualizer?.getTotalSize() ?? 0}px;">
+          <DataTableHeader
+            {headerGroups}
             {selectable}
-            isSelected={!!rowSelection[row.id]}
-            onToggleSelect={toggleRow}
-            {cell}
+            {selectAllChecked}
             {density}
-            expanded={!!expanded[row.id]}
-            onExpandToggle={toggleExpand}
-            {detail}
-            canExpand={expandable}
-            {editableColumns}
-            columnCount={table.getAllLeafColumns().length}
+            onToggleSelectAll={toggleSelectAll}
+            onSort={handleSort}
+            onPin={handlePin}
+            onHide={handleHide}
+            onFilter={() => {}}
+            onColumnReorder={handleColumnReorder}
           />
-        {/each}
 
-        {#if loading}
-          {#each [1, 2, 3, 4, 5] as idx (idx)}
+          <tbody class="relative" style="height: {virtualizer?.getTotalSize() ?? 0}px;">
+            {#if loading}
+              {#each [1, 2, 3, 4, 5] as idx (idx)}
+                <tr>
+                  <td colspan={table.getAllLeafColumns().length + (selectable ? 1 : 0) + (expandable ? 1 : 0)} class="px-6 py-3">
+                    <Skeleton class="h-8 w-full" />
+                  </td>
+                </tr>
+              {/each}
+            {:else if filteredRowCount === 0}
+              <tr>
+                <td colspan={table.getAllLeafColumns().length + (selectable ? 1 : 0) + (expandable ? 1 : 0)} class="px-6 py-12 text-center">
+                  <div class="flex flex-col items-center gap-3">
+                    <p class="text-sm font-medium text-[var(--ui-foreground)]">{emptyMessage}</p>
+                    {#if emptyDescription}
+                      <p class="text-sm text-[var(--ui-muted-foreground)]">{emptyDescription}</p>
+                    {/if}
+                    {#if emptyAction}
+                      {#if emptyAction.href}
+                        <a href={emptyAction.href} class="inline-flex items-center gap-2 rounded-lg bg-[var(--ui-primary)] px-4 py-2 text-sm font-medium text-[var(--ui-primary-foreground)] transition-colors hover:bg-[var(--ui-primary)]/90">
+                          <Plus class="size-4" /> {emptyAction.label}
+                        </a>
+                      {:else}
+                        <button onclick={emptyAction.onclick} type="button" class="inline-flex items-center gap-2 rounded-lg bg-[var(--ui-primary)] px-4 py-2 text-sm font-medium text-[var(--ui-primary-foreground)] transition-colors hover:bg-[var(--ui-primary)]/90">
+                          <Plus class="size-4" /> {emptyAction.label}
+                        </button>
+                      {/if}
+                    {/if}
+                  </div>
+                </td>
+              </tr>
+            {:else if virtualizer}
+              {#each virtualizer.getVirtualItems() as virtualRow (virtualRow.key)}
+                {@const row = rowModel.rows[virtualRow.index]}
+                <tr
+                  class="absolute w-full border-t border-[var(--ui-border)]/70 transition-colors hover:bg-[var(--ui-secondary)]/45 {selectable ? 'cursor-pointer' : ''} {!!rowSelection[row.id] ? 'bg-[var(--ui-primary)]/5' : ''}"
+                  style="height: {virtualRow.size}px; transform: translateY({virtualRow.start}px);"
+                  onclick={selectable ? () => toggleRow(row.id) : undefined}
+                >
+                  {#if selectable}
+                    <td class="w-12 px-4 align-middle {density === 'compact' ? 'py-2' : 'py-4'}">
+                      <input
+                        type="checkbox"
+                        checked={!!rowSelection[row.id]}
+                        onchange={() => toggleRow(row.id)}
+                        onclick={(e) => e.stopPropagation()}
+                        class="size-4 rounded border-[var(--ui-input)] text-[var(--ui-primary)]"
+                        aria-label="Select row"
+                      />
+                    </td>
+                  {/if}
+                  {#each row.getVisibleCells() as tableCell (tableCell.id)}
+                    <td class="px-4 align-middle text-sm font-medium text-[var(--ui-foreground)] {density === 'compact' ? 'py-2' : 'py-4'}">
+                      {tableCell.getValue() ?? '-'}
+                    </td>
+                  {/each}
+                </tr>
+              {/each}
+            {/if}
+          </tbody>
+        </table>
+      </div>
+    {:else}
+      <table class="min-w-full text-sm tabular-nums">
+        <DataTableHeader
+          {headerGroups}
+          {selectable}
+          {selectAllChecked}
+          {density}
+          onToggleSelectAll={toggleSelectAll}
+          onSort={handleSort}
+          onPin={handlePin}
+          onHide={handleHide}
+          onFilter={() => {}}
+          onColumnReorder={handleColumnReorder}
+        />
+
+        <tbody>
+          {#each rowModel.rows as row (row.id)}
+            <DataTableRow
+              {row}
+              {selectable}
+              isSelected={!!rowSelection[row.id]}
+              onToggleSelect={toggleRow}
+              {cell}
+              {density}
+              expanded={!!expanded[row.id]}
+              onExpandToggle={toggleExpand}
+              {detail}
+              canExpand={expandable}
+              {editableColumns}
+              columnCount={table.getAllLeafColumns().length}
+            />
+          {/each}
+
+          {#if loading}
+            {#each [1, 2, 3, 4, 5] as idx (idx)}
+              <tr>
+                <td colspan={table.getAllLeafColumns().length + (selectable ? 1 : 0) + (expandable ? 1 : 0)} class="px-6 py-3">
+                  <Skeleton class="h-8 w-full" />
+                </td>
+              </tr>
+            {/each}
+          {:else if filteredRowCount === 0}
             <tr>
-              <td colspan={table.getAllLeafColumns().length + (selectable ? 1 : 0) + (expandable ? 1 : 0)} class="px-6 py-3">
-                <Skeleton class="h-8 w-full" />
+              <td colspan={table.getAllLeafColumns().length + (selectable ? 1 : 0) + (expandable ? 1 : 0)} class="px-6 py-12 text-center">
+                <div class="flex flex-col items-center gap-3">
+                  <p class="text-sm font-medium text-[var(--ui-foreground)]">{emptyMessage}</p>
+                  {#if emptyDescription}
+                    <p class="text-sm text-[var(--ui-muted-foreground)]">{emptyDescription}</p>
+                  {/if}
+                  {#if emptyAction}
+                    {#if emptyAction.href}
+                      <a href={emptyAction.href} class="inline-flex items-center gap-2 rounded-lg bg-[var(--ui-primary)] px-4 py-2 text-sm font-medium text-[var(--ui-primary-foreground)] transition-colors hover:bg-[var(--ui-primary)]/90">
+                        <Plus class="size-4" /> {emptyAction.label}
+                      </a>
+                    {:else}
+                      <button onclick={emptyAction.onclick} type="button" class="inline-flex items-center gap-2 rounded-lg bg-[var(--ui-primary)] px-4 py-2 text-sm font-medium text-[var(--ui-primary-foreground)] transition-colors hover:bg-[var(--ui-primary)]/90">
+                        <Plus class="size-4" /> {emptyAction.label}
+                      </button>
+                    {/if}
+                  {/if}
+                </div>
               </td>
             </tr>
-          {/each}
-        {:else if filteredRowCount === 0}
-          <tr>
-            <td colspan={table.getAllLeafColumns().length + (selectable ? 1 : 0) + (expandable ? 1 : 0)} class="px-6 py-12 text-center">
-              <div class="flex flex-col items-center gap-3">
-                <p class="text-sm font-medium text-[var(--ui-foreground)]">{emptyMessage}</p>
-                {#if emptyDescription}
-                  <p class="text-sm text-[var(--ui-muted-foreground)]">{emptyDescription}</p>
-                {/if}
-                {#if emptyAction}
-                  {#if emptyAction.href}
-                    <a href={emptyAction.href} class="inline-flex items-center gap-2 rounded-lg bg-[var(--ui-primary)] px-4 py-2 text-sm font-medium text-[var(--ui-primary-foreground)] transition-colors hover:bg-[var(--ui-primary)]/90">
-                      <Plus class="size-4" /> {emptyAction.label}
-                    </a>
-                  {:else}
-                    <button onclick={emptyAction.onclick} type="button" class="inline-flex items-center gap-2 rounded-lg bg-[var(--ui-primary)] px-4 py-2 text-sm font-medium text-[var(--ui-primary-foreground)] transition-colors hover:bg-[var(--ui-primary)]/90">
-                      <Plus class="size-4" /> {emptyAction.label}
-                    </button>
-                  {/if}
-                {/if}
-              </div>
-            </td>
-          </tr>
-        {/if}
-      </tbody>
-    </table>
+          {/if}
+        </tbody>
+      </table>
+    {/if}
   </div>
+
+  <!-- Status Bar -->
+  {#if statusBar}
+    <DataTableStatusBar
+      rowCount={filteredRowCount}
+      {selectedCount}
+      {sorting}
+      {columnFilters}
+      {tableId}
+    >
+      {#if statusActions}
+        {@render statusActions()}
+      {/if}
+    </DataTableStatusBar>
+  {/if}
 
   <!-- Pagination -->
   <DataTablePagination
