@@ -1,7 +1,7 @@
 <script lang="ts" generics="TData">
-  import { Search, ChevronDown, Download, Plus } from 'lucide-svelte';
+  import { Search, ChevronDown, Download, Plus, Copy, ClipboardPaste } from 'lucide-svelte';
   import { createVirtualizer } from '@tanstack/svelte-virtual';
-  import type { ColumnDef, PaginationState, SortingState, RowSelectionState, ColumnPinningState, ColumnOrderState, ExpandedState, ColumnFiltersState } from '@tanstack/table-core';
+  import type { ColumnDef, PaginationState, SortingState, RowSelectionState, ColumnPinningState, ColumnOrderState, ExpandedState, ColumnFiltersState, GroupingState } from '@tanstack/table-core';
   import type { Snippet } from 'svelte';
   import { untrack } from 'svelte';
   import { Button } from '../../button/index.js';
@@ -9,10 +9,13 @@
   import { createCoreTableModel, type ServerSideConfig } from '../../../table/table-core.js';
   import { resolvePagination, getPageCount, DEFAULT_PAGE_SIZE_OPTIONS } from '../../../table/table-pagination.js';
   import { getTableSettings, saveTableSettings } from '../../../table/table-persist.js';
+  import { createKeyboardNavigation } from '../../../table/table-keyboard.js';
+  import { createClipboard } from '../../../table/table-clipboard.js';
   import DataTableHeader from './_components/DataTableHeader.svelte';
   import DataTableRow from './_components/DataTableRow.svelte';
   import DataTablePagination from './_components/DataTablePagination.svelte';
   import DataTableStatusBar from './_components/DataTableStatusBar.svelte';
+  import DataTableGroupBar from './_components/DataTableGroupBar.svelte';
 
   type PaginationChangeDetail = { pageIndex: number; pageSize: number };
   type SortingChangeDetail = { id: string; desc: boolean }[];
@@ -55,7 +58,12 @@
     // Persistence
     tableId,
     persist = false,
-    // Server-side
+    // Keyboard & clipboard
+    keyboardNav = false,
+    clipboard = false,
+    // Grouping
+    grouping = false,
+    externalGrouping,
     serverSide = false,
     rowCount = 0,
     manualPagination = false,
@@ -110,6 +118,10 @@
     statusActions?: Snippet;
     tableId?: string;
     persist?: boolean;
+    keyboardNav?: boolean;
+    clipboard?: boolean;
+    grouping?: boolean;
+    externalGrouping?: GroupingState;
     // Server-side
     serverSide?: boolean;
     rowCount?: number;
@@ -146,11 +158,13 @@
   let columnOrder = $state<ColumnOrderState>(externalColumnOrder ?? []);
   let expanded = $state<ExpandedState>(externalExpanded ?? {});
   let columnFilters = $state<ColumnFiltersState>(externalColumnFilters ?? []);
+  let grouping = $state<GroupingState>(externalGrouping ?? []);
   let showColumnsDropdown = $state(false);
   let rowSelection = $state<RowSelectionState>({});
   let selectAllChecked = $state(false);
   let activeFilterColumnId = $state<string | null>(null);
   let scrollContainer = $state<HTMLElement | null>(null);
+  let tableContainer = $state<HTMLElement | null>(null);
 
   // Load persisted settings
   $effect(() => {
@@ -207,6 +221,7 @@
   $effect(() => { if (externalColumnOrder) columnOrder = externalColumnOrder; });
   $effect(() => { if (externalExpanded) expanded = externalExpanded; });
   $effect(() => { if (externalColumnFilters) columnFilters = externalColumnFilters; });
+  $effect(() => { if (externalGrouping) grouping = externalGrouping; });
 
   const serverSideConfig = $derived<ServerSideConfig | undefined>(
     serverSide ? { rowCount, manualPagination, manualSorting, manualFiltering } : undefined
@@ -216,7 +231,7 @@
     createCoreTableModel({
       data,
       columns,
-      state: { sorting, pagination, globalFilter, columnVisibility, columnPinning, columnOrder, expanded, columnFilters },
+      state: { sorting, pagination, globalFilter, columnVisibility, columnPinning, columnOrder, expanded, columnFilters, grouping },
       serverSide: serverSideConfig,
     })
   );
@@ -226,6 +241,41 @@
   const filteredRowCount = $derived(serverSide ? rowCount : table.getFilteredRowModel().rows.length);
   const pageCount = $derived(getPageCount(filteredRowCount, pagination.pageSize));
   const selectedCount = $derived(Object.keys(rowSelection).length);
+
+  // Keyboard navigation
+  const keyboard = keyboardNav
+    ? createKeyboardNavigation({
+        table,
+        onCellSelect: (rowId, columnId) => {
+          // Focus cell for visual feedback
+        },
+        onCellEdit: (rowId, columnId) => {
+          // Trigger cell edit
+        },
+        onRowSelect: (rowId) => {
+          toggleRow(rowId);
+        },
+        onSelectAll: () => {
+          toggleSelectAll();
+        },
+        onDelete: (selectedRows) => {
+          // Could trigger bulk delete
+        },
+      })
+    : null;
+
+  // Clipboard
+  const clip = clipboard
+    ? createClipboard({ table })
+    : null;
+
+  async function handleCopy() {
+    if (clip) await clip.copySelectedRows();
+  }
+
+  async function handlePaste() {
+    if (clip) await clip.pasteFromClipboard();
+  }
 
   $effect(() => {
     selectAllChecked = rowModel.rows.length > 0 && Object.keys(rowSelection).length === rowModel.rows.length;
@@ -450,6 +500,14 @@
     <div class="flex items-center gap-3 border-b border-[var(--ui-primary)]/20 bg-[var(--ui-primary)]/5 px-6 py-3 text-sm font-medium text-[var(--ui-primary)]">
       <span>{selectedCount} selected</span>
       <div class="ml-auto flex items-center gap-2">
+        {#if clipboard}
+          <Button variant="ghost" size="sm" onclick={handleCopy}>
+            <Copy class="size-3.5" /> Copy
+          </Button>
+          <Button variant="ghost" size="sm" onclick={handlePaste}>
+            <ClipboardPaste class="size-3.5" /> Paste
+          </Button>
+        {/if}
         {#if bulkActions}
           {@render bulkActions({ selectedIds: Object.keys(rowSelection) })}
         {/if}
@@ -458,8 +516,27 @@
     </div>
   {/if}
 
+  <!-- Grouping Bar -->
+  {#if grouping}
+    <div class="border-b border-[var(--ui-border)] px-5 py-2 sm:px-6">
+      <DataTableGroupBar
+        columns={table.getAllLeafColumns()}
+        {grouping}
+        onGroupingChange={(g) => { grouping = g; }}
+      />
+    </div>
+  {/if}
+
   <!-- Table -->
-  <div class="max-w-full overflow-x-auto">
+  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+  <div
+    class="max-w-full overflow-x-auto"
+    bind:this={tableContainer}
+    onkeydown={keyboard ? keyboard.handleKeydown : undefined}
+    tabindex={keyboardNav ? 0 : undefined}
+    role="grid"
+    aria-label={title || 'Data table'}
+  >
     {#if virtualized}
       <div bind:this={scrollContainer} class="overflow-auto" style="height: {virtualHeight}px;">
         <table class="min-w-full text-sm tabular-nums" style="height: {virtualizer?.getTotalSize() ?? 0}px;">
