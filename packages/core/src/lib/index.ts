@@ -63,6 +63,11 @@ export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './comp
 export { Progress } from './components/progress/index.js';
 export { Skeleton } from './components/skeleton/index.js';
 export { Alert, AlertTitle, AlertDescription } from './components/alert/index.js';
+export { Toast, toasts } from './components/toast/index.js';
+
+// Data Display
+export { Chart, chartPresets, chartColors, chartColorsAlpha } from './components/chart/index.js';
+export { Calendar } from './components/calendar/index.js';
 
 // Layout
 export { AspectRatio } from './components/aspect-ratio/index.js';
