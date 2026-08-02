@@ -28,6 +28,14 @@ export {
   type BookSettings,
 } from './book-model.js';
 
+// Pagination engine
+export {
+  paginateContent,
+  paginateContentEstimate,
+  type PaginatedPage,
+  type PaginationResult,
+} from './pagination-engine.js';
+
 // Markdown utilities
 export {
   htmlToMarkdown,
