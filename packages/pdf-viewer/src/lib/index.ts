@@ -15,6 +15,11 @@ export { default as FormFieldRenderer } from './components/FormFieldRenderer.sve
 export { default as SearchPanel } from './components/SearchPanel.svelte';
 export { default as PageManipulationPanel } from './components/PageManipulationPanel.svelte';
 export { default as WatermarkPanel } from './components/WatermarkPanel.svelte';
+export { default as RedactionTool } from './components/RedactionTool.svelte';
+export { default as DigitalSignature } from './components/DigitalSignature.svelte';
+export { default as PasswordProtection } from './components/PasswordProtection.svelte';
+export { default as MergePDF } from './components/MergePDF.svelte';
+export { default as ExportPanel } from './components/ExportPanel.svelte';
 
 // Core utilities & types
 export {
