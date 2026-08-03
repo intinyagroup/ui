@@ -53,6 +53,44 @@ export {
   frameToTimecode,
 } from './media/media-utils.js';
 
+// Captions
+export {
+  createCaptionTrack,
+  createCaptionStyle,
+  createCaptionLine,
+  parseSRT,
+  exportToSRT,
+  type CaptionTrack,
+  type CaptionLine,
+  type CaptionWord,
+  type CaptionStyle,
+  type CaptionAnimation,
+} from './captions/caption-model.js';
+
+export {
+  getCaptionStyles,
+  renderCaptionHTML,
+} from './captions/caption-animation.js';
+
+// Recorder
+export {
+  startScreenRecording,
+  startCanvasRecording,
+  startAudioRecording,
+  type RecordingOptions,
+  type RecordingState,
+  type RecordingResult,
+} from './recorder/recorder.js';
+
+// Upload
+export {
+  validateVideo,
+  uploadWithOptimistic,
+  createS3Provider,
+  type UploadProvider,
+  type UploadState,
+} from './upload/upload-utils.js';
+
 // Renderer
 export {
   renderComposition,
