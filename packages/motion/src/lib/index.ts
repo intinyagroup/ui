@@ -100,4 +100,5 @@ export {
 
 // Components
 export { default as VideoPlayer } from './components/VideoPlayer.svelte';
+export { default as Player } from './components/Player.svelte';
 export { default as Timeline } from './components/Timeline.svelte';
