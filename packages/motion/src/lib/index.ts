@@ -1,31 +1,65 @@
 // ============================================
-// @intinyagroup/motion — Video Generation & Motion Graphics
+// @intinyagroup/motion — Video Generation (Remotion-like)
 // ============================================
 
-// Components
-export { default as Timeline } from './components/Timeline.svelte';
-
-// Data model & utilities
+// Core
 export {
-  createMotionProject,
-  createMotionLayer,
-  addKeyframe,
-  createPresetAnimation,
+  createComposition,
+  createSequence,
+  createTrack,
+  createEffect,
+  createTransition,
+  interpolate,
   interpolateKeyframes,
-  getLayerPropertiesAtTime,
   easings,
-  exportPresets,
-  type MotionProject,
-  type MotionLayer,
+  type Composition,
+  type Sequence,
+  type Track,
+  type Effect,
+  type EffectType,
+  type Transition,
+  type TransitionType,
   type Keyframe,
-  type AnimationProperty,
-  type AnimatableProperties,
-  type VideoExportOptions,
-} from './motion-model.js';
+  type AnimatedProperty,
+  type AnimatedProps,
+  type AudioTrack,
+  type SequenceStyle,
+  type EasingFunction,
+} from './core.js';
 
-// Video export
+// Effects
 export {
-  exportToVideo,
-  renderProjectToCanvas,
-  exportToGif,
-} from './video-export.js';
+  getFilterString,
+  getTransformString,
+  effectPresets,
+} from './effects/effects.js';
+
+// Transitions
+export {
+  getTransitionStyles,
+  transitionPresets,
+  getTransitionProgress,
+} from './transitions/transitions.js';
+
+// Media
+export {
+  loadImage,
+  loadVideo,
+  loadAudio,
+  extractVideoFrame,
+  drawImageToCanvas,
+  getImageDimensions,
+  formatTimecode,
+  frameToTimecode,
+} from './media/media-utils.js';
+
+// Renderer
+export {
+  renderComposition,
+  renderFrame,
+  type ExportProgress,
+} from './renderer/render-pipeline.js';
+
+// Components
+export { default as VideoPlayer } from './components/VideoPlayer.svelte';
+export { default as Timeline } from './components/Timeline.svelte';
