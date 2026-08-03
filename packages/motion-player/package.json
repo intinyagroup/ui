@@ -1,7 +1,7 @@
 {
-  "name": "@intinyagroup/motion-three",
+  "name": "@intinyagroup/motion-player",
   "version": "0.1.0",
-  "description": "Three.js addon for @intinyagroup/motion — 3D rendering in videos",
+  "description": "Player, VideoPlayer, Timeline and renderer for @intinyagroup/motion",
   "type": "module",
   "exports": {
     ".": {
@@ -12,32 +12,26 @@
   "files": ["dist", "README.md"],
   "scripts": {
     "build": "svelte-package -o dist",
-    "check": "echo 'no check'",
-    "dev": "svelte-package -o dist -w"
+    "check": "echo 'no check'"
   },
   "dependencies": {
     "@intinyagroup/ui": "workspace:*",
+    "@intinyagroup/grid-core": "workspace:*",
     "@intinyagroup/motion": "workspace:*",
     "@intinyagroup/motion-effects": "workspace:*"
-  },
-  "peerDependencies": {
-    "svelte": "^5.0.0",
-    "three": ">=0.160.0"
-  },
-  "peerDependenciesMeta": {
-    "three": { "optional": false }
   },
   "devDependencies": {
     "@sveltejs/package": "^2.5.8",
     "svelte": "^5.55.2",
-    "three": "^0.170.0",
-    "@types/three": "^0.170.0",
     "typescript": "^6.0.2"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intinyagroup/ui.git",
-    "directory": "packages/motion-three"
+    "directory": "packages/motion-player"
   }
 }

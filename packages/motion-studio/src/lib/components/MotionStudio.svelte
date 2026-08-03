@@ -11,9 +11,8 @@
     type Composition, type Sequence, type Track, type Effect, type EffectType,
     type Transition, type TransitionType
   } from '@intinyagroup/motion';
-  import { effectPresets, transitionPresets } from '@intinyagroup/motion';
-  import Timeline from '@intinyagroup/motion/components/Timeline.svelte';
-  import VideoPlayer from '@intinyagroup/motion/components/VideoPlayer.svelte';
+  import { effectPresets, transitionPresets } from '@intinyagroup/motion-effects';
+  import { Player } from '@intinyagroup/motion-player';
   import InspectorPanel from './InspectorPanel.svelte';
   import AssetLibrary from './AssetLibrary.svelte';
 

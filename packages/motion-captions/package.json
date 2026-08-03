@@ -1,7 +1,7 @@
 {
-  "name": "@intinyagroup/motion",
-  "version": "0.2.0",
-  "description": "Core types, easings, and interpolation for video composition",
+  "name": "@intinyagroup/motion-captions",
+  "version": "0.1.0",
+  "description": "Animated captions for @intinyagroup/motion",
   "type": "module",
   "exports": {
     ".": {
@@ -14,18 +14,15 @@
     "build": "svelte-package -o dist",
     "check": "echo 'no check'"
   },
+  "dependencies": {
+    "@intinyagroup/motion": "workspace:*"
+  },
   "devDependencies": {
     "@sveltejs/package": "^2.5.8",
     "svelte": "^5.55.2",
     "typescript": "^6.0.2"
   },
-  "peerDependencies": {
-    "svelte": "^5.0.0"
-  },
+  "peerDependencies": { "svelte": "^5.0.0" },
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intinyagroup/ui.git",
-    "directory": "packages/motion"
-  }
+  "repository": { "type": "git", "url": "git+https://github.com/intinyagroup/ui.git", "directory": "packages/motion-captions" }
 }

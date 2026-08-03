@@ -234,10 +234,76 @@ importers:
         version: 6.0.3
 
   packages/motion:
+    devDependencies:
+      '@sveltejs/package':
+        specifier: ^2.5.8
+        version: 2.5.8(svelte@5.56.8)(typescript@6.0.3)
+      svelte:
+        specifier: ^5.55.2
+        version: 5.56.8
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
+
+  packages/motion-captions:
+    dependencies:
+      '@intinyagroup/motion':
+        specifier: workspace:*
+        version: link:../motion
+    devDependencies:
+      '@sveltejs/package':
+        specifier: ^2.5.8
+        version: 2.5.8(svelte@5.56.8)(typescript@6.0.3)
+      svelte:
+        specifier: ^5.55.2
+        version: 5.56.8
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
+
+  packages/motion-effects:
+    dependencies:
+      '@intinyagroup/motion':
+        specifier: workspace:*
+        version: link:../motion
+    devDependencies:
+      '@sveltejs/package':
+        specifier: ^2.5.8
+        version: 2.5.8(svelte@5.56.8)(typescript@6.0.3)
+      svelte:
+        specifier: ^5.55.2
+        version: 5.56.8
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
+
+  packages/motion-media:
+    dependencies:
+      '@intinyagroup/motion':
+        specifier: workspace:*
+        version: link:../motion
+    devDependencies:
+      '@sveltejs/package':
+        specifier: ^2.5.8
+        version: 2.5.8(svelte@5.56.8)(typescript@6.0.3)
+      svelte:
+        specifier: ^5.55.2
+        version: 5.56.8
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
+
+  packages/motion-player:
     dependencies:
       '@intinyagroup/grid-core':
         specifier: workspace:*
         version: link:../grid-core
+      '@intinyagroup/motion':
+        specifier: workspace:*
+        version: link:../motion
+      '@intinyagroup/motion-effects':
+        specifier: workspace:*
+        version: link:../motion-effects
       '@intinyagroup/ui':
         specifier: workspace:*
         version: link:../core
@@ -260,6 +326,18 @@ importers:
       '@intinyagroup/motion':
         specifier: workspace:*
         version: link:../motion
+      '@intinyagroup/motion-captions':
+        specifier: workspace:*
+        version: link:../motion-captions
+      '@intinyagroup/motion-effects':
+        specifier: workspace:*
+        version: link:../motion-effects
+      '@intinyagroup/motion-media':
+        specifier: workspace:*
+        version: link:../motion-media
+      '@intinyagroup/motion-player':
+        specifier: workspace:*
+        version: link:../motion-player
       '@intinyagroup/ui':
         specifier: workspace:*
         version: link:../core
@@ -279,6 +357,9 @@ importers:
       '@intinyagroup/motion':
         specifier: workspace:*
         version: link:../motion
+      '@intinyagroup/motion-effects':
+        specifier: workspace:*
+        version: link:../motion-effects
       '@intinyagroup/ui':
         specifier: workspace:*
         version: link:../core
