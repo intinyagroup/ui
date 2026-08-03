@@ -6,6 +6,7 @@
   import { type Chapter, type BookMetadata, type BookLayout, pageSizes } from '../book-model.js';
   import { exportToMarkdown, downloadAsFile, downloadBlob } from '../markdown-utils.js';
   import { exportToEpub } from '../epub-utils.js';
+  import { exportToDocx } from '../docx-utils.js';
   import { fetchImageAsBytes, getImageType, dataUrlToBytes } from '../image-utils.js';
 
   let {
@@ -26,13 +27,14 @@
 
   let exporting = $state(false);
   let exportProgress = $state('');
-  let exportFormat = $state<'pdf' | 'epub' | 'markdown' | 'print'>('pdf');
+  let exportFormat = $state<'pdf' | 'epub' | 'docx' | 'markdown' | 'print'>('pdf');
 
   type ExportFormat = typeof exportFormat;
 
   const formats: { value: ExportFormat; label: string; icon: any; description: string }[] = [
     { value: 'pdf', label: 'PDF', icon: FileText, description: 'Print-ready document' },
     { value: 'epub', label: 'EPUB', icon: BookOpen, description: 'E-book format (Kindle, Kobo)' },
+    { value: 'docx', label: 'DOCX', icon: FileCode, description: 'Microsoft Word document' },
     { value: 'markdown', label: 'Markdown', icon: FileCode, description: 'Plain text with formatting' },
     { value: 'print', label: 'Print', icon: Printer, description: 'Browser print dialog' },
   ];
@@ -50,6 +52,9 @@
           break;
         case 'epub':
           await exportToEpubFile();
+          break;
+        case 'docx':
+          await exportToDocxFile();
           break;
         case 'markdown':
           exportToMarkdownFile();
@@ -173,6 +178,13 @@
     exportProgress = 'Creating EPUB book...';
     const blob = await exportToEpub(metadata, layout, chapters);
     downloadBlob(blob, `${safeTitle}.epub`);
+    onExportComplete(blob);
+  }
+
+  async function exportToDocxFile() {
+    exportProgress = 'Creating DOCX document...';
+    const blob = await exportToDocx(metadata, layout, chapters);
+    downloadBlob(blob, `${safeTitle}.docx`);
     onExportComplete(blob);
   }
 

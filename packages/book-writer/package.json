@@ -23,6 +23,7 @@
     "@intinyagroup/pdf-viewer": "workspace:*",
     "@intinyagroup/rich-text": "workspace:*",
     "@intinyagroup/ui": "workspace:*",
+    "docx": "^9.7.1",
     "epubjs": "^0.3.93",
     "pdf-lib": "^1.17.1"
   },
