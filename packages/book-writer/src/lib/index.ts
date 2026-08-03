@@ -22,11 +22,14 @@ export {
   getTotalWordCount,
   getEstimatedPages,
   pageSizes,
+  getEffectivePageSize,
+  pageSizeOptions,
   fontOptions,
   type Chapter,
   type BookMetadata,
   type BookLayout,
   type BookSettings,
+  type PageOrientation,
 } from './book-model.js';
 
 // Pagination engine

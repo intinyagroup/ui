@@ -2,7 +2,7 @@
 // Pagination Engine — measure + split into pages
 // ============================================
 
-import { pageSizes, type BookLayout } from './book-model.js';
+import { pageSizes, getEffectivePageSize, type BookLayout } from './book-model.js';
 
 export type PaginatedPage = {
   pageNumber: number;
@@ -29,7 +29,7 @@ export async function paginateContent(
     return { pages: [{ pageNumber: 1, contentHtml: '', isEmpty: true }], totalPages: 1 };
   }
 
-  const size = pageSizes[layout.pageSize] ?? pageSizes.a4;
+  const size = getEffectivePageSize(layout.pageSize, layout.orientation ?? 'portrait');
   const margin = {
     top: layout.marginTop * (96 / 25.4),
     bottom: layout.marginBottom * (96 / 25.4),
@@ -166,7 +166,7 @@ export function paginateContentEstimate(
     return { pages: [{ pageNumber: 1, contentHtml: '', isEmpty: true }], totalPages: 1 };
   }
 
-  const size = pageSizes[layout.pageSize] ?? pageSizes.a4;
+  const size = getEffectivePageSize(layout.pageSize, layout.orientation ?? 'portrait');
   const contentHeightMm = size.height - layout.marginTop - layout.marginBottom;
   const lineHeightMm = (layout.fontSize * layout.lineHeight * 25.4) / 72; // pt to mm
   const linesPerPage = Math.floor(contentHeightMm / lineHeightMm);

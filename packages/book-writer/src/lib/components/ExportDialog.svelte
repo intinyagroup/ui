@@ -3,7 +3,7 @@
   import { Button } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/grid-core/utils';
   import { PDFDocument, StandardFonts, rgb, PDFImage } from 'pdf-lib';
-  import { type Chapter, type BookMetadata, type BookLayout, pageSizes } from '../book-model.js';
+  import { type Chapter, type BookMetadata, type BookLayout, pageSizes, getEffectivePageSize } from '../book-model.js';
   import { exportToMarkdown, downloadAsFile, downloadBlob } from '../markdown-utils.js';
   import { exportToEpub } from '../epub-utils.js';
   import { exportToDocx } from '../docx-utils.js';
@@ -78,7 +78,7 @@
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-    const size = pageSizes[layout.pageSize] ?? pageSizes.a4;
+    const size = getEffectivePageSize(layout.pageSize, layout.orientation ?? 'portrait');
     const margin = {
       top: layout.marginTop,
       bottom: layout.marginBottom,

@@ -28,7 +28,8 @@ export type BookMetadata = {
 
 export type BookLayout = {
   // Page settings
-  pageSize: 'a4' | 'a5' | 'letter' | 'legal';
+  pageSize: string;
+  orientation: PageOrientation;
   marginTop: number;
   marginBottom: number;
   marginLeft: number;
@@ -84,6 +85,7 @@ export function createDefaultSettings(): BookSettings {
     },
     layout: {
       pageSize: 'a4',
+      orientation: 'portrait',
       marginTop: 25,
       marginBottom: 25,
       marginLeft: 20,
@@ -129,13 +131,44 @@ export function getEstimatedPages(chapters: Chapter[], wordsPerPage = 250): numb
   return Math.ceil(getTotalWordCount(chapters) / wordsPerPage);
 }
 
-// Page size dimensions in mm
+export type PageOrientation = 'portrait' | 'landscape';
+
+// Page size dimensions in mm (width × height in portrait mode)
 export const pageSizes: Record<string, { width: number; height: number }> = {
   a4: { width: 210, height: 297 },
   a5: { width: 148, height: 210 },
+  a6: { width: 105, height: 148 },
+  b5: { width: 176, height: 250 },
+  b4: { width: 250, height: 353 },
+  f4: { width: 210, height: 330 },   // Common in Southeast Asia
   letter: { width: 216, height: 279 },
   legal: { width: 216, height: 356 },
+  tabloid: { width: 279, height: 432 },
 };
+
+/**
+ * Get effective page dimensions accounting for orientation
+ */
+export function getEffectivePageSize(size: string, orientation: PageOrientation = 'portrait'): { width: number; height: number } {
+  const base = pageSizes[size] ?? pageSizes.a4;
+  if (orientation === 'landscape') {
+    return { width: base.height, height: base.width };
+  }
+  return { width: base.width, height: base.height };
+}
+
+// Page size labels for UI
+export const pageSizeOptions: { value: string; label: string; description: string }[] = [
+  { value: 'a4', label: 'A4', description: '210 × 297 mm (Standard)' },
+  { value: 'a5', label: 'A5', description: '148 × 210 mm (Novel)' },
+  { value: 'a6', label: 'A6', description: '105 × 148 mm (Pocket)' },
+  { value: 'b5', label: 'B5', description: '176 × 250 mm (Japanese)' },
+  { value: 'b4', label: 'B4', description: '250 × 353 mm (Large)' },
+  { value: 'f4', label: 'F4', description: '210 × 330 mm (Foolscap)' },
+  { value: 'letter', label: 'US Letter', description: '216 × 279 mm (8.5 × 11")' },
+  { value: 'legal', label: 'US Legal', description: '216 × 356 mm (8.5 × 14")' },
+  { value: 'tabloid', label: 'Tabloid', description: '279 × 432 mm (11 × 17")' },
+];
 
 // Font options
 export const fontOptions = [

@@ -126,10 +126,27 @@
           onchange={(e) => updateLayout('pageSize', e.currentTarget.value)}
           class="w-full mt-1 px-2 py-1.5 rounded border border-[var(--ui-input)] text-sm"
         >
-          <option value="a4">A4</option>
-          <option value="a5">A5 (Novel)</option>
-          <option value="letter">US Letter</option>
-          <option value="legal">US Legal</option>
+          <option value="a4">A4 (210 × 297 mm)</option>
+          <option value="a5">A5 (148 × 210 mm)</option>
+          <option value="a6">A6 (105 × 148 mm)</option>
+          <option value="b5">B5 (176 × 250 mm)</option>
+          <option value="b4">B4 (250 × 353 mm)</option>
+          <option value="f4">F4 (210 × 330 mm)</option>
+          <option value="letter">US Letter (216 × 279 mm)</option>
+          <option value="legal">US Legal (216 × 356 mm)</option>
+          <option value="tabloid">Tabloid (279 × 432 mm)</option>
+        </select>
+      </label>
+
+      <label class="block text-xs text-[var(--ui-muted-foreground)]">
+        Orientation
+        <select
+          bind:value={layout.orientation}
+          onchange={(e) => updateLayout('orientation', e.currentTarget.value)}
+          class="w-full mt-1 px-2 py-1.5 rounded border border-[var(--ui-input)] text-sm"
+        >
+          <option value="portrait">Portrait</option>
+          <option value="landscape">Landscape</option>
         </select>
       </label>
 

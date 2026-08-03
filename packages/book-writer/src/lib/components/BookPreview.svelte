@@ -3,7 +3,7 @@
   import { BookOpen, Eye, Layers } from 'lucide-svelte';
   import { Button } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/grid-core/utils';
-  import { getChapterWordCount, type Chapter, type BookMetadata, type BookLayout, pageSizes } from '../book-model.js';
+  import { getChapterWordCount, type Chapter, type BookMetadata, type BookLayout, pageSizes, getEffectivePageSize } from '../book-model.js';
   import { paginateContent, paginateContentEstimate, type PaginatedPage } from '../pagination-engine.js';
 
   let {
@@ -23,7 +23,7 @@
   let paginatedChapters = $state<Map<string, PaginatedPage[]>>(new Map());
   let measuring = $state(false);
 
-  const pageSize = $derived(pageSizes[layout.pageSize] ?? pageSizes.a4);
+  const pageSize = $derived(getEffectivePageSize(layout.pageSize, layout.orientation ?? 'portrait'));
 
   const previewChapters = $derived(
     chapters.filter((ch) => ch.content || ch.title)
