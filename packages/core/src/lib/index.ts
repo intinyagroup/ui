@@ -72,5 +72,26 @@ export { AspectRatio } from './components/aspect-ratio/index.js';
 // Utils
 export { cn, formatBytes, formatDate, formatRelativeDate, getFileExtension, isImageFile, isTextFile } from '../utils.js';
 
+// Unit conversion
+export {
+  convertUnit,
+  mmToPx, pxToMm, cmToPx, pxToCm,
+  inchToPx, pxToInch, ptToPx, pxToPt,
+  emToPx, pxToEm,
+  formatUnit, parseCssValue, getPageDimensions,
+  cssUnits,
+} from './utils/unit-conversion.js';
+
+// RTL/LTR & Emoji
+export {
+  isRTL, isRTLLanguage, getTextDirection,
+  wrapBidi, addRTLMark, addLTRMark, getDirectionStyle,
+  BIDI_CHARS, RTL_LANGUAGES,
+  emojiCategories, searchEmojis, getRecentEmojis, addRecentEmoji,
+} from './utils/bidi-emoji.js';
+
+// Emoji Picker
+export { default as EmojiPicker } from './components/emoji/EmojiPicker.svelte';
+
 // Types
 export type { ComponentVariant, ComponentSize } from '../types.js';
