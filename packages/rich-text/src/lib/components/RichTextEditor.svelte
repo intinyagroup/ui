@@ -7,12 +7,13 @@
   import TextAlign from '@tiptap/extension-text-align';
   import Link from '@tiptap/extension-link';
   import Image from '@tiptap/extension-image';
+  import Highlight from '@tiptap/extension-highlight';
   import Table from '@tiptap/extension-table';
   import TableRow from '@tiptap/extension-table-row';
   import TableCell from '@tiptap/extension-table-cell';
   import TableHeader from '@tiptap/extension-table-header';
   import {
-    Bold, Italic, Underline as UnderlineIcon, Strikethrough,
+    Bold, Italic, Underline as UnderlineIcon, Strikethrough, Highlighter,
     AlignLeft, AlignCenter, AlignRight, AlignJustify,
     List, ListOrdered, Quote, Code, Minus, Link as LinkIcon, Image as ImageIcon,
     Undo, Redo, Heading1, Heading2, Heading3, TableIcon, Plus, Trash2,
@@ -52,6 +53,7 @@
         TextAlign.configure({ types: ['heading', 'paragraph'] }),
         Link.configure({ openOnClick: false }),
         Image,
+        Highlight.configure({ multicolor: true }),
         Table.configure({ resizable: true }),
         TableRow,
         TableCell,
@@ -115,6 +117,13 @@
   }
   function insertHorizontalRule() { editor?.chain().focus().setHorizontalRule().run(); }
   function insertTable() { editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(); }
+  function toggleHighlight(color?: string) {
+    if (color) {
+      editor?.chain().focus().toggleHighlight({ color }).run();
+    } else {
+      editor?.chain().focus().toggleHighlight().run();
+    }
+  }
   function addColumnBefore() { editor?.chain().focus().addColumnBefore().run(); }
   function addColumnAfter() { editor?.chain().focus().addColumnAfter().run(); }
   function deleteColumn() { editor?.chain().focus().deleteColumn().run(); }
@@ -162,6 +171,9 @@
       </Button>
       <Button variant="ghost" size="sm" class={cn("size-8 p-0", isActive.strike && "bg-[var(--ui-primary)]/10")} onclick={toggleStrike}>
         <Strikethrough class="size-4" />
+      </Button>
+      <Button variant="ghost" size="sm" class={cn("size-8 p-0", isActive.highlight && "bg-[var(--ui-primary)]/10")} onclick={() => toggleHighlight('#fef08a')}>
+        <Highlighter class="size-4" />
       </Button>
 
       <Separator orientation="vertical" class="h-6 mx-1" />
@@ -329,5 +341,16 @@
     border-top: 1px solid var(--ui-border);
     padding-top: 0.5em;
     margin-top: 1em;
+  }
+  :global(.tiptap mark) {
+    background-color: #fef08a;
+    padding: 0.1em 0.2em;
+    border-radius: 2px;
+  }
+  :global(.tiptap .cross-ref) {
+    color: var(--ui-primary);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
   }
 </style>

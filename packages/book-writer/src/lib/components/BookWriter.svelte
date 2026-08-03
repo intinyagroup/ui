@@ -181,6 +181,7 @@
       {#if activeChapter}
         <ChapterEditor
           chapter={activeChapter}
+          allChapters={settings.chapters}
           onContentChange={handleContentChange}
           onTitleChange={handleTitleChange}
         />

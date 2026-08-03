@@ -67,3 +67,26 @@ export {
   dataUrlToBytes,
   extractImageUrls,
 } from './image-utils.js';
+
+// Cross-reference utilities
+export {
+  resolveCrossRef,
+  insertCrossRef,
+  extractCrossRefs,
+  renderCrossRefs,
+  generateChapterAnchor,
+  getCrossRefOptions,
+  type CrossRef,
+  type CrossRefType,
+} from './crossref-utils.js';
+
+// Math utilities
+export {
+  renderMath,
+  loadKaTeX,
+  hasMath,
+  extractMath,
+  processInlineMath,
+  processDisplayMath,
+  mathTemplates,
+} from './math-utils.js';

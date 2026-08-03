@@ -1,17 +1,22 @@
 <script lang="ts">
-  import { Pencil, Image, Hash } from 'lucide-svelte';
+  import { Pencil, Image, Hash, Link, Sigma } from 'lucide-svelte';
   import { RichTextEditor } from '@intinyagroup/rich-text';
   import { Button } from '@intinyagroup/ui';
   import type { Chapter } from '../book-model.js';
-  import { getNextFootnoteNumber, addFootnoteDefinition } from '../footnote-utils.js';
+  import { getNextFootnoteNumber } from '../footnote-utils.js';
+  import { insertCrossRef, type CrossRefType } from '../crossref-utils.js';
   import ImageUploader from './ImageUploader.svelte';
+  import CrossRefDialog from './CrossRefDialog.svelte';
+  import MathEditor from './MathEditor.svelte';
 
   let {
     chapter,
+    allChapters,
     onContentChange,
     onTitleChange,
   }: {
     chapter: Chapter;
+    allChapters: Chapter[];
     onContentChange: (content: string) => void;
     onTitleChange: (title: string) => void;
   } = $props();
@@ -20,6 +25,8 @@
   let titleValue = $state(chapter.title);
   let showImageUploader = $state(false);
   let showFootnoteDialog = $state(false);
+  let showCrossRefDialog = $state(false);
+  let showMathEditor = $state(false);
   let footnoteContent = $state('');
 
   $effect(() => {
@@ -51,11 +58,30 @@
     showFootnoteDialog = false;
   }
 
+  function handleCrossRefInsert(type: string, targetId: string, label: string) {
+    const marker = `<span class="cross-ref" data-ref-type="${type}" data-ref-target="${targetId}" style="color: var(--ui-primary); cursor: pointer;">${label}</span>`;
+    onContentChange(chapter.content + ' ' + marker);
+    showCrossRefDialog = false;
+  }
+
+  function handleMathInsert(latex: string, displayMode: boolean) {
+    const mathHtml = displayMode
+      ? `<div class="math-display" data-latex="${latex}" data-display="true">$${latex}$</div>`
+      : `<span class="math-inline" data-latex="${latex}">$${latex}$</span>`;
+    onContentChange(chapter.content + ' ' + mathHtml);
+    showMathEditor = false;
+  }
+
   function handleKeyDown(e: KeyboardEvent) {
     // Ctrl+Shift+F for footnote
     if (e.ctrlKey && e.shiftKey && e.key === 'F') {
       e.preventDefault();
       showFootnoteDialog = true;
+    }
+    // Ctrl+Shift+R for cross-reference
+    if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+      e.preventDefault();
+      showCrossRefDialog = true;
     }
   }
 </script>
@@ -92,6 +118,12 @@
         <Button variant="outline" size="sm" onclick={() => showFootnoteDialog = true} class="h-8 text-xs">
           <Hash class="size-3.5 mr-1" /> Footnote
         </Button>
+        <Button variant="outline" size="sm" onclick={() => showCrossRefDialog = true} class="h-8 text-xs">
+          <Link class="size-3.5 mr-1" /> Reference
+        </Button>
+        <Button variant="outline" size="sm" onclick={() => showMathEditor = true} class="h-8 text-xs">
+          <Sigma class="size-3.5 mr-1" /> Math
+        </Button>
       </div>
     </div>
   </div>
@@ -114,6 +146,23 @@
   <ImageUploader
     onInsert={handleImageInsert}
     onClose={() => showImageUploader = false}
+  />
+{/if}
+
+<!-- Cross-Reference Dialog -->
+{#if showCrossRefDialog}
+  <CrossRefDialog
+    chapters={allChapters}
+    onInsert={handleCrossRefInsert}
+    onClose={() => showCrossRefDialog = false}
+  />
+{/if}
+
+<!-- Math Editor -->
+{#if showMathEditor}
+  <MathEditor
+    onInsert={handleMathInsert}
+    onClose={() => showMathEditor = false}
   />
 {/if}
 
