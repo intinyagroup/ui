@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/kanban",
-  "version": "0.1.1-alpha.2",
+  "version": "0.1.1-alpha.3",
   "description": "Kanban board component with drag-and-drop",
   "type": "module",
   "exports": {

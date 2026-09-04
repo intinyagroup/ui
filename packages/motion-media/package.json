@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/motion-media",
-  "version": "0.1.1-alpha.2",
+  "version": "0.1.1-alpha.3",
   "description": "Media utilities, recorder, and upload for @intinyagroup/motion",
   "type": "module",
   "exports": {
