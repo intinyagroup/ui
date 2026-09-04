@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/motion-three",
-  "version": "0.1.1-alpha.7",
+  "version": "0.1.1-alpha.8",
   "description": "Three.js addon for @intinyagroup/motion — 3D rendering in videos",
   "type": "module",
   "exports": {

@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/editor-core",
-  "version": "0.1.1-alpha.10",
+  "version": "0.1.1-alpha.11",
   "description": "Visual editor engine for Intinya UI - drag-drop, canvas, state management",
   "type": "module",
   "exports": {

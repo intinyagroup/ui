@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/tokens",
-  "version": "0.1.1-alpha.7",
+  "version": "0.1.1-alpha.8",
   "description": "Design tokens for intinyagroup UI",
   "type": "module",
   "exports": {

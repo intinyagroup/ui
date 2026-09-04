@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/cli",
-  "version": "0.1.1-alpha.10",
+  "version": "0.1.1-alpha.11",
   "description": "CLI to add Intinya UI components to your Svelte project",
   "type": "module",
   "bin": {
