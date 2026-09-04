@@ -11,3 +11,6 @@ dist/
 *.db
 .beads-credential-key
 .beads/proxieddb/
+
+# CodeGraph
+.codegraph/
