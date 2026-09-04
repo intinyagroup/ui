@@ -1,7 +1,10 @@
-<script lang="ts" generics="T = never">
-	import { Tooltip as TooltipPrimitive } from "bits-ui";
+<script lang="ts">
+	import { Tooltip as ArkTooltip } from "@ark-ui/svelte/tooltip";
+	import type { ComponentProps } from "svelte";
 
-	let { ref = $bindable(null), ...restProps }: TooltipPrimitive.TriggerProps<T> = $props();
+	let { ref = $bindable(null), children, ...restProps }: ComponentProps<typeof ArkTooltip.Trigger> = $props();
 </script>
 
-<TooltipPrimitive.Trigger bind:ref data-slot="tooltip-trigger" {...restProps} />
+<ArkTooltip.Trigger bind:ref data-slot="tooltip-trigger" {...restProps}>
+	{@render children?.()}
+</ArkTooltip.Trigger>

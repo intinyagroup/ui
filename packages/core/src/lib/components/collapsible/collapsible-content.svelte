@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { Collapsible as CollapsiblePrimitive } from "bits-ui";
+	import { Collapsible as ArkCollapsible } from "@ark-ui/svelte/collapsible";
+	import type { ComponentProps } from "svelte";
 
-	let { ref = $bindable(null), ...restProps }: CollapsiblePrimitive.ContentProps = $props();
+	let { ref = $bindable(null), children, ...restProps }: ComponentProps<typeof ArkCollapsible.Content> = $props();
 </script>
 
-<CollapsiblePrimitive.Content bind:ref data-slot="collapsible-content" {...restProps} />
+<ArkCollapsible.Content bind:ref data-slot="collapsible-content" {...restProps}>
+	{@render children?.()}
+</ArkCollapsible.Content>

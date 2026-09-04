@@ -1,7 +1,17 @@
 <script lang="ts">
-	import { Popover as PopoverPrimitive } from "bits-ui";
+	import { Popover as ArkPopover } from "@ark-ui/svelte/popover";
+	import type { ComponentProps } from "svelte";
 
-	let { open = $bindable(false), ...restProps }: PopoverPrimitive.RootProps = $props();
+	let { open = $bindable(false), children, ...restProps }: ComponentProps<typeof ArkPopover.Root> = $props();
 </script>
 
-<PopoverPrimitive.Root bind:open {...restProps} />
+<ArkPopover.Root
+	bind:open
+	onOpenChange={(e) => {
+		open = e.open;
+		restProps.onOpenChange?.(e);
+	}}
+	{...restProps}
+>
+	{@render children?.()}
+</ArkPopover.Root>

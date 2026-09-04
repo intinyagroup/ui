@@ -1,7 +1,17 @@
-<script lang="ts" generics="T = never">
-	import { Tooltip as TooltipPrimitive } from "bits-ui";
+<script lang="ts">
+	import { Tooltip as ArkTooltip } from "@ark-ui/svelte/tooltip";
+	import type { ComponentProps } from "svelte";
 
-	let { open = $bindable(false), ...restProps }: TooltipPrimitive.RootProps<T> = $props();
+	let { open = $bindable(false), children, ...restProps }: ComponentProps<typeof ArkTooltip.Root> = $props();
 </script>
 
-<TooltipPrimitive.Root bind:open {...restProps} />
+<ArkTooltip.Root
+	bind:open
+	onOpenChange={(e) => {
+		open = e.open;
+		restProps.onOpenChange?.(e);
+	}}
+	{...restProps}
+>
+	{@render children?.()}
+</ArkTooltip.Root>

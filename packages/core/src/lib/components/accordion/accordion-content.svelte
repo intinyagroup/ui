@@ -1,27 +1,24 @@
 <script lang="ts">
-	import { Accordion as AccordionPrimitive } from "bits-ui";
-	import { cn, type WithoutChild } from "$lib/utils.js";
+	import { Accordion as ArkAccordion } from "@ark-ui/svelte/accordion";
+	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		children,
 		...restProps
-	}: WithoutChild<AccordionPrimitive.ContentProps> = $props();
+	}: ComponentProps<typeof ArkAccordion.ItemContent> = $props();
 </script>
 
-<AccordionPrimitive.Content
+<ArkAccordion.ItemContent
 	bind:ref
 	data-slot="accordion-content"
-	class="text-sm data-open:animate-accordion-down data-closed:animate-accordion-up overflow-hidden"
+	class={cn(
+		"overflow-hidden text-sm transition-all pb-4 pt-0 text-[var(--ui-muted-foreground)] data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+		className
+	)}
 	{...restProps}
 >
-	<div
-		class={cn(
-			"pt-0 pb-2.5 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
-			className
-		)}
-	>
-		{@render children?.()}
-	</div>
-</AccordionPrimitive.Content>
+	{@render children?.()}
+</ArkAccordion.ItemContent>

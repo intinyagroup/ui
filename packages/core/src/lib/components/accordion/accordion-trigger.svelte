@@ -1,32 +1,26 @@
 <script lang="ts">
-	import { Accordion as AccordionPrimitive } from "bits-ui";
+	import { Accordion as ArkAccordion } from "@ark-ui/svelte/accordion";
 	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
-	import ChevronUpIcon from '@lucide/svelte/icons/chevron-up';
-	import { cn, type WithoutChild } from "$lib/utils.js";
+	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
-		level = 3,
 		children,
 		...restProps
-	}: WithoutChild<AccordionPrimitive.TriggerProps> & {
-		level?: AccordionPrimitive.HeaderProps["level"];
-	} = $props();
+	}: ComponentProps<typeof ArkAccordion.ItemTrigger> = $props();
 </script>
 
-<AccordionPrimitive.Header {level} class="flex">
-	<AccordionPrimitive.Trigger
-		data-slot="accordion-trigger"
-		bind:ref
-		class={cn(
-			"rounded-lg py-2.5 text-left text-sm font-medium hover:underline focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:after:border-ring **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4 **:data-[slot=accordion-trigger-icon]:text-muted-foreground group/accordion-trigger relative flex flex-1 items-start justify-between border border-transparent transition-all outline-none disabled:pointer-events-none disabled:opacity-50",
-			className
-		)}
-		{...restProps}
-	>
-		{@render children?.()}
-		<ChevronDownIcon data-slot="accordion-trigger-icon" class="cn-accordion-trigger-icon pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden" />
-		<ChevronUpIcon data-slot="accordion-trigger-icon" class="cn-accordion-trigger-icon pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline" />
-	</AccordionPrimitive.Trigger>
-</AccordionPrimitive.Header>
+<ArkAccordion.ItemTrigger
+	bind:ref
+	data-slot="accordion-trigger"
+	class={cn(
+		"flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline text-sm text-[var(--ui-foreground)] cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[var(--ui-ring)] [&[data-state=open]>svg]:rotate-180",
+		className
+	)}
+	{...restProps}
+>
+	{@render children?.()}
+	<ChevronDownIcon class="size-4 shrink-0 transition-transform duration-200" />
+</ArkAccordion.ItemTrigger>

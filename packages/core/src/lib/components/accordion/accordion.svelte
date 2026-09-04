@@ -1,19 +1,21 @@
 <script lang="ts">
-	import { Accordion as AccordionPrimitive } from "bits-ui";
+	import { Accordion as ArkAccordion } from "@ark-ui/svelte/accordion";
 	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
-		value = $bindable(),
 		class: className,
+		children,
 		...restProps
-	}: AccordionPrimitive.RootProps = $props();
+	}: ComponentProps<typeof ArkAccordion.Root> = $props();
 </script>
 
-<AccordionPrimitive.Root
+<ArkAccordion.Root
 	bind:ref
-	bind:value={value as never}
 	data-slot="accordion"
-	class={cn("cn-accordion flex w-full flex-col", className)}
+	class={cn("w-full divide-y divide-[var(--ui-border)]", className)}
 	{...restProps}
-/>
+>
+	{@render children?.()}
+</ArkAccordion.Root>

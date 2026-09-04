@@ -1,17 +1,23 @@
 <script lang="ts">
-	import { Accordion as AccordionPrimitive } from "bits-ui";
+	import { Accordion as ArkAccordion } from "@ark-ui/svelte/accordion";
 	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
+		value,
+		children,
 		...restProps
-	}: AccordionPrimitive.ItemProps = $props();
+	}: ComponentProps<typeof ArkAccordion.Item> = $props();
 </script>
 
-<AccordionPrimitive.Item
+<ArkAccordion.Item
 	bind:ref
+	{value}
 	data-slot="accordion-item"
-	class={cn("not-last:border-b", className)}
+	class={cn("border-b border-[var(--ui-border)] last:border-b-0", className)}
 	{...restProps}
-/>
+>
+	{@render children?.()}
+</ArkAccordion.Item>
