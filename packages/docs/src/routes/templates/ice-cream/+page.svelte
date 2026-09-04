@@ -145,7 +145,7 @@
 				<a href="#about" class="hover:text-[#148A7E] transition-colors">About Us</a>
 				<a href="#flavors" class="hover:text-[#148A7E] transition-colors">Flavors</a>
 				<a href="#shop" class="hover:text-[#148A7E] transition-colors">Shop</a>
-				<a href="#recipes" class="hover:text-[#148A7E] transition-colors">Recipes</a>
+				<a href="#flavors" class="hover:text-[#148A7E] transition-colors">Flavors</a>
 				<a href="#contact" class="hover:text-[#148A7E] transition-colors">Contact</a>
 			</nav>
 
@@ -490,7 +490,7 @@
 					<li><a href="#about" class="hover:text-[#148A7E]">About Us</a></li>
 					<li><a href="#flavors" class="hover:text-[#148A7E]">Our Flavors</a></li>
 					<li><a href="#shop" class="hover:text-[#148A7E]">Shop</a></li>
-					<li><a href="#recipes" class="hover:text-[#148A7E]">Recipes</a></li>
+					<li><a href="#flavors" class="hover:text-[#148A7E]">Flavors</a></li>
 					<li><a href="#contact" class="hover:text-[#148A7E]">Contact</a></li>
 				</ul>
 			</div>

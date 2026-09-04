@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Search, X } from 'lucide-svelte';
   import { Input } from '../input/index.js';
-  import { cn } from '@intinyagroup/grid-core/utils';
+  import { cn } from '$lib/utils.js';
   import { emojiCategories, searchEmojis, getRecentEmojis, addRecentEmoji } from '../../utils/bidi-emoji.js';
 
   let {

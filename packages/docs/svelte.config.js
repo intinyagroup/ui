@@ -19,6 +19,9 @@ const config = {
 	],
 	kit: {
 		adapter: adapter({ fallback: 'index.html' }),
+		prerender: {
+			handleMissingId: 'ignore'
+		},
 		alias: {
 			$ui: '../core/src/lib'
 		}

@@ -9,7 +9,10 @@
       "svelte": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "svelte-package -o dist",
     "check": "echo 'no check'",
@@ -31,7 +34,8 @@
   "devDependencies": {
     "@sveltejs/package": "^2.5.8",
     "svelte": "^5.55.2",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "@sveltejs/vite-plugin-svelte": "^5.1.1"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"
