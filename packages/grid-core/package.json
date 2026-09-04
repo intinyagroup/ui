@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/grid-core",
-  "version": "0.1.1-alpha.6",
+  "version": "0.1.1-alpha.7",
   "description": "Shared grid infrastructure (TanStack Table + Virtual + keyboard + clipboard)",
   "type": "module",
   "exports": {

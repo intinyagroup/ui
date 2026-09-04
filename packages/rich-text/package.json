@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/rich-text",
-  "version": "0.1.1-alpha.6",
+  "version": "0.1.1-alpha.7",
   "description": "Rich text editor component powered by TipTap",
   "type": "module",
   "exports": {

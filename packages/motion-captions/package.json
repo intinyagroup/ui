@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/motion-captions",
-  "version": "0.1.1-alpha.6",
+  "version": "0.1.1-alpha.7",
   "description": "Animated captions for @intinyagroup/motion",
   "type": "module",
   "exports": {

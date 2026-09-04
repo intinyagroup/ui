@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/charts",
-  "version": "0.1.1-alpha.6",
+  "version": "0.1.1-alpha.7",
   "description": "Chart components for intinyagroup UI (Chart.js wrapper)",
   "type": "module",
   "exports": {
