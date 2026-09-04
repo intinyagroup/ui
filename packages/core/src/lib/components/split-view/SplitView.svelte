@@ -25,7 +25,10 @@
 	} = $props();
 
 	// Percentage of the container taken by the first panel.
-	let size = $state(defaultSize);
+	let size = $state(50);
+	$effect(() => {
+		if (defaultSize !== undefined) size = defaultSize;
+	});
 	let dragging = $state(false);
 	let container = $state<HTMLDivElement | null>(null);
 

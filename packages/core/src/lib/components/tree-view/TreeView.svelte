@@ -41,7 +41,10 @@
 		return ids;
 	}
 
-	let expandedIds = $state<Set<string>>(initExpanded(data));
+	let expandedIds = $state<Set<string>>(new Set());
+	$effect(() => {
+		expandedIds = initExpanded(data);
+	});
 
 	function toggleExpand(id: string) {
 		const next = new Set(expandedIds);

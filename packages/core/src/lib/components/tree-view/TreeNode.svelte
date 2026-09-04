@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ChevronRight, ChevronDown, File, Folder } from 'lucide-svelte';
+	import TreeNode from './TreeNode.svelte';
 	import { cn } from '../../utils.js';
 	import type { TreeViewNode } from './TreeView.svelte';
 
@@ -75,6 +76,7 @@
 		onkeydown={handleKeyDown}
 	>
 		{#if hasChildren}
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
 			<span
 				role="button"
 				tabindex="-1"
@@ -111,7 +113,7 @@
 	{#if hasChildren && isExpanded}
 		<div role="group">
 			{#each node.children as child (child.id)}
-				<svelte:self
+				<TreeNode
 					node={child}
 					depth={depth + 1}
 					{selected}

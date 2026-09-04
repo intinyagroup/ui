@@ -20,7 +20,10 @@
 
 <div class={cn('flex flex-col items-center justify-center py-12 px-4', className)}>
   <div class="size-16 rounded-full bg-[var(--ui-secondary)] flex items-center justify-center mb-4">
-    <svelte:component this={icon} class="size-8 text-[var(--ui-muted-foreground)]" />
+    {#if typeof icon === 'function'}
+      {@const Icon = icon}
+      <Icon class="size-8 text-[var(--ui-muted-foreground)]" />
+    {/if}
   </div>
   <h3 class="text-lg font-semibold text-[var(--ui-foreground)] mb-1">{title}</h3>
   {#if description}

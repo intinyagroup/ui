@@ -26,4 +26,4 @@
 		className
 	)}
 	{...restProps}
-/>
+></div>

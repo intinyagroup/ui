@@ -26,7 +26,8 @@
   <div class="flex items-start justify-between mb-2">
     <span class="text-sm text-[var(--ui-muted-foreground)]">{label}</span>
     {#if icon}
-      <svelte:component this={icon} class="size-5 text-[var(--ui-muted-foreground)]" />
+      {@const Icon = icon}
+      <Icon class="size-5 text-[var(--ui-muted-foreground)]" />
     {/if}
   </div>
   <div class="text-2xl font-bold text-[var(--ui-foreground)] mb-1">{value}</div>

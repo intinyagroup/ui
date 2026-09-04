@@ -49,7 +49,9 @@
 	}
 </script>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <section
+	aria-label="{column.title} column"
 	class={cn(
 		'flex h-fit w-72 shrink-0 flex-col rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] transition-colors',
 		isDropTarget &&

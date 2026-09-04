@@ -13,7 +13,11 @@
     children: Snippet;
   } = $props();
 
-  setContext('timeline', { alternating });
+  setContext('timeline', {
+    get alternating() {
+      return alternating;
+    }
+  });
 </script>
 
 <div

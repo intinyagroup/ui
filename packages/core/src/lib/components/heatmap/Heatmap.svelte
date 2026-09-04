@@ -26,7 +26,7 @@
 		class?: string;
 	} = $props();
 
-	const scale = colorScale ?? ['#ebedf0', '#9be9a8', '#216e39'];
+	const scale = $derived(colorScale ?? ['#ebedf0', '#9be9a8', '#216e39']);
 
 	const values = $derived(data.map((d) => d.value));
 	const min = $derived(values.length ? Math.min(...values) : 0);

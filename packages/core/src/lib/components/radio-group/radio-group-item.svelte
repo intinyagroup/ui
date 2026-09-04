@@ -22,7 +22,7 @@
 	<ArkRadioGroup.ItemControl
 		class="size-4 rounded-full border border-[var(--ui-border)] flex items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[var(--ui-ring)] data-[state=checked]:border-[var(--ui-primary)] data-[state=checked]:bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)]"
 	>
-		<div class="size-2 rounded-full bg-current opacity-0 transition-opacity data-[state=checked]:opacity-100" />
+		<div class="size-2 rounded-full bg-current opacity-0 transition-opacity data-[state=checked]:opacity-100"></div>
 	</ArkRadioGroup.ItemControl>
 	<ArkRadioGroup.ItemHiddenInput />
 	{#if children}

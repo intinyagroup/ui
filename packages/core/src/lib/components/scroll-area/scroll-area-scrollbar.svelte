@@ -25,5 +25,5 @@
 	)}
 	{...restProps}
 >
-	<div class="bg-border relative flex-1 rounded-full" />
+	<div class="bg-border relative flex-1 rounded-full"></div>
 </div>

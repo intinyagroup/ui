@@ -111,7 +111,7 @@
       aria-checked={value === star}
       aria-label={`${star} star${star > 1 ? 's' : ''}`}
       {disabled}
-      aria-readonly={readonly || undefined}
+      aria-disabled={disabled || readonly || undefined}
       tabindex={-1}
       class={cn(
         'relative cursor-pointer rounded-sm outline-none transition-transform',

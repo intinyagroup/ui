@@ -128,6 +128,7 @@
 <div class={cn('grid gap-4', className)}>
   <!-- Drop zone -->
   <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
   <div
     class="flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 transition-colors cursor-pointer
       {dragOver ? 'border-[var(--ui-primary)] bg-[var(--ui-primary)]/5' : 'border-[var(--ui-border)] hover:border-[var(--ui-primary)]/50 hover:bg-[var(--ui-secondary)]/30'}

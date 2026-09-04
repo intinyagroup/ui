@@ -23,7 +23,11 @@
 		[key: string]: unknown;
 	} = $props();
 
-	const sidebarState = writable({ open, side, collapsible });
+	const sidebarState = writable({
+		open: false,
+		side: 'left' as Side,
+		collapsible: 'offcanvas' as Collapsible
+	});
 	$effect(() => {
 		sidebarState.set({ open, side, collapsible });
 	});

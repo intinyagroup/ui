@@ -82,7 +82,9 @@
 		set open(v) {
 			open = v;
 		},
-		direction,
+		get direction() {
+			return direction;
+		},
 		setTrigger
 	});
 

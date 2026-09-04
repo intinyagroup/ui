@@ -28,7 +28,7 @@
 		endDrag();
 	}
 </script>
-
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	class={cn(
 		'cursor-grab touch-manipulation select-none rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] p-3.5 shadow-sm transition-all duration-150',

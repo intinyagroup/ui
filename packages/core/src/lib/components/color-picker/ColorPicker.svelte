@@ -41,6 +41,8 @@
       <div class="grid grid-cols-7 gap-1.5 mb-3">
         {#each presetColors as color}
           <button
+            type="button"
+            aria-label="Select color {color}"
             onclick={() => handleSelect(color)}
             class={cn(
               "size-7 rounded-md border-2 cursor-pointer transition-transform hover:scale-110",

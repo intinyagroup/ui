@@ -13,4 +13,4 @@
 	bind:this={ref}
 	class={cn("bg-muted -mx-1 my-1 h-px", className)}
 	{...restProps}
-/>
+></div>

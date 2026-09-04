@@ -11,12 +11,14 @@
     orientation = 'horizontal',
     class: className,
     onStepChange,
+    content,
   }: {
     steps: { label: string; description?: string }[];
     currentStep?: number;
     orientation?: 'horizontal' | 'vertical';
     class?: string;
     onStepChange?: (step: number) => void;
+    content?: Snippet<[{ currentStep: number; next: () => void; prev: () => void }]>;
   } = $props();
 
   function getStepStatus(index: number): StepStatus {
@@ -102,6 +104,8 @@
 </div>
 
 <!-- Step content -->
-<div class="mt-6">
-  <slot name="content" {currentStep} {next} {prev} />
-</div>
+{#if content}
+  <div class="mt-6">
+    {@render content({ currentStep, next, prev })}
+  </div>
+{/if}

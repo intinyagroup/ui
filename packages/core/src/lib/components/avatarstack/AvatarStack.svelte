@@ -20,10 +20,10 @@
 		lg: { box: 'h-12 w-12', text: 'text-sm' }
 	} as const;
 
-	const shown = Math.max(0, Math.min(srcs.length, max));
-	const visible = srcs.slice(0, shown);
-	const extra = srcs.length - shown;
-	const s = sizes[size];
+	const shown = $derived(Math.max(0, Math.min(srcs.length, max)));
+	const visible = $derived(srcs.slice(0, shown));
+	const extra = $derived(srcs.length - shown);
+	const s = $derived(sizes[size]);
 </script>
 
 <div

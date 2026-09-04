@@ -73,7 +73,7 @@
 		return () => { if (timer) clearTimeout(timer); };
 	});
 
-	const Icon = icons[variant];
+	const Icon = $derived(icons[variant]);
 </script>
 
 {#if visible}

@@ -107,6 +107,7 @@
 	{...restProps}
 >
 	<!-- Testimonial slides -->
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		class="relative overflow-hidden"
 		ontouchstart={handleTouchStart}
@@ -187,6 +188,7 @@
 		<div class="flex justify-center gap-2 mt-6" role="tablist" aria-label="Testimonial navigation">
 			{#each { length: total } as _, i}
 				<button
+					type="button"
 					onclick={() => goTo(i)}
 					class={cn(
 						'h-2 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ui-ring)] focus-visible:ring-offset-2',
@@ -197,7 +199,7 @@
 					role="tab"
 					aria-selected={i === current}
 					aria-label="Go to testimonial {i + 1}"
-				/>
+				></button>
 			{/each}
 		</div>
 	{/if}
