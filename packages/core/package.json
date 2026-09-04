@@ -30,20 +30,21 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@ark-ui/svelte": "^5.24.1",
+    "@intinyagroup/tokens": "workspace:*",
+    "@lucide/svelte": "^1.28.0",
     "@tanstack/svelte-virtual": "^3.13.35",
     "@tanstack/table-core": "^8.21.3",
+    "bits-ui": "^2.17.3",
     "chart.js": "^4.5.1",
     "clsx": "^2.1.1",
+    "formsnap": "^2.0.1",
     "jsbarcode": "^3.12.3",
     "lucide-svelte": "^1.0.1",
     "qrcode": "^1.5.4",
     "tailwind-merge": "^3.5.0",
     "tailwind-variants": "^3.3.0",
-    "zod": "^3.24.0",
-    "formsnap": "^2.0.1",
-    "@lucide/svelte": "^1.28.0",
-    "bits-ui": "^2.17.3",
-    "@intinyagroup/tokens": "workspace:*"
+    "zod": "^3.24.0"
   },
   "devDependencies": {
     "@internationalized/date": "^3.12.0",

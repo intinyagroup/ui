@@ -1,48 +1,45 @@
 <script lang="ts">
-	import { Dialog as DialogPrimitive } from "bits-ui";
+	import { Dialog as ArkDialog } from "@ark-ui/svelte/dialog";
+	import { Portal } from "@ark-ui/svelte/portal";
 	import XIcon from '@lucide/svelte/icons/x';
 	import { Button } from "$lib/components/button/index.js";
-	import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
-	import * as Dialog from "./index.js";
-	import DialogPortal from "./dialog-portal.svelte";
-	import type { Snippet } from "svelte";
-	import type { ComponentProps } from "svelte";
+	import { cn } from "$lib/utils.js";
+	import DialogOverlay from "./dialog-overlay.svelte";
+	import type { ComponentProps, Snippet } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
-		portalProps,
 		children,
 		showCloseButton = true,
 		...restProps
-	}: WithoutChildrenOrChild<DialogPrimitive.ContentProps> & {
-		portalProps?: WithoutChildrenOrChild<ComponentProps<typeof DialogPortal>>;
-		children: Snippet;
+	}: ComponentProps<typeof ArkDialog.Content> & {
+		children?: Snippet;
 		showCloseButton?: boolean;
 	} = $props();
 </script>
 
-<DialogPortal {...portalProps}>
-	<Dialog.Overlay />
-	<DialogPrimitive.Content
-		bind:ref
-		data-slot="dialog-content"
-		class={cn(
-			"grid max-w-[calc(100%-2rem)] gap-4 rounded-xl bg-popover p-4 text-sm text-popover-foreground ring-1 ring-foreground/10 duration-100 sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 fixed top-1/2 left-1/2 z-50 w-full -translate-x-1/2 -translate-y-1/2 outline-none",
-			className
-		)}
-		{...restProps}
-	>
-		{@render children?.()}
-		{#if showCloseButton}
-			<DialogPrimitive.Close data-slot="dialog-close">
-				{#snippet child({ props })}
-					<Button variant="ghost" class="absolute top-2 right-2" size="icon-sm" {...props}>
-						<XIcon  />
+<Portal>
+	<DialogOverlay />
+	<ArkDialog.Positioner class="fixed inset-0 z-50 flex items-center justify-center p-4">
+		<ArkDialog.Content
+			bind:ref
+			data-slot="dialog-content"
+			class={cn(
+				"relative z-50 grid w-full max-w-lg gap-4 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-background)] p-6 shadow-lg duration-200 text-sm text-[var(--ui-foreground)] outline-none sm:max-w-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+				className
+			)}
+			{...restProps}
+		>
+			{@render children?.()}
+			{#if showCloseButton}
+				<ArkDialog.CloseTrigger class="absolute top-4 right-4" data-slot="dialog-close">
+					<Button variant="ghost" size="icon-sm">
+						<XIcon class="size-4" />
 						<span class="sr-only">Close</span>
 					</Button>
-				{/snippet}
-			</DialogPrimitive.Close>
-		{/if}
-	</DialogPrimitive.Content>
-</DialogPortal>
+				</ArkDialog.CloseTrigger>
+			{/if}
+		</ArkDialog.Content>
+	</ArkDialog.Positioner>
+</Portal>

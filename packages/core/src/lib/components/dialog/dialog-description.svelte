@@ -1,17 +1,21 @@
 <script lang="ts">
-	import { Dialog as DialogPrimitive } from "bits-ui";
+	import { Dialog as ArkDialog } from "@ark-ui/svelte/dialog";
 	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
+		children,
 		...restProps
-	}: DialogPrimitive.DescriptionProps = $props();
+	}: ComponentProps<typeof ArkDialog.Description> = $props();
 </script>
 
-<DialogPrimitive.Description
+<ArkDialog.Description
 	bind:ref
 	data-slot="dialog-description"
-	class={cn("text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground", className)}
+	class={cn("text-sm text-[var(--ui-muted-foreground)]", className)}
 	{...restProps}
-/>
+>
+	{@render children?.()}
+</ArkDialog.Description>
