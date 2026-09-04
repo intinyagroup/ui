@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "intinya",
+  "project_id": "1ec2ee67-2f43-43bb-a4c9-6d75e70a2f69"
+}
