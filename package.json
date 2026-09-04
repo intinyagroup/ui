@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "pnpm --filter @intinyagroup/storybook storybook",
     "build": "pnpm --filter @intinyagroup/tokens build && pnpm --filter @intinyagroup/ui build",
-    "build:tokens": "pnpm --filter @intinyagroup/tokens build",
-    "build:core": "pnpm --filter @intinyagroup/ui build",
+    "build:tokens": "turbo run build --filter=@intinyagroup/tokens",
+    "build:core": "turbo run build --filter=@intinyagroup/ui",
     "storybook": "pnpm --filter @intinyagroup/storybook storybook",
     "build-storybook": "pnpm --filter @intinyagroup/storybook build-storybook",
     "check": "pnpm -r run check",
@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "version": "changeset version",
     "release": "pnpm build && changeset publish",
-    "build:all": "pnpm -r run build",
+    "build:all": "turbo run build",
     "changeset": "changeset",
     "publish": "changeset publish",
     "stage:apply": "npm stage apply",
@@ -24,7 +24,7 @@
     "generate:registry": "pnpm --filter @intinyagroup/cli generate:registry",
     "prepare": "pnpm --filter @intinyagroup/docs exec svelte-kit sync && mkdir -p .svelte-kit && cp packages/docs/.svelte-kit/tsconfig.json .svelte-kit/",
     "test": "pnpm --filter @intinyagroup/ui test",
-    "build:react": "pnpm --filter @intinyagroup/react build"
+    "build:react": "turbo run build --filter=@intinyagroup/react"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.0",
@@ -34,7 +34,9 @@
     "jsdom": "^30.0.1",
     "prettier": "^3.5.0",
     "prettier-plugin-svelte": "^3.5.0",
+    "turbo": "^2.10.12",
     "typescript": "^6.0.2",
     "vitest": "^5.0.0"
-  }
+  },
+  "packageManager": "pnpm@10.33.2"
 }
