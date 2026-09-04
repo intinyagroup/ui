@@ -112,7 +112,14 @@ jobs:
               echo "--- Publishing @intinyagroup/$pkg @ $TAG ---"
               (
                 cd packages/$pkg
-                npm publish --tag "$TAG" --access public || echo "Publish of $pkg had non-zero exit (already published or retryable), continuing..."
+                for attempt in 1 2 3 4; do
+                  if npm publish --tag "$TAG" --access public; then
+                    break
+                  else
+                    echo "Publish failed for $pkg (attempt $attempt), waiting 20s before retry..."
+                    sleep 20
+                  fi
+                done
               )
               sleep 6
             fi
