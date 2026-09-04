@@ -25,13 +25,14 @@ function readPkgVersion(): string | null {
 }
 program
 	.name('intinya')
-	.description('Intinya UI component installer for Svelte projects')
+	.description('Intinya UI component installer for Svelte and React projects')
 	.version('0.1.0');
 
 program
 	.command('init')
 	.description('Initialize Intinya UI in your project')
-	.action(async () => {
+	.option('-f, --framework <framework>', 'framework: svelte (default) or react')
+	.action(async (opts: { framework?: 'svelte' | 'react' }) => {
 		try {
 			const result = initProject(process.cwd());
 			console.log(`Detected project type: ${result.projectType}`);
@@ -81,10 +82,11 @@ program
 	.option('-y, --yes', 'skip confirmation and overwrite existing files')
 	.option('-o, --overwrite', 'overwrite existing component files')
 	.option('-m, --mode <mode>', 'install mode: copy (default) or npm (add to package.json)', 'copy')
+	.option('-f, --framework <framework>', 'target framework: svelte or react')
 	.action(
 		async (
 			components: string[],
-			opts: { yes?: boolean; overwrite?: boolean; mode?: string },
+			opts: { yes?: boolean; overwrite?: boolean; mode?: string; framework?: 'svelte' | 'react' },
 		) => {
 			const overwrite = opts.yes || opts.overwrite || false;
 			const mode = opts.mode ?? 'copy';
