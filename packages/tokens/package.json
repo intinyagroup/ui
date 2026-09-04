@@ -117,5 +117,8 @@
     "type": "git",
     "url": "git+https://github.com/intinyagroup/ui.git",
     "directory": "packages/tokens"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

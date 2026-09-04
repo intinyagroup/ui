@@ -44,5 +44,8 @@
     "type": "git",
     "url": "git+https://github.com/intinyagroup/ui.git",
     "directory": "packages/grid-core"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

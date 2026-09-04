@@ -36,5 +36,8 @@
     "type": "git",
     "url": "git+https://github.com/intinyagroup/ui.git",
     "directory": "packages/kanban"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

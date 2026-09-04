@@ -109,7 +109,7 @@ jobs:
           for pkg in "${ORDER[@]}"; do
             if [ -d "packages/$pkg" ]; then
               echo "--- Publishing @intinyagroup/$pkg @ $TAG ---"
-              (cd packages/$pkg && npm publish --tag "$TAG")
+              (cd packages/$pkg && npm publish --tag "$TAG" --access public)
             fi
           done
         env:

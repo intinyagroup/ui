@@ -34,5 +34,8 @@
     "type": "git",
     "url": "git+https://github.com/intinyagroup/ui.git",
     "directory": "packages/motion-media"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

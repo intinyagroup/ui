@@ -41,5 +41,8 @@
     "type": "git",
     "url": "git+https://github.com/intinyagroup/ui.git",
     "directory": "packages/book-writer"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

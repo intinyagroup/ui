@@ -31,5 +31,8 @@
     "type": "git",
     "url": "git+https://github.com/intinyagroup/ui.git",
     "directory": "packages/motion"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
