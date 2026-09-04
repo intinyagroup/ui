@@ -10,9 +10,9 @@
 	}: {
 		class?: string;
 		children: Snippet;
-	} & HTMLAttributes<HTMLDivElement> = $props();
+	} & HTMLAttributes<HTMLElement> = $props();
 </script>
 
-<div class={cn('flex flex-col space-y-1.5 p-6', className)} {...restProps}>
+<header class={cn('flex flex-col space-y-1.5 p-6', className)} {...restProps}>
 	{@render children?.()}
-</div>
+</header>

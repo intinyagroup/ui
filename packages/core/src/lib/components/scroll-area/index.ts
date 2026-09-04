@@ -4,7 +4,8 @@ import Root from "./scroll-area.svelte";
 export {
 	Root,
 	Scrollbar,
-	//,
+	//
 	Root as ScrollArea,
 	Scrollbar as ScrollAreaScrollbar,
+	Scrollbar as ScrollBar,
 };

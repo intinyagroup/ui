@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Upload, X, File, Image, FileText, FileVideo, FileAudio } from 'lucide-svelte';
-  import { Button } from '../../button/index.js';
+  import { Button } from '../button/index.js';
   import { cn } from '../../utils.js';
 
   type FileItem = {

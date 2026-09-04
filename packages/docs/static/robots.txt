@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /_app/
+
+Sitemap: https://ui.intinya.id/sitemap.xml

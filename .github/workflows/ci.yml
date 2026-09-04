@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate svelte-kit tsconfig
+        run: |
+          npx svelte-kit sync
+          cd packages/core && npx svelte-kit sync
+          cd ../docs && npx svelte-kit sync
+      - name: Build core packages
+        run: |
+          pnpm --filter @intinyagroup/ui build
+          pnpm --filter @intinyagroup/md3 build
+          pnpm --filter @intinyagroup/flat build
+          pnpm --filter @intinyagroup/grid-core build
+          pnpm --filter @intinyagroup/data-table build
+          pnpm --filter @intinyagroup/editor-core build
+          pnpm --filter @intinyagroup/cli build
+
+      - name: Run tests
+        run: pnpm --filter @intinyagroup/ui test
+
+      - name: Build docs
+        run: pnpm --filter @intinyagroup/docs build

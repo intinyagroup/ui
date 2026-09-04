@@ -15,7 +15,13 @@
     "lint": "pnpm -r run lint",
     "format": "prettier --write .",
     "version": "changeset version",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm build && changeset publish",
+    "build:all": "pnpm -r run build",
+    "changeset": "changeset",
+    "publish": "changeset publish",
+    "stage:apply": "npm stage apply",
+    "cli": "pnpm --filter @intinyagroup/cli build",
+    "generate:registry": "pnpm --filter @intinyagroup/cli generate:registry"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.0",

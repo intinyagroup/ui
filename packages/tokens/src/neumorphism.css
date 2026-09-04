@@ -1,0 +1,167 @@
+/* ============================================
+   @intinyagroup/tokens — Neumorphism Theme
+   
+   Soft UI with dual shadows for raised/depressed
+   effects. Pastel palette, very rounded corners.
+   Use: import '@intinyagroup/tokens/neumorphism.css'
+   ============================================ */
+
+@import "tw-animate-css";
+
+@theme inline {
+  --font-sans: var(--ui-font-sans, "Inter Variable", ui-sans-serif, system-ui, sans-serif);
+  --font-mono: var(--ui-font-mono, "SFMono-Regular", ui-monospace, "Cascadia Code", monospace);
+  --font-serif: var(--ui-font-serif, "Georgia", "Times New Roman", serif);
+
+  --color-background: var(--ui-background);
+  --color-foreground: var(--ui-foreground);
+  --color-card: var(--ui-card);
+  --color-card-foreground: var(--ui-card-foreground);
+  --color-popover: var(--ui-popover);
+  --color-popover-foreground: var(--ui-popover-foreground);
+  --color-primary: var(--ui-primary);
+  --color-primary-foreground: var(--ui-primary-foreground);
+  --color-secondary: var(--ui-secondary);
+  --color-secondary-foreground: var(--ui-secondary-foreground);
+  --color-muted: var(--ui-muted);
+  --color-muted-foreground: var(--ui-muted-foreground);
+  --color-accent: var(--ui-accent);
+  --color-accent-foreground: var(--ui-accent-foreground);
+  --color-destructive: var(--ui-destructive);
+  --color-border: var(--ui-border);
+  --color-input: var(--ui-input);
+  --color-ring: var(--ui-ring);
+
+  --radius-sm: calc(var(--ui-radius) - 4px);
+  --radius-md: calc(var(--ui-radius) - 2px);
+  --radius-lg: var(--ui-radius);
+  --radius-xl: calc(var(--ui-radius) + 4px);
+}
+
+/* Neumorphism Light Theme */
+::root,
+[data-ui-theme="neumorphism"] {
+  --ui-background: oklch(0.90 0.01 260);
+  --ui-foreground: oklch(0.30 0.02 260);
+  --ui-card: oklch(0.90 0.01 260);
+  --ui-card-foreground: oklch(0.30 0.02 260);
+  --ui-popover: oklch(0.90 0.01 260);
+  --ui-popover-foreground: oklch(0.30 0.02 260);
+  --ui-primary: oklch(0.60 0.12 260);
+  --ui-primary-foreground: oklch(1 0 0);
+  --ui-secondary: oklch(0.85 0.04 260);
+  --ui-secondary-foreground: oklch(0.35 0.02 260);
+  --ui-muted: oklch(0.85 0.02 260);
+  --ui-muted-foreground: oklch(0.55 0.02 260);
+  --ui-accent: oklch(0.65 0.10 180);
+  --ui-accent-foreground: oklch(1 0 0);
+  --ui-destructive: oklch(0.55 0.18 20);
+  --ui-border: oklch(0.85 0.01 260);
+  --ui-input: oklch(0.85 0.01 260);
+  --ui-ring: oklch(0.60 0.12 260);
+  --ui-radius: 1.5rem;
+
+  /* Neumorphism dual shadows — raised effect */
+  --ui-shadow-xs: 2px 2px 4px oklch(0.80 0 0), -2px -2px 4px oklch(1 0 0);
+  --ui-shadow-sm: 3px 3px 6px oklch(0.80 0 0), -3px -3px 6px oklch(1 0 0);
+  --ui-shadow-md: 5px 5px 10px oklch(0.80 0 0), -5px -5px 10px oklch(1 0 0);
+  --ui-shadow-lg: 8px 8px 16px oklch(0.80 0 0), -8px -8px 16px oklch(1 0 0);
+  --ui-shadow-xl: 12px 12px 24px oklch(0.80 0 0), -12px -12px 24px oklch(1 0 0);
+
+  /* Soft pastel accent palette */
+  --neumorph-pastel-blue: oklch(0.75 0.08 240);
+  --neumorph-pastel-green: oklch(0.75 0.08 155);
+  --neumorph-pastel-pink: oklch(0.75 0.08 350);
+  --neumorph-pastel-yellow: oklch(0.80 0.08 85);
+
+  --ui-success: oklch(0.65 0.12 155);
+  --ui-warning: oklch(0.75 0.14 85);
+  --ui-info: oklch(0.60 0.12 240);
+}
+
+/* Neumorphism Dark Theme */
+[data-ui-theme="neumorphism-dark"] {
+  --ui-background: oklch(0.25 0.01 260);
+  --ui-foreground: oklch(0.85 0.01 260);
+  --ui-card: oklch(0.25 0.01 260);
+  --ui-card-foreground: oklch(0.85 0.01 260);
+  --ui-popover: oklch(0.25 0.01 260);
+  --ui-popover-foreground: oklch(0.85 0.01 260);
+  --ui-primary: oklch(0.70 0.12 260);
+  --ui-primary-foreground: oklch(0.15 0 0);
+  --ui-secondary: oklch(0.30 0.02 260);
+  --ui-secondary-foreground: oklch(0.85 0.01 260);
+  --ui-muted: oklch(0.28 0.01 260);
+  --ui-muted-foreground: oklch(0.60 0.02 260);
+  --ui-accent: oklch(0.70 0.10 180);
+  --ui-accent-foreground: oklch(0.15 0 0);
+  --ui-destructive: oklch(0.60 0.20 20);
+  --ui-border: oklch(0.32 0.01 260);
+  --ui-input: oklch(0.32 0.01 260);
+  --ui-ring: oklch(0.70 0.12 260);
+
+  /* Dark neumorphism — inset shadows for pressed look */
+  --ui-shadow-xs: inset 2px 2px 4px oklch(0.15 0 0), inset -2px -2px 4px oklch(0.35 0.01 260);
+  --ui-shadow-sm: inset 3px 3px 6px oklch(0.15 0 0), inset -3px -3px 6px oklch(0.35 0.01 260);
+  --ui-shadow-md: inset 5px 5px 10px oklch(0.15 0 0), inset -5px -5px 10px oklch(0.35 0.01 260);
+  --ui-shadow-lg: inset 8px 8px 16px oklch(0.15 0 0), inset -8px -8px 16px oklch(0.35 0.01 260);
+  --ui-shadow-xl: inset 12px 12px 24px oklch(0.15 0 0), inset -12px -12px 24px oklch(0.35 0.01 260);
+
+  --neumorph-pastel-blue: oklch(0.50 0.10 240);
+  --neumorph-pastel-green: oklch(0.50 0.10 155);
+  --neumorph-pastel-pink: oklch(0.50 0.10 350);
+  --neumorph-pastel-yellow: oklch(0.55 0.10 85);
+
+  --ui-success: oklch(0.55 0.14 155);
+  --ui-warning: oklch(0.65 0.16 85);
+  --ui-info: oklch(0.50 0.12 240);
+}
+
+/* Spacing scale */
+::root {
+  --ui-space-0: 0;
+  --ui-space-1: 0.25rem;
+  --ui-space-2: 0.5rem;
+  --ui-space-3: 0.75rem;
+  --ui-space-4: 1rem;
+  --ui-space-5: 1.25rem;
+  --ui-space-6: 1.5rem;
+  --ui-space-8: 2rem;
+  --ui-space-10: 2.5rem;
+  --ui-space-12: 3rem;
+  --ui-space-16: 4rem;
+
+  /* Transitions — smooth, rounded feel */
+  --ui-transition-fast: 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ui-transition-base: 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ui-transition-slow: 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+  border-color: var(--ui-border);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--ui-font-sans);
+  color: var(--ui-foreground);
+  background: var(--ui-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+code, pre {
+  font-family: var(--ui-font-mono);
+}

@@ -4,8 +4,101 @@
   "description": "Design tokens for intinyagroup UI",
   "type": "module",
   "exports": {
-    ".": "./src/base.css",
-    "./base": "./src/base.css"
+    ".": {
+      "style": "./src/base.css",
+      "default": "./src/base.css",
+      "production": "./src/base.css"
+    },
+    "./base": {
+      "style": "./src/base.css",
+      "default": "./src/base.css",
+      "production": "./src/base.css"
+    },
+    "./base.css": {
+      "style": "./src/base.css",
+      "default": "./src/base.css",
+      "production": "./src/base.css"
+    },
+    "./md3": {
+      "style": "./src/md3.css",
+      "default": "./src/md3.css",
+      "production": "./src/md3.css"
+    },
+    "./md3.css": {
+      "style": "./src/md3.css",
+      "default": "./src/md3.css",
+      "production": "./src/md3.css"
+    },
+    "./flat": {
+      "style": "./src/flat.css",
+      "default": "./src/flat.css",
+      "production": "./src/flat.css"
+    },
+    "./flat.css": {
+      "style": "./src/flat.css",
+      "default": "./src/flat.css",
+      "production": "./src/flat.css"
+    },
+    "./glass": {
+      "style": "./src/glass.css",
+      "default": "./src/glass.css",
+      "production": "./src/glass.css"
+    },
+    "./glass.css": {
+      "style": "./src/glass.css",
+      "default": "./src/glass.css",
+      "production": "./src/glass.css"
+    },
+    "./brutalist": {
+      "style": "./src/brutalist.css",
+      "default": "./src/brutalist.css",
+      "production": "./src/brutalist.css"
+    },
+    "./brutalist.css": {
+      "style": "./src/brutalist.css",
+      "default": "./src/brutalist.css",
+      "production": "./src/brutalist.css"
+    },
+    "./neumorphism": {
+      "style": "./src/neumorphism.css",
+      "default": "./src/neumorphism.css",
+      "production": "./src/neumorphism.css"
+    },
+    "./neumorphism.css": {
+      "style": "./src/neumorphism.css",
+      "default": "./src/neumorphism.css",
+      "production": "./src/neumorphism.css"
+    },
+    "./retro": {
+      "style": "./src/retro.css",
+      "default": "./src/retro.css",
+      "production": "./src/retro.css"
+    },
+    "./retro.css": {
+      "style": "./src/retro.css",
+      "default": "./src/retro.css",
+      "production": "./src/retro.css"
+    },
+    "./cyberpunk": {
+      "style": "./src/cyberpunk.css",
+      "default": "./src/cyberpunk.css",
+      "production": "./src/cyberpunk.css"
+    },
+    "./cyberpunk.css": {
+      "style": "./src/cyberpunk.css",
+      "default": "./src/cyberpunk.css",
+      "production": "./src/cyberpunk.css"
+    },
+    "./minimalist": {
+      "style": "./src/minimalist.css",
+      "default": "./src/minimalist.css",
+      "production": "./src/minimalist.css"
+    },
+    "./minimalist.css": {
+      "style": "./src/minimalist.css",
+      "default": "./src/minimalist.css",
+      "production": "./src/minimalist.css"
+    }
   },
   "files": [
     "src",

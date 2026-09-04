@@ -1,0 +1,35 @@
+{
+  "name": "intinya-mobile-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "sync": "cap sync",
+    "ios": "cap open ios",
+    "android": "cap open android",
+    "android:build": "cap run android",
+    "ios:build": "cap run ios"
+  },
+  "dependencies": {
+    "@sveltejs/kit": "^2.70.2",
+    "@intinyagroup/tokens": "^0.1.1-alpha.2",
+    "lucide-svelte": "^1.0.1",
+    "svelte": "^5.55.2",
+    "@intinyagroup/ui": "^0.1.1-alpha.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/ios": "^7.0.0",
+    "@capacitor/android": "^7.0.0",
+    "@sveltejs/adapter-static": "^3.0.0",
+    "@sveltejs/vite-plugin-svelte": "^5.1.1",
+    "tailwindcss": "^4.2.2",
+    "@tailwindcss/vite": "^4.2.2",
+    "typescript": "^6.0.2",
+    "vite": "^8.2.0"
+  }
+}

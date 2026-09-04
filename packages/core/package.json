@@ -6,7 +6,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "svelte": "./dist/index.js"
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./utils": {
       "types": "./dist/utils.d.ts",
@@ -14,7 +15,8 @@
     },
     "./components/*": {
       "types": "./dist/components/*/index.d.ts",
-      "svelte": "./dist/components/*/index.js"
+      "svelte": "./dist/components/*/index.js",
+      "default": "./dist/components/*/index.js"
     }
   },
   "files": [
@@ -22,39 +24,49 @@
     "README.md"
   ],
   "scripts": {
-    "build": "svelte-package -o dist",
+    "build": "svelte-package -o dist && find dist -name \"*.test.*\" -delete && find dist -name \"*Test.svelte*\" ! -name \"Testimonial*\" -delete && find dist -name \"*Test.svelte*\" ! -name \"Testimonial*\" -delete",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "dev": "svelte-package -o dist -w"
+    "dev": "svelte-package -o dist -w",
+    "test": "vitest run"
   },
   "dependencies": {
-    "@intinyagroup/tokens": "workspace:*",
     "@tanstack/svelte-virtual": "^3.13.35",
     "@tanstack/table-core": "^8.21.3",
-    "chart.js": "^4.5.1"
+    "chart.js": "^4.5.1",
+    "clsx": "^2.1.1",
+    "jsbarcode": "^3.12.3",
+    "lucide-svelte": "^1.0.1",
+    "qrcode": "^1.5.4",
+    "tailwind-merge": "^3.5.0",
+    "tailwind-variants": "^3.3.0",
+    "zod": "^3.24.0",
+    "formsnap": "^2.0.1",
+    "@lucide/svelte": "^1.28.0",
+    "bits-ui": "^2.17.3",
+    "@intinyagroup/tokens": "workspace:*"
   },
   "devDependencies": {
     "@internationalized/date": "^3.12.0",
-    "@lucide/svelte": "^1.28.0",
     "@sveltejs/package": "^2.5.8",
     "@sveltejs/vite-plugin-svelte": "^5.1.1",
-    "bits-ui": "^2.17.3",
-    "clsx": "^2.1.1",
-    "formsnap": "^2.0.1",
+    "@types/qrcode": "^1.5.6",
     "svelte": "^5.55.2",
     "svelte-check": "^4.4.6",
     "sveltekit-superforms": "^2.30.0",
-    "tailwind-merge": "^3.5.0",
-    "tailwind-variants": "^3.3.0",
     "tailwindcss": "^4.2.2",
     "tslib": "^2.8.0",
     "typescript": "^6.0.2"
   },
   "peerDependencies": {
     "svelte": "^5.0.0",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "^4.0.0",
+    "zod": "^3.24.0"
   },
   "peerDependenciesMeta": {
     "tailwindcss": {
+      "optional": true
+    },
+    "zod": {
       "optional": true
     }
   },

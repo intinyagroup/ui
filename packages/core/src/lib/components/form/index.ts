@@ -22,6 +22,7 @@ export {
 	ElementField,
 	//
 	Field as FormField,
+	Field as Form,
 	Control as FormControl,
 	Description as FormDescription,
 	Label as FormLabel,
@@ -30,4 +31,6 @@ export {
 	Legend as FormLegend,
 	ElementField as FormElementField,
 	Button as FormButton,
+	Field as FormItem,
+	FieldErrors as FormMessage,
 };

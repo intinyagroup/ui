@@ -1,0 +1,21 @@
+{
+  "name": "intinya-mobile-app",
+  "type": "module",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "target": "esnext",
+    "verbatimModuleSyntax": true,
+    "noEmit": true
+  },
+  "include": ["src/**/*.js", "src/**/*.ts", "src/**/*.svelte"],
+  "extends": "./.svelte-kit/tsconfig.json"
+}

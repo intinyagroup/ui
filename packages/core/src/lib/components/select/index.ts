@@ -9,6 +9,9 @@ import ScrollUpButton from "./select-scroll-up-button.svelte";
 import Separator from "./select-separator.svelte";
 import Trigger from "./select-trigger.svelte";
 import Root from "./select.svelte";
+import { Select as SelectPrimitive } from "bits-ui";
+
+const Value = SelectPrimitive.Value;
 
 export {
 	Root,
@@ -22,6 +25,7 @@ export {
 	ScrollUpButton,
 	GroupHeading,
 	Portal,
+	Value,
 	//
 	Root as Select,
 	Group as SelectGroup,
@@ -34,4 +38,5 @@ export {
 	ScrollUpButton as SelectScrollUpButton,
 	GroupHeading as SelectGroupHeading,
 	Portal as SelectPortal,
+	Value as SelectValue,
 };

@@ -10,10 +10,10 @@
 	}: {
 		class?: string;
 		children: Snippet;
-	} & HTMLAttributes<HTMLDivElement> = $props();
+	} & HTMLAttributes<HTMLElement> = $props();
 </script>
 
-<div
+<article
 	class={cn(
 		'rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] text-[var(--ui-card-foreground)] shadow-sm',
 		className
@@ -21,4 +21,4 @@
 	{...restProps}
 >
 	{@render children?.()}
-</div>
+</article>

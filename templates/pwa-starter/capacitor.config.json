@@ -1,0 +1,8 @@
+{
+  "appId": "com.intinya.app",
+  "appName": "Intinya App",
+  "webDir": "build",
+  "server": {
+    "androidScheme": "https"
+  }
+}

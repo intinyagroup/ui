@@ -1,0 +1,167 @@
+/* ============================================
+   @intinyagroup/tokens — Cyberpunk Theme
+   
+   Dark, neon-glowing, futuristic aesthetic.
+   Monospace type, glowing borders, dark palette.
+   Use: import '@intinyagroup/tokens/cyberpunk.css'
+   ============================================ */
+
+@import "tw-animate-css";
+
+@theme inline {
+  --font-sans: var(--ui-font-sans, ui-monospace, "SFMono-Regular", "Cascadia Code", monospace);
+  --font-mono: var(--ui-font-mono, ui-monospace, "SFMono-Regular", "Cascadia Code", monospace);
+  --font-serif: var(--ui-font-serif, ui-monospace, monospace);
+
+  --color-background: var(--ui-background);
+  --color-foreground: var(--ui-foreground);
+  --color-card: var(--ui-card);
+  --color-card-foreground: var(--ui-card-foreground);
+  --color-popover: var(--ui-popover);
+  --color-popover-foreground: var(--ui-popover-foreground);
+  --color-primary: var(--ui-primary);
+  --color-primary-foreground: var(--ui-primary-foreground);
+  --color-secondary: var(--ui-secondary);
+  --color-secondary-foreground: var(--ui-secondary-foreground);
+  --color-muted: var(--ui-muted);
+  --color-muted-foreground: var(--ui-muted-foreground);
+  --color-accent: var(--ui-accent);
+  --color-accent-foreground: var(--ui-accent-foreground);
+  --color-destructive: var(--ui-destructive);
+  --color-border: var(--ui-border);
+  --color-input: var(--ui-input);
+  --color-ring: var(--ui-ring);
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+}
+
+/* Cyberpunk Light Theme */
+[data-ui-theme="cyberpunk"] {
+  --ui-background: oklch(0.95 0.01 280);
+  --ui-foreground: oklch(0.15 0.02 280);
+  --ui-card: oklch(1 0 0);
+  --ui-card-foreground: oklch(0.15 0.02 280);
+  --ui-popover: oklch(1 0 0);
+  --ui-popover-foreground: oklch(0.15 0.02 280);
+  --ui-primary: oklch(0.55 0.20 180);
+  --ui-primary-foreground: oklch(0.10 0 0);
+  --ui-secondary: oklch(0.92 0.03 280);
+  --ui-secondary-foreground: oklch(0.20 0.02 280);
+  --ui-muted: oklch(0.92 0.02 280);
+  --ui-muted-foreground: oklch(0.50 0.02 280);
+  --ui-accent: oklch(0.55 0.20 320);
+  --ui-accent-foreground: oklch(1 0 0);
+  --ui-destructive: oklch(0.60 0.25 25);
+  --ui-border: oklch(0.55 0.20 180);
+  --ui-input: oklch(0.55 0.20 180);
+  --ui-ring: oklch(0.55 0.20 320);
+  --ui-radius: 0px;
+
+  /* Neon glow shadows */
+  --ui-shadow-xs: 0 0 3px oklch(0.55 0.20 180 / 0.5);
+  --ui-shadow-sm: 0 0 5px oklch(0.55 0.20 180 / 0.6);
+  --ui-shadow-md: 0 0 10px oklch(0.55 0.20 180 / 0.5), 0 0 20px oklch(0.55 0.20 180 / 0.2);
+  --ui-shadow-lg: 0 0 20px oklch(0.55 0.20 180 / 0.5), 0 0 40px oklch(0.55 0.20 180 / 0.2);
+  --ui-shadow-xl: 0 0 30px oklch(0.55 0.20 180 / 0.5), 0 0 60px oklch(0.55 0.20 180 / 0.2);
+
+  /* Neon accent palette */
+  --cyber-neon-cyan: oklch(0.70 0.25 180);
+  --cyber-neon-magenta: oklch(0.70 0.25 320);
+  --cyber-neon-yellow: oklch(0.85 0.18 90);
+  --cyber-neon-green: oklch(0.70 0.22 145);
+
+  --ui-success: oklch(0.70 0.22 145);
+  --ui-warning: oklch(0.85 0.18 90);
+  --ui-info: oklch(0.70 0.25 180);
+}
+
+/* Cyberpunk Dark Theme */
+::root,
+[data-ui-theme="cyberpunk-dark"] {
+  --ui-background: oklch(0.10 0.02 280);
+  --ui-foreground: oklch(0.90 0.01 180);
+  --ui-card: oklch(0.14 0.02 280);
+  --ui-card-foreground: oklch(0.90 0.01 180);
+  --ui-popover: oklch(0.14 0.02 280);
+  --ui-popover-foreground: oklch(0.90 0.01 180);
+  --ui-primary: oklch(0.70 0.25 180);
+  --ui-primary-foreground: oklch(0.10 0 0);
+  --ui-secondary: oklch(0.18 0.02 280);
+  --ui-secondary-foreground: oklch(0.90 0.01 180);
+  --ui-muted: oklch(0.16 0.02 280);
+  --ui-muted-foreground: oklch(0.55 0.03 280);
+  --ui-accent: oklch(0.70 0.25 320);
+  --ui-accent-foreground: oklch(0.10 0 0);
+  --ui-destructive: oklch(0.65 0.28 25);
+  --ui-border: oklch(0.70 0.25 180);
+  --ui-input: oklch(0.20 0.03 280);
+  --ui-ring: oklch(0.70 0.25 320);
+
+  /* Neon glow shadows */
+  --ui-shadow-xs: 0 0 3px oklch(0.70 0.25 180 / 0.6);
+  --ui-shadow-sm: 0 0 5px oklch(0.70 0.25 180 / 0.7);
+  --ui-shadow-md: 0 0 10px oklch(0.70 0.25 180 / 0.6), 0 0 20px oklch(0.70 0.25 180 / 0.3);
+  --ui-shadow-lg: 0 0 20px oklch(0.70 0.25 180 / 0.6), 0 0 40px oklch(0.70 0.25 180 / 0.3);
+  --ui-shadow-xl: 0 0 30px oklch(0.70 0.25 180 / 0.6), 0 0 60px oklch(0.70 0.25 180 / 0.3);
+
+  --cyber-neon-cyan: oklch(0.80 0.25 180);
+  --cyber-neon-magenta: oklch(0.80 0.25 320);
+  --cyber-neon-yellow: oklch(0.90 0.18 90);
+  --cyber-neon-green: oklch(0.80 0.22 145);
+
+  --ui-success: oklch(0.80 0.22 145);
+  --ui-warning: oklch(0.90 0.18 90);
+  --ui-info: oklch(0.80 0.25 180);
+}
+
+/* Spacing scale */
+::root {
+  --ui-space-0: 0;
+  --ui-space-1: 0.25rem;
+  --ui-space-2: 0.5rem;
+  --ui-space-3: 0.75rem;
+  --ui-space-4: 1rem;
+  --ui-space-5: 1.25rem;
+  --ui-space-6: 1.5rem;
+  --ui-space-8: 2rem;
+  --ui-space-10: 2.5rem;
+  --ui-space-12: 3rem;
+  --ui-space-16: 4rem;
+
+  /* Transitions — sharp, instant, digital */
+  --ui-transition-fast: 80ms cubic-bezier(0.23, 1, 0.32, 1);
+  --ui-transition-base: 150ms cubic-bezier(0.23, 1, 0.32, 1);
+  --ui-transition-slow: 250ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+  border-color: var(--ui-border);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--ui-font-sans);
+  color: var(--ui-foreground);
+  background: var(--ui-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+code, pre {
+  font-family: var(--ui-font-mono);
+}

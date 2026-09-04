@@ -1,2 +1,3 @@
 export { default as Toast } from './Toast.svelte';
-export { toasts, type Toast as ToastType, type ToastType } from '../../toast/store.js';
+export { toasts } from '../../toast/store.js';
+export type { Toast as ToastData, ToastType } from '../../toast/store.js';

@@ -1,0 +1,1 @@
+export { default as Gyroscope } from './Gyroscope.svelte';

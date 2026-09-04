@@ -1,5 +1,6 @@
 <script lang="ts" generics="TData">
-  import { Search, ChevronDown, Download, Plus, Copy, ClipboardPaste } from 'lucide-svelte';
+  import { Search, ChevronDown, Download, Plus, Copy, ClipboardPaste, FileSpreadsheet, FileText } from 'lucide-svelte';
+  import * as DropdownMenu from '@intinyagroup/ui';
   import { createVirtualizer } from '@tanstack/svelte-virtual';
   import type { ColumnDef, PaginationState, SortingState, RowSelectionState, ColumnPinningState, ColumnOrderState, ExpandedState, ColumnFiltersState, GroupingState } from '@tanstack/table-core';
   import type { Snippet } from 'svelte';
@@ -74,6 +75,10 @@
     onColumnPinningChange,
     onExpandedChange,
     onCellEdit,
+    onExport,
+    // Summaries
+    showSummaries = false,
+    summaries,
     // External state
     externalSorting,
     externalPagination,
@@ -133,6 +138,10 @@
     onColumnPinningChange?: (detail: ColumnPinningState) => void;
     onExpandedChange?: (detail: ExpandedState) => void;
     onCellEdit?: (detail: { rowId: string; columnId: string; value: unknown }) => void;
+    onExport?: (format: 'csv' | 'xlsx', data: TData[]) => void;
+    // Summaries
+    showSummaries?: boolean;
+    summaries?: Record<string, (values: unknown[]) => unknown>;
     // External state
     externalSorting?: SortingState;
     externalPagination?: PaginationState;
@@ -154,7 +163,7 @@
   let columnOrder = $state<ColumnOrderState>(externalColumnOrder ?? []);
   let expanded = $state<ExpandedState>(externalExpanded ?? {});
   let columnFilters = $state<ColumnFiltersState>(externalColumnFilters ?? []);
-  let grouping = $state<GroupingState>(externalGrouping ?? []);
+  let groupingState = $state<GroupingState>(externalGrouping ?? []);
   let showColumnsDropdown = $state(false);
   let rowSelection = $state<RowSelectionState>({});
   let selectAllChecked = $state(false);
@@ -217,7 +226,7 @@
   $effect(() => { if (externalColumnOrder) columnOrder = externalColumnOrder; });
   $effect(() => { if (externalExpanded) expanded = externalExpanded; });
   $effect(() => { if (externalColumnFilters) columnFilters = externalColumnFilters; });
-  $effect(() => { if (externalGrouping) grouping = externalGrouping; });
+  $effect(() => { if (externalGrouping) groupingState = externalGrouping; });
 
   const serverSideConfig = $derived<ServerSideConfig | undefined>(
     serverSide ? { rowCount, manualPagination, manualSorting, manualFiltering } : undefined
@@ -412,6 +421,39 @@
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    onExport?.('csv', rows.map((r) => r.original));
+  }
+
+  function exportToExcel() {
+    const rows = table.getFilteredRowModel().rows;
+    if (!rows.length) return;
+    const activeHeaders = table.getAllLeafColumns()
+      .filter((col) => col.getIsVisible() && typeof col.columnDef.header === 'string');
+    const headerCells = activeHeaders.map((col) => `<th style="font-weight:bold;background:#f0f0f0;padding:6px 8px;border:1px solid #ccc;">${col.columnDef.header}</th>`).join('');
+    const dataRows = rows.map((row) => {
+      const cells = activeHeaders.map((col) => {
+        const value = row.getValue(col.id);
+        return `<td style="padding:6px 8px;border:1px solid #ccc;">${value !== undefined && value !== null ? String(value) : ''}</td>`;
+      }).join('');
+      return `<tr>${cells}</tr>`;
+    }).join('');
+    const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
+      <head><meta charset="UTF-8"></head>
+      <body><table border="1" cellpadding="0" cellspacing="0">
+        <thead><tr>${headerCells}</tr></thead>
+        <tbody>${dataRows}</tbody>
+      </table></body></html>`;
+    const blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${title?.toLowerCase().replaceAll(' ', '_') || 'export'}.xls`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    onExport?.('xlsx', rows.map((r) => r.original));
   }
 </script>
 
@@ -479,9 +521,21 @@
         {/if}
 
         {#if exportable}
-          <Button variant="outline" size="sm" onclick={exportToCSV}>
-            <Download class="size-3.5" /> Export
-          </Button>
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger>
+              <Button variant="outline" size="sm">
+                <Download class="size-3.5 mr-1.5" /> Export
+              </Button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content align="end" class="w-40">
+              <DropdownMenu.Item onclick={exportToCSV}>
+                <FileText class="size-4 mr-2" /> CSV
+              </DropdownMenu.Item>
+              <DropdownMenu.Item onclick={exportToExcel}>
+                <FileSpreadsheet class="size-4 mr-2" /> Excel
+              </DropdownMenu.Item>
+            </DropdownMenu.Content>
+          </DropdownMenu.Root>
         {/if}
 
         {#if actions}
@@ -517,8 +571,8 @@
     <div class="border-b border-[var(--ui-border)] px-5 py-2 sm:px-6">
       <DataTableGroupBar
         columns={table.getAllLeafColumns()}
-        {grouping}
-        onGroupingChange={(g) => { grouping = g; }}
+        {groupingState}
+        onGroupingChange={(g) => { groupingState = g; }}
       />
     </div>
   {/if}
@@ -609,6 +663,19 @@
               {/each}
             {/if}
           </tbody>
+          {#if showSummaries && summaries}
+            <tfoot class="border-t border-[var(--ui-border)] bg-[var(--ui-muted)]">
+              <tr>
+                {#each table.getAllLeafColumns() as column (column.id)}
+                  {#if column.getIsVisible()}
+                    <td class="px-4 py-2.5 text-xs font-medium text-[var(--ui-muted-foreground)]">
+                      {summaries[column.id]?.(table.getFilteredRowModel().rows.map((row) => row.getValue(column.id))) ?? ''}
+                    </td>
+                  {/if}
+                {/each}
+              </tr>
+            </tfoot>
+          {/if}
         </table>
       </div>
     {:else}
@@ -676,6 +743,19 @@
             </tr>
           {/if}
         </tbody>
+        {#if showSummaries && summaries}
+          <tfoot class="border-t border-[var(--ui-border)] bg-[var(--ui-muted)]">
+            <tr>
+              {#each table.getAllLeafColumns() as column (column.id)}
+                {#if column.getIsVisible()}
+                  <td class="px-4 py-2.5 text-xs font-medium text-[var(--ui-muted-foreground)]">
+                    {summaries[column.id]?.(table.getFilteredRowModel().rows.map((row) => row.getValue(column.id))) ?? ''}
+                  </td>
+                {/if}
+              {/each}
+            </tr>
+          </tfoot>
+        {/if}
       </table>
     {/if}
   </div>

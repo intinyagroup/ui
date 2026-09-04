@@ -15,6 +15,7 @@
 		portalProps,
 		children,
 		class: className,
+		shortcutKey = "k",
 		...restProps
 	}: WithoutChildrenOrChild<DialogPrimitive.RootProps> &
 		WithoutChildrenOrChild<CommandPrimitive.RootProps> & {
@@ -24,8 +25,23 @@
 			description?: string;
 			showCloseButton?: boolean;
 			class?: string;
+			shortcutKey?: string;
 		} = $props();
+
+	// ⌘K / Ctrl+K keyboard shortcut
+	function handleKeydown(e: KeyboardEvent) {
+		const isMod = e.metaKey || e.ctrlKey;
+		if (isMod && e.key.toLowerCase() === shortcutKey) {
+			e.preventDefault();
+			open = !open;
+		}
+		if (e.key === "Escape" && open) {
+			open = false;
+		}
+	}
 </script>
+
+<svelte:window onkeydown={handleKeydown} />
 
 <Dialog.Root bind:open {...restProps}>
 	<Dialog.Header class="sr-only">

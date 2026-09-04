@@ -1,0 +1,167 @@
+/* ============================================
+   @intinyagroup/tokens — Brutalist Theme
+   
+   Heavy type, raw borders, no softness. Dev tools, portfolios.
+   Use: import '@intinyagroup/tokens/brutalist.css'
+   ============================================ */
+
+@import "tw-animate-css";
+
+@theme inline {
+  --font-sans: var(--ui-font-sans, "Space Mono", ui-monospace, monospace);
+  --font-mono: var(--ui-font-mono, "Space Mono", ui-monospace, monospace);
+
+  --color-background: var(--ui-background);
+  --color-foreground: var(--ui-foreground);
+  --color-card: var(--ui-card);
+  --color-card-foreground: var(--ui-card-foreground);
+  --color-popover: var(--ui-popover);
+  --color-popover-foreground: var(--ui-popover-foreground);
+  --color-primary: var(--ui-primary);
+  --color-primary-foreground: var(--ui-primary-foreground);
+  --color-secondary: var(--ui-secondary);
+  --color-secondary-foreground: var(--ui-secondary-foreground);
+  --color-muted: var(--ui-muted);
+  --color-muted-foreground: var(--ui-muted-foreground);
+  --color-accent: var(--ui-accent);
+  --color-accent-foreground: var(--ui-accent-foreground);
+  --color-destructive: var(--ui-destructive);
+  --color-border: var(--ui-border);
+  --color-input: var(--ui-input);
+  --color-ring: var(--ui-ring);
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+}
+
+/* Brutalist Light Theme */
+:root,
+[data-ui-theme="brutalist"] {
+  --ui-background: oklch(0.98 0 0);
+  --ui-foreground: oklch(0.10 0 0);
+  --ui-card: oklch(1 0 0);
+  --ui-card-foreground: oklch(0.10 0 0);
+  --ui-popover: oklch(1 0 0);
+  --ui-popover-foreground: oklch(0.10 0 0);
+  --ui-primary: oklch(0.10 0 0);
+  --ui-primary-foreground: oklch(0.98 0 0);
+  --ui-secondary: oklch(0.95 0 0);
+  --ui-secondary-foreground: oklch(0.10 0 0);
+  --ui-muted: oklch(0.92 0 0);
+  --ui-muted-foreground: oklch(0.45 0 0);
+  --ui-accent: oklch(0.10 0 0);
+  --ui-accent-foreground: oklch(0.98 0 0);
+  --ui-destructive: oklch(0.55 0.25 27);
+  --ui-border: oklch(0.10 0 0);
+  --ui-input: oklch(0.10 0 0);
+  --ui-ring: oklch(0.10 0 0);
+  --ui-radius: 0px;
+
+  /* No shadows — brutalist means raw */
+  --ui-shadow-xs: none;
+  --ui-shadow-sm: none;
+  --ui-shadow-md: none;
+  --ui-shadow-lg: none;
+  --ui-shadow-xl: none;
+
+  /* Brutalist accent colors */
+  --brutalist-red: #dc2626;
+  --brutalist-yellow: #eab308;
+  --brutalist-blue: #2563eb;
+
+  --ui-success: oklch(0.55 0.20 150);
+  --ui-warning: oklch(0.75 0.18 80);
+  --ui-info: oklch(0.55 0.20 260);
+}
+
+/* Brutalist Dark Theme */
+[data-ui-theme="brutalist-dark"] {
+  --ui-background: oklch(0.10 0 0);
+  --ui-foreground: oklch(0.95 0 0);
+  --ui-card: oklch(0.15 0 0);
+  --ui-card-foreground: oklch(0.95 0 0);
+  --ui-popover: oklch(0.15 0 0);
+  --ui-popover-foreground: oklch(0.95 0 0);
+  --ui-primary: oklch(0.95 0 0);
+  --ui-primary-foreground: oklch(0.10 0 0);
+  --ui-secondary: oklch(0.25 0 0);
+  --ui-secondary-foreground: oklch(0.95 0 0);
+  --ui-muted: oklch(0.20 0 0);
+  --ui-muted-foreground: oklch(0.60 0 0);
+  --ui-accent: oklch(0.95 0 0);
+  --ui-accent-foreground: oklch(0.10 0 0);
+  --ui-destructive: oklch(0.65 0.25 27);
+  --ui-border: oklch(0.95 0 0);
+  --ui-input: oklch(0.95 0 0);
+  --ui-ring: oklch(0.95 0 0);
+}
+
+/* Spacing scale */
+:root {
+  --ui-space-0: 0;
+  --ui-space-1: 0.25rem;
+  --ui-space-2: 0.5rem;
+  --ui-space-3: 0.75rem;
+  --ui-space-4: 1rem;
+  --ui-space-5: 1.25rem;
+  --ui-space-6: 1.5rem;
+  --ui-space-8: 2rem;
+  --ui-space-10: 2.5rem;
+  --ui-space-12: 3rem;
+  --ui-space-16: 4rem;
+
+  /* Transitions — minimal, no easing curves */
+  --ui-transition-fast: 50ms linear;
+  --ui-transition-base: 100ms linear;
+  --ui-transition-slow: 200ms linear;
+}
+
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--ui-font-sans);
+  color: var(--ui-foreground);
+  background-color: var(--ui-background);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--ui-primary);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  border: 2px solid var(--ui-border);
+  background: var(--ui-background);
+  color: var(--ui-foreground);
+}
+
+button {
+  cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+button:hover {
+  background: var(--ui-foreground);
+  color: var(--ui-background);
+}
+
+code, pre {
+  font-family: var(--ui-font-mono);
+}
