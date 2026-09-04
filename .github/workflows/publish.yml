@@ -110,8 +110,11 @@ jobs:
           for pkg in "${ORDER[@]}"; do
             if [ -d "packages/$pkg" ]; then
               echo "--- Publishing @intinyagroup/$pkg @ $TAG ---"
-              (cd packages/$pkg && npm publish --tag "$TAG" --access public)
-              sleep 3
+              (
+                cd packages/$pkg
+                npm publish --tag "$TAG" --access public || echo "Publish of $pkg had non-zero exit (already published or retryable), continuing..."
+              )
+              sleep 6
             fi
           done
       - name: Verify published versions
