@@ -35,8 +35,6 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-          registry-url: https://registry.npmjs.org
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -94,16 +92,14 @@ jobs:
 
       - name: Rewrite workspace:* deps to versions
         run: ./scripts/stage-publish.sh --rewrite-only
-      - name: Configure npm auth
-        run: |
-          CONFIG_FILE="${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}"
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> "$CONFIG_FILE"
-          echo "registry=https://registry.npmjs.org/" >> "$CONFIG_FILE"
-          npm whoami
       - name: Publish all packages in dependency order
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
-          # Dependency-first order: tokens, ui deps, then leaf packages
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+          npm whoami
           ORDER=(tokens grid-core core md3 flat cli editor-core native rich-text motion \
                  motion-captions motion-effects motion-media motion-player motion-studio \
                  motion-three book-writer calendar charts collaboration kanban pdf-viewer \
