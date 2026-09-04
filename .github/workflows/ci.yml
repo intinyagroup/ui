@@ -31,18 +31,11 @@ jobs:
           npx svelte-kit sync
           cd packages/core && npx svelte-kit sync
           cd ../docs && npx svelte-kit sync
-      - name: Build core packages
-        run: |
-          pnpm --filter @intinyagroup/ui build
-          pnpm --filter @intinyagroup/md3 build
-          pnpm --filter @intinyagroup/flat build
-          pnpm --filter @intinyagroup/grid-core build
-          pnpm --filter @intinyagroup/data-table build
-          pnpm --filter @intinyagroup/editor-core build
-          pnpm --filter @intinyagroup/cli build
+      - name: Run typecheck
+        run: pnpm run check
 
-      - name: Run tests
+      - name: Run unit tests
         run: pnpm --filter @intinyagroup/ui test
 
-      - name: Build docs
-        run: pnpm --filter @intinyagroup/docs build
+      - name: Build all packages
+        run: pnpm run build:all

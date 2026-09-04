@@ -49,6 +49,7 @@ PACKAGES=(
   pdf-viewer
   slides
   spreadsheet
+  react
 )
 
 
