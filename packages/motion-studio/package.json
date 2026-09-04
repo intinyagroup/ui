@@ -1,7 +1,7 @@
 {
   "name": "@intinyagroup/motion-studio",
-  "version": "0.1.0",
-  "description": "Visual video editor for Svelte \u2014 like Remotion Studio",
+  "version": "0.1.1-alpha.0",
+  "description": "Visual video editor for Svelte — like Remotion Studio",
   "type": "module",
   "exports": {
     ".": {
