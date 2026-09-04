@@ -23,7 +23,8 @@
     "cli": "pnpm --filter @intinyagroup/cli build",
     "generate:registry": "pnpm --filter @intinyagroup/cli generate:registry",
     "prepare": "pnpm --filter @intinyagroup/docs exec svelte-kit sync && mkdir -p .svelte-kit && cp packages/docs/.svelte-kit/tsconfig.json .svelte-kit/",
-    "test": "pnpm --filter @intinyagroup/ui test"
+    "test": "pnpm --filter @intinyagroup/ui test",
+    "build:react": "pnpm --filter @intinyagroup/react build"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.0",
