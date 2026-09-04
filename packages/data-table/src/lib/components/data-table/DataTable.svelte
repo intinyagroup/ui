@@ -500,13 +500,14 @@
 
         {#if columnToggle}
           <div class="relative">
-            <button
-              type="button"
+            <Button
+              variant="outline"
+              size="sm"
               onclick={() => showColumnsDropdown = !showColumnsDropdown}
               class="flex h-10 items-center gap-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] px-3 text-xs font-medium text-[var(--ui-muted-foreground)] transition-colors hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]"
             >
               Columns <ChevronDown class="size-3.5" />
-            </button>
+            </Button>
             {#if showColumnsDropdown}
               <button type="button" class="fixed inset-0 z-40 bg-transparent" onclick={() => showColumnsDropdown = false} aria-label="Close"></button>
               <div class="absolute right-0 z-50 mt-1.5 w-52 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] p-2 shadow-lg">
@@ -641,9 +642,9 @@
                           <Plus class="size-4" /> {emptyAction.label}
                         </a>
                       {:else}
-                        <button onclick={emptyAction.onclick} type="button" class="inline-flex items-center gap-2 rounded-lg bg-[var(--ui-primary)] px-4 py-2 text-sm font-medium text-[var(--ui-primary-foreground)] transition-colors hover:bg-[var(--ui-primary)]/90">
+                        <Button onclick={emptyAction.onclick} size="sm" class="gap-2">
                           <Plus class="size-4" /> {emptyAction.label}
-                        </button>
+                        </Button>
                       {/if}
                     {/if}
                   </div>
@@ -748,9 +749,9 @@
                         <Plus class="size-4" /> {emptyAction.label}
                       </a>
                     {:else}
-                      <button onclick={emptyAction.onclick} type="button" class="inline-flex items-center gap-2 rounded-lg bg-[var(--ui-primary)] px-4 py-2 text-sm font-medium text-[var(--ui-primary-foreground)] transition-colors hover:bg-[var(--ui-primary)]/90">
+                      <Button onclick={emptyAction.onclick} size="sm" class="gap-2">
                         <Plus class="size-4" /> {emptyAction.label}
-                      </button>
+                      </Button>
                     {/if}
                   {/if}
                 </div>
