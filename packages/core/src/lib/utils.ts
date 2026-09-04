@@ -1,19 +1,24 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { HTMLAttributes } from 'svelte/elements';
+import type { Snippet } from 'svelte';
 
 export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
 // Helper types for component props
-export type WithoutChildren<T> = T extends { children?: unknown } ? Omit<T, 'children'> : T;
+export type WithoutChildren<T> = Omit<T, 'children'> & {
+  children?: Snippet;
+};
 
-export type WithoutChild<T> = WithoutChildren<T>;
+export type WithoutChild<T> = Omit<T, 'child'> & {
+  children?: Snippet;
+};
 
-export type WithoutChildrenOrChild<T> = T extends { children?: unknown }
-	? Omit<T, 'children' | 'child'>
-	: T;
+export type WithoutChildrenOrChild<T> = Omit<T, 'children' | 'child'> & {
+  children?: Snippet;
+};
 
 export type WithElementRef<T, E extends HTMLElement = HTMLElement> = T & {
   ref?: E | null;

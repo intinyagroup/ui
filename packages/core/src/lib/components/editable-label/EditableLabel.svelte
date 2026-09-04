@@ -68,7 +68,7 @@
 		bind:this={inputEl}
 		bind:value={draft}
 		type="text"
-		{maxLength}
+		maxlength={maxLength}
 		aria-label="Edit label"
 		class={cn(
 			'max-w-full rounded-md border border-[var(--ui-primary)] bg-transparent text-[var(--ui-foreground)] outline-none ring-2 ring-[var(--ui-primary)]/20',
@@ -97,7 +97,7 @@
 		tabindex="0"
 		title="Click to edit"
 		onclick={startEdit}
-		onkeydown={(e) => {
+		onkeydown={(e: KeyboardEvent) => {
 			if (e.key === 'Enter' || e.key === ' ') {
 				e.preventDefault();
 				startEdit();

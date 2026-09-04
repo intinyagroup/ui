@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Upload, X, File, Image, FileText, FileVideo, FileAudio } from 'lucide-svelte';
+  import { Upload, X, File as FileIcon, Image, FileText, FileVideo, FileAudio } from 'lucide-svelte';
   import { Button } from '../button/index.js';
   import { cn } from '../../utils.js';
 
@@ -41,7 +41,7 @@
     if (file.type.startsWith('video/')) return FileVideo;
     if (file.type.startsWith('audio/')) return FileAudio;
     if (file.type.includes('pdf') || file.type.includes('document')) return FileText;
-    return File;
+    return FileIcon;
   }
 
   function formatSize(bytes: number) {

@@ -55,7 +55,7 @@
     {/if}
   </button>
 
-  {#if strength && value}
+  {#if strength && value && strengthInfo}
     <div class="mt-2">
       <div class="flex gap-1 mb-1">
         {#each [1, 2, 3, 4] as level}

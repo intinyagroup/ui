@@ -12,7 +12,7 @@
 	} = $props();
 
 	let indeterminate = $derived(value === undefined);
-	let clampedValue = $derived(indeterminate ? 0 : Math.max(0, Math.min(100, value)));
+	let clampedValue = $derived(value !== undefined ? Math.max(0, Math.min(100, value)) : 0);
 </script>
 
 {#if variant === 'linear'}

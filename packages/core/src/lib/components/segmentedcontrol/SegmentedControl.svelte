@@ -33,6 +33,7 @@
 	$effect(() => {
 		if (!track || !thumbEl) return;
 		const onResize = () => {
+			if (!track || !thumbEl) return;
 			const idx = options.findIndex((o) => o.value === value);
 			if (idx < 0) return;
 			const active = track.children[idx] as HTMLElement | undefined;

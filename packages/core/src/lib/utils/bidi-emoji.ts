@@ -21,16 +21,6 @@ export const BIDI_CHARS = {
   PDI: '\u2069',  // Pop Directional Isolate
   PDF: '\u202C',  // Pop Directional Formatting
 
-  // Paragraph
-  LRE: '\u202A',  // Left-to-Right Embedding
-  RLE: '\u202B',  // Right-to-Left Embedding
-  LRO: '\u202D',  // Left-to-Right Override
-  RLO: '\u202E',  // Right-to-Left Override
-
-  // Neutral
-  FSI: '\u2068',  // First Strong Isolate
-  PDI: '\u2069',  // Pop Directional Isolate
-  PDF: '\u202C',  // Pop Directional Formatting
 } as const;
 
 // RTL languages
@@ -87,12 +77,10 @@ export function getTextDirection(text: string, lang?: string): 'ltr' | 'rtl' {
 /**
  * Wrap text with appropriate BIDI isolation
  */
-export function wrapBidi(text: string, direction: 'ltr' | 'rtl' = 'auto'): string {
-  if (direction === 'auto') {
-    direction = isRTL(text) ? 'rtl' : 'ltr';
-  }
+export function wrapBidi(text: string, direction: 'ltr' | 'rtl' | 'auto' = 'auto'): string {
+  const resolvedDirection = direction === 'auto' ? (isRTL(text) ? 'rtl' : 'ltr') : direction;
 
-  const isolate = direction === 'rtl' ? BIDI_CHARS.FSI : BIDI_CHARS.LRE;
+  const isolate = resolvedDirection === 'rtl' ? BIDI_CHARS.FSI : BIDI_CHARS.LRE;
   const pop = BIDI_CHARS.PDI;
 
   return `${isolate}${text}${pop}`;

@@ -71,15 +71,15 @@
   let displayText = $derived(formatDate(dateValue));
 </script>
 
-<DatePickerPrimitive.Root
-  bind:value={dateValue}
-  {disabled}
-  minValue={minValue}
-  maxValue={maxValue}
-  bind:open
-  onValueChange={handleValueChange}
-  class={cn('relative inline-flex flex-col', className)}
->
+<div class={cn('relative inline-flex flex-col', className)}>
+  <DatePickerPrimitive.Root
+    bind:value={dateValue}
+    {disabled}
+    minValue={minValue}
+    maxValue={maxValue}
+    bind:open
+    onValueChange={handleValueChange}
+  >
   <!-- Trigger button -->
   <DatePickerPrimitive.Trigger
     class="flex h-10 w-full items-center justify-between gap-2 rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-3 py-2 text-sm text-[var(--ui-foreground)] outline-none transition-colors
@@ -175,8 +175,6 @@
                           class="relative flex size-9 items-center justify-center rounded-md p-0 text-sm outline-none focus-within:relative focus-within:z-20"
                         >
                           <DatePickerPrimitive.Day
-                            {date}
-                            month={month.value}
                             class="inline-flex size-9 items-center justify-center rounded-md p-0 text-sm transition-colors
                               hover:bg-[var(--ui-accent)] hover:text-[var(--ui-accent-foreground)]
                               data-[selected]:bg-[var(--ui-primary)] data-[selected]:text-[var(--ui-primary-foreground)]
@@ -195,4 +193,5 @@
       </DatePickerPrimitive.Calendar>
     </DatePickerPrimitive.Content>
   </DatePickerPrimitive.Portal>
-</DatePickerPrimitive.Root>
+  </DatePickerPrimitive.Root>
+</div>

@@ -8,7 +8,7 @@
 
 	let {
 		steps,
-		current,
+		current = $bindable(),
 		completed,
 		class: className
 	}: {

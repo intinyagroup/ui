@@ -191,4 +191,4 @@ export { default as EmojiPicker } from './components/emoji/EmojiPicker.svelte';
 export { Calendar } from './components/calendar/index.js';
 
 // Types
-export type { ComponentVariant, ComponentSize } from '../types.js';
+export type { ComponentVariant, ComponentSize } from './types.js';

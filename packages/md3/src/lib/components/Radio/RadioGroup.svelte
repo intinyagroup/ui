@@ -39,8 +39,10 @@
 	});
 
 	function handleKeydown(event: KeyboardEvent) {
+		const target = event.currentTarget as HTMLElement | null;
+		if (!target) return;
 		const radios = Array.from(
-			event.currentTarget.querySelectorAll<HTMLElement>(
+			target.querySelectorAll<HTMLInputElement>(
 				'input[type="radio"]:not(:disabled)'
 			)
 		);
@@ -82,6 +84,7 @@
 
 <div
 	role="radiogroup"
+	tabindex={-1}
 	aria-disabled={disabled || undefined}
 	class={cn(radioGroupVariants(), className)}
 	onkeydown={handleKeydown}

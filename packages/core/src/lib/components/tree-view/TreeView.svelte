@@ -29,17 +29,19 @@
 		onExpand?: (id: string, expanded: boolean) => void;
 	} = $props();
 
-	let expandedIds = $state<Set<string>>(() => {
+	function initExpanded(nodes: TreeViewNode[]): Set<string> {
 		const ids = new Set<string>();
-		function collect(nodes: TreeViewNode[]) {
-			for (const n of nodes) {
+		function collect(list: TreeViewNode[]) {
+			for (const n of list) {
 				if (n.expanded) ids.add(n.id);
 				if (n.children) collect(n.children);
 			}
 		}
-		collect(data);
+		collect(nodes);
 		return ids;
-	});
+	}
+
+	let expandedIds = $state<Set<string>>(initExpanded(data));
 
 	function toggleExpand(id: string) {
 		const next = new Set(expandedIds);

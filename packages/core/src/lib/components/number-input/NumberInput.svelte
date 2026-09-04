@@ -75,7 +75,7 @@
 		const next = clamp(value - step);
 		if (next !== value) {
 			value = next;
-			onchange?.({ value } as Event & { value: number });
+			onchange?.(new CustomEvent('change', { detail: { value } }) as unknown as Event & { currentTarget: EventTarget & HTMLInputElement });
 		}
 	}
 
@@ -84,7 +84,7 @@
 		const next = clamp(value + step);
 		if (next !== value) {
 			value = next;
-			onchange?.({ value } as Event & { value: number });
+			onchange?.(new CustomEvent('change', { detail: { value } }) as unknown as Event & { currentTarget: EventTarget & HTMLInputElement });
 		}
 	}
 

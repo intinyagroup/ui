@@ -34,29 +34,27 @@
 		if (labelFormatter) return labelFormatter(val, index);
 		return defaultLabel(val);
 	}
-
+	const rootProps = $derived({
+		'data-slot': 'slider',
+		'data-disabled': disabled || undefined,
+		min,
+		max,
+		step,
+		disabled,
+		orientation,
+		class: cn(
+			"relative flex w-full touch-none items-center select-none data-disabled:opacity-50",
+			orientation === "vertical" && "min-h-40 h-full w-auto flex-col",
+			className
+		),
+		...restProps
+	} as any);
 </script>
 
-<!--
-Discriminated Unions + Destructuring (required for bindable) do not
-get along, so we shut typescript up by casting `value` to `never`.
--->
 <SliderPrimitive.Root
 	bind:ref
 	bind:value={value as never}
-	data-slot="slider"
-	data-disabled={disabled || undefined}
-	{min}
-	{max}
-	{step}
-	{disabled}
-	{orientation}
-	class={cn(
-		"relative flex w-full touch-none items-center select-none data-disabled:opacity-50",
-		orientation === "vertical" && "min-h-40 h-full w-auto flex-col",
-		className
-	)}
-	{...restProps}
+	{...rootProps}
 >
 	{#snippet children({ thumbItems })}
 		<!-- Track -->

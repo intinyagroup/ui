@@ -7,5 +7,6 @@
       "$lib/*": ["./src/lib/*"]
     }
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.svelte"]
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.svelte"],
+  "exclude": ["src/**/*.test.ts", "src/**/__tests__/*"]
 }
