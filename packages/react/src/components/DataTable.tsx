@@ -8,12 +8,31 @@ import {
   flexRender,
   type ColumnDef,
   type SortingState,
-  type ColumnFiltersState
+  type ColumnFiltersState,
+  type PaginationState,
+  type OnChangeFn
 } from '@tanstack/react-table';
 import { cn } from '../utils.js';
 import { Button } from './Button.js';
 import { Input } from './Input.js';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown
+} from 'lucide-react';
+
+export interface ServerSideConfig {
+  rowCount: number;
+  pageIndex?: number;
+  pageSize?: number;
+  sorting?: SortingState;
+  onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
+  onSortingChange?: (sorting: { id: string; desc: boolean }[]) => void;
+}
 
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -21,6 +40,7 @@ export interface DataTableProps<TData, TValue> {
   searchKey?: string;
   searchPlaceholder?: string;
   className?: string;
+  serverSide?: ServerSideConfig;
 }
 
 export function DataTable<TData, TValue>({
@@ -28,22 +48,64 @@ export function DataTable<TData, TValue>({
   data,
   searchKey,
   searchPlaceholder = 'Search...',
-  className
+  className,
+  serverSide
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  // Client-side fallback state
+  const [clientSorting, setClientSorting] = React.useState<SortingState>([]);
+  const [clientPagination, setClientPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10
+  });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+
+  const isServerSide = !!serverSide;
+
+  // Sorting state resolution
+  const sorting = isServerSide && serverSide.sorting ? serverSide.sorting : clientSorting;
+  const handleSortingChange: OnChangeFn<SortingState> = (updaterOrValue) => {
+    const next = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
+    if (isServerSide) {
+      serverSide.onSortingChange?.(next.map((s) => ({ id: s.id, desc: s.desc })));
+    } else {
+      setClientSorting(next);
+    }
+  };
+
+  // Pagination state resolution
+  const pagination: PaginationState = isServerSide
+    ? {
+        pageIndex: serverSide.pageIndex ?? 0,
+        pageSize: serverSide.pageSize ?? 10
+      }
+    : clientPagination;
+
+  const handlePaginationChange: OnChangeFn<PaginationState> = (updaterOrValue) => {
+    const next = typeof updaterOrValue === 'function' ? updaterOrValue(pagination) : updaterOrValue;
+    if (isServerSide) {
+      serverSide.onPaginationChange?.({ pageIndex: next.pageIndex, pageSize: next.pageSize });
+    } else {
+      setClientPagination(next);
+    }
+  };
 
   const table = useReactTable({
     data,
     columns,
+    pageCount: isServerSide ? Math.ceil(serverSide.rowCount / pagination.pageSize) : undefined,
+    manualPagination: isServerSide,
+    manualSorting: isServerSide,
+    manualFiltering: isServerSide,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: isServerSide ? undefined : getPaginationRowModel(),
+    onSortingChange: handleSortingChange,
+    getSortedRowModel: isServerSide ? undefined : getSortedRowModel(),
+    onPaginationChange: handlePaginationChange,
     onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
+    getFilteredRowModel: isServerSide ? undefined : getFilteredRowModel(),
     state: {
       sorting,
+      pagination,
       columnFilters
     }
   });
@@ -66,16 +128,36 @@ export function DataTable<TData, TValue>({
           <thead className="[&_tr]:border-b border-[var(--ui-border)] bg-[var(--ui-muted)]/50">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="border-b border-[var(--ui-border)] transition-colors">
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="h-10 px-4 text-left align-middle font-medium text-[var(--ui-muted-foreground)]"
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  const canSort = header.column.getCanSort();
+                  const sortDirection = header.column.getIsSorted();
+
+                  return (
+                    <th
+                      key={header.id}
+                      className="h-10 px-4 text-left align-middle font-medium text-[var(--ui-muted-foreground)]"
+                    >
+                      {header.isPlaceholder ? null : canSort ? (
+                        <button
+                          type="button"
+                          onClick={header.column.getToggleSortingHandler()}
+                          className="inline-flex items-center gap-1.5 font-medium hover:text-[var(--ui-foreground)] cursor-pointer select-none transition-colors"
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {sortDirection === 'asc' ? (
+                            <ArrowUp className="size-3.5 text-[var(--ui-primary)]" />
+                          ) : sortDirection === 'desc' ? (
+                            <ArrowDown className="size-3.5 text-[var(--ui-primary)]" />
+                          ) : (
+                            <ArrowUpDown className="size-3.5 opacity-40 hover:opacity-100" />
+                          )}
+                        </button>
+                      ) : (
+                        flexRender(header.column.columnDef.header, header.getContext())
+                      )}
+                    </th>
+                  );
+                })}
               </tr>
             ))}
           </thead>
@@ -96,7 +178,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <tr>
                 <td colSpan={columns.length} className="h-24 text-center text-[var(--ui-muted-foreground)]">
-                  No results.
+                  No rows found.
                 </td>
               </tr>
             )}
@@ -107,7 +189,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center justify-between px-2">
         <div className="text-sm text-[var(--ui-muted-foreground)]">
           <span>
-            {table.getFilteredRowModel().rows.length} total row(s)
+            {isServerSide
+              ? `${serverSide.rowCount} total row(s)`
+              : `${table.getFilteredRowModel().rows.length} total row(s)`}
           </span>
         </div>
         <div className="flex items-center space-x-2">

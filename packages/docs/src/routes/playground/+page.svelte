@@ -22,6 +22,7 @@
 		SelectContent,
 		SelectItem
 	} from '@intinyagroup/ui/components/select';
+	import { createListCollection } from '@ark-ui/svelte/select';
 	import { SliderRoot, SliderRange, SliderThumb } from '@intinyagroup/ui/components/slider';
 	import { Progress } from '@intinyagroup/ui/components/progress';
 	import { Checkbox } from '@intinyagroup/ui/components/checkbox';
@@ -284,8 +285,15 @@
 </Select>`}
 		>
 			{#snippet render(v)}
+				{@const collection = createListCollection({
+					items: [
+						{ label: 'Apple', value: 'apple' },
+						{ label: 'Banana', value: 'banana' },
+						{ label: 'Cherry', value: 'cherry' }
+					]
+				})}
 				<div class="w-56">
-					<Select disabled={v.disabled} collection={[{ label: 'Apple', value: 'apple' }, { label: 'Banana', value: 'banana' }, { label: 'Cherry', value: 'cherry' }] as any}>
+					<Select disabled={v.disabled} {collection}>
 						<SelectTrigger>
 							<SelectValue placeholder={v.placeholder} />
 						</SelectTrigger>
