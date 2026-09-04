@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
+	import { Portal } from "@ark-ui/svelte/portal";
+	import type { ComponentProps } from "svelte";
 
-	let { ...restProps }: DropdownMenuPrimitive.PortalProps = $props();
+	let { children, ...restProps }: ComponentProps<typeof Portal> = $props();
 </script>
 
-<DropdownMenuPrimitive.Portal {...restProps} />
+<Portal {...restProps}>
+	{@render children?.()}
+</Portal>

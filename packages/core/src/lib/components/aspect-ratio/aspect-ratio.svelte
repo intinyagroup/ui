@@ -1,7 +1,27 @@
 <script lang="ts">
-	import { AspectRatio as AspectRatioPrimitive } from "bits-ui";
+	import { cn } from "$lib/utils.js";
+	import type { HTMLAttributes } from "svelte/elements";
 
-	let { ref = $bindable(null), ...restProps }: AspectRatioPrimitive.RootProps = $props();
+	let {
+		ref = $bindable(null),
+		ratio = 1,
+		class: className,
+		children,
+		...restProps
+	}: HTMLAttributes<HTMLDivElement> & {
+		ref?: HTMLDivElement | null;
+		ratio?: number;
+	} = $props();
 </script>
 
-<AspectRatioPrimitive.Root bind:ref data-slot="aspect-ratio" {...restProps} />
+<div
+	bind:this={ref}
+	data-slot="aspect-ratio"
+	class={cn("relative w-full", className)}
+	style="padding-bottom: {(1 / ratio) * 100}%;"
+	{...restProps}
+>
+	<div class="absolute inset-0 size-full">
+		{@render children?.()}
+	</div>
+</div>

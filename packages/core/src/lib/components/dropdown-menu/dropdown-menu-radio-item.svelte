@@ -1,34 +1,32 @@
 <script lang="ts">
-	import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
+	import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
 	import CheckIcon from '@lucide/svelte/icons/check';
-	import { cn, type WithoutChild } from "$lib/utils.js";
+	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
-		children: childrenProp,
+		value,
+		children,
 		...restProps
-	}: WithoutChild<DropdownMenuPrimitive.RadioItemProps> = $props();
+	}: ComponentProps<typeof ArkMenu.RadioItem> = $props();
 </script>
 
-<DropdownMenuPrimitive.RadioItem
+<ArkMenu.RadioItem
 	bind:ref
+	{value}
 	data-slot="dropdown-menu-radio-item"
 	class={cn(
-		"gap-1.5 rounded-md py-1 pr-8 pl-1.5 text-sm focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:pl-7 [&_svg:not([class*='size-'])]:size-4 relative flex cursor-default items-center outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+		"relative flex cursor-pointer select-none items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none transition-colors data-[highlighted]:bg-[var(--ui-accent)] data-[highlighted]:text-[var(--ui-accent-foreground)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 		className
 	)}
 	{...restProps}
 >
-	{#snippet children({ checked })}
-		<span
-			class="absolute right-2 flex items-center justify-center pointer-events-none"
-			data-slot="dropdown-menu-radio-item-indicator"
-		>
-			{#if checked}
-				<CheckIcon  />
-			{/if}
-		</span>
-		{@render childrenProp?.({ checked })}
-	{/snippet}
-</DropdownMenuPrimitive.RadioItem>
+	<ArkMenu.ItemIndicator class="absolute left-2 flex size-3.5 items-center justify-center">
+		<CheckIcon class="size-4" />
+	</ArkMenu.ItemIndicator>
+	<ArkMenu.ItemText>
+		{@render children?.()}
+	</ArkMenu.ItemText>
+</ArkMenu.RadioItem>

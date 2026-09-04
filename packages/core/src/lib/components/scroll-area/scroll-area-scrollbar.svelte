@@ -1,30 +1,29 @@
 <script lang="ts">
-	import { ScrollArea as ScrollAreaPrimitive } from "bits-ui";
-	import { cn, type WithoutChild } from "$lib/utils.js";
+	import { cn } from "$lib/utils.js";
+	import type { HTMLAttributes } from "svelte/elements";
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		orientation = "vertical",
-		children,
 		...restProps
-	}: WithoutChild<ScrollAreaPrimitive.ScrollbarProps> = $props();
+	}: HTMLAttributes<HTMLDivElement> & {
+		ref?: HTMLDivElement | null;
+		orientation?: "vertical" | "horizontal";
+	} = $props();
 </script>
 
-<ScrollAreaPrimitive.Scrollbar
-	bind:ref
+<div
+	bind:this={ref}
 	data-slot="scroll-area-scrollbar"
 	data-orientation={orientation}
-	{orientation}
 	class={cn(
-		"data-horizontal:h-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:h-full data-vertical:w-2.5 data-vertical:border-l data-vertical:border-l-transparent flex touch-none p-px transition-colors select-none",
+		"flex touch-none select-none transition-colors",
+		orientation === "vertical" && "h-full w-2.5 border-l border-l-transparent p-px",
+		orientation === "horizontal" && "h-2.5 flex-col border-t border-t-transparent p-px",
 		className
 	)}
 	{...restProps}
 >
-	{@render children?.()}
-	<ScrollAreaPrimitive.Thumb
-		data-slot="scroll-area-thumb"
-		class="rounded-full relative flex-1 bg-border"
-	/>
-</ScrollAreaPrimitive.Scrollbar>
+	<div class="bg-border relative flex-1 rounded-full" />
+</div>

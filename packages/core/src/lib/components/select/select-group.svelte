@@ -1,17 +1,16 @@
 <script lang="ts">
-	import { Select as SelectPrimitive } from "bits-ui";
+	import { Select as ArkSelect } from "@ark-ui/svelte/select";
 	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
+		children,
 		...restProps
-	}: SelectPrimitive.GroupProps = $props();
+	}: ComponentProps<typeof ArkSelect.ItemGroup> = $props();
 </script>
 
-<SelectPrimitive.Group
-	bind:ref
-	data-slot="select-group"
-	class={cn("scroll-my-1 p-1", className)}
-	{...restProps}
-/>
+<ArkSelect.ItemGroup bind:ref class={cn(className)} {...restProps}>
+	{@render children?.()}
+</ArkSelect.ItemGroup>

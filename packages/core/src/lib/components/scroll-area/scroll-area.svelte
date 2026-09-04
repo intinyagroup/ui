@@ -1,43 +1,30 @@
 <script lang="ts">
-	import { ScrollArea as ScrollAreaPrimitive } from "bits-ui";
-	import { cn, type WithoutChild } from "$lib/utils.js";
-	import { Scrollbar } from "./index.js";
+	import { cn } from "$lib/utils.js";
+	import type { HTMLAttributes } from "svelte/elements";
 
 	let {
 		ref = $bindable(null),
 		viewportRef = $bindable(null),
 		class: className,
-		orientation = "vertical",
-		scrollbarXClasses = "",
-		scrollbarYClasses = "",
 		children,
 		...restProps
-	}: WithoutChild<ScrollAreaPrimitive.RootProps> & {
-		orientation?: "vertical" | "horizontal" | "both" | undefined;
-		scrollbarXClasses?: string | undefined;
-		scrollbarYClasses?: string | undefined;
-		viewportRef?: HTMLElement | null;
+	}: HTMLAttributes<HTMLDivElement> & {
+		ref?: HTMLDivElement | null;
+		viewportRef?: HTMLDivElement | null;
 	} = $props();
 </script>
 
-<ScrollAreaPrimitive.Root
-	bind:ref
+<div
+	bind:this={ref}
 	data-slot="scroll-area"
-	class={cn("relative", className)}
+	class={cn("relative overflow-hidden", className)}
 	{...restProps}
 >
-	<ScrollAreaPrimitive.Viewport
-		bind:ref={viewportRef}
+	<div
+		bind:this={viewportRef}
 		data-slot="scroll-area-viewport"
-		class="cn-scroll-area-viewport size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1"
+		class="size-full overflow-auto rounded-[inherit] outline-none"
 	>
 		{@render children?.()}
-	</ScrollAreaPrimitive.Viewport>
-	{#if orientation === "vertical" || orientation === "both"}
-		<Scrollbar orientation="vertical" class={scrollbarYClasses} />
-	{/if}
-	{#if orientation === "horizontal" || orientation === "both"}
-		<Scrollbar orientation="horizontal" class={scrollbarXClasses} />
-	{/if}
-	<ScrollAreaPrimitive.Corner />
-</ScrollAreaPrimitive.Root>
+	</div>
+</div>

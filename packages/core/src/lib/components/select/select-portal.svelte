@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { Select as SelectPrimitive } from "bits-ui";
+	import { Portal } from "@ark-ui/svelte/portal";
+	import type { ComponentProps } from "svelte";
 
-	let { ...restProps }: SelectPrimitive.PortalProps = $props();
+	let { children, ...restProps }: ComponentProps<typeof Portal> = $props();
 </script>
 
-<SelectPrimitive.Portal {...restProps} />
+<Portal {...restProps}>
+	{@render children?.()}
+</Portal>

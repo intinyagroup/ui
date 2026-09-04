@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Select as SelectPrimitive } from "bits-ui";
+	import { Select as ArkSelect } from "@ark-ui/svelte/select";
 	import { cn } from "$lib/utils.js";
 	import type { ComponentProps } from "svelte";
 
@@ -8,14 +8,13 @@
 		class: className,
 		children,
 		...restProps
-	}: ComponentProps<typeof SelectPrimitive.GroupHeading> = $props();
+	}: ComponentProps<typeof ArkSelect.ItemGroupLabel> = $props();
 </script>
 
-<SelectPrimitive.GroupHeading
+<ArkSelect.ItemGroupLabel
 	bind:ref
-	data-slot="select-group-heading"
-	class={cn("px-2 py-1.5 text-xs text-muted-foreground", className)}
+	class={cn("text-muted-foreground px-2 py-1.5 text-xs font-medium", className)}
 	{...restProps}
 >
 	{@render children?.()}
-</SelectPrimitive.GroupHeading>
+</ArkSelect.ItemGroupLabel>

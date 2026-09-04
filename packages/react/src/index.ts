@@ -18,5 +18,6 @@ export * from './components/Accordion.js';
 export * from './components/Tabs.js';
 export * from './components/Separator.js';
 export * from './components/Skeleton.js';
+export * from './components/DataTable.js';
 
 export * from './utils.js';

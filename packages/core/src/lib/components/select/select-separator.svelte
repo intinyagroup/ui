@@ -1,18 +1,16 @@
 <script lang="ts">
-	import { Separator } from "$lib/components/separator/index.js";
 	import { cn } from "$lib/utils.js";
-	import type { Separator as SeparatorPrimitive } from "bits-ui";
+	import type { HTMLAttributes } from "svelte/elements";
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		...restProps
-	}: SeparatorPrimitive.RootProps = $props();
+	}: HTMLAttributes<HTMLDivElement> & { ref?: HTMLDivElement | null } = $props();
 </script>
 
-<Separator
-	bind:ref
-	data-slot="select-separator"
-	class={cn("-mx-1 my-1 h-px bg-border pointer-events-none", className)}
+<div
+	bind:this={ref}
+	class={cn("bg-muted -mx-1 my-1 h-px", className)}
 	{...restProps}
 />
