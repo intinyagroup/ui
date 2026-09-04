@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
+	import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
+	import type { ComponentProps } from "svelte";
 
-	let { ref = $bindable(null), ...restProps }: DropdownMenuPrimitive.TriggerProps = $props();
+	let { ref = $bindable(null), children, ...restProps }: ComponentProps<typeof ArkMenu.Trigger> = $props();
 </script>
 
-<DropdownMenuPrimitive.Trigger bind:ref data-slot="dropdown-menu-trigger" {...restProps} />
+<ArkMenu.Trigger bind:ref data-slot="dropdown-menu-trigger" {...restProps}>
+	{@render children?.()}
+</ArkMenu.Trigger>

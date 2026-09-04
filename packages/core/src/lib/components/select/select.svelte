@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { Select as SelectPrimitive } from "bits-ui";
+	import { Select as ArkSelect } from "@ark-ui/svelte/select";
+	import type { ComponentProps } from "svelte";
 
-	let {
-		open = $bindable(false),
-		value = $bindable(),
-		...restProps
-	}: SelectPrimitive.RootProps = $props();
+	let { children, ...restProps }: ComponentProps<typeof ArkSelect.Root> = $props();
 </script>
 
-<SelectPrimitive.Root bind:open bind:value={value as never} {...restProps} />
+<ArkSelect.Root {...restProps}>
+	{@render children?.()}
+</ArkSelect.Root>
