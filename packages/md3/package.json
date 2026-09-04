@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/md3",
-  "version": "0.1.1-alpha.8",
+  "version": "0.1.1-alpha.9",
   "description": "Material Design 3 components for Intinya UI",
   "type": "module",
   "exports": {
