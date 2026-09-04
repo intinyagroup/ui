@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/image-editor",
-  "version": "0.1.1-alpha.6",
+  "version": "0.1.1-alpha.7",
   "description": "Image editor with filters and effects for Intinya UI",
   "type": "module",
   "exports": {

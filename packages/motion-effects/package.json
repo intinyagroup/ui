@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/motion-effects",
-  "version": "0.1.1-alpha.3",
+  "version": "0.1.1-alpha.4",
   "description": "CSS effects and transitions for @intinyagroup/motion",
   "type": "module",
   "exports": {

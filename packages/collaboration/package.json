@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/collaboration",
-  "version": "0.1.1-alpha.3",
+  "version": "0.1.1-alpha.4",
   "description": "Real-time collaboration and version history for book-writer",
   "type": "module",
   "exports": {
