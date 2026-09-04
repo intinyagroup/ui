@@ -106,7 +106,7 @@ jobs:
           ORDER=(tokens grid-core core md3 flat cli editor-core native rich-text motion \
                  motion-captions motion-effects motion-media motion-player motion-studio \
                  motion-three book-writer calendar charts collaboration kanban pdf-viewer \
-                 slides spreadsheet data-table image-editor react)
+                 slides spreadsheet data-table image-editor react react-data-table)
           STAGE='${{ github.event.inputs.release-type }}'
           TAG="$STAGE"
           [ "$STAGE" = "stable" ] && TAG="latest"

@@ -50,6 +50,7 @@ PACKAGES=(
   slides
   spreadsheet
   react
+  react-data-table
 )
 
 

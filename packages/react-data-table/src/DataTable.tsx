@@ -12,17 +12,17 @@ import {
   type PaginationState,
   type OnChangeFn
 } from '@tanstack/react-table';
-import { cn } from '../utils.js';
-import { Button } from './Button.js';
-import { Input } from './Input.js';
-import { Skeleton } from './Skeleton.js';
 import {
+  Button,
+  Input,
+  Skeleton,
   DropdownMenuRoot,
   DropdownMenuTrigger,
   DropdownMenuPositioner,
   DropdownMenuContent,
-  DropdownMenuItem
-} from './DropdownMenu.js';
+  DropdownMenuItem,
+  cn
+} from '@intinyagroup/react';
 import { Portal } from '@ark-ui/react/portal';
 import {
   ChevronLeft,
@@ -247,6 +247,7 @@ export function DataTable<TData, TValue>({
               className="max-w-sm"
             />
           ) : <div />}
+
           {exportable && (
             <DropdownMenuRoot positioning={{ placement: 'bottom-end' }}>
               <DropdownMenuTrigger asChild>
