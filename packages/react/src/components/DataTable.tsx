@@ -15,6 +15,7 @@ import {
 import { cn } from '../utils.js';
 import { Button } from './Button.js';
 import { Input } from './Input.js';
+import { Skeleton } from './Skeleton.js';
 import {
   ChevronLeft,
   ChevronRight,
@@ -32,6 +33,7 @@ export interface ServerSideConfig {
   sorting?: SortingState;
   onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
   onSortingChange?: (sorting: { id: string; desc: boolean }[]) => void;
+  onSearchChange?: (search: string) => void;
 }
 
 export interface DataTableProps<TData, TValue> {
@@ -39,6 +41,10 @@ export interface DataTableProps<TData, TValue> {
   data: TData[];
   searchKey?: string;
   searchPlaceholder?: string;
+  debounceMs?: number;
+  loading?: boolean;
+  enableMultiSort?: boolean;
+  emptyMessage?: string;
   className?: string;
   serverSide?: ServerSideConfig;
 }
@@ -48,6 +54,10 @@ export function DataTable<TData, TValue>({
   data,
   searchKey,
   searchPlaceholder = 'Search...',
+  debounceMs = 300,
+  loading = false,
+  enableMultiSort = true,
+  emptyMessage = 'No rows found.',
   className,
   serverSide
 }: DataTableProps<TData, TValue>) {
@@ -58,6 +68,7 @@ export function DataTable<TData, TValue>({
     pageSize: 10
   });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [searchValue, setSearchValue] = React.useState('');
 
   const isServerSide = !!serverSide;
 
@@ -89,9 +100,23 @@ export function DataTable<TData, TValue>({
     }
   };
 
+  // Debounced search handling
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isServerSide) {
+        serverSide.onSearchChange?.(searchValue);
+      } else if (searchKey) {
+        table.getColumn(searchKey)?.setFilterValue(searchValue);
+      }
+    }, debounceMs);
+
+    return () => clearTimeout(timer);
+  }, [searchValue, debounceMs, isServerSide, searchKey]);
+
   const table = useReactTable({
     data,
     columns,
+    enableMultiSort,
     pageCount: isServerSide ? Math.ceil(serverSide.rowCount / pagination.pageSize) : undefined,
     manualPagination: isServerSide,
     manualSorting: isServerSide,
@@ -116,8 +141,8 @@ export function DataTable<TData, TValue>({
         <div className="flex items-center py-2">
           <Input
             placeholder={searchPlaceholder}
-            value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn(searchKey)?.setFilterValue(event.target.value)}
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
             className="max-w-sm"
           />
         </div>
@@ -162,7 +187,17 @@ export function DataTable<TData, TValue>({
             ))}
           </thead>
           <tbody className="[&_tr:last-child]:border-0 divide-y divide-[var(--ui-border)]">
-            {table.getRowModel().rows?.length ? (
+            {loading ? (
+              Array.from({ length: 5 }).map((_, idx) => (
+                <tr key={`skeleton-${idx}`} className="border-b border-[var(--ui-border)]">
+                  {columns.map((_, colIdx) => (
+                    <td key={`col-${colIdx}`} className="p-4 align-middle">
+                      <Skeleton className="h-5 w-full max-w-[140px]" />
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
@@ -178,7 +213,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <tr>
                 <td colSpan={columns.length} className="h-24 text-center text-[var(--ui-muted-foreground)]">
-                  No rows found.
+                  {emptyMessage}
                 </td>
               </tr>
             )}

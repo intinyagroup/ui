@@ -25,6 +25,7 @@
     description,
     searchable = true,
     searchPlaceholder = 'Search...',
+    debounceMs = 300,
     emptyMessage = 'No rows found.',
     emptyDescription,
     pageSize = 10,
@@ -105,7 +106,8 @@
     selectedIds?: string[];
     emptyAction?: { label: string; href?: string; onclick?: () => void };
     bulkActions?: Snippet<[{ selectedIds: string[] }]>;
-    actions?: Snippet;
+    searchPlaceholder?: string;
+    debounceMs?: number;
     exportable?: boolean;
     densityToggle?: boolean;
     columnToggle?: boolean;
@@ -331,10 +333,16 @@
     }
   });
 
+  let searchTimer: ReturnType<typeof setTimeout> | undefined;
+
   function setGlobalFilter(value: string) {
     globalFilter = value;
+    if (searchTimer) clearTimeout(searchTimer);
+
     if (serverSide) {
-      onFilterChange?.({ globalFilter: value });
+      searchTimer = setTimeout(() => {
+        onFilterChange?.({ globalFilter: value });
+      }, debounceMs);
     } else {
       pagination = resolvePagination(pagination, filteredRowCount, { pageIndex: 0 });
     }
