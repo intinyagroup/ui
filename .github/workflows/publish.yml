@@ -94,6 +94,10 @@ jobs:
 
       - name: Rewrite workspace:* deps to versions
         run: ./scripts/stage-publish.sh --rewrite-only
+      - name: Configure npm auth
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          npm whoami
 
       - name: Publish all packages in dependency order
         run: |
@@ -112,8 +116,6 @@ jobs:
               (cd packages/$pkg && npm publish --tag "$TAG" --access public)
             fi
           done
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Verify published versions
         run: |
