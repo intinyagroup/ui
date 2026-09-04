@@ -96,9 +96,10 @@ jobs:
         run: ./scripts/stage-publish.sh --rewrite-only
       - name: Configure npm auth
         run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          CONFIG_FILE="${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}"
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> "$CONFIG_FILE"
+          echo "registry=https://registry.npmjs.org/" >> "$CONFIG_FILE"
           npm whoami
-
       - name: Publish all packages in dependency order
         run: |
           set -euo pipefail
