@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/slides",
-  "version": "0.1.1-alpha.1",
+  "version": "0.1.1-alpha.2",
   "description": "Presentation editor with slides, transitions, and export",
   "type": "module",
   "exports": {

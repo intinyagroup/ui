@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/flat",
-  "version": "0.1.1-alpha.4",
+  "version": "0.1.1-alpha.5",
   "description": "Flat color geometric components with clip-path shapes for Intinya UI",
   "type": "module",
   "exports": {
