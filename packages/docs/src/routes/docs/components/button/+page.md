@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Playground from '$lib/components/Playground.svelte';
+	import FrameworkTabs from '$lib/components/FrameworkTabs.svelte';
 	import { Button } from '@intinyagroup/ui/components/button';
 
 	const buttonProps = [
@@ -28,6 +29,9 @@ Displays a button or link that looks like a button. Renders an `<a>` when `href`
 
 ## Preview
 
+<FrameworkTabs>
+	{#snippet svelteSnippet()}
+
 ```svelte
 <script>
   import { Button } from '@intinyagroup/ui';
@@ -43,6 +47,29 @@ Displays a button or link that looks like a button. Renders an `<a>` when `href`
 </div>
 ```
 
+	{/snippet}
+	{#snippet reactSnippet()}
+
+```tsx
+import React from 'react';
+import { Button } from '@intinyagroup/react';
+
+export function ButtonExample() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Button>Default</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="destructive">Destructive</Button>
+      <Button variant="link">Link</Button>
+    </div>
+  );
+}
+```
+
+	{/snippet}
+</FrameworkTabs>
 ## Sizes
 
 ```svelte

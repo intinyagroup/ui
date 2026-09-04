@@ -19,5 +19,7 @@ export * from './components/Tabs.js';
 export * from './components/Separator.js';
 export * from './components/Skeleton.js';
 export * from './components/DataTable.js';
+export * from './components/AlertDialog.js';
+export * from './components/Sheet.js';
 
 export * from './utils.js';
