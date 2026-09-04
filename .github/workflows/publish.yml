@@ -15,7 +15,10 @@ on:
         default: 'patch'
         type: choice
         options: [patch, minor, major]
-
+      package:
+        description: 'Specific package to publish (leave "all" for all packages)'
+        required: false
+        default: 'all'
 jobs:
   publish:
     name: Publish all packages to npm
@@ -107,11 +110,12 @@ jobs:
           STAGE='${{ github.event.inputs.release-type }}'
           TAG="$STAGE"
           [ "$STAGE" = "stable" ] && TAG="latest"
+          TARGET_PKG='${{ github.event.inputs.package }}'
           for pkg in "${ORDER[@]}"; do
+            if [ "$TARGET_PKG" != "all" ] && [ "$TARGET_PKG" != "" ] && [ "$TARGET_PKG" != "$pkg" ]; then
+              continue
+            fi
             if [ -d "packages/$pkg" ]; then
-              echo "--- Publishing @intinyagroup/$pkg @ $TAG ---"
-              (
-                cd packages/$pkg
                 for attempt in 1 2 3 4; do
                   if npm publish --tag "$TAG" --access public; then
                     break
