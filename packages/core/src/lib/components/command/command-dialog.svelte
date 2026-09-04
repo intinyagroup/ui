@@ -1,9 +1,8 @@
 <script lang="ts">
 	import * as Dialog from "$lib/components/dialog/index.js";
-	import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
+	import { cn } from "$lib/utils.js";
 	import Command from "./command.svelte";
-	import type { Command as CommandPrimitive, Dialog as DialogPrimitive } from "bits-ui";
-	import type { Snippet } from "svelte";
+	import type { Snippet, ComponentProps } from "svelte";
 
 	let {
 		open = $bindable(false),
@@ -12,21 +11,22 @@
 		title = "Command Palette",
 		description = "Search for a command to run...",
 		showCloseButton = false,
-		portalProps,
 		children,
 		class: className,
 		shortcutKey = "k",
 		...restProps
-	}: WithoutChildrenOrChild<DialogPrimitive.RootProps> &
-		WithoutChildrenOrChild<CommandPrimitive.RootProps> & {
-			portalProps?: DialogPrimitive.PortalProps;
-			children: Snippet;
-			title?: string;
-			description?: string;
-			showCloseButton?: boolean;
-			class?: string;
-			shortcutKey?: string;
-		} = $props();
+	}: {
+		open?: boolean;
+		ref?: HTMLElement | null;
+		value?: string;
+		title?: string;
+		description?: string;
+		showCloseButton?: boolean;
+		children?: Snippet;
+		class?: string;
+		shortcutKey?: string;
+		[key: string]: any;
+	} = $props();
 
 	// ⌘K / Ctrl+K keyboard shortcut
 	function handleKeydown(e: KeyboardEvent) {
@@ -43,7 +43,7 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<Dialog.Root bind:open {...restProps}>
+<Dialog.Root bind:open>
 	<Dialog.Header class="sr-only">
 		<Dialog.Title>{title}</Dialog.Title>
 		<Dialog.Description>{description}</Dialog.Description>
@@ -51,7 +51,6 @@
 	<Dialog.Content
 		class={cn("rounded-xl! top-1/3 translate-y-0 overflow-hidden p-0", className)}
 		{showCloseButton}
-		{portalProps}
 	>
 		<Command {...restProps} bind:value bind:ref {children} />
 	</Dialog.Content>

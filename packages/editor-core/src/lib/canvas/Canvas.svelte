@@ -1,8 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { Snippet } from 'svelte';
-  import { cn } from 'clsx';
+  import { clsx } from 'clsx';
   import { twMerge } from 'tailwind-merge';
+
+  function cn(...inputs: any[]) {
+    return twMerge(clsx(inputs));
+  }
 
   let {
     width = 1440,

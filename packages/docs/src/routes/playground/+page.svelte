@@ -285,14 +285,14 @@
 		>
 			{#snippet render(v)}
 				<div class="w-56">
-					<Select disabled={v.disabled}>
+					<Select disabled={v.disabled} collection={[{ label: 'Apple', value: 'apple' }, { label: 'Banana', value: 'banana' }, { label: 'Cherry', value: 'cherry' }] as any}>
 						<SelectTrigger>
 							<SelectValue placeholder={v.placeholder} />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="apple">Apple</SelectItem>
-							<SelectItem value="banana">Banana</SelectItem>
-							<SelectItem value="cherry">Cherry</SelectItem>
+							<SelectItem item="apple">Apple</SelectItem>
+							<SelectItem item="banana">Banana</SelectItem>
+							<SelectItem item="cherry">Cherry</SelectItem>
 						</SelectContent>
 					</Select>
 				</div>
@@ -317,7 +317,7 @@
 						class="relative flex h-5 w-full touch-none select-none items-center"
 					>
 						<SliderRange class="absolute h-full rounded-full bg-[var(--ui-primary)]" />
-						<SliderThumb class="block size-4 rounded-full bg-[var(--ui-primary)] shadow transition-colors focus-visible:outline-2 focus-visible:outline-[var(--ui-ring)]" />
+						<SliderThumb index={0} class="block size-4 rounded-full bg-[var(--ui-primary)] shadow transition-colors focus-visible:outline-2 focus-visible:outline-[var(--ui-ring)]" />
 					</SliderRoot>
 				</div>
 			{/snippet}
