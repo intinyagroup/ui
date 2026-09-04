@@ -1,17 +1,18 @@
 <script lang="ts">
-	import { Avatar as AvatarPrimitive } from "bits-ui";
+	import { Avatar as ArkAvatar } from "@ark-ui/svelte/avatar";
 	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		...restProps
-	}: AvatarPrimitive.ImageProps = $props();
+	}: ComponentProps<typeof ArkAvatar.Image> = $props();
 </script>
 
-<AvatarPrimitive.Image
+<ArkAvatar.Image
 	bind:ref
 	data-slot="avatar-image"
-	class={cn("rounded-full aspect-square size-full object-cover", className)}
+	class={cn("aspect-square size-full object-cover", className)}
 	{...restProps}
 />

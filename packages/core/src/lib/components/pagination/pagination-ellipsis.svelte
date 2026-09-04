@@ -1,22 +1,25 @@
 <script lang="ts">
-	import MoreHorizontalIcon from '@lucide/svelte/icons/more-horizontal';
-	import { cn, type WithElementRef, type WithoutChildren } from "$lib/utils.js";
-	import type { HTMLAttributes } from "svelte/elements";
+	import { Pagination as ArkPagination } from "@ark-ui/svelte/pagination";
+	import EllipsisIcon from '@lucide/svelte/icons/ellipsis';
+	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
+		index,
 		...restProps
-	}: WithoutChildren<WithElementRef<HTMLAttributes<HTMLSpanElement>>> = $props();
+	}: ComponentProps<typeof ArkPagination.Ellipsis> = $props();
 </script>
 
-<span
-	bind:this={ref}
+<ArkPagination.Ellipsis
+	bind:ref
+	{index}
 	aria-hidden="true"
 	data-slot="pagination-ellipsis"
-	class={cn("size-8 items-center justify-center [&_svg:not([class*='size-'])]:size-4 flex items-center justify-center", className)}
+	class={cn("flex size-9 items-center justify-center", className)}
 	{...restProps}
 >
-	<MoreHorizontalIcon  />
+	<EllipsisIcon class="size-4" />
 	<span class="sr-only">More pages</span>
-</span>
+</ArkPagination.Ellipsis>
