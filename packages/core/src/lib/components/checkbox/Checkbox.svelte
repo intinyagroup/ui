@@ -1,46 +1,41 @@
 <script lang="ts">
-	import { Checkbox as CheckboxPrimitive } from "bits-ui";
+	import { Checkbox as ArkCheckbox } from "@ark-ui/svelte/checkbox";
 	import CheckIcon from '@lucide/svelte/icons/check';
 	import MinusIcon from '@lucide/svelte/icons/minus';
 	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		checked = $bindable(false),
-		indeterminate = $bindable(false),
 		disabled = false,
 		required = false,
 		class: className,
+		children,
 		...restProps
-	}: CheckboxPrimitive.RootProps = $props();
+	}: ComponentProps<typeof ArkCheckbox.Root> = $props();
 </script>
 
-<CheckboxPrimitive.Root
+<ArkCheckbox.Root
 	bind:ref
 	bind:checked
-	bind:indeterminate
-	data-slot="checkbox"
 	{disabled}
 	{required}
-	class={cn(
-		"peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:border-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary dark:data-[state=checked]:border-primary size-4 shrink-0 rounded-[4px] border shadow-sm transition-colors outline-none",
-		"focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
-		"disabled:cursor-not-allowed disabled:opacity-50",
-		"aria-invalid:border-destructive aria-invalid:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
-		className
-	)}
+	class={cn("inline-flex items-center gap-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50", className)}
 	{...restProps}
 >
-	{#snippet children({ checked: isChecked, indeterminate: isIndeterminate })}
-		<div
-			data-slot="checkbox-indicator"
-			class="flex items-center justify-center text-current"
-		>
-			{#if isIndeterminate}
-				<MinusIcon class="size-3.5" />
-			{:else if isChecked}
-				<CheckIcon class="size-3.5" />
-			{/if}
-		</div>
-	{/snippet}
-</CheckboxPrimitive.Root>
+	<ArkCheckbox.Control
+		data-slot="checkbox"
+		class="peer border-[var(--ui-border)] data-[state=checked]:bg-[var(--ui-primary)] data-[state=checked]:border-[var(--ui-primary)] data-[state=checked]:text-[var(--ui-primary-foreground)] size-4 shrink-0 rounded-[4px] border shadow-sm transition-colors flex items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[var(--ui-ring)]"
+	>
+		<ArkCheckbox.Indicator>
+			<CheckIcon class="size-3.5" />
+		</ArkCheckbox.Indicator>
+	</ArkCheckbox.Control>
+	<ArkCheckbox.HiddenInput />
+	{#if children}
+		<ArkCheckbox.Label class="text-sm font-medium leading-none text-[var(--ui-foreground)]">
+			{@render children()}
+		</ArkCheckbox.Label>
+	{/if}
+</ArkCheckbox.Root>

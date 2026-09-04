@@ -1,29 +1,33 @@
 <script lang="ts">
-	import { RadioGroup as RadioGroupPrimitive } from "bits-ui";
-	import CircleIcon from '@lucide/svelte/icons/circle';
-	import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
+	import { RadioGroup as ArkRadioGroup } from "@ark-ui/svelte/radio-group";
+	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
+		value,
+		children,
 		...restProps
-	}: WithoutChildrenOrChild<RadioGroupPrimitive.ItemProps> = $props();
+	}: ComponentProps<typeof ArkRadioGroup.Item> = $props();
 </script>
 
-<RadioGroupPrimitive.Item
+<ArkRadioGroup.Item
 	bind:ref
+	{value}
 	data-slot="radio-group-item"
-	class={cn(
-		"flex size-4 rounded-full border-input focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary group/radio-group-item peer relative aspect-square shrink-0 border outline-none after:absolute after:-inset-x-3 after:-inset-y-2 disabled:cursor-not-allowed disabled:opacity-50",
-		className
-	)}
+	class={cn("inline-flex items-center gap-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50", className)}
 	{...restProps}
 >
-	{#snippet children({ checked })}
-		<div data-slot="radio-group-indicator" class="flex size-4 items-center justify-center">
-			{#if checked}
-				<CircleIcon class="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground" />
-			{/if}
-		</div>
-	{/snippet}
-</RadioGroupPrimitive.Item>
+	<ArkRadioGroup.ItemControl
+		class="size-4 rounded-full border border-[var(--ui-border)] flex items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-[var(--ui-ring)] data-[state=checked]:border-[var(--ui-primary)] data-[state=checked]:bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)]"
+	>
+		<div class="size-2 rounded-full bg-current opacity-0 transition-opacity data-[state=checked]:opacity-100" />
+	</ArkRadioGroup.ItemControl>
+	<ArkRadioGroup.ItemHiddenInput />
+	{#if children}
+		<ArkRadioGroup.ItemText class="text-sm font-medium text-[var(--ui-foreground)]">
+			{@render children()}
+		</ArkRadioGroup.ItemText>
+	{/if}
+</ArkRadioGroup.Item>

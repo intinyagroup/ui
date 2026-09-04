@@ -1,19 +1,23 @@
 <script lang="ts">
-	import { RadioGroup as RadioGroupPrimitive } from "bits-ui";
+	import { RadioGroup as ArkRadioGroup } from "@ark-ui/svelte/radio-group";
 	import { cn } from "$lib/utils.js";
+	import type { ComponentProps } from "svelte";
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		value = $bindable(""),
+		children,
 		...restProps
-	}: RadioGroupPrimitive.RootProps = $props();
+	}: ComponentProps<typeof ArkRadioGroup.Root> = $props();
 </script>
 
-<RadioGroupPrimitive.Root
+<ArkRadioGroup.Root
 	bind:ref
 	bind:value
 	data-slot="radio-group"
 	class={cn("grid gap-2 w-full", className)}
 	{...restProps}
-/>
+>
+	{@render children?.()}
+</ArkRadioGroup.Root>
