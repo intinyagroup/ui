@@ -1,10 +1,10 @@
 {
   "schema": "v3",
-  "generatedAt": "2026-08-10T09:00:04.593Z",
+  "generatedAt": "2026-09-04T04:00:04.786Z",
   "components": [
     {
       "name": "accordion",
-      "description": null,
+      "description": "Accordion component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -37,7 +37,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -46,12 +47,21 @@
       "mainTs": "accordion/index.ts",
       "isComponent": true,
       "entry": "accordion/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "actionsheet",
-      "description": null,
+      "description": "Actionsheet component",
       "category": "mobile",
       "tags": [
         "mobile",
@@ -80,18 +90,46 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "actionsheet/index.ts",
       "isComponent": true,
       "entry": "actionsheet/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "cancelLabel",
+          "type": "string",
+          "default": "Cancel"
+        },
+        {
+          "name": "showCancel",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "onclose",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "alert",
-      "description": null,
+      "description": "Alert component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -128,7 +166,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -137,12 +176,26 @@
       "mainTs": "alert/index.ts",
       "isComponent": true,
       "entry": "alert/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "default",
+          "values": [
+            "default",
+            "destructive"
+          ]
+        }
+      ],
       "package": "core"
     },
     {
       "name": "alert-dialog",
-      "description": null,
+      "description": "Alert Dialog component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -192,7 +245,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "button",
@@ -202,12 +256,18 @@
       "mainTs": "alert-dialog/index.ts",
       "isComponent": true,
       "entry": "alert-dialog/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "ArrowCard",
-      "description": null,
+      "description": "ArrowCard component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -233,12 +293,31 @@
       "mainTs": "ArrowCard/index.ts",
       "isComponent": true,
       "entry": "ArrowCard/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "direction",
+          "type": "Direction",
+          "default": "right"
+        },
+        {
+          "name": "color",
+          "type": "Color",
+          "default": "blue"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "aside",
-      "description": null,
+      "description": "Aside component",
       "category": "layout",
       "tags": [
         "layout",
@@ -265,18 +344,28 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "aside/index.ts",
       "isComponent": true,
       "entry": "aside/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "'aria-label'",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "aspect-ratio",
-      "description": null,
+      "description": "Aspect Ratio component",
       "category": "layout",
       "tags": [
         "layout",
@@ -304,7 +393,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "main": "aspect-ratio/aspect-ratio.svelte",
@@ -316,7 +406,7 @@
     },
     {
       "name": "avatar",
-      "description": null,
+      "description": "Avatar component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -353,7 +443,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -362,12 +453,27 @@
       "mainTs": "avatar/index.ts",
       "isComponent": true,
       "entry": "avatar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "loadingStatus",
+          "type": "any",
+          "default": "loading"
+        },
+        {
+          "name": "size",
+          "type": "any",
+          "default": "default"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "avatar-group",
-      "description": null,
+      "description": "Avatar Group component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -395,18 +501,38 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "avatar-group/index.ts",
       "isComponent": true,
       "entry": "avatar-group/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "avatars",
+          "type": "AvatarItem[]"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": 5
+        },
+        {
+          "name": "size",
+          "type": "'sm' | 'md' | 'lg'",
+          "default": "md"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "avatarstack",
-      "description": null,
+      "description": "Maximum avatars shown before collapsing into a +N badge.",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -435,18 +561,38 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "avatarstack/index.ts",
       "isComponent": true,
       "entry": "avatarstack/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "srcs",
+          "type": "string[]"
+        },
+        {
+          "name": "max",
+          "type": "any",
+          "default": 5
+        },
+        {
+          "name": "size",
+          "type": "'sm' | 'md' | 'lg'",
+          "default": "md"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "badge",
-      "description": null,
+      "description": "Badge component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -475,7 +621,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -484,12 +631,34 @@
       "mainTs": "badge/index.ts",
       "isComponent": true,
       "entry": "badge/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "href",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "default",
+          "values": [
+            "default",
+            "secondary",
+            "destructive",
+            "outline",
+            "ghost",
+            "link"
+          ]
+        }
+      ],
       "package": "core"
     },
     {
       "name": "Badge",
-      "description": null,
+      "description": "Badge component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -515,12 +684,36 @@
       "mainTs": "Badge/index.ts",
       "isComponent": true,
       "entry": "Badge/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "dot",
+          "values": [
+            "dot",
+            "number",
+            "icon"
+          ]
+        },
+        {
+          "name": "count",
+          "type": "number"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": 99
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "barcode",
-      "description": null,
+      "description": "Barcode component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -547,18 +740,48 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "barcode/index.ts",
       "isComponent": true,
       "entry": "barcode/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "name": "format",
+          "type": "'code128' | 'ean13' | 'upc'",
+          "default": "code128"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "default": 80
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "default": 2
+        },
+        {
+          "name": "displayValue",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "bento-grid",
-      "description": null,
+      "description": "Bento Grid component",
       "category": "composite",
       "tags": [
         "composite",
@@ -586,7 +809,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -595,12 +819,27 @@
       "mainTs": "bento-grid/index.ts",
       "isComponent": true,
       "entry": "bento-grid/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "cols",
+          "type": "string",
+          "default": "3",
+          "values": [
+            "2",
+            "3",
+            "4"
+          ]
+        }
+      ],
       "package": "core"
     },
     {
       "name": "BlobCard",
-      "description": null,
+      "description": "BlobCard component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -626,12 +865,39 @@
       "mainTs": "BlobCard/index.ts",
       "isComponent": true,
       "entry": "BlobCard/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "color",
+          "type": "string",
+          "default": "blue",
+          "values": [
+            "red",
+            "blue",
+            "green",
+            "purple",
+            "pink",
+            "orange",
+            "teal"
+          ]
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "BottomSheet",
-      "description": null,
+      "description": "Whether the bottom sheet is visible",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -657,12 +923,31 @@
       "mainTs": "BottomSheet/index.ts",
       "isComponent": true,
       "entry": "BottomSheet/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "variant",
+          "type": "any",
+          "default": "standard"
+        },
+        {
+          "name": "title",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "box",
-      "description": null,
+      "description": "Box component",
       "category": "layout",
       "tags": [
         "layout",
@@ -689,18 +974,34 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "box/index.ts",
       "isComponent": true,
       "entry": "box/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "as",
+          "type": "keyof HTMLElementTagNameMap",
+          "default": "div"
+        },
+        {
+          "name": "padding",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "breadcrumb",
-      "description": null,
+      "description": "Breadcrumb component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -739,7 +1040,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -748,12 +1050,17 @@
       "mainTs": "breadcrumb/index.ts",
       "isComponent": true,
       "entry": "breadcrumb/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "button",
-      "description": null,
+      "description": "Button component",
       "category": "actions",
       "tags": [
         "actions",
@@ -782,7 +1089,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -790,12 +1098,58 @@
       "mainTs": "button/index.ts",
       "isComponent": true,
       "entry": "button/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "default",
+          "values": [
+            "default",
+            "outline",
+            "secondary",
+            "ghost",
+            "destructive",
+            "link"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "string",
+          "default": "default",
+          "values": [
+            "default",
+            "xs",
+            "sm",
+            "lg",
+            "icon",
+            "icon-xs",
+            "icon-sm",
+            "icon-lg"
+          ]
+        },
+        {
+          "name": "href",
+          "type": "any"
+        },
+        {
+          "name": "type",
+          "type": "any",
+          "default": "button"
+        },
+        {
+          "name": "disabled",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "calendar",
-      "description": null,
+      "description": "Calendar component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -822,18 +1176,48 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "calendar/index.ts",
       "isComponent": true,
       "entry": "calendar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string | null"
+        },
+        {
+          "name": "month",
+          "type": "number"
+        },
+        {
+          "name": "year",
+          "type": "number"
+        },
+        {
+          "name": "min",
+          "type": "string"
+        },
+        {
+          "name": "max",
+          "type": "string"
+        },
+        {
+          "name": "onDayClick",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "camera",
-      "description": null,
+      "description": "Camera component",
       "category": "mobile",
       "tags": [
         "mobile",
@@ -860,18 +1244,38 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "camera/index.ts",
       "isComponent": true,
       "entry": "camera/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "facing",
+          "type": "'user' | 'environment'",
+          "default": "user"
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "default": 640
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onCapture",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "card",
-      "description": null,
+      "description": "Card component",
       "category": "layout",
       "tags": [
         "layout",
@@ -910,18 +1314,24 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "card/index.ts",
       "isComponent": true,
       "entry": "card/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "carousel",
-      "description": null,
+      "description": "Carousel component",
       "category": "composite",
       "tags": [
         "composite",
@@ -948,7 +1358,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -957,12 +1368,37 @@
       "mainTs": "carousel/index.ts",
       "isComponent": true,
       "entry": "carousel/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "autoplay",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "default": 4000
+        },
+        {
+          "name": "showDots",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "showArrows",
+          "type": "boolean",
+          "default": true
+        }
+      ],
       "package": "core"
     },
     {
       "name": "charts",
-      "description": null,
+      "description": "Charts component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -993,16 +1429,35 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "isComponent": true,
-      "props": [],
+      "props": [
+        {
+          "name": "data",
+          "type": "any"
+        },
+        {
+          "name": "options",
+          "type": "any"
+        },
+        {
+          "name": "height",
+          "type": "any",
+          "default": 300
+        },
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "checkbox",
-      "description": null,
+      "description": "Checkbox component",
       "category": "forms",
       "tags": [
         "forms",
@@ -1029,7 +1484,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -1037,12 +1493,37 @@
       "mainTs": "checkbox/index.ts",
       "isComponent": true,
       "entry": "checkbox/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "checked",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "indeterminate",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "disabled",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "required",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "Chip",
-      "description": null,
+      "description": "Chip component",
       "category": "forms",
       "tags": [
         "forms",
@@ -1068,12 +1549,39 @@
       "mainTs": "Chip/index.ts",
       "isComponent": true,
       "entry": "Chip/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "'assist' | 'filter' | 'input' | 'suggestion'",
+          "default": "assist"
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "icon",
+          "type": "Snippet"
+        },
+        {
+          "name": "trailingIcon",
+          "type": "Snippet"
+        },
+        {
+          "name": "onclick",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "CircleAvatar",
-      "description": null,
+      "description": "CircleAvatar component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -1099,12 +1607,46 @@
       "mainTs": "CircleAvatar/index.ts",
       "isComponent": true,
       "entry": "CircleAvatar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "src",
+          "type": "string"
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "initials",
+          "type": "string"
+        },
+        {
+          "name": "ringColor",
+          "type": "'red' | 'blue' | 'green' | 'purple' | 'pink' | 'orange' | 'teal'",
+          "default": "blue"
+        },
+        {
+          "name": "size",
+          "type": "'sm' | 'md' | 'lg' | 'xl'",
+          "default": "md"
+        },
+        {
+          "name": "ringWidth",
+          "type": "string",
+          "default": "4px"
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "default": ""
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "CircleGrid",
-      "description": null,
+      "description": "CircleGrid component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -1130,12 +1672,32 @@
       "mainTs": "CircleGrid/index.ts",
       "isComponent": true,
       "entry": "CircleGrid/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "default": 6
+        },
+        {
+          "name": "color",
+          "type": "Color",
+          "default": "blue"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "default": "md"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "clipboard",
-      "description": null,
+      "description": "Clipboard component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -1164,18 +1726,42 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "clipboard/index.ts",
       "isComponent": true,
       "entry": "clipboard/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "text",
+          "type": "string"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "Copy"
+        },
+        {
+          "name": "copiedLabel",
+          "type": "string",
+          "default": "Copied!"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onCopied",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "code-block",
-      "description": null,
+      "description": "Code Block component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -1203,18 +1789,39 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "code-block/index.ts",
       "isComponent": true,
       "entry": "code-block/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "code",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "default": "javascript"
+        },
+        {
+          "name": "showLineNumbers",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "collapsible",
-      "description": null,
+      "description": "Collapsible component",
       "category": "composite",
       "tags": [
         "composite",
@@ -1245,19 +1852,26 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "main": "collapsible/collapsible.svelte",
       "mainTs": "collapsible/index.ts",
       "isComponent": true,
       "entry": "collapsible/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "color-picker",
-      "description": null,
+      "description": "Color Picker component",
       "category": "forms",
       "tags": [
         "forms",
@@ -1285,18 +1899,34 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "color-picker/index.ts",
       "isComponent": true,
       "entry": "color-picker/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": "#3b82f6"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "combobox",
-      "description": null,
+      "description": "Combobox component",
       "category": "forms",
       "tags": [
         "forms",
@@ -1323,7 +1953,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -1331,12 +1962,45 @@
       "mainTs": "combobox/index.ts",
       "isComponent": true,
       "entry": "combobox/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "options",
+          "type": "any"
+        },
+        {
+          "name": "value",
+          "type": "any",
+          "default": ""
+        },
+        {
+          "name": "placeholder",
+          "type": "any",
+          "default": "Select..."
+        },
+        {
+          "name": "searchPlaceholder",
+          "type": "any",
+          "default": "Search..."
+        },
+        {
+          "name": "disabled",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "onChange",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "command",
-      "description": null,
+      "description": "Command component",
       "category": "composite",
       "tags": [
         "composite",
@@ -1383,7 +2047,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "dialog",
@@ -1394,12 +2059,26 @@
       "mainTs": "command/index.ts",
       "isComponent": true,
       "entry": "command/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "api",
+          "type": "any"
+        },
+        {
+          "name": "value",
+          "type": "any",
+          "default": ""
+        },
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "comment",
-      "description": null,
+      "description": "Comment component",
       "category": "composite",
       "tags": [
         "composite",
@@ -1428,18 +2107,53 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "comment/index.ts",
       "isComponent": true,
       "entry": "comment/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "comments",
+          "type": "CommentItem[]"
+        },
+        {
+          "name": "onAddComment",
+          "type": "any"
+        },
+        {
+          "name": "onLike",
+          "type": "any"
+        },
+        {
+          "name": "onDelete",
+          "type": "any"
+        },
+        {
+          "name": "currentUser",
+          "type": "string"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "Add a comment…"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "commentClass",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "context-menu",
-      "description": null,
+      "description": "Context Menu component",
       "category": "composite",
       "tags": [
         "composite",
@@ -1497,7 +2211,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -1506,12 +2221,18 @@
       "mainTs": "context-menu/index.ts",
       "isComponent": true,
       "entry": "context-menu/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "copy-to-clipboard",
-      "description": null,
+      "description": "Copy To Clipboard component",
       "category": "utility",
       "tags": [
         "utility",
@@ -1540,18 +2261,43 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "copy-to-clipboard/index.ts",
       "isComponent": true,
       "entry": "copy-to-clipboard/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "variant",
+          "type": "'default' | 'outline' | 'ghost'",
+          "default": "ghost"
+        },
+        {
+          "name": "size",
+          "type": "'sm' | 'md'",
+          "default": "sm"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onCopy",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "CrossBadge",
-      "description": null,
+      "description": "CrossBadge component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -1577,12 +2323,31 @@
       "mainTs": "CrossBadge/index.ts",
       "isComponent": true,
       "entry": "CrossBadge/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "Color",
+          "default": "red"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "default": "md"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "cta-section",
-      "description": null,
+      "description": "Cta Section component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -1610,7 +2375,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -1619,12 +2385,27 @@
       "mainTs": "cta-section/index.ts",
       "isComponent": true,
       "entry": "cta-section/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "primary",
+          "values": [
+            "primary",
+            "outline",
+            "muted"
+          ]
+        }
+      ],
       "package": "core"
     },
     {
       "name": "data-table",
-      "description": null,
+      "description": "Number of rows per page. @default 10",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -1652,7 +2433,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -1660,12 +2442,36 @@
       "mainTs": "data-table/index.ts",
       "isComponent": true,
       "entry": "data-table/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "data",
+          "type": "any"
+        },
+        {
+          "name": "columns",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "any",
+          "default": ""
+        },
+        {
+          "name": "pageSize",
+          "type": "any",
+          "default": 10
+        },
+        {
+          "name": "selectable",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "date-picker",
-      "description": null,
+      "description": "Convert ISO date string → DateValue | undefined",
       "category": "forms",
       "tags": [
         "forms",
@@ -1693,7 +2499,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "i18n",
@@ -1702,12 +2509,43 @@
       "mainTs": "date-picker/index.ts",
       "isComponent": true,
       "entry": "date-picker/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "placeholder",
+          "type": "string"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "min",
+          "type": "string"
+        },
+        {
+          "name": "max",
+          "type": "string"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onValueChange",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "datetime-picker",
-      "description": null,
+      "description": "Datetime Picker component",
       "category": "forms",
       "tags": [
         "forms",
@@ -1735,18 +2573,43 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "datetime-picker/index.ts",
       "isComponent": true,
       "entry": "datetime-picker/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "type",
+          "type": "'date' | 'time' | 'datetime-local'",
+          "default": "datetime-local"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onChange",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "details",
-      "description": null,
+      "description": "Details component",
       "category": "layout",
       "tags": [
         "layout",
@@ -1775,18 +2638,29 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "details/index.ts",
       "isComponent": true,
       "entry": "details/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "dialog",
-      "description": null,
+      "description": "Dialog component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -1831,7 +2705,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "button",
@@ -1841,12 +2716,18 @@
       "mainTs": "dialog/index.ts",
       "isComponent": true,
       "entry": "dialog/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "DiamondBadge",
-      "description": null,
+      "description": "DiamondBadge component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -1872,12 +2753,31 @@
       "mainTs": "DiamondBadge/index.ts",
       "isComponent": true,
       "entry": "DiamondBadge/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "color",
+          "type": "Color",
+          "default": "red"
+        },
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "default": "md"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "divider",
-      "description": null,
+      "description": "Divider component",
       "category": "layout",
       "tags": [
         "layout",
@@ -1904,18 +2804,29 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "divider/index.ts",
       "isComponent": true,
       "entry": "divider/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "drawer",
-      "description": null,
+      "description": "Drawer component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -1958,7 +2869,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -1966,12 +2878,22 @@
       "mainTs": "drawer/index.ts",
       "isComponent": true,
       "entry": "drawer/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "type",
+          "type": "any",
+          "default": "button"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "dropdown-menu",
-      "description": null,
+      "description": "Dropdown Menu component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -2031,7 +2953,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -2040,12 +2963,18 @@
       "mainTs": "dropdown-menu/index.ts",
       "isComponent": true,
       "entry": "dropdown-menu/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "editable-label",
-      "description": null,
+      "description": "Element used to render the label while not editing.",
       "category": "forms",
       "tags": [
         "forms",
@@ -2075,18 +3004,46 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "editable-label/index.ts",
       "isComponent": true,
       "entry": "editable-label/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "Click to edit"
+        },
+        {
+          "name": "as",
+          "type": "any",
+          "default": "span"
+        },
+        {
+          "name": "onEdit",
+          "type": "any"
+        },
+        {
+          "name": "maxLength",
+          "type": "number"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "EllipseBadge",
-      "description": null,
+      "description": "EllipseBadge component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -2112,12 +3069,31 @@
       "mainTs": "EllipseBadge/index.ts",
       "isComponent": true,
       "entry": "EllipseBadge/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "Color",
+          "default": "blue"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "default": "md"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "emoji",
-      "description": null,
+      "description": "Emoji component",
       "category": "utility",
       "tags": [
         "utility",
@@ -2142,16 +3118,26 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "isComponent": true,
-      "props": [],
+      "props": [
+        {
+          "name": "onSelect",
+          "type": "any"
+        },
+        {
+          "name": "onClose",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "empty-state",
-      "description": null,
+      "description": "Empty State component",
       "category": "composite",
       "tags": [
         "composite",
@@ -2179,18 +3165,42 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "empty-state/index.ts",
       "isComponent": true,
       "entry": "empty-state/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "icon",
+          "type": "any"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": "No data"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "action",
+          "type": "Snippet"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "FAB",
-      "description": null,
+      "description": "FAB component",
       "category": "actions",
       "tags": [
         "actions",
@@ -2216,12 +3226,48 @@
       "mainTs": "FAB/index.ts",
       "isComponent": true,
       "entry": "FAB/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "elevated",
+          "values": [
+            "elevated",
+            "surface",
+            "tertiary"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "string",
+          "default": "large",
+          "values": [
+            "small",
+            "large"
+          ]
+        },
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "icon",
+          "type": "Snippet"
+        },
+        {
+          "name": "onclick",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "fabmenu",
-      "description": null,
+      "description": "Accessible name for the speed-dial group.",
       "category": "mobile",
       "tags": [
         "mobile",
@@ -2248,18 +3294,38 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "fabmenu/index.ts",
       "isComponent": true,
       "entry": "fabmenu/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "items",
+          "type": "any"
+        },
+        {
+          "name": "position",
+          "type": "'bottom-right' | 'bottom-left'",
+          "default": "bottom-right"
+        },
+        {
+          "name": "label",
+          "type": "any",
+          "default": "Actions"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "feature-grid",
-      "description": null,
+      "description": "Feature Grid component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -2287,7 +3353,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -2296,12 +3363,27 @@
       "mainTs": "feature-grid/index.ts",
       "isComponent": true,
       "entry": "feature-grid/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "cols",
+          "type": "string",
+          "default": "3",
+          "values": [
+            "2",
+            "3",
+            "4"
+          ]
+        }
+      ],
       "package": "core"
     },
     {
       "name": "figure",
-      "description": null,
+      "description": "Figure component",
       "category": "layout",
       "tags": [
         "layout",
@@ -2330,18 +3412,24 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "figure/index.ts",
       "isComponent": true,
       "entry": "figure/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "file-uploader",
-      "description": null,
+      "description": "File Uploader component",
       "category": "composite",
       "tags": [
         "composite",
@@ -2369,18 +3457,56 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "file-uploader/index.ts",
       "isComponent": true,
       "entry": "file-uploader/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "accept",
+          "type": "string",
+          "default": "*"
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "maxFiles",
+          "type": "number",
+          "default": 10
+        },
+        {
+          "name": "maxSize",
+          "type": "number"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onUpload",
+          "type": "any"
+        },
+        {
+          "name": "onFilesChange",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "flex",
-      "description": null,
+      "description": "Flex component",
       "category": "layout",
       "tags": [
         "layout",
@@ -2409,18 +3535,49 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "flex/index.ts",
       "isComponent": true,
       "entry": "flex/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "direction",
+          "type": "'row' | 'col'",
+          "default": "row"
+        },
+        {
+          "name": "align",
+          "type": "'start' | 'center' | 'end' | 'stretch' | 'baseline'",
+          "default": "stretch"
+        },
+        {
+          "name": "justify",
+          "type": "'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'",
+          "default": "start"
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "footer",
-      "description": null,
+      "description": "Footer component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -2447,7 +3604,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -2456,12 +3614,17 @@
       "mainTs": "footer/index.ts",
       "isComponent": true,
       "entry": "footer/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "form",
-      "description": null,
+      "description": "Form component",
       "category": "forms",
       "tags": [
         "forms",
@@ -2502,7 +3665,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "button",
@@ -2517,7 +3681,7 @@
     },
     {
       "name": "gallery",
-      "description": null,
+      "description": "Gallery component",
       "category": "composite",
       "tags": [
         "composite",
@@ -2544,18 +3708,43 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "gallery/index.ts",
       "isComponent": true,
       "entry": "gallery/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "accept",
+          "type": "string",
+          "default": "image/*"
+        },
+        {
+          "name": "maxFiles",
+          "type": "number",
+          "default": 10
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onSelect",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "grid",
-      "description": null,
+      "description": "Grid component",
       "category": "layout",
       "tags": [
         "layout",
@@ -2584,18 +3773,46 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "grid/index.ts",
       "isComponent": true,
       "entry": "grid/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "cols",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "default": 1
+        },
+        {
+          "name": "sm",
+          "type": "2 | 3 | 4 | 5 | 6"
+        },
+        {
+          "name": "md",
+          "type": "2 | 3 | 4 | 5 | 6"
+        },
+        {
+          "name": "lg",
+          "type": "2 | 3 | 4 | 5 | 6"
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "default": 4
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "gyroscope",
-      "description": null,
+      "description": "Gyroscope component",
       "category": "mobile",
       "tags": [
         "mobile",
@@ -2626,18 +3843,38 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "gyroscope/index.ts",
       "isComponent": true,
       "entry": "gyroscope/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "sensitivity",
+          "type": "number",
+          "default": 1
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onReading",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "heatmap",
-      "description": null,
+      "description": "CSS color stops used to interpolate cell intensity (low → high).",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -2666,18 +3903,50 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "heatmap/index.ts",
       "isComponent": true,
       "entry": "heatmap/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "data",
+          "type": "HeatmapCell[]"
+        },
+        {
+          "name": "colorScale",
+          "type": "any"
+        },
+        {
+          "name": "xLabels",
+          "type": "any"
+        },
+        {
+          "name": "yLabels",
+          "type": "any"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "cellSize",
+          "type": "string",
+          "default": "h-8 w-8"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "hero",
-      "description": null,
+      "description": "Hero component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -2704,7 +3973,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -2713,12 +3983,37 @@
       "mainTs": "hero/index.ts",
       "isComponent": true,
       "entry": "hero/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "centered",
+          "values": [
+            "centered",
+            "split",
+            "fullwidth"
+          ]
+        },
+        {
+          "name": "size",
+          "type": "string",
+          "default": "default",
+          "values": [
+            "sm",
+            "default",
+            "lg"
+          ]
+        }
+      ],
       "package": "core"
     },
     {
       "name": "HexagonGrid",
-      "description": null,
+      "description": "HexagonGrid component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -2744,12 +4039,32 @@
       "mainTs": "HexagonGrid/index.ts",
       "isComponent": true,
       "entry": "HexagonGrid/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "columns",
+          "type": "string",
+          "default": 3,
+          "values": [
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        {
+          "name": "gap",
+          "type": "string",
+          "default": "1rem"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "hover-card",
-      "description": null,
+      "description": "Hover Card component",
       "category": "composite",
       "tags": [
         "composite",
@@ -2783,7 +4098,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -2792,12 +4108,18 @@
       "mainTs": "hover-card/index.ts",
       "isComponent": true,
       "entry": "hover-card/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "infinite-scroll",
-      "description": null,
+      "description": "Infinite Scroll component",
       "category": "mobile",
       "tags": [
         "mobile",
@@ -2825,18 +4147,52 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "infinite-scroll/index.ts",
       "isComponent": true,
       "entry": "infinite-scroll/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "hasMore",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "error",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "onLoadMore",
+          "type": "any"
+        },
+        {
+          "name": "onRetry",
+          "type": "any"
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "default": 200
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "input",
-      "description": null,
+      "description": "Input component",
       "category": "forms",
       "tags": [
         "forms",
@@ -2865,7 +4221,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -2874,12 +4231,34 @@
       "mainTs": "input/index.ts",
       "isComponent": true,
       "entry": "input/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "any"
+        },
+        {
+          "name": "type",
+          "type": "any"
+        },
+        {
+          "name": "files",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "\"data-slot\"",
+          "type": "any",
+          "default": "input"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "input-group",
-      "description": null,
+      "description": "Input Group component",
       "category": "forms",
       "tags": [
         "forms",
@@ -2917,7 +4296,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "button",
@@ -2929,12 +4309,17 @@
       "mainTs": "input-group/index.ts",
       "isComponent": true,
       "entry": "input-group/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "kanban",
-      "description": null,
+      "description": "Kanban component",
       "category": "composite",
       "tags": [
         "composite",
@@ -2965,18 +4350,32 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "kanban/index.ts",
       "isComponent": true,
       "entry": "kanban/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "columns",
+          "type": "KanbanColumn[]"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onCardMove",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "label",
-      "description": null,
+      "description": "Label component",
       "category": "forms",
       "tags": [
         "forms",
@@ -3003,7 +4402,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -3012,12 +4412,17 @@
       "mainTs": "label/index.ts",
       "isComponent": true,
       "entry": "label/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "listview",
-      "description": null,
+      "description": "Icon or content rendered on the left, before the text.",
       "category": "mobile",
       "tags": [
         "mobile",
@@ -3046,18 +4451,54 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "listview/index.ts",
       "isComponent": true,
       "entry": "listview/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "leading",
+          "type": "any"
+        },
+        {
+          "name": "trailing",
+          "type": "any"
+        },
+        {
+          "name": "chevron",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "onclick",
+          "type": "any"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "live-badge",
-      "description": null,
+      "description": "Optional viewer count shown next to the badge.",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -3087,18 +4528,38 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "live-badge/index.ts",
       "isComponent": true,
       "entry": "live-badge/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "viewers",
+          "type": "any"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "LIVE"
+        },
+        {
+          "name": "pulsing",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "logo-cloud",
-      "description": null,
+      "description": "Logo Cloud component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -3126,18 +4587,28 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "logo-cloud/index.ts",
       "isComponent": true,
       "entry": "logo-cloud/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "logos",
+          "type": "LogoItem[]"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "main",
-      "description": null,
+      "description": "Main component",
       "category": "utility",
       "tags": [
         "utility",
@@ -3164,18 +4635,24 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "main/index.ts",
       "isComponent": true,
       "entry": "main/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "markdown-renderer",
-      "description": null,
+      "description": "Markdown Renderer component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -3203,18 +4680,29 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "markdown-renderer/index.ts",
       "isComponent": true,
       "entry": "markdown-renderer/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "content",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "mention",
-      "description": null,
+      "description": "Returns the mention query after the caret ('' for a bare '@', undefined when no mention).",
       "category": "composite",
       "tags": [
         "composite",
@@ -3241,18 +4729,42 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "mention/index.ts",
       "isComponent": true,
       "entry": "mention/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "users",
+          "type": "User[]"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "Type @ to mention someone…"
+        },
+        {
+          "name": "onMention",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "menubar",
-      "description": null,
+      "description": "Menubar component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -3293,7 +4805,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -3301,12 +4814,17 @@
       "mainTs": "menubar/index.ts",
       "isComponent": true,
       "entry": "menubar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "mobile-toast",
-      "description": null,
+      "description": "Mobile Toast component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -3336,18 +4854,60 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "mobile-toast/index.ts",
       "isComponent": true,
       "entry": "mobile-toast/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "message",
+          "type": "string"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "variant",
+          "type": "'default' | 'success' | 'error' | 'warning'",
+          "default": "default"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": 4000
+        },
+        {
+          "name": "position",
+          "type": "'bottom' | 'top'",
+          "default": "bottom"
+        },
+        {
+          "name": "action",
+          "type": "string"
+        },
+        {
+          "name": "onAction",
+          "type": "any"
+        },
+        {
+          "name": "ondismiss",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "navbar",
-      "description": null,
+      "description": "Navbar component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -3374,7 +4934,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -3383,12 +4944,25 @@
       "mainTs": "navbar/index.ts",
       "isComponent": true,
       "entry": "navbar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "brand",
+          "type": "import('svelte').Snippet"
+        },
+        {
+          "name": "links",
+          "type": "import('svelte').Snippet"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "navigation-menu",
-      "description": null,
+      "description": "Navigation Menu component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -3429,7 +5003,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -3438,12 +5013,22 @@
       "mainTs": "navigation-menu/index.ts",
       "isComponent": true,
       "entry": "navigation-menu/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "viewport",
+          "type": "any",
+          "default": true
+        }
+      ],
       "package": "core"
     },
     {
       "name": "NavigationBar",
-      "description": null,
+      "description": "NavigationBar component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -3471,12 +5056,21 @@
       "mainTs": "NavigationBar/index.ts",
       "isComponent": true,
       "entry": "NavigationBar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "NavigationRail",
-      "description": null,
+      "description": "NavigationRail component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -3502,12 +5096,25 @@
       "mainTs": "NavigationRail/index.ts",
       "isComponent": true,
       "entry": "NavigationRail/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "items",
+          "type": "NavigationItem[]"
+        },
+        {
+          "name": "fab",
+          "type": "Snippet"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "notification",
-      "description": null,
+      "description": "Notification component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -3534,18 +5141,41 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "notification/index.ts",
       "isComponent": true,
       "entry": "notification/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "body",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "icon",
+          "type": "string"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onClick",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "number-input",
-      "description": null,
+      "description": "Number Input component",
       "category": "forms",
       "tags": [
         "forms",
@@ -3573,7 +5203,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -3581,12 +5212,62 @@
       "mainTs": "number-input/index.ts",
       "isComponent": true,
       "entry": "number-input/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "any",
+          "default": 0
+        },
+        {
+          "name": "min",
+          "type": "any"
+        },
+        {
+          "name": "max",
+          "type": "any"
+        },
+        {
+          "name": "step",
+          "type": "any",
+          "default": 1
+        },
+        {
+          "name": "size",
+          "type": "string",
+          "default": "default",
+          "values": [
+            "sm",
+            "default",
+            "lg"
+          ]
+        },
+        {
+          "name": "unit",
+          "type": "any"
+        },
+        {
+          "name": "disabled",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "placeholder",
+          "type": "any"
+        },
+        {
+          "name": "onchange",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "OctagonCard",
-      "description": null,
+      "description": "OctagonCard component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -3612,12 +5293,30 @@
       "mainTs": "OctagonCard/index.ts",
       "isComponent": true,
       "entry": "OctagonCard/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "Color",
+          "default": "blue"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "otp-input",
-      "description": null,
+      "description": "Otp Input component",
       "category": "forms",
       "tags": [
         "forms",
@@ -3645,18 +5344,43 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "otp-input/index.ts",
       "isComponent": true,
       "entry": "otp-input/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "length",
+          "type": "number",
+          "default": 6
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onComplete",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "pagination",
-      "description": null,
+      "description": "Pagination component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -3699,7 +5423,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "button",
@@ -3709,12 +5434,37 @@
       "mainTs": "pagination/index.ts",
       "isComponent": true,
       "entry": "pagination/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "count",
+          "type": "any",
+          "default": 0
+        },
+        {
+          "name": "perPage",
+          "type": "any",
+          "default": 10
+        },
+        {
+          "name": "page",
+          "type": "any",
+          "default": 1
+        },
+        {
+          "name": "siblingCount",
+          "type": "any",
+          "default": 1
+        }
+      ],
       "package": "core"
     },
     {
       "name": "ParallelogramCard",
-      "description": null,
+      "description": "ParallelogramCard component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -3740,12 +5490,26 @@
       "mainTs": "ParallelogramCard/index.ts",
       "isComponent": true,
       "entry": "ParallelogramCard/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "Color",
+          "default": "blue"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "password-input",
-      "description": null,
+      "description": "Password Input component",
       "category": "forms",
       "tags": [
         "forms",
@@ -3773,18 +5537,44 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "password-input/index.ts",
       "isComponent": true,
       "entry": "password-input/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "Enter password..."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "strength",
+          "type": "boolean",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "PentagonStat",
-      "description": null,
+      "description": "PentagonStat component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -3810,12 +5600,35 @@
       "mainTs": "PentagonStat/index.ts",
       "isComponent": true,
       "entry": "PentagonStat/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "Color",
+          "default": "blue"
+        },
+        {
+          "name": "size",
+          "type": "Size",
+          "default": "md"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "popover",
-      "description": null,
+      "description": "Popover component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -3856,7 +5669,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -3865,12 +5679,18 @@
       "mainTs": "popover/index.ts",
       "isComponent": true,
       "entry": "popover/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "pricing-card",
-      "description": null,
+      "description": "Pricing Card component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -3898,7 +5718,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -3907,12 +5728,26 @@
       "mainTs": "pricing-card/index.ts",
       "isComponent": true,
       "entry": "pricing-card/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "default",
+          "values": [
+            "default",
+            "featured"
+          ]
+        }
+      ],
       "package": "core"
     },
     {
       "name": "pricing-table",
-      "description": null,
+      "description": "Pricing Table component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -3942,7 +5777,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -3950,12 +5786,46 @@
       "mainTs": "pricing-table/index.ts",
       "isComponent": true,
       "entry": "pricing-table/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "price",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "features",
+          "type": "string[]"
+        },
+        {
+          "name": "highlighted",
+          "type": "string",
+          "default": false,
+          "values": [
+            "true",
+            "false"
+          ]
+        },
+        {
+          "name": "cta",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "progress",
-      "description": null,
+      "description": "Progress component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -3982,7 +5852,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -3991,12 +5862,26 @@
       "mainTs": "progress/index.ts",
       "isComponent": true,
       "entry": "progress/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "max",
+          "type": "any",
+          "default": 100
+        },
+        {
+          "name": "value",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "progress-steps",
-      "description": null,
+      "description": "Currently active (0-based) step index.",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -4028,18 +5913,36 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "progress-steps/index.ts",
       "isComponent": true,
       "entry": "progress-steps/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "steps",
+          "type": "Step[]"
+        },
+        {
+          "name": "current",
+          "type": "any"
+        },
+        {
+          "name": "completed",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "ProgressIndicator",
-      "description": null,
+      "description": "ProgressIndicator component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -4065,12 +5968,26 @@
       "mainTs": "ProgressIndicator/index.ts",
       "isComponent": true,
       "entry": "ProgressIndicator/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "number"
+        },
+        {
+          "name": "variant",
+          "type": "'linear' | 'circular'",
+          "default": "linear"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "pulltorefresh",
-      "description": null,
+      "description": "Pulltorefresh component",
       "category": "mobile",
       "tags": [
         "mobile",
@@ -4097,18 +6014,33 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "pulltorefresh/index.ts",
       "isComponent": true,
       "entry": "pulltorefresh/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "onRefresh",
+          "type": "any"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "qr-code",
-      "description": null,
+      "description": "Qr Code component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -4136,18 +6068,52 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "qr-code/index.ts",
       "isComponent": true,
       "entry": "qr-code/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "default": 200
+        },
+        {
+          "name": "fgColor",
+          "type": "string",
+          "default": "#000000"
+        },
+        {
+          "name": "bgColor",
+          "type": "string",
+          "default": "#ffffff"
+        },
+        {
+          "name": "level",
+          "type": "Level",
+          "default": "M"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onReady",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "Radio",
-      "description": null,
+      "description": "Radio component",
       "category": "forms",
       "tags": [
         "forms",
@@ -4175,12 +6141,36 @@
       "mainTs": "Radio/index.ts",
       "isComponent": true,
       "entry": "Radio/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "checked",
+          "type": "string",
+          "default": false,
+          "values": [
+            "true",
+            "false"
+          ]
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "radio-group",
-      "description": null,
+      "description": "Radio Group component",
       "category": "forms",
       "tags": [
         "forms",
@@ -4210,7 +6200,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -4219,12 +6210,22 @@
       "mainTs": "radio-group/index.ts",
       "isComponent": true,
       "entry": "radio-group/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "value",
+          "type": "any",
+          "default": ""
+        }
+      ],
       "package": "core"
     },
     {
       "name": "rating",
-      "description": null,
+      "description": "Rating component",
       "category": "forms",
       "tags": [
         "forms",
@@ -4251,18 +6252,53 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "rating/index.ts",
       "isComponent": true,
       "entry": "rating/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": 5
+        },
+        {
+          "name": "size",
+          "type": "'sm' | 'md' | 'lg'",
+          "default": "md"
+        },
+        {
+          "name": "readonly",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onchange",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "reaction-bar",
-      "description": null,
+      "description": "Currently selected reaction id.",
       "category": "composite",
       "tags": [
         "composite",
@@ -4292,18 +6328,41 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "reaction-bar/index.ts",
       "isComponent": true,
       "entry": "reaction-bar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "reactions",
+          "type": "Reaction[]"
+        },
+        {
+          "name": "onReact",
+          "type": "any"
+        },
+        {
+          "name": "selected",
+          "type": "any"
+        },
+        {
+          "name": "allowDeselect",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "resizable",
-      "description": null,
+      "description": "Resizable component",
       "category": "layout",
       "tags": [
         "layout",
@@ -4334,7 +6393,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -4342,12 +6402,30 @@
       "mainTs": "resizable/index.ts",
       "isComponent": true,
       "entry": "resizable/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onDragStart",
+          "type": "any"
+        },
+        {
+          "name": "onDragEnd",
+          "type": "any"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "Ripple",
-      "description": null,
+      "description": "Ripple component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -4373,12 +6451,22 @@
       "mainTs": "Ripple/index.ts",
       "isComponent": true,
       "entry": "Ripple/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "color",
+          "type": "any",
+          "default": "currentColor"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "scroll-area",
-      "description": null,
+      "description": "Scroll Area component",
       "category": "layout",
       "tags": [
         "layout",
@@ -4408,7 +6496,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -4417,12 +6506,36 @@
       "mainTs": "scroll-area/index.ts",
       "isComponent": true,
       "entry": "scroll-area/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "viewportRef",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "orientation",
+          "type": "any",
+          "default": "vertical"
+        },
+        {
+          "name": "scrollbarXClasses",
+          "type": "any",
+          "default": ""
+        },
+        {
+          "name": "scrollbarYClasses",
+          "type": "any",
+          "default": ""
+        }
+      ],
       "package": "core"
     },
     {
       "name": "search-select",
-      "description": null,
+      "description": "Search Select component",
       "category": "forms",
       "tags": [
         "forms",
@@ -4450,7 +6563,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -4458,12 +6572,68 @@
       "mainTs": "search-select/index.ts",
       "isComponent": true,
       "entry": "search-select/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "options",
+          "type": "any"
+        },
+        {
+          "name": "value",
+          "type": "any"
+        },
+        {
+          "name": "multiple",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "placeholder",
+          "type": "any",
+          "default": "Select..."
+        },
+        {
+          "name": "searchPlaceholder",
+          "type": "any",
+          "default": "Search..."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "any",
+          "default": "No results found."
+        },
+        {
+          "name": "loading",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "remote",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "disabled",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "onChange",
+          "type": "any"
+        },
+        {
+          "name": "onSearch",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "SearchBar",
-      "description": null,
+      "description": "SearchBar component",
       "category": "forms",
       "tags": [
         "forms",
@@ -4489,12 +6659,35 @@
       "mainTs": "SearchBar/index.ts",
       "isComponent": true,
       "entry": "SearchBar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "Search"
+        },
+        {
+          "name": "leadingIcon",
+          "type": "Snippet"
+        },
+        {
+          "name": "trailingIcon",
+          "type": "Snippet"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "section",
-      "description": null,
+      "description": "Section component",
       "category": "layout",
       "tags": [
         "layout",
@@ -4521,18 +6714,28 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "section/index.ts",
       "isComponent": true,
       "entry": "section/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "'aria-labelledby'",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "section-header",
-      "description": null,
+      "description": "Section Header component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -4560,18 +6763,38 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "section-header/index.ts",
       "isComponent": true,
       "entry": "section-header/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "title",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "action",
+          "type": "Snippet"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "SegmentedButton",
-      "description": null,
+      "description": "SegmentedButton component",
       "category": "forms",
       "tags": [
         "forms",
@@ -4599,12 +6822,26 @@
       "mainTs": "SegmentedButton/index.ts",
       "isComponent": true,
       "entry": "SegmentedButton/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string | string[]"
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "segmentedcontrol",
-      "description": null,
+      "description": "Segmentedcontrol component",
       "category": "forms",
       "tags": [
         "forms",
@@ -4633,18 +6870,32 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "segmentedcontrol/index.ts",
       "isComponent": true,
       "entry": "segmentedcontrol/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string | number"
+        },
+        {
+          "name": "options",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "select",
-      "description": null,
+      "description": "Select component",
       "category": "forms",
       "tags": [
         "forms",
@@ -4691,7 +6942,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "separator",
@@ -4701,12 +6953,22 @@
       "mainTs": "select/index.ts",
       "isComponent": true,
       "entry": "select/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "value",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "separator",
-      "description": null,
+      "description": "Separator component",
       "category": "layout",
       "tags": [
         "layout",
@@ -4733,7 +6995,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -4742,12 +7005,22 @@
       "mainTs": "separator/index.ts",
       "isComponent": true,
       "entry": "separator/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "\"data-slot\"",
+          "type": "any",
+          "default": "separator"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "sheet",
-      "description": null,
+      "description": "Sheet component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -4792,7 +7065,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "button",
@@ -4802,12 +7076,18 @@
       "mainTs": "sheet/index.ts",
       "isComponent": true,
       "entry": "sheet/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "sidebar",
-      "description": null,
+      "description": "Sidebar component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -4858,7 +7138,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -4866,12 +7147,17 @@
       "mainTs": "sidebar/index.ts",
       "isComponent": true,
       "entry": "sidebar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "signature-pad",
-      "description": null,
+      "description": "Signature Pad component",
       "category": "composite",
       "tags": [
         "composite",
@@ -4899,18 +7185,53 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "signature-pad/index.ts",
       "isComponent": true,
       "entry": "signature-pad/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "width",
+          "type": "number",
+          "default": 400
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "default": 200
+        },
+        {
+          "name": "lineWidth",
+          "type": "number",
+          "default": 2
+        },
+        {
+          "name": "lineColor",
+          "type": "string",
+          "default": "#000000"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onSign",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "skeleton",
-      "description": null,
+      "description": "Skeleton component",
       "category": "utility",
       "tags": [
         "utility",
@@ -4937,7 +7258,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -4946,12 +7268,17 @@
       "mainTs": "skeleton/index.ts",
       "isComponent": true,
       "entry": "skeleton/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "slidemenu",
-      "description": null,
+      "description": "Which edge the drawer slides in from.",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -4978,18 +7305,46 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "slidemenu/index.ts",
       "isComponent": true,
       "entry": "slidemenu/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean"
+        },
+        {
+          "name": "side",
+          "type": "any",
+          "default": "left"
+        },
+        {
+          "name": "overlay",
+          "type": "any",
+          "default": true
+        },
+        {
+          "name": "title",
+          "type": "any"
+        },
+        {
+          "name": "onclose",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "slider",
-      "description": null,
+      "description": "Show numeric value labels above each thumb",
       "category": "forms",
       "tags": [
         "forms",
@@ -5016,7 +7371,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -5025,12 +7381,60 @@
       "mainTs": "slider/index.ts",
       "isComponent": true,
       "entry": "slider/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "any"
+        },
+        {
+          "name": "min",
+          "type": "any",
+          "default": 0
+        },
+        {
+          "name": "max",
+          "type": "any",
+          "default": 100
+        },
+        {
+          "name": "step",
+          "type": "any",
+          "default": 1
+        },
+        {
+          "name": "disabled",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "orientation",
+          "type": "any",
+          "default": "horizontal"
+        },
+        {
+          "name": "showLabels",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "labelPosition",
+          "type": "any",
+          "default": "top"
+        },
+        {
+          "name": "labelFormatter",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "Snackbar",
-      "description": null,
+      "description": "Snackbar component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -5056,12 +7460,39 @@
       "mainTs": "Snackbar/index.ts",
       "isComponent": true,
       "entry": "Snackbar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "message",
+          "type": "any"
+        },
+        {
+          "name": "action",
+          "type": "any"
+        },
+        {
+          "name": "onaction",
+          "type": "any"
+        },
+        {
+          "name": "ondismiss",
+          "type": "any"
+        },
+        {
+          "name": "duration",
+          "type": "any",
+          "default": 5000
+        },
+        {
+          "name": "show",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "split-view",
-      "description": null,
+      "description": "Split View component",
       "category": "composite",
       "tags": [
         "composite",
@@ -5089,18 +7520,52 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "split-view/index.ts",
       "isComponent": true,
       "entry": "split-view/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "direction",
+          "type": "Direction",
+          "default": "horizontal"
+        },
+        {
+          "name": "defaultSize",
+          "type": "number",
+          "default": 50
+        },
+        {
+          "name": "minSize",
+          "type": "number",
+          "default": 20
+        },
+        {
+          "name": "maxSize",
+          "type": "number",
+          "default": 80
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "first",
+          "type": "import('svelte').Snippet"
+        },
+        {
+          "name": "second",
+          "type": "import('svelte').Snippet"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "stack",
-      "description": null,
+      "description": "Stack component",
       "category": "layout",
       "tags": [
         "layout",
@@ -5129,18 +7594,34 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "stack/index.ts",
       "isComponent": true,
       "entry": "stack/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "gap",
+          "type": "number",
+          "default": 4
+        },
+        {
+          "name": "divider",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "StarCard",
-      "description": null,
+      "description": "StarCard component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -5166,12 +7647,35 @@
       "mainTs": "StarCard/index.ts",
       "isComponent": true,
       "entry": "StarCard/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "'red' | 'blue' | 'green' | 'purple' | 'pink' | 'yellow' | 'orange'",
+          "default": "yellow"
+        },
+        {
+          "name": "size",
+          "type": "'md' | 'lg'",
+          "default": "md"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "stat-card",
-      "description": null,
+      "description": "Stat Card component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -5199,18 +7703,48 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "stat-card/index.ts",
       "isComponent": true,
       "entry": "stat-card/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "value",
+          "type": "string | number",
+          "default": ""
+        },
+        {
+          "name": "change",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "name": "changeLabel",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "icon",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "stats",
-      "description": null,
+      "description": "Stats component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -5237,7 +7771,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -5246,12 +7781,21 @@
       "mainTs": "stats/index.ts",
       "isComponent": true,
       "entry": "stats/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "stats",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "stats-counter",
-      "description": null,
+      "description": "Stats Counter component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -5279,7 +7823,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -5287,12 +7832,42 @@
       "mainTs": "stats-counter/index.ts",
       "isComponent": true,
       "entry": "stats-counter/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "prefix",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "suffix",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": 2000
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "status-indicator",
-      "description": null,
+      "description": "Accessible name when no visible label is rendered.",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -5322,18 +7897,43 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "status-indicator/index.ts",
       "isComponent": true,
       "entry": "status-indicator/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "status",
+          "type": "Status",
+          "default": "online"
+        },
+        {
+          "name": "label",
+          "type": "any"
+        },
+        {
+          "name": "customColor",
+          "type": "any",
+          "default": "#22c55e"
+        },
+        {
+          "name": "size",
+          "type": "'sm' | 'md' | 'lg'",
+          "default": "md"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "stepper",
-      "description": null,
+      "description": "Stepper component",
       "category": "composite",
       "tags": [
         "composite",
@@ -5360,18 +7960,42 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "stepper/index.ts",
       "isComponent": true,
       "entry": "stepper/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "steps",
+          "type": "any"
+        },
+        {
+          "name": "currentStep",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "name": "orientation",
+          "type": "'horizontal' | 'vertical'",
+          "default": "horizontal"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onStepChange",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "swipeableitem",
-      "description": null,
+      "description": "Buttons revealed behind the content (e.g. delete, archive).",
       "category": "mobile",
       "tags": [
         "mobile",
@@ -5398,18 +8022,38 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "swipeableitem/index.ts",
       "isComponent": true,
       "entry": "swipeableitem/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "actions",
+          "type": "any"
+        },
+        {
+          "name": "threshold",
+          "type": "any",
+          "default": 80
+        },
+        {
+          "name": "direction",
+          "type": "any",
+          "default": "left"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "switch",
-      "description": null,
+      "description": "Switch component",
       "category": "forms",
       "tags": [
         "forms",
@@ -5436,7 +8080,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -5445,12 +8090,27 @@
       "mainTs": "switch/index.ts",
       "isComponent": true,
       "entry": "switch/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "checked",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "size",
+          "type": "any",
+          "default": "default"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "Switch",
-      "description": null,
+      "description": "Switch component",
       "category": "forms",
       "tags": [
         "forms",
@@ -5476,12 +8136,27 @@
       "mainTs": "Switch/index.ts",
       "isComponent": true,
       "entry": "Switch/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "checked",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "tabbar",
-      "description": null,
+      "description": "Tabbar component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -5516,18 +8191,38 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "tabbar/index.ts",
       "isComponent": true,
       "entry": "tabbar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string | number",
+          "default": ""
+        },
+        {
+          "name": "blur",
+          "type": "string",
+          "default": true,
+          "values": [
+            "true",
+            "false"
+          ]
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "table",
-      "description": null,
+      "description": "Table component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -5568,7 +8263,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -5577,12 +8273,17 @@
       "mainTs": "table/index.ts",
       "isComponent": true,
       "entry": "table/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "tabs",
-      "description": null,
+      "description": "Tabs component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -5619,7 +8320,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -5628,12 +8330,22 @@
       "mainTs": "tabs/index.ts",
       "isComponent": true,
       "entry": "tabs/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "any",
+          "default": ""
+        },
+        {
+          "name": "class",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "testimonial",
-      "description": null,
+      "description": "Testimonial component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -5660,7 +8372,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -5669,12 +8382,17 @@
       "mainTs": "testimonial/index.ts",
       "isComponent": true,
       "entry": "testimonial/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "testimonial-carousel",
-      "description": null,
+      "description": "Testimonial Carousel component",
       "category": "marketing",
       "tags": [
         "marketing",
@@ -5702,7 +8420,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -5710,12 +8429,31 @@
       "mainTs": "testimonial-carousel/index.ts",
       "isComponent": true,
       "entry": "testimonial-carousel/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "testimonials",
+          "type": "Testimonial[]"
+        },
+        {
+          "name": "autoplay",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "default": 5000
+        }
+      ],
       "package": "core"
     },
     {
       "name": "textarea",
-      "description": null,
+      "description": "Textarea component",
       "category": "forms",
       "tags": [
         "forms",
@@ -5742,7 +8480,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -5751,12 +8490,26 @@
       "mainTs": "textarea/index.ts",
       "isComponent": true,
       "entry": "textarea/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "\"data-slot\"",
+          "type": "any",
+          "default": "textarea"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "TextField",
-      "description": null,
+      "description": "TextField component",
       "category": "forms",
       "tags": [
         "forms",
@@ -5782,12 +8535,59 @@
       "mainTs": "TextField/index.ts",
       "isComponent": true,
       "entry": "TextField/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "variant",
+          "type": "'filled' | 'outlined'",
+          "default": "filled"
+        },
+        {
+          "name": "error",
+          "type": "string"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "id",
+          "type": "string"
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "default": "text"
+        },
+        {
+          "name": "helperText",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "timeline",
-      "description": null,
+      "description": "Timeline component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -5818,18 +8618,29 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "timeline/index.ts",
       "isComponent": true,
       "entry": "timeline/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "alternating",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "TimePicker",
-      "description": null,
+      "description": "Time value in HH:MM format (bindable)",
       "category": "forms",
       "tags": [
         "forms",
@@ -5855,12 +8666,31 @@
       "mainTs": "TimePicker/index.ts",
       "isComponent": true,
       "entry": "TimePicker/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "any",
+          "default": "12:00"
+        },
+        {
+          "name": "format",
+          "type": "any",
+          "default": "24h"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "onchange",
+          "type": "any"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "toast",
-      "description": null,
+      "description": "Toast component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -5887,7 +8717,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "toast/index.ts",
@@ -5898,7 +8729,7 @@
     },
     {
       "name": "toggle",
-      "description": null,
+      "description": "Toggle component",
       "category": "forms",
       "tags": [
         "forms",
@@ -5925,7 +8756,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -5934,12 +8766,41 @@
       "mainTs": "toggle/index.ts",
       "isComponent": true,
       "entry": "toggle/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "pressed",
+          "type": "any",
+          "default": false
+        },
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "size",
+          "type": "string",
+          "default": "default",
+          "values": [
+            "default",
+            "sm",
+            "lg"
+          ]
+        },
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "default",
+          "values": [
+            "default",
+            "outline"
+          ]
+        }
+      ],
       "package": "core"
     },
     {
       "name": "toggle-group",
-      "description": null,
+      "description": "Toggle Group component",
       "category": "forms",
       "tags": [
         "forms",
@@ -5969,7 +8830,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "toggle",
@@ -5979,12 +8841,41 @@
       "mainTs": "toggle-group/index.ts",
       "isComponent": true,
       "entry": "toggle-group/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "value",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "any"
+        },
+        {
+          "name": "size",
+          "type": "any",
+          "default": "default"
+        },
+        {
+          "name": "spacing",
+          "type": "any",
+          "default": 0
+        },
+        {
+          "name": "orientation",
+          "type": "any",
+          "default": "horizontal"
+        },
+        {
+          "name": "variant",
+          "type": "any",
+          "default": "default"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "tooltip",
-      "description": null,
+      "description": "Tooltip component",
       "category": "feedback",
       "tags": [
         "feedback",
@@ -6019,7 +8910,8 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [
         "utils"
@@ -6028,12 +8920,18 @@
       "mainTs": "tooltip/index.ts",
       "isComponent": true,
       "entry": "tooltip/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "open",
+          "type": "any",
+          "default": false
+        }
+      ],
       "package": "core"
     },
     {
       "name": "TopAppBar",
-      "description": null,
+      "description": "TopAppBar component",
       "category": "navigation",
       "tags": [
         "navigation",
@@ -6059,12 +8957,41 @@
       "mainTs": "TopAppBar/index.ts",
       "isComponent": true,
       "entry": "TopAppBar/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "variant",
+          "type": "string",
+          "default": "small",
+          "values": [
+            "small",
+            "center",
+            "medium",
+            "large"
+          ]
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "navigationIcon",
+          "type": "Snippet"
+        },
+        {
+          "name": "actions",
+          "type": "Snippet"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "md3"
     },
     {
       "name": "TrapezoidCard",
-      "description": null,
+      "description": "TrapezoidCard component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -6090,12 +9017,26 @@
       "mainTs": "TrapezoidCard/index.ts",
       "isComponent": true,
       "entry": "TrapezoidCard/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "Color",
+          "default": "blue"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "tree-view",
-      "description": null,
+      "description": "Tree View component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -6125,18 +9066,50 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "tree-view/index.ts",
       "isComponent": true,
       "entry": "tree-view/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "node",
+          "type": "TreeViewNode"
+        },
+        {
+          "name": "depth",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "name": "selected",
+          "type": "string[]"
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "expandedIds",
+          "type": "Set<string>"
+        },
+        {
+          "name": "onToggle",
+          "type": "any"
+        },
+        {
+          "name": "onSelect",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "TriangleAlert",
-      "description": null,
+      "description": "TriangleAlert component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -6162,12 +9135,35 @@
       "mainTs": "TriangleAlert/index.ts",
       "isComponent": true,
       "entry": "TriangleAlert/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "message",
+          "type": "string"
+        },
+        {
+          "name": "color",
+          "type": "'red' | 'yellow' | 'orange'",
+          "default": "red"
+        },
+        {
+          "name": "dismissable",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "ondismiss",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "user-profile-card",
-      "description": null,
+      "description": "User Profile Card component",
       "category": "composite",
       "tags": [
         "composite",
@@ -6196,18 +9192,61 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "user-profile-card/index.ts",
       "isComponent": true,
       "entry": "user-profile-card/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "avatar",
+          "type": "string"
+        },
+        {
+          "name": "role",
+          "type": "string"
+        },
+        {
+          "name": "bio",
+          "type": "string"
+        },
+        {
+          "name": "stats",
+          "type": "ProfileStat[]"
+        },
+        {
+          "name": "socials",
+          "type": "ProfileSocial[]"
+        },
+        {
+          "name": "cover",
+          "type": "string"
+        },
+        {
+          "name": "contactLabel",
+          "type": "string",
+          "default": "Contact"
+        },
+        {
+          "name": "onContact",
+          "type": "any"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "validate",
-      "description": null,
+      "description": "Validate component",
       "category": "utility",
       "tags": [
         "utility",
@@ -6250,18 +9289,28 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "validate/index.ts",
       "isComponent": true,
       "entry": "validate/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "legend",
+          "type": "string"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "virtual-list",
-      "description": null,
+      "description": "Virtual List component",
       "category": "data-display",
       "tags": [
         "data-display",
@@ -6289,18 +9338,42 @@
         "zod": "^3.24.0",
         "formsnap": "^2.0.1",
         "@lucide/svelte": "^1.28.0",
-        "bits-ui": "^2.17.3"
+        "bits-ui": "^2.17.3",
+        "@intinyagroup/tokens": "workspace:*"
       },
       "deps": [],
       "mainTs": "virtual-list/index.ts",
       "isComponent": true,
       "entry": "virtual-list/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "items",
+          "type": "any[]"
+        },
+        {
+          "name": "itemHeight",
+          "type": "number",
+          "default": 48
+        },
+        {
+          "name": "overscan",
+          "type": "number",
+          "default": 5
+        },
+        {
+          "name": "class",
+          "type": "string"
+        },
+        {
+          "name": "onEndReached",
+          "type": "any"
+        }
+      ],
       "package": "core"
     },
     {
       "name": "WaveSection",
-      "description": null,
+      "description": "WaveSection component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -6326,12 +9399,32 @@
       "mainTs": "WaveSection/index.ts",
       "isComponent": true,
       "entry": "WaveSection/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "color",
+          "type": "string",
+          "default": "var(--flat-blue)"
+        },
+        {
+          "name": "flip",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "name": "height",
+          "type": "string",
+          "default": "150px"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     },
     {
       "name": "ZigzagDivider",
-      "description": null,
+      "description": "ZigzagDivider component",
       "category": "flat-shape",
       "tags": [
         "flat-shape",
@@ -6357,7 +9450,22 @@
       "mainTs": "ZigzagDivider/index.ts",
       "isComponent": true,
       "entry": "ZigzagDivider/index.ts",
-      "props": [],
+      "props": [
+        {
+          "name": "color",
+          "type": "Color",
+          "default": "blue"
+        },
+        {
+          "name": "height",
+          "type": "string",
+          "default": "24px"
+        },
+        {
+          "name": "class",
+          "type": "string"
+        }
+      ],
       "package": "flat"
     }
   ]

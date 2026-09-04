@@ -21,12 +21,18 @@
     "publish": "changeset publish",
     "stage:apply": "npm stage apply",
     "cli": "pnpm --filter @intinyagroup/cli build",
-    "generate:registry": "pnpm --filter @intinyagroup/cli generate:registry"
+    "generate:registry": "pnpm --filter @intinyagroup/cli generate:registry",
+    "prepare": "pnpm --filter @intinyagroup/docs exec svelte-kit sync && mkdir -p .svelte-kit && cp packages/docs/.svelte-kit/tsconfig.json .svelte-kit/",
+    "test": "pnpm --filter @intinyagroup/ui test"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/svelte": "^5.4.2",
+    "jsdom": "^30.0.1",
     "prettier": "^3.5.0",
     "prettier-plugin-svelte": "^3.5.0",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "vitest": "^5.0.0"
   }
 }
