@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/motion-player",
-  "version": "0.1.1-alpha.0",
+  "version": "0.1.1-alpha.1",
   "description": "Player, VideoPlayer, Timeline and renderer for @intinyagroup/motion",
   "type": "module",
   "exports": {
