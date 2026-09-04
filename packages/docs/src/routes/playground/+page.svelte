@@ -293,7 +293,7 @@
 					]
 				})}
 				<div class="w-56">
-					<Select disabled={v.disabled} {collection}>
+					<Select disabled={v.disabled} collection={collection as any}>
 						<SelectTrigger>
 							<SelectValue placeholder={v.placeholder} />
 						</SelectTrigger>

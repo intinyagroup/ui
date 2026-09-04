@@ -63,9 +63,9 @@
     externalGrouping,
     serverSide = false,
     rowCount = 0,
-    manualPagination = false,
-    manualSorting = false,
-    manualFiltering = false,
+    manualPagination,
+    manualSorting,
+    manualFiltering,
     // Callbacks
     onPaginationChange,
     onSortingChange,
@@ -229,7 +229,14 @@
   $effect(() => { if (externalGrouping) groupingState = externalGrouping; });
 
   const serverSideConfig = $derived<ServerSideConfig | undefined>(
-    serverSide ? { rowCount, manualPagination, manualSorting, manualFiltering } : undefined
+    serverSide
+      ? {
+          rowCount,
+          manualPagination: manualPagination ?? true,
+          manualSorting: manualSorting ?? true,
+          manualFiltering: manualFiltering ?? true
+        }
+      : undefined
   );
 
   const table = $derived.by(() =>
