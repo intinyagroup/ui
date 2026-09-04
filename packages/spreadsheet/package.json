@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/spreadsheet",
-  "version": "0.1.1-alpha.4",
+  "version": "0.1.1-alpha.5",
   "description": "Spreadsheet component with cell editing, range selection, multi-sheet support",
   "type": "module",
   "exports": {

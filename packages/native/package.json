@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/native",
-  "version": "0.1.1-alpha.7",
+  "version": "0.1.1-alpha.8",
   "description": "Capacitor plugin wrappers and web fallbacks for native device capabilities",
   "type": "module",
   "exports": {
