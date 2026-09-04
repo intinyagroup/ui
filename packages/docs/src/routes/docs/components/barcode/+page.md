@@ -9,7 +9,7 @@ Renders a 1D barcode as inline SVG using JsBarcode. Supports Code128, EAN-13, an
   import { Barcode } from '@intinyagroup/ui';
 </script>
 
-<Barcode value="VULTRA-2024" />
+<Barcode value="INTINYA-2026" />
 ```
 
 ## Options

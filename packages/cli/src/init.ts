@@ -20,7 +20,7 @@ const DEFAULT_COMPONENTS_JSON = {
 	},
 };
 
-export type ProjectType = 'SvelteKit' | 'Svelte' | 'Vite' | 'other';
+export type ProjectType = 'SvelteKit' | 'Svelte' | 'Next.js' | 'React' | 'Vite' | 'other';
 
 interface PkgLike {
 	dependencies?: Record<string, string>;
@@ -32,6 +32,8 @@ export function detectProjectType(pkg: PkgLike): ProjectType {
 	const all = { ...(pkg.dependencies ?? {}), ...(pkg.devDependencies ?? {}) };
 	if (all['@sveltejs/kit']) return 'SvelteKit';
 	if (all['svelte']) return 'Svelte';
+	if (all['next']) return 'Next.js';
+	if (all['react'] || all['react-dom']) return 'React';
 	if (all['vite']) return 'Vite';
 	return 'other';
 }
