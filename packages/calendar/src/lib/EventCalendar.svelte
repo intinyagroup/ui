@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Clock, Plus } from 'lucide-svelte';
-  import { Button } from '@intinyagroup/ui';
+  import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Clock, Plus, X } from 'lucide-svelte';
+  import { Button, Input } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/ui/utils';
 
   export type CalendarView = 'month' | 'week' | 'day';
@@ -10,35 +10,49 @@
     title: string;
     start: Date;
     end: Date;
-    color?: string; // Hex or CSS color
+    color?: string;
     description?: string;
     allDay?: boolean;
   };
 
   let {
-    events = [],
+    events = $bindable([]),
     view = $bindable('month' as CalendarView),
     currentDate = $bindable(new Date()),
+    locale = 'en-US',
+    firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday
+    enableEventModal = true,
     class: className,
     onEventClick,
     onDateClick,
-    onAddEventClick,
+    onAddEvent,
   }: {
     events?: CalendarEvent[];
     view?: CalendarView;
     currentDate?: Date;
+    locale?: string;
+    firstDayOfWeek?: number;
+    enableEventModal?: boolean;
     class?: string;
     onEventClick?: (event: CalendarEvent) => void;
     onDateClick?: (date: Date) => void;
-    onAddEventClick?: (date: Date) => void;
+    onAddEvent?: (newEvent: CalendarEvent) => void;
   } = $props();
 
-  const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const hours = Array.from({ length: 24 }, (_, i) => i);
+
+  // Day names localized and rotated according to firstDayOfWeek
+  const dayNames = $derived.by(() => {
+    const formatter = new Intl.DateTimeFormat(locale, { weekday: 'short' });
+    const days: string[] = [];
+    const baseSunday = new Date(2026, 7, 30); // Known Sunday
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(baseSunday);
+      d.setDate(baseSunday.getDate() + ((i + firstDayOfWeek) % 7));
+      days.push(formatter.format(d));
+    }
+    return days;
+  });
 
   function isSameDay(d1: Date, d2: Date): boolean {
     return (
@@ -52,7 +66,6 @@
     return isSameDay(d, new Date());
   }
 
-  // Navigation handlers
   function goPrev() {
     const next = new Date(currentDate);
     if (view === 'month') next.setMonth(next.getMonth() - 1);
@@ -73,17 +86,17 @@
     currentDate = new Date();
   }
 
-  // Month view calendar matrix (42 cells)
+  // Month view calendar matrix (42 cells) respecting firstDayOfWeek
   const monthDays = $derived.by(() => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    const firstDay = new Date(year, month, 1).getDay();
+    const rawFirstDay = new Date(year, month, 1).getDay();
+    const firstDay = (rawFirstDay - firstDayOfWeek + 7) % 7;
     const daysInCurrentMonth = new Date(year, month + 1, 0).getDate();
     const daysInPrevMonth = new Date(year, month, 0).getDate();
 
     const days: { date: Date; currentMonth: boolean }[] = [];
 
-    // Prev month padding
     for (let i = firstDay - 1; i >= 0; i--) {
       days.push({
         date: new Date(year, month - 1, daysInPrevMonth - i),
@@ -91,7 +104,6 @@
       });
     }
 
-    // Current month days
     for (let i = 1; i <= daysInCurrentMonth; i++) {
       days.push({
         date: new Date(year, month, i),
@@ -99,7 +111,6 @@
       });
     }
 
-    // Next month padding
     const remaining = 42 - days.length;
     for (let i = 1; i <= remaining; i++) {
       days.push({
@@ -111,11 +122,12 @@
     return days;
   });
 
-  // Week view days (7 days Sunday to Saturday)
+  // Week view days respecting firstDayOfWeek
   const weekDays = $derived.by(() => {
     const dayOfWeek = currentDate.getDay();
+    const offset = (dayOfWeek - firstDayOfWeek + 7) % 7;
     const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - dayOfWeek);
+    startOfWeek.setDate(currentDate.getDate() - offset);
 
     return Array.from({ length: 7 }, (_, i) => {
       const d = new Date(startOfWeek);
@@ -124,7 +136,6 @@
     });
   });
 
-  // Find events for a given day
   function getEventsForDay(d: Date): CalendarEvent[] {
     return events.filter((ev) => isSameDay(new Date(ev.start), d));
   }
@@ -138,22 +149,72 @@
 
   const titleHeader = $derived.by(() => {
     const y = currentDate.getFullYear();
-    const m = monthNames[currentDate.getMonth()];
-    if (view === 'month') return `${m} ${y}`;
+    const monthFormatter = new Intl.DateTimeFormat(locale, { month: 'long' });
+    const monthShortFormatter = new Intl.DateTimeFormat(locale, { month: 'short' });
+
+    if (view === 'month') return `${monthFormatter.format(currentDate)} ${y}`;
     if (view === 'week') {
       const start = weekDays[0];
       const end = weekDays[6];
-      return `${start.getDate()} ${monthNames[start.getMonth()].slice(0, 3)} - ${end.getDate()} ${monthNames[end.getMonth()].slice(0, 3)} ${y}`;
+      return `${start.getDate()} ${monthShortFormatter.format(start)} - ${end.getDate()} ${monthShortFormatter.format(end)} ${y}`;
     }
-    return `${currentDate.getDate()} ${m} ${y}`;
+    return `${currentDate.getDate()} ${monthFormatter.format(currentDate)} ${y}`;
   });
+
+  // Event modal state
+  let modalOpen = $state(false);
+  let newEventTitle = $state('');
+  let newEventDate = $state(new Date());
+  let newEventStartTime = $state('09:00');
+  let newEventEndTime = $state('10:00');
+  let newEventColor = $state('#2563eb');
+  let newEventDescription = $state('');
+
+  const presetColors = ['#2563eb', '#7c3aed', '#059669', '#d97706', '#dc2626', '#0891b2', '#4b5563'];
+
+  function openCreateModal(date: Date) {
+    if (!enableEventModal) return;
+    newEventDate = new Date(date);
+    newEventTitle = '';
+    newEventStartTime = '09:00';
+    newEventEndTime = '10:00';
+    newEventColor = '#2563eb';
+    newEventDescription = '';
+    modalOpen = true;
+  }
+
+  function handleSaveEvent() {
+    if (!newEventTitle.trim()) return;
+
+    const [startH, startM] = newEventStartTime.split(':').map(Number);
+    const [endH, endM] = newEventEndTime.split(':').map(Number);
+
+    const startDate = new Date(newEventDate);
+    startDate.setHours(startH || 0, startM || 0, 0, 0);
+
+    const endDate = new Date(newEventDate);
+    endDate.setHours(endH || 0, endM || 0, 0, 0);
+
+    const newEv: CalendarEvent = {
+      id: `ev-${Date.now()}`,
+      title: newEventTitle.trim(),
+      start: startDate,
+      end: endDate,
+      color: newEventColor,
+      description: newEventDescription.trim() || undefined
+    };
+
+    events = [...events, newEv];
+    onAddEvent?.(newEv);
+    modalOpen = false;
+  }
 </script>
 
-<div class={cn('flex flex-col rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-xs overflow-hidden', className)}>
+<div class={cn('relative flex flex-col rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-xs overflow-hidden', className)}>
   <!-- Toolbar Header -->
   <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--ui-border)] p-4 sm:px-6">
     <div class="flex items-center gap-2">
-      <h2 class="text-base font-bold text-[var(--ui-foreground)]">{titleHeader}</h2>
+      <h2 class="text-base font-bold text-[var(--ui-foreground)] capitalize">{titleHeader}</h2>
       <div class="flex items-center gap-1 ml-2">
         <Button variant="outline" size="sm" class="size-8 p-0" onclick={goPrev}>
           <ChevronLeft class="size-4" />
@@ -202,8 +263,8 @@
         </button>
       </div>
 
-      {#if onAddEventClick}
-        <Button size="sm" class="gap-1.5 h-8 text-xs" onclick={() => onAddEventClick?.(currentDate)}>
+      {#if enableEventModal}
+        <Button size="sm" class="gap-1.5 h-8 text-xs" onclick={() => openCreateModal(currentDate)}>
           <Plus class="size-3.5" /> Add Event
         </Button>
       {/if}
@@ -215,7 +276,7 @@
     <!-- MONTH VIEW -->
     <div class="grid grid-cols-7 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-center text-xs font-semibold text-[var(--ui-muted-foreground)] py-2">
       {#each dayNames as day}
-        <div>{day}</div>
+        <div class="capitalize">{day}</div>
       {/each}
     </div>
 
@@ -227,7 +288,10 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div
-          onclick={() => onDateClick?.(date)}
+          onclick={() => {
+            onDateClick?.(date);
+            openCreateModal(date);
+          }}
           class={cn(
             'min-h-[100px] p-2 flex flex-col gap-1 transition-colors hover:bg-[var(--ui-secondary)]/25 cursor-pointer',
             !currentMonth && 'bg-[var(--ui-muted)]/15 opacity-50'
@@ -259,7 +323,7 @@
                   onEventClick?.(ev);
                 }}
                 class={cn(
-                  'truncate rounded px-1.5 py-0.5 text-left text-[11px] font-medium transition-opacity hover:opacity-85 text-white',
+                  'truncate rounded px-1.5 py-0.5 text-left text-[11px] font-medium transition-opacity hover:opacity-85 text-white shadow-2xs',
                   ev.color ? '' : 'bg-[var(--ui-primary)]'
                 )}
                 style={ev.color ? `background-color: ${ev.color};` : undefined}
@@ -281,9 +345,9 @@
     <!-- WEEK VIEW -->
     <div class="grid grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-center text-xs font-semibold text-[var(--ui-muted-foreground)] py-2">
       <div class="col-span-1">Time</div>
-      {#each weekDays as d}
+      {#each weekDays as d, idx}
         <div class="col-span-1 flex flex-col items-center">
-          <span>{dayNames[d.getDay()]}</span>
+          <span class="capitalize">{dayNames[idx]}</span>
           <span class={cn('size-6 flex items-center justify-center rounded-full text-xs mt-0.5', isToday(d) ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)]' : '')}>
             {d.getDate()}
           </span>
@@ -305,7 +369,13 @@
         {@const isCurrentDay = isToday(d)}
         {@const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes()}
         {@const currentTimeTop = (nowMinutes / 60) * 56}
-        <div class="col-span-1 divide-y divide-[var(--ui-border)]/50 relative">
+
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <div
+          onclick={() => openCreateModal(d)}
+          class="col-span-1 divide-y divide-[var(--ui-border)]/50 relative hover:bg-[var(--ui-secondary)]/10 cursor-pointer"
+        >
           {#each hours as _}
             <div class="h-14"></div>
           {/each}
@@ -320,14 +390,19 @@
               <div class="h-0.5 w-full bg-red-500"></div>
             </div>
           {/if}
+
+          <!-- Render Event Boxes -->
           {#each dayEvents as ev (ev.id)}
             {@const startH = new Date(ev.start).getHours()}
             {@const startM = new Date(ev.start).getMinutes()}
             {@const topPos = (startH + startM / 60) * 56}
             <button
               type="button"
-              onclick={() => onEventClick?.(ev)}
-              class="absolute inset-x-1 rounded p-1 text-left text-[11px] text-white shadow-xs transition-opacity hover:opacity-90 overflow-hidden"
+              onclick={(e) => {
+                e.stopPropagation();
+                onEventClick?.(ev);
+              }}
+              class="absolute inset-x-1 rounded p-1 text-left text-[11px] text-white shadow-xs transition-opacity hover:opacity-90 overflow-hidden z-10"
               style="top: {topPos}px; height: 50px; background-color: {ev.color || 'var(--ui-primary)'};"
             >
               <div class="font-bold truncate">{ev.title}</div>
@@ -342,7 +417,7 @@
     <div class="p-3 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <Clock class="size-4 text-[var(--ui-muted-foreground)]" />
-        <span class="text-sm font-semibold">{dayNames[currentDate.getDay()]}, {titleHeader}</span>
+        <span class="text-sm font-semibold capitalize">{titleHeader}</span>
       </div>
       <span class="text-xs text-[var(--ui-muted-foreground)] font-medium">
         {getEventsForDay(currentDate).length} event(s)
@@ -355,10 +430,17 @@
           <div class="h-16 pt-2">{String(hour).padStart(2, '0')}:00</div>
         {/each}
       </div>
+
       {@const isCurrentDay = isToday(currentDate)}
       {@const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes()}
       {@const currentTimeTop = (nowMinutes / 60) * 64}
-      <div class="col-span-10 divide-y divide-[var(--ui-border)]/50 relative p-1">
+
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <div
+        onclick={() => openCreateModal(currentDate)}
+        class="col-span-10 divide-y divide-[var(--ui-border)]/50 relative p-1 hover:bg-[var(--ui-secondary)]/10 cursor-pointer"
+      >
         {#each hours as _}
           <div class="h-16"></div>
         {/each}
@@ -373,20 +455,112 @@
             <div class="h-0.5 w-full bg-red-500"></div>
           </div>
         {/if}
+
         {#each getEventsForDay(currentDate) as ev (ev.id)}
           {@const startH = new Date(ev.start).getHours()}
           {@const startM = new Date(ev.start).getMinutes()}
           {@const topPos = (startH + startM / 60) * 64}
           <button
             type="button"
-            onclick={() => onEventClick?.(ev)}
-            class="absolute inset-x-4 rounded-lg p-2 text-left text-white shadow-sm transition-opacity hover:opacity-90 flex flex-col justify-center"
+            onclick={(e) => {
+              e.stopPropagation();
+              onEventClick?.(ev);
+            }}
+            class="absolute inset-x-4 rounded-lg p-2 text-left text-white shadow-sm transition-opacity hover:opacity-90 flex flex-col justify-center z-10"
             style="top: {topPos}px; height: 56px; background-color: {ev.color || 'var(--ui-primary)'};"
           >
             <div class="font-bold text-xs">{ev.title}</div>
             <div class="text-[10px] opacity-80">{formatTime(ev.start)} - {formatTime(ev.end)} {#if ev.description}• {ev.description}{/if}</div>
           </button>
         {/each}
+      </div>
+    </div>
+  {/if}
+
+  <!-- Quick Event Creation Modal -->
+  {#if modalOpen}
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
+      <div
+        onclick={(e) => e.stopPropagation()}
+        class="w-full max-w-md rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] p-5 shadow-2xl animate-in fade-in-50 zoom-in-95"
+      >
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-bold text-[var(--ui-foreground)]">Add New Event</h3>
+          <button
+            type="button"
+            onclick={() => (modalOpen = false)}
+            class="rounded-full p-1 text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]"
+          >
+            <X class="size-4" />
+          </button>
+        </div>
+
+        <div class="space-y-3.5 text-xs">
+          <div>
+            <label class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Title</label>
+            <input
+              type="text"
+              bind:value={newEventTitle}
+              placeholder="Event title (e.g. Sprint Review)..."
+              class="h-9 w-full rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-3 text-xs outline-none focus:border-[var(--ui-primary)]"
+              autofocus
+            />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Start Time</label>
+              <input
+                type="time"
+                bind:value={newEventStartTime}
+                class="h-9 w-full rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-2.5 text-xs outline-none focus:border-[var(--ui-primary)]"
+              />
+            </div>
+            <div>
+              <label class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">End Time</label>
+              <input
+                type="time"
+                bind:value={newEventEndTime}
+                class="h-9 w-full rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-2.5 text-xs outline-none focus:border-[var(--ui-primary)]"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-1.5 font-semibold text-[var(--ui-muted-foreground)]">Tag Color</label>
+            <div class="flex items-center gap-2">
+              {#each presetColors as col}
+                <button
+                  type="button"
+                  onclick={() => (newEventColor = col)}
+                  class={cn(
+                    'size-6 rounded-full transition-transform hover:scale-110 cursor-pointer',
+                    newEventColor === col && 'ring-2 ring-offset-2 ring-[var(--ui-primary)]'
+                  )}
+                  style="background-color: {col};"
+                  aria-label="Select color {col}"
+                ></button>
+              {/each}
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Description (optional)</label>
+            <textarea
+              bind:value={newEventDescription}
+              rows={2}
+              placeholder="Notes, agenda, or link..."
+              class="w-full rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] p-2.5 text-xs outline-none focus:border-[var(--ui-primary)]"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="mt-5 flex items-center justify-end gap-2 border-t border-[var(--ui-border)] pt-3">
+          <Button variant="outline" size="sm" onclick={() => (modalOpen = false)}>Cancel</Button>
+          <Button size="sm" onclick={handleSaveEvent}>Save Event</Button>
+        </div>
       </div>
     </div>
   {/if}

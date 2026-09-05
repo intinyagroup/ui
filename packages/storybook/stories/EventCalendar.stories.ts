@@ -35,7 +35,10 @@ const meta = {
   tags: ['autodocs'],
   args: {
     events: sampleEvents,
-    view: 'month'
+    view: 'month',
+    locale: 'en-US',
+    firstDayOfWeek: 0,
+    enableEventModal: true
   }
 } satisfies Meta<typeof EventCalendar>;
 
@@ -57,5 +60,13 @@ export const WeekView: Story = {
 export const DayView: Story = {
   args: {
     view: 'day'
+  }
+};
+
+export const IndonesianLocaleWithMondayStart: Story = {
+  args: {
+    locale: 'id-ID',
+    firstDayOfWeek: 1,
+    view: 'month'
   }
 };

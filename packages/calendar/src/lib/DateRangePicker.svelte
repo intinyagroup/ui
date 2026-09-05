@@ -9,12 +9,20 @@
     end: CalendarDate | null;
   };
 
+  export type DateRangePreset = {
+    label: string;
+    range: DateRange;
+  };
+
   let {
     value = $bindable({ start: null, end: null }),
     min = null,
     max = null,
     disabled = false,
     placeholder = 'Select date range...',
+    locale = 'en-US',
+    firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday
+    presets,
     class: className,
     onSelect,
   }: {
@@ -23,6 +31,9 @@
     max?: CalendarDate | null;
     disabled?: boolean;
     placeholder?: string;
+    locale?: string;
+    firstDayOfWeek?: number;
+    presets?: DateRangePreset[];
     class?: string;
     onSelect?: (range: DateRange) => void;
   } = $props();
@@ -34,14 +45,30 @@
   let viewMonth = $state(value?.start?.month ?? today.getMonth());
   let hoverDate = $state<CalendarDate | null>(null);
 
-  const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-  const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  // Month names via Intl.DateTimeFormat
+  const monthName = $derived.by(() => {
+    return new Intl.DateTimeFormat(locale, { month: 'long' }).format(
+      new Date(viewYear, viewMonth, 1)
+    );
+  });
+
+  // Day names via Intl.DateTimeFormat with firstDayOfWeek support
+  const dayNames = $derived.by(() => {
+    const formatter = new Intl.DateTimeFormat(locale, { weekday: 'short' });
+    const days: string[] = [];
+    // 2026-08-30 is Sunday
+    const baseSunday = new Date(2026, 7, 30);
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(baseSunday);
+      d.setDate(baseSunday.getDate() + ((i + firstDayOfWeek) % 7));
+      days.push(formatter.format(d));
+    }
+    return days;
+  });
 
   const daysInMonth = $derived(new Date(viewYear, viewMonth + 1, 0).getDate());
-  const firstDayOfMonth = $derived(new Date(viewYear, viewMonth, 1).getDay());
+  const rawFirstDayOfMonth = $derived(new Date(viewYear, viewMonth, 1).getDay());
+  const firstDayOfMonth = $derived((rawFirstDayOfMonth - firstDayOfWeek + 7) % 7);
 
   function toDate(d: CalendarDate): Date {
     return new Date(d.year, d.month, d.day);
@@ -95,10 +122,8 @@
     if (disabled) return;
 
     if (!value.start || (value.start && value.end)) {
-      // Start a new range selection
       value = { start: date, end: null };
     } else if (value.start && !value.end) {
-      // Complete the range
       if (compareDates(date, value.start) < 0) {
         value = { start: date, end: value.start };
       } else {
@@ -129,9 +154,11 @@
 
   function formatDisplayDate(date: CalendarDate | null): string {
     if (!date) return '';
-    const d = String(date.day).padStart(2, '0');
-    const m = String(date.month + 1).padStart(2, '0');
-    return `${d}/${m}/${date.year}`;
+    return new Intl.DateTimeFormat(locale, {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    }).format(toDate(date));
   }
 
   const label = $derived.by(() => {
@@ -139,7 +166,7 @@
       return `${formatDisplayDate(value.start)} - ${formatDisplayDate(value.end)}`;
     }
     if (value.start) {
-      return `${formatDisplayDate(value.start)} - Select end`;
+      return `${formatDisplayDate(value.start)} - ...`;
     }
     return placeholder;
   });
@@ -149,6 +176,43 @@
     value = { start: null, end: null };
     onSelect?.(value);
   }
+
+  // Default rich presets for business & dashboards
+  const activePresets = $derived.by<DateRangePreset[]>(() => {
+    if (presets) return presets;
+
+    const y = today.getFullYear();
+    const m = today.getMonth();
+    const d = today.getDate();
+
+    // This Month
+    const thisMonthStart = { year: y, month: m, day: 1 };
+    const thisMonthEnd = { year: y, month: m, day: new Date(y, m + 1, 0).getDate() };
+
+    // Last Month
+    const lastMonthStart = { year: m === 0 ? y - 1 : y, month: m === 0 ? 11 : m - 1, day: 1 };
+    const lastMonthEnd = {
+      year: m === 0 ? y - 1 : y,
+      month: m === 0 ? 11 : m - 1,
+      day: new Date(m === 0 ? y - 1 : y, m === 0 ? 12 : m, 0).getDate()
+    };
+
+    // Year to Date
+    const ytdStart = { year: y, month: 0, day: 1 };
+    const ytdEnd = { year: y, month: m, day: d };
+
+    // Next 7 Days
+    const next7EndD = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const next7End = { year: next7EndD.getFullYear(), month: next7EndD.getMonth(), day: next7EndD.getDate() };
+
+    return [
+      { label: 'Today', range: { start: { year: y, month: m, day: d }, end: { year: y, month: m, day: d } } },
+      { label: 'Next 7D', range: { start: { year: y, month: m, day: d }, end: next7End } },
+      { label: 'This Month', range: { start: thisMonthStart, end: thisMonthEnd } },
+      { label: 'Last Month', range: { start: lastMonthStart, end: lastMonthEnd } },
+      { label: 'YTD', range: { start: ytdStart, end: ytdEnd } }
+    ];
+  });
 </script>
 
 <div class={cn('relative inline-block w-full max-w-sm', className)}>
@@ -187,15 +251,15 @@
     <div class="fixed inset-0 z-40" onclick={() => (isOpen = false)}></div>
 
     <div
-      class="absolute left-0 top-full z-50 mt-1.5 w-72 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] p-3 shadow-xl animate-in fade-in-50 zoom-in-95 select-none"
+      class="absolute left-0 top-full z-50 mt-1.5 w-80 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] p-3.5 shadow-xl animate-in fade-in-50 zoom-in-95 select-none"
     >
       <!-- Header controls -->
       <div class="flex items-center justify-between mb-3">
         <Button variant="ghost" size="sm" class="size-7 p-0" onclick={prevMonth}>
           <ChevronLeft class="size-4" />
         </Button>
-        <span class="text-xs font-semibold text-[var(--ui-foreground)]">
-          {monthNames[viewMonth]} {viewYear}
+        <span class="text-xs font-semibold text-[var(--ui-foreground)] capitalize">
+          {monthName} {viewYear}
         </span>
         <Button variant="ghost" size="sm" class="size-7 p-0" onclick={nextMonth}>
           <ChevronRight class="size-4" />
@@ -205,7 +269,7 @@
       <!-- Day names -->
       <div class="grid grid-cols-7 mb-1 text-center">
         {#each dayNames as day}
-          <span class="text-[11px] font-medium text-[var(--ui-muted-foreground)] py-1">
+          <span class="text-[11px] font-semibold text-[var(--ui-muted-foreground)] py-1">
             {day}
           </span>
         {/each}
@@ -249,50 +313,21 @@
         {/each}
       </div>
 
-      <!-- Presets quick buttons -->
-      <div class="flex items-center justify-between border-t border-[var(--ui-border)] mt-3 pt-2 text-xs">
-        <button
-          type="button"
-          onclick={() => {
-            const t = { year: today.getFullYear(), month: today.getMonth(), day: today.getDate() };
-            value = { start: t, end: t };
-            onSelect?.(value);
-            isOpen = false;
-          }}
-          class="text-[11px] font-medium text-[var(--ui-primary)] hover:underline cursor-pointer"
-        >
-          Today
-        </button>
-
-        <button
-          type="button"
-          onclick={() => {
-            const start = { year: today.getFullYear(), month: today.getMonth(), day: today.getDate() };
-            const endD = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-            const end = { year: endD.getFullYear(), month: endD.getMonth(), day: endD.getDate() };
-            value = { start, end };
-            onSelect?.(value);
-            isOpen = false;
-          }}
-          class="text-[11px] font-medium text-[var(--ui-primary)] hover:underline cursor-pointer"
-        >
-          Next 7 Days
-        </button>
-
-        <button
-          type="button"
-          onclick={() => {
-            const start = { year: today.getFullYear(), month: today.getMonth(), day: today.getDate() };
-            const endD = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
-            const end = { year: endD.getFullYear(), month: endD.getMonth(), day: endD.getDate() };
-            value = { start, end };
-            onSelect?.(value);
-            isOpen = false;
-          }}
-          class="text-[11px] font-medium text-[var(--ui-primary)] hover:underline cursor-pointer"
-        >
-          Next 30 Days
-        </button>
+      <!-- Presets quick buttons bar -->
+      <div class="flex flex-wrap items-center gap-1.5 border-t border-[var(--ui-border)] mt-3 pt-2.5">
+        {#each activePresets as preset}
+          <button
+            type="button"
+            onclick={() => {
+              value = preset.range;
+              onSelect?.(value);
+              isOpen = false;
+            }}
+            class="rounded-md border border-[var(--ui-border)] bg-[var(--ui-secondary)]/30 px-2 py-1 text-[10px] font-medium text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)] transition-colors cursor-pointer"
+          >
+            {preset.label}
+          </button>
+        {/each}
       </div>
     </div>
   {/if}

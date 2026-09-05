@@ -6,7 +6,9 @@ const meta = {
   component: DateRangePicker,
   tags: ['autodocs'],
   args: {
-    placeholder: 'Pick range (e.g. Vacation)...'
+    placeholder: 'Pick range (e.g. Vacation)...',
+    locale: 'en-US',
+    firstDayOfWeek: 0
   }
 } satisfies Meta<typeof DateRangePicker>;
 
@@ -15,11 +17,38 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-export const PreselectedRange: Story = {
+export const IndonesianLocaleWithMondayStart: Story = {
   args: {
-    value: {
-      start: { year: 2026, month: 8, day: 5 },
-      end: { year: 2026, month: 8, day: 18 }
-    }
+    locale: 'id-ID',
+    firstDayOfWeek: 1,
+    placeholder: 'Pilih rentang tanggal...'
+  }
+};
+
+export const CustomPresets: Story = {
+  args: {
+    presets: [
+      {
+        label: 'Q1 (Jan - Mar)',
+        range: {
+          start: { year: 2026, month: 0, day: 1 },
+          end: { year: 2026, month: 2, day: 31 }
+        }
+      },
+      {
+        label: 'Q2 (Apr - Jun)',
+        range: {
+          start: { year: 2026, month: 3, day: 1 },
+          end: { year: 2026, month: 5, day: 30 }
+        }
+      },
+      {
+        label: 'Year 2026',
+        range: {
+          start: { year: 2026, month: 0, day: 1 },
+          end: { year: 2026, month: 11, day: 31 }
+        }
+      }
+    ]
   }
 };
