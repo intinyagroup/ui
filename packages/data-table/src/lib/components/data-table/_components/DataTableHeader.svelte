@@ -2,6 +2,7 @@
   import type { Header, HeaderGroup, Column, ColumnPinningState } from '@tanstack/table-core';
   import { ArrowUp, ArrowDown, ArrowUpDown, GripVertical } from 'lucide-svelte';
   import DataTableColumnMenu from './DataTableColumnMenu.svelte';
+  import DataTableFilter from './DataTableFilter.svelte';
   import type { DataTableMeta } from '@intinyagroup/grid-core';
 
   let {
@@ -23,7 +24,7 @@
     onSort: (columnId: string, direction: 'asc' | 'desc' | null) => void;
     onPin: (columnId: string, side: 'left' | 'right' | null) => void;
     onHide: (columnId: string) => void;
-    onFilter: (columnId: string) => void;
+    onFilter: (columnId: string, filterValue: unknown) => void;
     onColumnReorder: (fromId: string, toId: string) => void;
     headerCell?: import('svelte').Snippet<[{ columnId: string; header: string; canSort: boolean }]>;
   } = $props();
@@ -141,20 +142,22 @@
                   {/if}
                 {/if}
               </span>
-
-              <div class="shrink-0">
+              <div class="flex items-center gap-1 shrink-0">
+                <DataTableFilter
+                  {column}
+                  onFilterChange={(val) => onFilter(column.id, val)}
+                />
                 <DataTableColumnMenu
                   {column}
                   onSort={(dir) => onSort(column.id, dir)}
                   onPin={(side) => onPin(column.id, side)}
                   onHide={() => onHide(column.id)}
-                  onFilter={() => onFilter(column.id)}
+                  onFilter={() => onFilter(column.id, undefined)}
                   isFiltered={column.getIsFiltered()}
                 />
               </div>
             </div>
           {/if}
-
           <!-- Resize handle -->
           {#if column.getCanResize()}
             <!-- svelte-ignore a11y_no_static_element_interactions -->

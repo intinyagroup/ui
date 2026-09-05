@@ -658,7 +658,7 @@
             onSort={handleSort}
             onPin={handlePin}
             onHide={handleHide}
-            onFilter={() => {}}
+            onFilter={handleColumnFilter}
             onColumnReorder={handleColumnReorder}
           />
 
@@ -748,7 +748,7 @@
           onSort={handleSort}
           onPin={handlePin}
           onHide={handleHide}
-          onFilter={() => {}}
+          onFilter={handleColumnFilter}
           onColumnReorder={handleColumnReorder}
           {headerCell}
         />
