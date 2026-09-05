@@ -20,6 +20,8 @@
     editableColumns = [],
     onCellEdit,
     columnCount,
+    isPinned = false,
+    pinnedOffset = 0,
   }: {
     row: Row<TData>;
     selectable: boolean;
@@ -35,6 +37,8 @@
     editableColumns?: string[];
     onCellEdit?: (rowId: string, columnId: string, value: unknown) => void;
     columnCount: number;
+    isPinned?: boolean;
+    pinnedOffset?: number;
   } = $props();
 
   function columnAlign(columnDef: any) {
@@ -54,7 +58,8 @@
 
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <tr
-  class="group border-t border-[var(--ui-border)]/70 transition-colors hover:bg-[var(--ui-secondary)]/45 {selectable ? 'cursor-pointer' : ''} {isSelected ? 'bg-[var(--ui-primary)]/5' : ''}"
+  class="group border-t border-[var(--ui-border)]/70 transition-colors hover:bg-[var(--ui-secondary)]/45 {selectable ? 'cursor-pointer' : ''} {isSelected ? 'bg-[var(--ui-primary)]/5' : ''} {isPinned ? 'sticky z-20 bg-[var(--ui-card)] shadow-[0_2px_4px_-1px_rgba(0,0,0,0.06)]' : ''}"
+  style={isPinned ? `top: ${pinnedOffset}px;` : undefined}
   onclick={selectable ? () => onToggleSelect(row.id) : onRowClick ? () => onRowClick(row.original) : undefined}
 >
   {#if selectable}

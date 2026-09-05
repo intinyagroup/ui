@@ -88,6 +88,11 @@
     externalColumnOrder,
     externalExpanded,
     externalColumnFilters,
+    // Row pinning & quick filter chips & custom snippets
+    pinnedRowIds = [],
+    quickFilters = [],
+    headerCell,
+    customPagination,
   }: {
     data: TData[];
     columns: ColumnDef<TData, unknown>[];
@@ -100,6 +105,10 @@
     pageSize?: number;
     pageSizeOptions?: number[];
     cell?: Snippet<[{ row: TData; columnId: string; value: unknown }]>;
+    headerCell?: Snippet<[{ columnId: string; header: string; canSort: boolean }]>;
+    customPagination?: Snippet<[{ pagination: PaginationState; rowCount: number; onPageChange: (p: number) => void; onPageSizeChange: (s: number) => void }]>;
+    pinnedRowIds?: string[];
+    quickFilters?: { id: string; label: string; value: unknown }[];
     rowClass?: (row: TData) => string;
     loading?: boolean;
     selectable?: boolean;
@@ -561,6 +570,35 @@
     </div>
   {/if}
 
+  <!-- Quick Filter Chips Bar -->
+  {#if quickFilters.length > 0}
+    <div class="flex flex-wrap items-center gap-2 border-b border-[var(--ui-border)] bg-[var(--ui-card)]/50 px-5 py-2.5 sm:px-6">
+      <span class="text-xs font-semibold text-[var(--ui-muted-foreground)] mr-1">Quick Filters:</span>
+      {#each quickFilters as qf (qf.id)}
+        {@const isActive = columnFilters.some((f) => f.id === qf.id && f.value === qf.value)}
+        <button
+          type="button"
+          onclick={() => handleColumnFilter(qf.id, isActive ? undefined : qf.value)}
+          class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium transition-colors cursor-pointer {isActive ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-xs' : 'bg-[var(--ui-secondary)] text-[var(--ui-foreground)] hover:bg-[var(--ui-muted)] border border-[var(--ui-border)]'}"
+        >
+          {qf.label}
+          {#if isActive}
+            <span class="ml-0.5 text-[10px] font-bold">×</span>
+          {/if}
+        </button>
+      {/each}
+      {#if columnFilters.length > 0}
+        <button
+          type="button"
+          onclick={() => { columnFilters = []; }}
+          class="ml-auto text-xs font-medium text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] transition-colors cursor-pointer"
+        >
+          Reset
+        </button>
+      {/if}
+    </div>
+  {/if}
+
   <!-- Bulk Actions Bar -->
   {#if selectedCount > 0}
     <div class="flex items-center gap-3 border-b border-[var(--ui-primary)]/20 bg-[var(--ui-primary)]/5 px-6 py-3 text-sm font-medium text-[var(--ui-primary)]">
@@ -707,10 +745,31 @@
           onHide={handleHide}
           onFilter={() => {}}
           onColumnReorder={handleColumnReorder}
+          {headerCell}
         />
 
         <tbody>
-          {#each rowModel.rows as row (row.id)}
+          {@const pinnedRows = rowModel.rows.filter((r) => pinnedRowIds.includes(r.id))}
+          {@const standardRows = rowModel.rows.filter((r) => !pinnedRowIds.includes(r.id))}
+          {#each pinnedRows as row, idx (row.id)}
+            <DataTableRow
+              {row}
+              {selectable}
+              isSelected={!!rowSelection[row.id]}
+              onToggleSelect={toggleRow}
+              {cell}
+              {density}
+              expanded={!!expanded[row.id]}
+              onExpandToggle={toggleExpand}
+              {detail}
+              canExpand={expandable}
+              {editableColumns}
+              columnCount={table.getAllLeafColumns().length}
+              isPinned={true}
+              pinnedOffset={idx * (density === 'compact' ? 36 : 48)}
+            />
+          {/each}
+          {#each standardRows as row (row.id)}
             <DataTableRow
               {row}
               {selectable}
@@ -792,11 +851,20 @@
   {/if}
 
   <!-- Pagination -->
-  <DataTablePagination
-    {pagination}
-    rowCount={filteredRowCount}
-    {pageSizeOptions}
-    onPageChange={goToPage}
-    onPageSizeChange={(size) => setPageSize(String(size))}
-  />
+  {#if customPagination}
+    {@render customPagination({
+      pagination,
+      rowCount: filteredRowCount,
+      onPageChange: goToPage,
+      onPageSizeChange: (s) => setPageSize(String(s))
+    })}
+  {:else}
+    <DataTablePagination
+      {pagination}
+      rowCount={filteredRowCount}
+      {pageSizeOptions}
+      onPageChange={goToPage}
+      onPageSizeChange={(size) => setPageSize(String(size))}
+    />
+  {/if}
 </div>

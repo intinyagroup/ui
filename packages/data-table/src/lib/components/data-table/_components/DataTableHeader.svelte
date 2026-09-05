@@ -14,7 +14,7 @@
     onHide,
     onFilter,
     onColumnReorder,
-    density,
+    headerCell,
   }: {
     headerGroups: HeaderGroup<any>[];
     selectable: boolean;
@@ -25,7 +25,7 @@
     onHide: (columnId: string) => void;
     onFilter: (columnId: string) => void;
     onColumnReorder: (fromId: string, toId: string) => void;
-    density: 'compact' | 'spacious';
+    headerCell?: import('svelte').Snippet<[{ columnId: string; header: string; canSort: boolean }]>;
   } = $props();
 
   let dragColumnId = $state<string | null>(null);
@@ -122,7 +122,13 @@
               {/if}
 
               <span class="inline-flex items-center gap-1.5 min-w-0">
-                {#if typeof column.columnDef.header === 'string'}
+                {#if headerCell}
+                  {@render headerCell({
+                    columnId: column.id,
+                    header: typeof column.columnDef.header === 'string' ? column.columnDef.header : column.id,
+                    canSort: !!canSort
+                  })}
+                {:else if typeof column.columnDef.header === 'string'}
                   {column.columnDef.header}
                 {/if}
                 {#if canSort}
