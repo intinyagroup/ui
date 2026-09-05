@@ -612,10 +612,15 @@
             <ClipboardPaste class="size-3.5" /> Paste
           </Button>
         {/if}
+        {#if exportable}
+          <Button variant="outline" size="sm" class="gap-1.5 h-8 text-xs" onclick={exportToCSV}>
+            <Download class="size-3" /> Export Selected
+          </Button>
+        {/if}
         {#if bulkActions}
           {@render bulkActions({ selectedIds: Object.keys(rowSelection) })}
         {/if}
-        <button onclick={() => rowSelection = {}} type="button" class="text-xs font-semibold text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] transition-colors">Clear</button>
+        <Button variant="ghost" size="sm" onclick={() => rowSelection = {}} class="text-xs h-8">Clear</Button>
       </div>
     </div>
   {/if}

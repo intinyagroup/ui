@@ -157,12 +157,16 @@
 
           <!-- Resize handle -->
           {#if column.getCanResize()}
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
-              class="absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none hover:bg-[var(--ui-primary)]/50 transition-colors
-                {column.getIsResizing() ? 'bg-[var(--ui-primary)]' : ''}"
+              class="absolute -right-1 top-0 h-full w-2.5 cursor-col-resize select-none touch-none flex items-center justify-center group/resize z-20"
               onmousedown={column.getResizeHandler()}
               ontouchstart={column.getResizeHandler()}
-            ></div>
+            >
+              <div
+                class="h-4/5 w-0.5 rounded-full transition-colors group-hover/resize:bg-[var(--ui-primary)]/80 {column.getIsResizing() ? 'bg-[var(--ui-primary)] w-1 shadow-xs' : 'bg-transparent'}"
+              ></div>
+            </div>
           {/if}
         </th>
       {/each}
