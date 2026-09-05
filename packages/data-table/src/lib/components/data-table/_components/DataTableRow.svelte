@@ -111,16 +111,23 @@
   {/each}
 </tr>
 
-<!-- Expandable detail row -->
-<DataTableDetailRow
-  {row}
-  {expanded}
-  {detail}
-  {selectable}
-  {columnCount}
-/>
+{#if canExpand && expanded}
+  <DataTableDetailRow
+    {row}
+    {detail}
+    colSpan={row.getVisibleCells().length + (selectable ? 1 : 0) + (canExpand ? 1 : 0)}
+  />
+{/if}
 
 <style>
-  .pinned-left { position: sticky; left: 0; }
-  .pinned-right { position: sticky; right: 0; }
+  .pinned-left {
+    position: sticky;
+    left: 0;
+    box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.06);
+  }
+  .pinned-right {
+    position: sticky;
+    right: 0;
+    box-shadow: -2px 0 5px -2px rgba(0, 0, 0, 0.06);
+  }
 </style>

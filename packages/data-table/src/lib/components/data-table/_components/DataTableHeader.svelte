@@ -168,9 +168,11 @@
   .pinned-left {
     position: sticky;
     left: 0;
+    box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.08);
   }
   .pinned-right {
     position: sticky;
     right: 0;
+    box-shadow: -2px 0 5px -2px rgba(0, 0, 0, 0.08);
   }
 </style>
