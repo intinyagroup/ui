@@ -772,6 +772,7 @@
               columnCount={table.getAllLeafColumns().length}
               isPinned={true}
               pinnedOffset={idx * (density === 'compact' ? 36 : 48)}
+              focusedCell={keyboard?.focusedCell}
             />
           {/each}
           {#each standardRows as row (row.id)}
@@ -788,6 +789,7 @@
               canExpand={expandable}
               {editableColumns}
               columnCount={table.getAllLeafColumns().length}
+              focusedCell={keyboard?.focusedCell}
             />
           {/each}
 

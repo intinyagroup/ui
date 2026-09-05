@@ -22,6 +22,7 @@
     columnCount,
     isPinned = false,
     pinnedOffset = 0,
+    focusedCell = null,
   }: {
     row: Row<TData>;
     selectable: boolean;
@@ -39,6 +40,7 @@
     columnCount: number;
     isPinned?: boolean;
     pinnedOffset?: number;
+    focusedCell?: { rowId: string; columnId: string } | null;
   } = $props();
 
   function columnAlign(columnDef: any) {
@@ -94,14 +96,16 @@
     {@const isPinnedRight = tableCell.column.getIsPinned() === 'right'}
     {@const isEditable = editableColumns.includes(tableCell.column.id) || meta?.editable}
 
+    {@const isFocused = focusedCell?.rowId === row.id && focusedCell?.columnId === tableCell.column.id}
+
     <td
-      class="px-4 align-middle text-sm font-medium text-[var(--ui-foreground)]
+      class="px-4 align-middle text-sm font-medium text-[var(--ui-foreground)] transition-shadow
+        {isFocused ? 'ring-2 ring-inset ring-[var(--ui-primary)] bg-[var(--ui-primary)]/5 z-10' : ''}
         {isPinnedLeft ? 'pinned-left bg-[var(--ui-card)] z-10 border-r border-[var(--ui-border)]' : ''}
         {isPinnedRight ? 'pinned-right bg-[var(--ui-card)] z-10 border-l border-[var(--ui-border)]' : ''}
         {meta?.cellClassName ?? ''}
         {columnAlign(meta) === 'right' ? 'text-right' : ''}
         {density === 'compact' ? 'py-2' : 'py-4'}"
-      style={getCellStyle(tableCell.column)}
     >
       {#if cell}
         {@render cell({

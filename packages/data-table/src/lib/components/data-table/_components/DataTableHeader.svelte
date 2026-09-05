@@ -94,15 +94,15 @@
         {@const meta = column.columnDef.meta as DataTableMeta<any> | undefined}
 
         <th
-          class="px-4 py-3 transition-colors relative select-none
+          class="px-4 py-3 transition-all relative select-none
             {isPinnedLeft ? 'pinned-left bg-[var(--ui-card)] z-30 border-r border-[var(--ui-border)]' : ''}
             {isPinnedRight ? 'pinned-right bg-[var(--ui-card)] z-30 border-l border-[var(--ui-border)]' : ''}
             {canSort ? 'cursor-pointer hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]' : ''}
             {meta?.headerClassName ?? ''}
             {columnAlign(meta) === 'right' ? 'text-right' : ''}
-            {dropTargetId === column.id ? 'bg-[var(--ui-primary)]/10' : ''}
+            {dragColumnId === column.id ? 'opacity-40 scale-95' : ''}
+            {dropTargetId === column.id ? 'bg-[var(--ui-primary)]/10 ring-2 ring-inset ring-[var(--ui-primary)]' : ''}
             {density === 'compact' ? 'py-2' : 'py-3'}"
-          style={column.getSize() !== 150 ? `width: ${column.getSize()}px; min-width: ${column.getSize()}px;` : ''}
           onclick={(e) => {
             if (canSort) {
               const direction = e.shiftKey ? (currentSort === 'asc' ? 'desc' : currentSort === 'desc' ? null : 'asc') : (currentSort === 'asc' ? 'desc' : currentSort === 'desc' ? null : 'asc');
