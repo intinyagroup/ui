@@ -39,6 +39,6 @@
 	{#each Array.from({ length: count }) as _, i}
 		<div
 			class={cn('rounded-full', sizeClasses[size], colorMap[color])}
-		/>
+		></div>
 	{/each}
 </div>

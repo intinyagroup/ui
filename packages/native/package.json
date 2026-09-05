@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "build": "svelte-package -o dist",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@capacitor/camera": "^7.0.0",

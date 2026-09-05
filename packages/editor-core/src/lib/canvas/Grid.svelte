@@ -26,5 +26,5 @@
       linear-gradient({color} 1px, transparent 1px),
       linear-gradient(90deg, {color} 1px, transparent 1px);
       background-size: {size}px {size}px;"
-  />
+  ></div>
 {/if}

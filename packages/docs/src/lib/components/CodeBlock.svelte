@@ -24,7 +24,7 @@
 	}
 
 	// Collapse leading/trailing blank lines and dedent for display
-	const display = code.replace(/^\n+|\s+$/g, '');
+	const display = $derived(code.replace(/^\n+|\s+$/g, ''));
 </script>
 
 <div class="my-4 overflow-hidden rounded-lg border border-[var(--ui-border)] bg-[oklch(0.16_0.01_260)]">

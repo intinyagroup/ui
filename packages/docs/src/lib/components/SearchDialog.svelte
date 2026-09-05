@@ -65,10 +65,13 @@
 {#if open}
 	<div class="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]">
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div class="fixed inset-0 bg-black/50 backdrop-blur-sm" onclick={() => (open = false)}></div>
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div class="relative z-10 w-full max-w-lg rounded-xl border border-[var(--ui-border)] bg-[var(--ui-background)] shadow-2xl" onkeydown={handleKeydown}>
 			<div class="flex items-center gap-3 border-b border-[var(--ui-border)] px-4">
 				<Search class="size-4 text-[var(--ui-muted-foreground)]" />
+				<!-- svelte-ignore a11y_autofocus -->
 				<input
 					bind:value={query}
 					placeholder="Search docs... (⌘K)"

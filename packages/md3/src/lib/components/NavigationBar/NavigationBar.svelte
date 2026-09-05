@@ -34,7 +34,6 @@
 		'h-20 px-0',
 		className
 	)}
-	role="navigation"
 >
 	{@render children?.()}
 </nav>
