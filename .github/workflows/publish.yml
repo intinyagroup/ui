@@ -49,7 +49,8 @@ jobs:
             const bump = '${{ github.event.inputs.version }}';
           for (const d of fs.readdirSync('packages')) {
             const targetPkg = '${{ github.event.inputs.package }}';
-            if (targetPkg !== 'all' && targetPkg !== '' && targetPkg !== d) continue;
+            const matched = targetPkg === 'all' || targetPkg === '' || targetPkg === d || (targetPkg === 'ui' && d === 'core');
+            if (!matched) continue;
             const f = 'packages/' + d + '/package.json';
             if (!fs.existsSync(f)) continue;
             const j = JSON.parse(fs.readFileSync(f, 'utf8'));
@@ -115,8 +116,10 @@ jobs:
           [ "$STAGE" = "stable" ] && TAG="latest"
           TARGET_PKG='${{ github.event.inputs.package }}'
           for pkg in "${ORDER[@]}"; do
-            if [ "$TARGET_PKG" != "all" ] && [ "$TARGET_PKG" != "" ] && [ "$TARGET_PKG" != "$pkg" ]; then
-              continue
+            if [ "$TARGET_PKG" != "all" ] && [ "$TARGET_PKG" != "" ]; then
+              if [ "$TARGET_PKG" != "$pkg" ] && ! [ "$TARGET_PKG" = "ui" -a "$pkg" = "core" ]; then
+                continue
+              fi
             fi
             if [ -d "packages/$pkg" ]; then
               (
@@ -151,8 +154,8 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           git config user.name "intinya-bot"
           git config user.email "bot@intinya.dev"
-          git tag -a "v$VERSION" -m "Release v$VERSION"
-          git push origin "v$VERSION"
+          git tag -fa "v$VERSION" -m "Release v$VERSION"
+          git push origin "v$VERSION" --force || echo "Tag already pushed or remote updated"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
