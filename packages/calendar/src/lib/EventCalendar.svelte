@@ -302,12 +302,24 @@
       <!-- 7 Days Grid Columns -->
       {#each weekDays as d}
         {@const dayEvents = getEventsForDay(d)}
+        {@const isCurrentDay = isToday(d)}
+        {@const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes()}
+        {@const currentTimeTop = (nowMinutes / 60) * 56}
         <div class="col-span-1 divide-y divide-[var(--ui-border)]/50 relative">
           {#each hours as _}
             <div class="h-14"></div>
           {/each}
 
-          <!-- Render Event Boxes -->
+          <!-- Google Calendar style Current Time Red Line -->
+          {#if isCurrentDay}
+            <div
+              class="absolute inset-x-0 z-30 pointer-events-none flex items-center"
+              style="top: {currentTimeTop}px;"
+            >
+              <div class="size-2 rounded-full bg-red-500 -ml-1"></div>
+              <div class="h-0.5 w-full bg-red-500"></div>
+            </div>
+          {/if}
           {#each dayEvents as ev (ev.id)}
             {@const startH = new Date(ev.start).getHours()}
             {@const startM = new Date(ev.start).getMinutes()}
@@ -343,12 +355,24 @@
           <div class="h-16 pt-2">{String(hour).padStart(2, '0')}:00</div>
         {/each}
       </div>
-
+      {@const isCurrentDay = isToday(currentDate)}
+      {@const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes()}
+      {@const currentTimeTop = (nowMinutes / 60) * 64}
       <div class="col-span-10 divide-y divide-[var(--ui-border)]/50 relative p-1">
         {#each hours as _}
           <div class="h-16"></div>
         {/each}
 
+        <!-- Google Calendar style Current Time Red Line -->
+        {#if isCurrentDay}
+          <div
+            class="absolute inset-x-0 z-30 pointer-events-none flex items-center"
+            style="top: {currentTimeTop}px;"
+          >
+            <div class="size-2.5 rounded-full bg-red-500 -ml-1"></div>
+            <div class="h-0.5 w-full bg-red-500"></div>
+          </div>
+        {/if}
         {#each getEventsForDay(currentDate) as ev (ev.id)}
           {@const startH = new Date(ev.start).getHours()}
           {@const startM = new Date(ev.start).getMinutes()}
