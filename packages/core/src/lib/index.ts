@@ -63,7 +63,8 @@ export { PasswordInput } from './components/password-input/index.js';
 export { validators, createFormValidator } from './components/validate/index.js';
 export type { ValidationRule } from './components/validate/index.js';
 export { ValidationMessage, FormInput, FormSelect, FormTextarea, FormGroup } from './components/validate/index.js';
-export { SearchSelect, type SearchSelectOption } from './components/search-select/index.js';
+export { Combobox, type ComboboxOption } from './components/combobox/index.js';
+export { SearchSelect, type SearchSelectOption, SearchSelect as MultiSelect } from './components/search-select/index.js';
 
 // Feedback
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './components/tooltip/index.js';
