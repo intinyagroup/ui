@@ -2,6 +2,23 @@
   import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, X } from 'lucide-svelte';
   import { Button } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/ui/utils';
+  import {
+    addMonths,
+    subMonths,
+    addDays,
+    subDays,
+    startOfMonth,
+    endOfMonth,
+    startOfWeek,
+    endOfWeek,
+    eachDayOfInterval,
+    isSameDay,
+    isSameMonth,
+    isWithinInterval,
+    isBefore,
+    format
+  } from 'date-fns';
+  import { id as localeId, enUS as localeEn } from 'date-fns/locale';
 
   export type CalendarDate = { year: number; month: number; day: number };
   export type DateRange = {
@@ -41,93 +58,63 @@
   let isOpen = $state(false);
   const today = new Date();
 
-  let viewYear = $state(value?.start?.year ?? today.getFullYear());
-  let viewMonth = $state(value?.start?.month ?? today.getMonth());
-  let hoverDate = $state<CalendarDate | null>(null);
+  let viewDate = $state(
+    value?.start ? new Date(value.start.year, value.start.month, value.start.day) : today
+  );
+  let hoverDate = $state<Date | null>(null);
 
-  // Month names via Intl.DateTimeFormat
-  const monthName = $derived.by(() => {
-    return new Intl.DateTimeFormat(locale, { month: 'long' }).format(
-      new Date(viewYear, viewMonth, 1)
-    );
-  });
+  const activeDateFnsLocale = $derived(locale.startsWith('id') ? localeId : localeEn);
+  const weekStartsOn = $derived(firstDayOfWeek as 0 | 1 | 2 | 3 | 4 | 5 | 6);
 
-  // Day names via Intl.DateTimeFormat with firstDayOfWeek support
-  const dayNames = $derived.by(() => {
-    const formatter = new Intl.DateTimeFormat(locale, { weekday: 'short' });
-    const days: string[] = [];
-    // 2026-08-30 is Sunday
-    const baseSunday = new Date(2026, 7, 30);
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(baseSunday);
-      d.setDate(baseSunday.getDate() + ((i + firstDayOfWeek) % 7));
-      days.push(formatter.format(d));
-    }
-    return days;
-  });
-
-  const daysInMonth = $derived(new Date(viewYear, viewMonth + 1, 0).getDate());
-  const rawFirstDayOfMonth = $derived(new Date(viewYear, viewMonth, 1).getDay());
-  const firstDayOfMonth = $derived((rawFirstDayOfMonth - firstDayOfWeek + 7) % 7);
-
-  function toDate(d: CalendarDate): Date {
+  function toDate(d: CalendarDate | null): Date | null {
+    if (!d) return null;
     return new Date(d.year, d.month, d.day);
   }
 
-  function compareDates(a: CalendarDate, b: CalendarDate): number {
-    const da = toDate(a).getTime();
-    const db = toDate(b).getTime();
-    return da < db ? -1 : da > db ? 1 : 0;
+  function toCalendarDate(date: Date): CalendarDate {
+    return {
+      year: date.getFullYear(),
+      month: date.getMonth(),
+      day: date.getDate()
+    };
   }
 
-  function isSameDate(a: CalendarDate | null, b: CalendarDate | null): boolean {
-    if (!a || !b) return false;
-    return a.year === b.year && a.month === b.month && a.day === b.day;
-  }
-
-  function isInRange(target: CalendarDate, start: CalendarDate | null, end: CalendarDate | null): boolean {
-    if (!start || !end) return false;
-    const t = toDate(target).getTime();
-    const s = toDate(start).getTime();
-    const e = toDate(end).getTime();
-    return t >= Math.min(s, e) && t <= Math.max(s, e);
-  }
-
-  const calendarDays = $derived.by(() => {
-    const days: { day: number; currentMonth: boolean; date: CalendarDate }[] = [];
-    const prevMonthDays = new Date(viewYear, viewMonth, 0).getDate();
-
-    for (let i = firstDayOfMonth - 1; i >= 0; i--) {
-      const day = prevMonthDays - i;
-      const month = viewMonth === 0 ? 11 : viewMonth - 1;
-      const year = viewMonth === 0 ? viewYear - 1 : viewYear;
-      days.push({ day, currentMonth: false, date: { year, month, day } });
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      days.push({ day, currentMonth: true, date: { year: viewYear, month: viewMonth, day } });
-    }
-
-    const remaining = 42 - days.length;
-    for (let day = 1; day <= remaining; day++) {
-      const month = viewMonth === 11 ? 0 : viewMonth + 1;
-      const year = viewMonth === 11 ? viewYear + 1 : viewYear;
-      days.push({ day, currentMonth: false, date: { year, month, day } });
-    }
-
-    return days;
+  // Generate day names for header using date-fns
+  const dayNames = $derived.by(() => {
+    const start = startOfWeek(viewDate, { weekStartsOn });
+    return Array.from({ length: 7 }, (_, i) => {
+      return format(addDays(start, i), 'EEE', { locale: activeDateFnsLocale });
+    });
   });
 
-  function handleDateClick(date: CalendarDate) {
+  // Generate full calendar grid (days from start of week of month-start to end of week of month-end)
+  const calendarDays = $derived.by(() => {
+    const monthStart = startOfMonth(viewDate);
+    const monthEnd = endOfMonth(viewDate);
+    const gridStart = startOfWeek(monthStart, { weekStartsOn });
+    const gridEnd = endOfWeek(monthEnd, { weekStartsOn });
+
+    const days = eachDayOfInterval({ start: gridStart, end: gridEnd });
+    return days.map((d) => ({
+      date: d,
+      calendarDate: toCalendarDate(d),
+      currentMonth: isSameMonth(d, viewDate)
+    }));
+  });
+
+  const startDateObj = $derived(toDate(value.start));
+  const endDateObj = $derived(toDate(value.end));
+
+  function handleDateClick(date: Date) {
     if (disabled) return;
 
-    if (!value.start || (value.start && value.end)) {
-      value = { start: date, end: null };
-    } else if (value.start && !value.end) {
-      if (compareDates(date, value.start) < 0) {
-        value = { start: date, end: value.start };
+    if (!startDateObj || (startDateObj && endDateObj)) {
+      value = { start: toCalendarDate(date), end: null };
+    } else if (startDateObj && !endDateObj) {
+      if (isBefore(date, startDateObj)) {
+        value = { start: toCalendarDate(date), end: toCalendarDate(startDateObj) };
       } else {
-        value = { start: value.start, end: date };
+        value = { start: toCalendarDate(startDateObj), end: toCalendarDate(date) };
       }
       onSelect?.(value);
       isOpen = false;
@@ -135,30 +122,17 @@
   }
 
   function prevMonth() {
-    if (viewMonth === 0) {
-      viewMonth = 11;
-      viewYear--;
-    } else {
-      viewMonth--;
-    }
+    viewDate = subMonths(viewDate, 1);
   }
 
   function nextMonth() {
-    if (viewMonth === 11) {
-      viewMonth = 0;
-      viewYear++;
-    } else {
-      viewMonth++;
-    }
+    viewDate = addMonths(viewDate, 1);
   }
 
   function formatDisplayDate(date: CalendarDate | null): string {
-    if (!date) return '';
-    return new Intl.DateTimeFormat(locale, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    }).format(toDate(date));
+    const d = toDate(date);
+    if (!d) return '';
+    return format(d, 'dd/MM/yyyy', { locale: activeDateFnsLocale });
   }
 
   const label = $derived.by(() => {
@@ -177,40 +151,36 @@
     onSelect?.(value);
   }
 
-  // Default rich presets for business & dashboards
+  // Rich presets using date-fns intervals
   const activePresets = $derived.by<DateRangePreset[]>(() => {
     if (presets) return presets;
 
     const y = today.getFullYear();
-    const m = today.getMonth();
-    const d = today.getDate();
-
-    // This Month
-    const thisMonthStart = { year: y, month: m, day: 1 };
-    const thisMonthEnd = { year: y, month: m, day: new Date(y, m + 1, 0).getDate() };
-
-    // Last Month
-    const lastMonthStart = { year: m === 0 ? y - 1 : y, month: m === 0 ? 11 : m - 1, day: 1 };
-    const lastMonthEnd = {
-      year: m === 0 ? y - 1 : y,
-      month: m === 0 ? 11 : m - 1,
-      day: new Date(m === 0 ? y - 1 : y, m === 0 ? 12 : m, 0).getDate()
-    };
-
-    // Year to Date
-    const ytdStart = { year: y, month: 0, day: 1 };
-    const ytdEnd = { year: y, month: m, day: d };
-
-    // Next 7 Days
-    const next7EndD = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const next7End = { year: next7EndD.getFullYear(), month: next7EndD.getMonth(), day: next7EndD.getDate() };
 
     return [
-      { label: 'Today', range: { start: { year: y, month: m, day: d }, end: { year: y, month: m, day: d } } },
-      { label: 'Next 7D', range: { start: { year: y, month: m, day: d }, end: next7End } },
-      { label: 'This Month', range: { start: thisMonthStart, end: thisMonthEnd } },
-      { label: 'Last Month', range: { start: lastMonthStart, end: lastMonthEnd } },
-      { label: 'YTD', range: { start: ytdStart, end: ytdEnd } }
+      {
+        label: 'Today',
+        range: { start: toCalendarDate(today), end: toCalendarDate(today) }
+      },
+      {
+        label: 'Next 7D',
+        range: { start: toCalendarDate(today), end: toCalendarDate(addDays(today, 7)) }
+      },
+      {
+        label: 'This Month',
+        range: { start: toCalendarDate(startOfMonth(today)), end: toCalendarDate(endOfMonth(today)) }
+      },
+      {
+        label: 'Last Month',
+        range: {
+          start: toCalendarDate(startOfMonth(subMonths(today, 1))),
+          end: toCalendarDate(endOfMonth(subMonths(today, 1)))
+        }
+      },
+      {
+        label: 'YTD',
+        range: { start: { year: y, month: 0, day: 1 }, end: toCalendarDate(today) }
+      }
     ];
   });
 </script>
@@ -259,7 +229,7 @@
           <ChevronLeft class="size-4" />
         </Button>
         <span class="text-xs font-semibold text-[var(--ui-foreground)] capitalize">
-          {monthName} {viewYear}
+          {format(viewDate, 'MMMM yyyy', { locale: activeDateFnsLocale })}
         </span>
         <Button variant="ghost" size="sm" class="size-7 p-0" onclick={nextMonth}>
           <ChevronRight class="size-4" />
@@ -269,7 +239,7 @@
       <!-- Day names -->
       <div class="grid grid-cols-7 mb-1 text-center">
         {#each dayNames as day}
-          <span class="text-[11px] font-semibold text-[var(--ui-muted-foreground)] py-1">
+          <span class="text-[11px] font-semibold text-[var(--ui-muted-foreground)] py-1 capitalize">
             {day}
           </span>
         {/each}
@@ -277,22 +247,28 @@
 
       <!-- Calendar grid -->
       <div class="grid grid-cols-7 gap-y-1">
-        {#each calendarDays as { day, currentMonth, date }}
-          {@const isStart = isSameDate(value.start, date)}
-          {@const isEnd = isSameDate(value.end, date)}
-          {@const activeRangeEnd = value.end || hoverDate}
-          {@const inRange = isInRange(date, value.start, activeRangeEnd)}
+        {#each calendarDays as { date, calendarDate, currentMonth }}
+          {@const isStart = startDateObj ? isSameDay(startDateObj, date) : false}
+          {@const isEnd = endDateObj ? isSameDay(endDateObj, date) : false}
+          {@const activeRangeEnd = endDateObj || hoverDate}
+          {@const inRange =
+            startDateObj && activeRangeEnd
+              ? isWithinInterval(date, {
+                  start: isBefore(startDateObj, activeRangeEnd) ? startDateObj : activeRangeEnd,
+                  end: isBefore(startDateObj, activeRangeEnd) ? activeRangeEnd : startDateObj
+                })
+              : false}
           {@const isEdge = isStart || isEnd}
 
           <div
             class={cn(
               'relative py-0.5 flex items-center justify-center',
               inRange && !isEdge && 'bg-[var(--ui-primary)]/10',
-              isStart && activeRangeEnd && !isSameDate(value.start, activeRangeEnd) && 'rounded-l-md bg-[var(--ui-primary)]/10',
-              isEnd && value.start && !isSameDate(value.start, value.end) && 'rounded-r-md bg-[var(--ui-primary)]/10'
+              isStart && activeRangeEnd && !isSameDay(startDateObj, activeRangeEnd) && 'rounded-l-md bg-[var(--ui-primary)]/10',
+              isEnd && startDateObj && !isSameDay(startDateObj, endDateObj) && 'rounded-r-md bg-[var(--ui-primary)]/10'
             )}
             onmouseenter={() => {
-              if (value.start && !value.end) hoverDate = date;
+              if (startDateObj && !endDateObj) hoverDate = date;
             }}
           >
             <button
@@ -307,7 +283,7 @@
                 isEdge && 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
               )}
             >
-              {day}
+              {date.getDate()}
             </button>
           </div>
         {/each}

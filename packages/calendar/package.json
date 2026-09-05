@@ -19,13 +19,14 @@
     "dev": "svelte-package -o dist -w"
   },
   "dependencies": {
-    "@intinyagroup/ui": "workspace:*"
+    "@intinyagroup/ui": "workspace:*",
+    "date-fns": "^4.4.0"
   },
   "devDependencies": {
     "@sveltejs/package": "^2.5.8",
+    "@sveltejs/vite-plugin-svelte": "^5.1.1",
     "svelte": "^5.55.2",
-    "typescript": "^6.0.2",
-    "@sveltejs/vite-plugin-svelte": "^5.1.1"
+    "typescript": "^6.0.2"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"

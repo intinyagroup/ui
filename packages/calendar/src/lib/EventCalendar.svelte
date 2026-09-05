@@ -1,7 +1,24 @@
 <script lang="ts">
   import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Clock, Plus, X } from 'lucide-svelte';
-  import { Button, Input } from '@intinyagroup/ui';
+  import { Button } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/ui/utils';
+  import {
+    addMonths,
+    subMonths,
+    addWeeks,
+    subWeeks,
+    addDays,
+    subDays,
+    startOfMonth,
+    endOfMonth,
+    startOfWeek,
+    endOfWeek,
+    eachDayOfInterval,
+    isSameDay,
+    isSameMonth,
+    format
+  } from 'date-fns';
+  import { id as localeId, enUS as localeEn } from 'date-fns/locale';
 
   export type CalendarView = 'month' | 'week' | 'day';
 
@@ -41,106 +58,61 @@
     onAddEvent?: (newEvent: CalendarEvent) => void;
   } = $props();
 
-  // Resolved timezone (fallback to browser timezone)
+  const activeDateFnsLocale = $derived(locale.startsWith('id') ? localeId : localeEn);
+  const weekStartsOn = $derived(firstDayOfWeek as 0 | 1 | 2 | 3 | 4 | 5 | 6);
+
   const activeTimeZone = $derived(
     timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
   );
 
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
-  // Day names localized and rotated according to firstDayOfWeek
+  // Day names localized and rotated according to firstDayOfWeek via date-fns
   const dayNames = $derived.by(() => {
-    const formatter = new Intl.DateTimeFormat(locale, { weekday: 'short' });
-    const days: string[] = [];
-    const baseSunday = new Date(2026, 7, 30); // Known Sunday
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(baseSunday);
-      d.setDate(baseSunday.getDate() + ((i + firstDayOfWeek) % 7));
-      days.push(formatter.format(d));
-    }
-    return days;
+    const start = startOfWeek(currentDate, { weekStartsOn });
+    return Array.from({ length: 7 }, (_, i) => {
+      return format(addDays(start, i), 'EEE', { locale: activeDateFnsLocale });
+    });
   });
-
-  function isSameDay(d1: Date, d2: Date): boolean {
-    return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
-    );
-  }
 
   function isToday(d: Date): boolean {
     return isSameDay(d, new Date());
   }
 
   function goPrev() {
-    const next = new Date(currentDate);
-    if (view === 'month') next.setMonth(next.getMonth() - 1);
-    else if (view === 'week') next.setDate(next.getDate() - 7);
-    else next.setDate(next.getDate() - 1);
-    currentDate = next;
+    if (view === 'month') currentDate = subMonths(currentDate, 1);
+    else if (view === 'week') currentDate = subWeeks(currentDate, 1);
+    else currentDate = subDays(currentDate, 1);
   }
 
   function goNext() {
-    const next = new Date(currentDate);
-    if (view === 'month') next.setMonth(next.getMonth() + 1);
-    else if (view === 'week') next.setDate(next.getDate() + 7);
-    else next.setDate(next.getDate() + 1);
-    currentDate = next;
+    if (view === 'month') currentDate = addMonths(currentDate, 1);
+    else if (view === 'week') currentDate = addWeeks(currentDate, 1);
+    else currentDate = addDays(currentDate, 1);
   }
 
   function goToday() {
     currentDate = new Date();
   }
 
-  // Month view calendar matrix (42 cells) respecting firstDayOfWeek
+  // Month view calendar matrix using date-fns intervals
   const monthDays = $derived.by(() => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    const rawFirstDay = new Date(year, month, 1).getDay();
-    const firstDay = (rawFirstDay - firstDayOfWeek + 7) % 7;
-    const daysInCurrentMonth = new Date(year, month + 1, 0).getDate();
-    const daysInPrevMonth = new Date(year, month, 0).getDate();
+    const monthStart = startOfMonth(currentDate);
+    const monthEnd = endOfMonth(currentDate);
+    const gridStart = startOfWeek(monthStart, { weekStartsOn });
+    const gridEnd = endOfWeek(monthEnd, { weekStartsOn });
 
-    const days: { date: Date; currentMonth: boolean }[] = [];
-
-    for (let i = firstDay - 1; i >= 0; i--) {
-      days.push({
-        date: new Date(year, month - 1, daysInPrevMonth - i),
-        currentMonth: false
-      });
-    }
-
-    for (let i = 1; i <= daysInCurrentMonth; i++) {
-      days.push({
-        date: new Date(year, month, i),
-        currentMonth: true
-      });
-    }
-
-    const remaining = 42 - days.length;
-    for (let i = 1; i <= remaining; i++) {
-      days.push({
-        date: new Date(year, month + 1, i),
-        currentMonth: false
-      });
-    }
-
-    return days;
+    const days = eachDayOfInterval({ start: gridStart, end: gridEnd });
+    return days.map((d) => ({
+      date: d,
+      currentMonth: isSameMonth(d, currentDate)
+    }));
   });
 
-  // Week view days respecting firstDayOfWeek
+  // Week view 7 days using date-fns
   const weekDays = $derived.by(() => {
-    const dayOfWeek = currentDate.getDay();
-    const offset = (dayOfWeek - firstDayOfWeek + 7) % 7;
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - offset);
-
-    return Array.from({ length: 7 }, (_, i) => {
-      const d = new Date(startOfWeek);
-      d.setDate(startOfWeek.getDate() + i);
-      return d;
-    });
+    const start = startOfWeek(currentDate, { weekStartsOn });
+    return Array.from({ length: 7 }, (_, i) => addDays(start, i));
   });
 
   function getEventsForDay(d: Date): CalendarEvent[] {
@@ -174,17 +146,17 @@
   }
 
   const titleHeader = $derived.by(() => {
-    const y = currentDate.getFullYear();
-    const monthFormatter = new Intl.DateTimeFormat(locale, { month: 'long' });
-    const monthShortFormatter = new Intl.DateTimeFormat(locale, { month: 'short' });
-
-    if (view === 'month') return `${monthFormatter.format(currentDate)} ${y}`;
+    if (view === 'month') {
+      return format(currentDate, 'MMMM yyyy', { locale: activeDateFnsLocale });
+    }
     if (view === 'week') {
       const start = weekDays[0];
       const end = weekDays[6];
-      return `${start.getDate()} ${monthShortFormatter.format(start)} - ${end.getDate()} ${monthShortFormatter.format(end)} ${y}`;
+      const sStr = format(start, 'dd MMM', { locale: activeDateFnsLocale });
+      const eStr = format(end, 'dd MMM yyyy', { locale: activeDateFnsLocale });
+      return `${sStr} - ${eStr}`;
     }
-    return `${currentDate.getDate()} ${monthFormatter.format(currentDate)} ${y}`;
+    return format(currentDate, 'dd MMMM yyyy', { locale: activeDateFnsLocale });
   });
 
   // Event modal state
@@ -399,6 +371,7 @@
         {@const nowTime = getTimeInZone(new Date())}
         {@const nowMinutes = nowTime.hours * 60 + nowTime.minutes}
         {@const currentTimeTop = (nowMinutes / 60) * 56}
+
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div
@@ -463,6 +436,7 @@
       {@const nowTime = getTimeInZone(new Date())}
       {@const nowMinutes = nowTime.hours * 60 + nowTime.minutes}
       {@const currentTimeTop = (nowMinutes / 60) * 64}
+
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <div
