@@ -119,6 +119,8 @@ jobs:
               continue
             fi
             if [ -d "packages/$pkg" ]; then
+              (
+                cd packages/$pkg
                 for attempt in 1 2 3 4; do
                   if npm publish --tag "$TAG" --access public; then
                     break
