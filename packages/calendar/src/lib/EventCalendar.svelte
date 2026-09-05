@@ -20,6 +20,7 @@
     view = $bindable('month' as CalendarView),
     currentDate = $bindable(new Date()),
     locale = 'en-US',
+    timeZone,
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday
     enableEventModal = true,
     class: className,
@@ -31,6 +32,7 @@
     view?: CalendarView;
     currentDate?: Date;
     locale?: string;
+    timeZone?: string;
     firstDayOfWeek?: number;
     enableEventModal?: boolean;
     class?: string;
@@ -38,6 +40,11 @@
     onDateClick?: (date: Date) => void;
     onAddEvent?: (newEvent: CalendarEvent) => void;
   } = $props();
+
+  // Resolved timezone (fallback to browser timezone)
+  const activeTimeZone = $derived(
+    timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+  );
 
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
@@ -140,11 +147,30 @@
     return events.filter((ev) => isSameDay(new Date(ev.start), d));
   }
 
+  function getTimeInZone(date: Date): { hours: number; minutes: number } {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: activeTimeZone,
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    }).formatToParts(date);
+
+    let hours = 0;
+    let minutes = 0;
+    for (const p of parts) {
+      if (p.type === 'hour') hours = Number(p.value) % 24;
+      if (p.type === 'minute') minutes = Number(p.value);
+    }
+    return { hours, minutes };
+  }
+
   function formatTime(date: Date): string {
-    const d = new Date(date);
-    const h = String(d.getHours()).padStart(2, '0');
-    const m = String(d.getMinutes()).padStart(2, '0');
-    return `${h}:${m}`;
+    return new Intl.DateTimeFormat(locale, {
+      timeZone: activeTimeZone,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }).format(date);
   }
 
   const titleHeader = $derived.by(() => {
@@ -226,6 +252,9 @@
           <ChevronRight class="size-4" />
         </Button>
       </div>
+      <span class="inline-flex items-center rounded-md bg-[var(--ui-secondary)]/50 px-2 py-0.5 text-[10px] font-medium text-[var(--ui-muted-foreground)]">
+        {activeTimeZone}
+      </span>
     </div>
 
     <div class="flex items-center gap-2">
@@ -367,9 +396,9 @@
       {#each weekDays as d}
         {@const dayEvents = getEventsForDay(d)}
         {@const isCurrentDay = isToday(d)}
-        {@const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes()}
+        {@const nowTime = getTimeInZone(new Date())}
+        {@const nowMinutes = nowTime.hours * 60 + nowTime.minutes}
         {@const currentTimeTop = (nowMinutes / 60) * 56}
-
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div
@@ -393,9 +422,8 @@
 
           <!-- Render Event Boxes -->
           {#each dayEvents as ev (ev.id)}
-            {@const startH = new Date(ev.start).getHours()}
-            {@const startM = new Date(ev.start).getMinutes()}
-            {@const topPos = (startH + startM / 60) * 56}
+            {@const evTime = getTimeInZone(new Date(ev.start))}
+            {@const topPos = (evTime.hours + evTime.minutes / 60) * 56}
             <button
               type="button"
               onclick={(e) => {
@@ -432,9 +460,9 @@
       </div>
 
       {@const isCurrentDay = isToday(currentDate)}
-      {@const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes()}
+      {@const nowTime = getTimeInZone(new Date())}
+      {@const nowMinutes = nowTime.hours * 60 + nowTime.minutes}
       {@const currentTimeTop = (nowMinutes / 60) * 64}
-
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <div
@@ -457,9 +485,8 @@
         {/if}
 
         {#each getEventsForDay(currentDate) as ev (ev.id)}
-          {@const startH = new Date(ev.start).getHours()}
-          {@const startM = new Date(ev.start).getMinutes()}
-          {@const topPos = (startH + startM / 60) * 64}
+          {@const evTime = getTimeInZone(new Date(ev.start))}
+          {@const topPos = (evTime.hours + evTime.minutes / 60) * 64}
           <button
             type="button"
             onclick={(e) => {
