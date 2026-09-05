@@ -44,7 +44,7 @@ export { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, Comman
 export { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption } from './components/table/index.js';
 export { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext, PaginationLink, PaginationEllipsis } from './components/pagination/index.js';
 export { DataTable, type ColumnDef as DataTableColumnDef, type DataTableProps } from './components/data-table/index.js';
-
+export { DatePicker } from './components/date-picker/index.js';
 // Form
 export { Select, SelectTrigger, SelectContent, SelectItem, SelectValue, SelectGroup, SelectLabel, SelectSeparator } from './components/select/index.js';
 export { Checkbox } from './components/checkbox/index.js';
