@@ -47,11 +47,14 @@ jobs:
             const fs = require('fs');
             const stage = '${{ github.event.inputs.release-type }}';
             const bump = '${{ github.event.inputs.version }}';
-            for (const f of fs.readdirSync('packages').map(d => 'packages/' + d + '/package.json')) {
-              if (!fs.existsSync(f)) continue;
-              const j = JSON.parse(fs.readFileSync(f, 'utf8'));
-              if (j.private) continue;
-              let [base, suffix] = (j.version || '0.0.0').split('-');
+          for (const d of fs.readdirSync('packages')) {
+            const targetPkg = '${{ github.event.inputs.package }}';
+            if (targetPkg !== 'all' && targetPkg !== '' && targetPkg !== d) continue;
+            const f = 'packages/' + d + '/package.json';
+            if (!fs.existsSync(f)) continue;
+            const j = JSON.parse(fs.readFileSync(f, 'utf8'));
+            if (j.private) continue;
+            let [base, suffix] = (j.version || '0.0.0').split('-');
               const v = base.split('.').map(Number);
               if (stage === 'stable') {
                 // Drop prerelease suffix, bump the requested segment.

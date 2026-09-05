@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/react",
-  "version": "0.1.1-alpha.8",
+  "version": "0.1.1-alpha.9",
   "description": "React component library powered by Ark UI and @intinyagroup/tokens",
   "type": "module",
   "main": "./dist/index.cjs",
