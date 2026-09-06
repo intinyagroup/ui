@@ -51,6 +51,7 @@ PACKAGES=(
   spreadsheet
   react
   react-data-table
+  notion-database
 )
 
 

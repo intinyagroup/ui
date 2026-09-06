@@ -21,7 +21,7 @@
     AlignLeft, AlignCenter, AlignRight, AlignJustify,
     List, ListOrdered, Quote, Code, Minus, Link as LinkIcon, Image as ImageIcon,
     Undo, Redo, Heading1, Heading2, Heading3, TableIcon, Plus, Trash2,
-    Video, CheckSquare, Info, AlertTriangle, Sparkles, HelpCircle
+    Video, CheckSquare, Info, AlertTriangle, Sparkles, HelpCircle, FileText
   } from 'lucide-svelte';
   import { Button, Separator } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/grid-core/utils';
@@ -35,6 +35,7 @@
     class: className,
     onUpdate,
     onImageUpload,
+    onOpenSubPage,
   }: {
     content?: string;
     placeholder?: string;
@@ -43,8 +44,10 @@
     mode?: 'classic' | 'bubble' | 'none';
     height?: number;
     class?: string;
+    onUpdate?: (html: string) => void;
     /** Called when paste/drop provides an image file. Return a URL to insert. */
     onImageUpload?: (file: File) => Promise<string>;
+    onOpenSubPage?: (page: { id: string; title: string }) => void;
   } = $props();
 
   let editorEl: HTMLDivElement | null = null;
@@ -60,6 +63,7 @@
   let slashMenuPos = $state({ top: 0, left: 0 });
 
   const slashCommands = [
+    { title: 'Sub-page', desc: 'Embed a sub-page inside this page', icon: FileText, action: () => insertSubPage() },
     { title: 'Heading 1', desc: 'Big section heading', icon: Heading1, action: () => setHeading(1) },
     { title: 'Heading 2', desc: 'Medium section heading', icon: Heading2, action: () => setHeading(2) },
     { title: 'Heading 3', desc: 'Small subsection heading', icon: Heading3, action: () => setHeading(3) },
@@ -248,6 +252,35 @@
       ];
     },
   });
+  /** SubPage block extension (Page-in-page card) */
+  const SubPage = Node.create({
+    name: 'subpage',
+    group: 'block',
+    atom: true,
+    addAttributes() {
+      return {
+        id: { default: () => `page-${Date.now()}` },
+        title: { default: 'Untitled Sub-page' },
+        icon: { default: '📄' }
+      };
+    },
+    parseHTML() {
+      return [{ tag: 'div[data-type="subpage"]' }];
+    },
+    renderHTML({ HTMLAttributes }) {
+      return [
+        'div',
+        mergeAttributes(HTMLAttributes, {
+          'data-type': 'subpage',
+          class: 'subpage-block my-2 flex items-center gap-2.5 px-3 py-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] hover:bg-[var(--ui-secondary)]/50 transition-colors cursor-pointer shadow-xs group',
+          'data-page-id': HTMLAttributes.id,
+          'data-page-title': HTMLAttributes.title
+        }),
+        ['span', { class: 'text-base shrink-0 select-none' }, HTMLAttributes.icon || '📄'],
+        ['span', { class: 'text-sm font-semibold text-[var(--ui-foreground)] underline-offset-4 group-hover:underline truncate' }, HTMLAttributes.title || 'Untitled Sub-page']
+      ];
+    },
+  });
 
   /** Callout block extension with type icon & colored border */
   const Callout = Node.create({
@@ -351,6 +384,13 @@
       content: [{ type: 'paragraph', text: 'Tulis catatan penting di sini...' }]
     }).run();
   }
+  function insertSubPage() {
+    const title = window.prompt('Enter Sub-page title:') || 'Untitled Sub-page';
+    editor?.chain().focus().insertContent({
+      type: 'subpage',
+      attrs: { id: `page-${Date.now()}`, title, icon: '📄' }
+    }).run();
+  }
 
   function executeSlashCommand(cmd: typeof slashCommands[0]) {
     if (!editor) return;
@@ -407,6 +447,7 @@
         }),
         CustomYoutube,
         Callout,
+        SubPage,
         TaskList,
         TaskItem.configure({ nested: true }),
       ],
@@ -477,6 +518,16 @@
             if (imageFiles.length) {
               event.preventDefault();
               handleFiles(imageFiles);
+              return true;
+            }
+            return false;
+          },
+          click: (_view, event) => {
+            const target = (event.target as HTMLElement)?.closest('.subpage-block') as HTMLElement | null;
+            if (target) {
+              const id = target.getAttribute('data-page-id') || '';
+              const title = target.getAttribute('data-page-title') || '';
+              onOpenSubPage?.({ id, title });
               return true;
             }
             return false;
