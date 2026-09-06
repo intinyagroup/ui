@@ -375,220 +375,335 @@
 
 <div
   class={cn(
-    'rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] overflow-hidden',
+    'rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-xs overflow-hidden transition-colors',
     className
   )}
 >
   <!-- Toolbar -->
   {#if editable}
     <div
-      class="flex flex-wrap items-center gap-0.5 px-2 py-1.5 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/30"
+      class="flex flex-wrap items-center gap-1 px-3 py-2 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/25 backdrop-blur-xs"
     >
-      <Button variant="ghost" size="sm" class="size-8 p-0" onclick={undo}>
-        <Undo class="size-4" />
-      </Button>
-      <Button variant="ghost" size="sm" class="size-8 p-0" onclick={redo}>
-        <Redo class="size-4" />
-      </Button>
+      <div class="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]"
+          onclick={undo}
+          title="Undo (Ctrl+Z)"
+        >
+          <Undo class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]"
+          onclick={redo}
+          title="Redo (Ctrl+Y)"
+        >
+          <Redo class="size-3.5" />
+        </Button>
+      </div>
 
-      <Separator orientation="vertical" class="h-6 mx-1" />
+      <Separator orientation="vertical" class="h-4 mx-1.5 opacity-60" />
 
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn('size-8 p-0', isActive.h1 && 'bg-[var(--ui-primary)]/10')}
-        onclick={() => setHeading(1)}
-      >
-        <Heading1 class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn('size-8 p-0', isActive.h2 && 'bg-[var(--ui-primary)]/10')}
-        onclick={() => setHeading(2)}
-      >
-        <Heading2 class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn('size-8 p-0', isActive.h3 && 'bg-[var(--ui-primary)]/10')}
-        onclick={() => setHeading(3)}
-      >
-        <Heading3 class="size-4" />
-      </Button>
+      <div class="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.h1
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={() => setHeading(1)}
+          title="Heading 1"
+        >
+          <Heading1 class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.h2
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={() => setHeading(2)}
+          title="Heading 2"
+        >
+          <Heading2 class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.h3
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={() => setHeading(3)}
+          title="Heading 3"
+        >
+          <Heading3 class="size-3.5" />
+        </Button>
+      </div>
 
-      <Separator orientation="vertical" class="h-6 mx-1" />
+      <Separator orientation="vertical" class="h-4 mx-1.5 opacity-60" />
 
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn('size-8 p-0', isActive.bold && 'bg-[var(--ui-primary)]/10')}
-        onclick={toggleBold}
-      >
-        <Bold class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn('size-8 p-0', isActive.italic && 'bg-[var(--ui-primary)]/10')}
-        onclick={toggleItalic}
-      >
-        <Italic class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn('size-8 p-0', isActive.underline && 'bg-[var(--ui-primary)]/10')}
-        onclick={toggleUnderline}
-      >
-        <UnderlineIcon class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn('size-8 p-0', isActive.strike && 'bg-[var(--ui-primary)]/10')}
-        onclick={toggleStrike}
-      >
-        <Strikethrough class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn(
-          'size-8 p-0',
-          isActive.highlight && 'bg-[var(--ui-primary)]/10'
-        )}
-        onclick={() => toggleHighlight('#fef08a')}
-      >
-        <Highlighter class="size-4" />
-      </Button>
+      <div class="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.bold
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={toggleBold}
+          title="Bold (Ctrl+B)"
+        >
+          <Bold class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.italic
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={toggleItalic}
+          title="Italic (Ctrl+I)"
+        >
+          <Italic class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.underline
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={toggleUnderline}
+          title="Underline (Ctrl+U)"
+        >
+          <UnderlineIcon class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.strike
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={toggleStrike}
+          title="Strikethrough"
+        >
+          <Strikethrough class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.highlight
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={() => toggleHighlight('#fef08a')}
+          title="Highlight text"
+        >
+          <Highlighter class="size-3.5" />
+        </Button>
+      </div>
 
-      <Separator orientation="vertical" class="h-6 mx-1" />
+      <Separator orientation="vertical" class="h-4 mx-1.5 opacity-60" />
+      <div class="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.bulletList
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={toggleBulletList}
+          title="Bullet list"
+        >
+          <List class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.orderedList
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={toggleOrderedList}
+          title="Numbered list"
+        >
+          <ListOrdered class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.blockquote
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={toggleBlockquote}
+          title="Quote"
+        >
+          <Quote class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.codeBlock
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={toggleCodeBlock}
+          title="Code block"
+        >
+          <Code class="size-3.5" />
+        </Button>
+      </div>
 
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn(
-          'size-8 p-0',
-          isActive.bulletList && 'bg-[var(--ui-primary)]/10'
-        )}
-        onclick={toggleBulletList}
-      >
-        <List class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn(
-          'size-8 p-0',
-          isActive.orderedList && 'bg-[var(--ui-primary)]/10'
-        )}
-        onclick={toggleOrderedList}
-      >
-        <ListOrdered class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn(
-          'size-8 p-0',
-          isActive.blockquote && 'bg-[var(--ui-primary)]/10'
-        )}
-        onclick={toggleBlockquote}
-      >
-        <Quote class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn(
-          'size-8 p-0',
-          isActive.codeBlock && 'bg-[var(--ui-primary)]/10'
-        )}
-        onclick={toggleCodeBlock}
-      >
-        <Code class="size-4" />
-      </Button>
+      <Separator orientation="vertical" class="h-4 mx-1.5 opacity-60" />
 
-      <Separator orientation="vertical" class="h-6 mx-1" />
+      <div class="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.alignLeft
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={() => setAlign('left')}
+          title="Align left"
+        >
+          <AlignLeft class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.alignCenter
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={() => setAlign('center')}
+          title="Align center"
+        >
+          <AlignCenter class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.alignRight
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={() => setAlign('right')}
+          title="Align right"
+        >
+          <AlignRight class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.alignJustify
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={() => setAlign('justify')}
+          title="Align justify"
+        >
+          <AlignJustify class="size-3.5" />
+        </Button>
+      </div>
 
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn(
-          'size-8 p-0',
-          isActive.alignLeft && 'bg-[var(--ui-primary)]/10'
-        )}
-        onclick={() => setAlign('left')}
-      >
-        <AlignLeft class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn(
-          'size-8 p-0',
-          isActive.alignCenter && 'bg-[var(--ui-primary)]/10'
-        )}
-        onclick={() => setAlign('center')}
-      >
-        <AlignCenter class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn(
-          'size-8 p-0',
-          isActive.alignRight && 'bg-[var(--ui-primary)]/10'
-        )}
-        onclick={() => setAlign('right')}
-      >
-        <AlignRight class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn(
-          'size-8 p-0',
-          isActive.alignJustify && 'bg-[var(--ui-primary)]/10'
-        )}
-        onclick={() => setAlign('justify')}
-      >
-        <AlignJustify class="size-4" />
-      </Button>
+      <Separator orientation="vertical" class="h-4 mx-1.5 opacity-60" />
 
-      <Separator orientation="vertical" class="h-6 mx-1" />
-
-      <Button
-        variant="ghost"
-        size="sm"
-        class={cn('size-8 p-0', isActive.link && 'bg-[var(--ui-primary)]/10')}
-        onclick={setLink}
-      >
-        <LinkIcon class="size-4" />
-      </Button>
-      <Button variant="ghost" size="sm" class="size-8 p-0" onclick={setImage}>
-        <ImageIcon class="size-4" />
-      </Button>
-      <Button variant="ghost" size="sm" class="size-8 p-0" onclick={insertTable}>
-        <TableIcon class="size-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        class="size-8 p-0"
-        onclick={addYoutube}
-        title="Embed YouTube video"
-      >
-        <Video class="size-4" />
-      </Button>
-      <Button variant="ghost" size="sm" class="size-8 p-0" onclick={insertHorizontalRule}>
-        <Minus class="size-4" />
-      </Button>
-
+      <div class="flex items-center gap-0.5">
+        <Button
+          variant="ghost"
+          size="sm"
+          class={cn(
+            'size-7.5 p-0 rounded-md transition-colors',
+            isActive.link
+              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          )}
+          onclick={setLink}
+          title="Insert link"
+        >
+          <LinkIcon class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]"
+          onclick={setImage}
+          title="Insert image"
+        >
+          <ImageIcon class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]"
+          onclick={insertTable}
+          title="Insert table"
+        >
+          <TableIcon class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]"
+          onclick={addYoutube}
+          title="Embed YouTube video"
+        >
+          <Video class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]"
+          onclick={insertHorizontalRule}
+          title="Divider line"
+        >
+          <Minus class="size-3.5" />
+        </Button>
+      </div>
       {#if uploadingCount > 0}
-        <span class="ml-auto text-xs text-[var(--ui-muted-foreground)]">
+        <span class="ml-auto text-xs text-[var(--ui-muted-foreground)] font-medium">
           Uploading {uploadingCount} image{uploadingCount > 1 ? 's' : ''}...
         </span>
       {/if}
@@ -605,13 +720,18 @@
   <!-- BubbleMenu: floating toolbar on text selection (element bound for TipTap) -->
   <div
     bind:this={bubbleMenuEl}
-    class="flex items-center gap-0.5 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] p-1 shadow-lg backdrop-blur-sm"
+    class="flex items-center gap-1 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)]/90 px-1.5 py-1 shadow-xl backdrop-blur-md animate-in fade-in-50 zoom-in-95"
   >
     {#if editor}
       <Button
         variant="ghost"
         size="sm"
-        class={cn('size-7 p-0', editor.isActive('bold') && 'bg-[var(--ui-primary)]/10')}
+        class={cn(
+          'size-7 p-0 rounded-md transition-colors',
+          editor.isActive('bold')
+            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+        )}
         onclick={toggleBold}
       >
         <Bold class="size-3.5" />
@@ -619,7 +739,12 @@
       <Button
         variant="ghost"
         size="sm"
-        class={cn('size-7 p-0', editor.isActive('italic') && 'bg-[var(--ui-primary)]/10')}
+        class={cn(
+          'size-7 p-0 rounded-md transition-colors',
+          editor.isActive('italic')
+            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+        )}
         onclick={toggleItalic}
       >
         <Italic class="size-3.5" />
@@ -627,7 +752,12 @@
       <Button
         variant="ghost"
         size="sm"
-        class={cn('size-7 p-0', editor.isActive('underline') && 'bg-[var(--ui-primary)]/10')}
+        class={cn(
+          'size-7 p-0 rounded-md transition-colors',
+          editor.isActive('underline')
+            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+        )}
         onclick={toggleUnderline}
       >
         <UnderlineIcon class="size-3.5" />
@@ -635,7 +765,12 @@
       <Button
         variant="ghost"
         size="sm"
-        class={cn('size-7 p-0', editor.isActive('strike') && 'bg-[var(--ui-primary)]/10')}
+        class={cn(
+          'size-7 p-0 rounded-md transition-colors',
+          editor.isActive('strike')
+            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+        )}
         onclick={toggleStrike}
       >
         <Strikethrough class="size-3.5" />
@@ -644,8 +779,10 @@
         variant="ghost"
         size="sm"
         class={cn(
-          'size-7 p-0',
-          editor.isActive('highlight') && 'bg-[var(--ui-primary)]/10'
+          'size-7 p-0 rounded-md transition-colors',
+          editor.isActive('highlight')
+            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
         )}
         onclick={() => toggleHighlight('#fef08a')}
       >
@@ -654,7 +791,12 @@
       <Button
         variant="ghost"
         size="sm"
-        class={cn('size-7 p-0', editor.isActive('link') && 'bg-[var(--ui-primary)]/10')}
+        class={cn(
+          'size-7 p-0 rounded-md transition-colors',
+          editor.isActive('link')
+            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+        )}
         onclick={setLink}
       >
         <LinkIcon class="size-3.5" />
