@@ -30,6 +30,7 @@
     content = '',
     placeholder = 'Start writing...',
     editable = true,
+    mode = 'classic',
     height = 400,
     class: className,
     onUpdate,
@@ -38,9 +39,10 @@
     content?: string;
     placeholder?: string;
     editable?: boolean;
+    /** Toolbar mode: 'classic' (fixed top toolbar), 'bubble' (Notion-style floating toolbar only), or 'none' */
+    mode?: 'classic' | 'bubble' | 'none';
     height?: number;
     class?: string;
-    onUpdate?: (html: string) => void;
     /** Called when paste/drop provides an image file. Return a URL to insert. */
     onImageUpload?: (file: File) => Promise<string>;
   } = $props();
@@ -521,8 +523,8 @@
     className
   )}
 >
-  <!-- Toolbar -->
-  {#if editable}
+  <!-- Fixed Top Toolbar (only shown in 'classic' mode) -->
+  {#if editable && mode === 'classic'}
     <div
       class="flex flex-wrap items-center gap-1 px-3 py-2 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/25 backdrop-blur-xs"
     >
