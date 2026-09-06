@@ -45,7 +45,7 @@
     // Expand/detail
     expandable = false,
     detail,
-    // Editable
+    mobileCardView = false,
     editableColumns = [],
     // Virtualization
     virtualized = false,
@@ -123,7 +123,7 @@
     columnReorder?: boolean;
     expandable?: boolean;
     detail?: Snippet<[{ row: TData; rowIndex: number }]>;
-    editableColumns?: string[];
+    mobileCardView?: boolean;
     virtualized?: boolean;
     virtualHeight?: number;
     statusBar?: boolean;
@@ -636,10 +636,87 @@
     </div>
   {/if}
 
-  <!-- Table -->
+  <!-- Mobile Card View (< sm breakpoint when mobileCardView = true) -->
+  {#if mobileCardView}
+    <div class="block sm:hidden divide-y divide-[var(--ui-border)] bg-[var(--ui-card)]">
+      {#if loading}
+        {#each [1, 2, 3] as idx (idx)}
+          <div class="p-4 space-y-2">
+            <Skeleton class="h-5 w-1/3" />
+            <Skeleton class="h-4 w-full" />
+            <Skeleton class="h-4 w-2/3" />
+          </div>
+        {/each}
+      {:else if filteredRowCount === 0}
+        <div class="p-8 text-center text-sm text-[var(--ui-muted-foreground)]">
+          {emptyMessage}
+        </div>
+      {:else}
+        {#each rowModel.rows as row (row.id)}
+          <div class="p-4 space-y-2.5 transition-colors {!!rowSelection[row.id] ? 'bg-[var(--ui-primary)]/5' : ''}">
+            <div class="flex items-center justify-between">
+              {#if selectable}
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={!!rowSelection[row.id]}
+                    onchange={() => toggleRow(row.id)}
+                    class="size-4 rounded border-[var(--ui-input)] text-[var(--ui-primary)]"
+                  />
+                  <span class="text-xs font-semibold text-[var(--ui-muted-foreground)]">Select</span>
+                </label>
+              {/if}
+
+              {#if expandable}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  class="ml-auto h-7 px-2 text-xs gap-1"
+                  onclick={() => toggleExpand(row.id)}
+                >
+                  <ChevronDown class="size-3.5 transition-transform {expanded[row.id] ? 'rotate-180' : ''}" />
+                  <span>{expanded[row.id] ? 'Less' : 'Details'}</span>
+                </Button>
+              {/if}
+            </div>
+
+            <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+              {#each row.getVisibleCells() as tableCell (tableCell.id)}
+                {@const colHeader = tableCell.column.columnDef.header}
+                <div class="flex flex-col">
+                  <span class="text-[10px] font-semibold text-[var(--ui-muted-foreground)] uppercase tracking-wider">
+                    {typeof colHeader === 'string' ? colHeader : tableCell.column.id}
+                  </span>
+                  <span class="font-medium text-[var(--ui-foreground)] mt-0.5 truncate">
+                    {#if cell}
+                      {@render cell({
+                        row: row.original,
+                        columnId: tableCell.column.id,
+                        value: tableCell.getValue()
+                      })}
+                    {:else}
+                      {tableCell.getValue() ?? '-'}
+                    {/if}
+                  </span>
+                </div>
+              {/each}
+            </div>
+
+            {#if expandable && expanded[row.id] && detail}
+              <div class="mt-3 pt-3 border-t border-[var(--ui-border)]/70 bg-[var(--ui-secondary)]/20 p-3 rounded-lg">
+                {@render detail({ row: row.original, rowIndex: row.index })}
+              </div>
+            {/if}
+          </div>
+        {/each}
+      {/if}
+    </div>
+  {/if}
+
+  <!-- Desktop Table (hidden on mobile if mobileCardView is true) -->
   <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <div
-    class="max-w-full overflow-x-auto"
+    class="max-w-full overflow-x-auto {mobileCardView ? 'hidden sm:block' : ''}"
     bind:this={tableContainer}
     onkeydown={keyboard ? keyboard.handleKeydown : undefined}
     tabindex={keyboardNav ? 0 : undefined}

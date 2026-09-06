@@ -7,21 +7,23 @@ interface User {
   email: string;
   role: string;
   status: string;
+  department: string;
+  joinedDate: string;
 }
 
 const mockData: User[] = [
-  { id: '1', name: 'Joshua', email: 'joshua@intinya.dev', role: 'Admin', status: 'Active' },
-  { id: '2', name: 'Budi Santoso', email: 'budi@intinya.dev', role: 'Developer', status: 'Active' },
-  { id: '3', name: 'Siti Rahma', email: 'siti@intinya.dev', role: 'Designer', status: 'Pending' },
-  { id: '4', name: 'Alex Wong', email: 'alex@intinya.dev', role: 'Product Manager', status: 'Inactive' },
-  { id: '5', name: 'Dewi Lestari', email: 'dewi@intinya.dev', role: 'Developer', status: 'Active' }
+  { id: '1', name: 'Joshua', email: 'joshua@intinya.dev', role: 'Lead Architect', status: 'Active', department: 'Core Engineering', joinedDate: '12 Jan 2024' },
+  { id: '2', name: 'Budi Santoso', email: 'budi@intinya.dev', role: 'Senior Developer', status: 'Active', department: 'Frontend Platform', joinedDate: '01 Mar 2024' },
+  { id: '3', name: 'Siti Rahma', email: 'siti@intinya.dev', role: 'UI/UX Designer', status: 'Pending', department: 'Design Systems', joinedDate: '15 Apr 2024' },
+  { id: '4', name: 'Alex Wong', email: 'alex@intinya.dev', role: 'Product Manager', status: 'Inactive', department: 'Product Ops', joinedDate: '20 May 2024' },
+  { id: '5', name: 'Dewi Lestari', email: 'dewi@intinya.dev', role: 'Frontend Engineer', status: 'Active', department: 'Web Experience', joinedDate: '10 Jun 2024' }
 ];
 
 const mockColumns = [
-  { accessorKey: 'id', header: 'ID' },
-  { accessorKey: 'name', header: 'Full Name' },
-  { accessorKey: 'email', header: 'Email Address' },
+  { accessorKey: 'name', header: 'Name' },
+  { accessorKey: 'email', header: 'Email' },
   { accessorKey: 'role', header: 'Role' },
+  { accessorKey: 'department', header: 'Department' },
   { accessorKey: 'status', header: 'Status' }
 ];
 
@@ -53,7 +55,7 @@ export const WithQuickFilters: Story = {
     quickFilters: [
       { id: 'status', label: 'Active Only', value: 'Active' },
       { id: 'status', label: 'Pending Only', value: 'Pending' },
-      { id: 'role', label: 'Developers', value: 'Developer' }
+      { id: 'department', label: 'Engineering Only', value: 'Core Engineering' }
     ]
   }
 };
@@ -61,6 +63,14 @@ export const WithQuickFilters: Story = {
 export const WithPinnedRows: Story = {
   args: {
     pinnedRowIds: ['1'],
-    description: 'First row (Joshua - Admin) is frozen at the top'
+    description: 'First row (Joshua - Lead Architect) is frozen at the top'
+  }
+};
+
+export const MobileCardViewResponsive: Story = {
+  args: {
+    mobileCardView: true,
+    expandable: true,
+    description: 'Resize viewport to mobile (< 640px) to see automatic transformation into stacked card layout without horizontal overflow'
   }
 };
