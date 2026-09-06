@@ -57,10 +57,36 @@ export function createClipboard(options: ClipboardOptions) {
     const data = getSelectedCellData();
     return copyToClipboard(data);
   }
-
   function copySingleCell(rowId: string, columnId: string): Promise<boolean> {
     const value = getSingleCellData(rowId, columnId);
     return copyToClipboard([[value]]);
+  }
+
+  function copyCellRange(
+    startRowIndex: number,
+    endRowIndex: number,
+    startColIndex: number,
+    endColIndex: number
+  ): Promise<boolean> {
+    const allRows = table.getRowModel().rows;
+    const allCols = table.getVisibleLeafColumns().filter((c) => c.getIsVisible());
+
+    const minRow = Math.max(0, Math.min(startRowIndex, endRowIndex));
+    const maxRow = Math.min(allRows.length - 1, Math.max(startRowIndex, endRowIndex));
+    const minCol = Math.max(0, Math.min(startColIndex, endColIndex));
+    const maxCol = Math.min(allCols.length - 1, Math.max(startColIndex, endColIndex));
+
+    const selectedRows = allRows.slice(minRow, maxRow + 1);
+    const selectedCols = allCols.slice(minCol, maxCol + 1);
+
+    const data = selectedRows.map((row) =>
+      selectedCols.map((col) => {
+        const val = row.getValue(col.id);
+        return val !== undefined && val !== null ? String(val) : '';
+      })
+    );
+
+    return copyToClipboard(data);
   }
 
   async function pasteFromClipboard(): Promise<string[][] | null> {
@@ -105,6 +131,7 @@ export function createClipboard(options: ClipboardOptions) {
   return {
     copySelectedRows,
     copySingleCell,
+    copyCellRange,
     pasteFromClipboard,
     downloadCSV,
     getSelectedCellData,

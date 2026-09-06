@@ -16,6 +16,7 @@
     onFilter,
     onColumnReorder,
     headerCell,
+    floatingFilter = false,
   }: {
     headerGroups: HeaderGroup<any>[];
     selectable: boolean;
@@ -27,6 +28,7 @@
     onFilter: (columnId: string, filterValue: unknown) => void;
     onColumnReorder: (fromId: string, toId: string) => void;
     headerCell?: import('svelte').Snippet<[{ columnId: string; header: string; canSort: boolean }]>;
+    floatingFilter?: boolean;
   } = $props();
 
   let dragColumnId = $state<string | null>(null);
@@ -175,6 +177,34 @@
       {/each}
     </tr>
   {/each}
+
+  {#if floatingFilter}
+    <tr class="border-b border-[var(--ui-border)] bg-[var(--ui-card)]">
+      {#if selectable}
+        <th class="w-12 px-4 py-1.5"></th>
+      {/if}
+      {#each headerGroups[0]?.headers ?? [] as header (header.id + '-filter')}
+        {@const column = header.column}
+        {@const isPinnedLeft = column.getIsPinned() === 'left'}
+        {@const isPinnedRight = column.getIsPinned() === 'right'}
+        <th
+          class="px-2 py-1.5 font-normal
+            {isPinnedLeft ? 'pinned-left bg-[var(--ui-card)] z-30 border-r border-[var(--ui-border)]' : ''}
+            {isPinnedRight ? 'pinned-right bg-[var(--ui-card)] z-30 border-l border-[var(--ui-border)]' : ''}"
+        >
+          {#if !header.isPlaceholder && column.getCanFilter()}
+            <input
+              type="text"
+              placeholder="Filter..."
+              value={(column.getFilterValue() as string) ?? ''}
+              oninput={(e) => onFilter(column.id, (e.currentTarget as HTMLInputElement).value || undefined)}
+              class="h-7 w-full rounded border border-[var(--ui-input)] bg-[var(--ui-background)] px-2 text-[11px] text-[var(--ui-foreground)] outline-none transition-colors placeholder:text-[var(--ui-muted-foreground)]/50 focus:border-[var(--ui-primary)]"
+            />
+          {/if}
+        </th>
+      {/each}
+    </tr>
+  {/if}
 </thead>
 
 <style>

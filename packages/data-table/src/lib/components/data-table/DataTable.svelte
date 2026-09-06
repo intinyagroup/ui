@@ -42,7 +42,8 @@
     densityToggle = true,
     columnToggle = true,
     columnReorder = true,
-    // Expand/detail
+    floatingFilter = false,
+    contextMenu = true,
     expandable = false,
     detail,
     mobileCardView = false,
@@ -121,7 +122,8 @@
     densityToggle?: boolean;
     columnToggle?: boolean;
     columnReorder?: boolean;
-    expandable?: boolean;
+    floatingFilter?: boolean;
+    contextMenu?: boolean;
     detail?: Snippet<[{ row: TData; rowIndex: number }]>;
     mobileCardView?: boolean;
     virtualized?: boolean;
@@ -197,11 +199,12 @@
             table.getColumn(colId)?.setSize(width);
           }
         }
-        if (saved.sorting) sorting = saved.sorting;
-        if (saved.pageSize) pagination = { ...pagination, pageSize: saved.pageSize };
       }
     }
   });
+
+  let showContextMenu = $state(false);
+  let contextMenuPos = $state({ x: 0, y: 0 });
 
   // Save settings on change
   $effect(() => {
@@ -719,6 +722,12 @@
     class="max-w-full overflow-x-auto {mobileCardView ? 'hidden sm:block' : ''}"
     bind:this={tableContainer}
     onkeydown={keyboard ? keyboard.handleKeydown : undefined}
+    oncontextmenu={(e) => {
+      if (!contextMenu) return;
+      e.preventDefault();
+      contextMenuPos = { x: e.clientX, y: e.clientY };
+      showContextMenu = true;
+    }}
     tabindex={keyboardNav ? 0 : undefined}
     role="grid"
     aria-label={title || 'Data table'}
@@ -737,8 +746,8 @@
             onHide={handleHide}
             onFilter={handleColumnFilter}
             onColumnReorder={handleColumnReorder}
+            {floatingFilter}
           />
-
           <tbody class="relative" style="height: {virtualizer?.getTotalSize() ?? 0}px;">
             {#if loading}
               {#each [1, 2, 3, 4, 5] as idx (idx)}
@@ -828,8 +837,8 @@
           onFilter={handleColumnFilter}
           onColumnReorder={handleColumnReorder}
           {headerCell}
+          {floatingFilter}
         />
-
         <tbody>
           {@const pinnedRows = rowModel.rows.filter((r) => pinnedRowIds.includes(r.id))}
           {@const standardRows = rowModel.rows.filter((r) => !pinnedRowIds.includes(r.id))}
@@ -918,6 +927,60 @@
       </table>
     {/if}
   </div>
+
+  {#if showContextMenu && contextMenu}
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <div class="fixed inset-0 z-50 bg-transparent" onclick={() => (showContextMenu = false)}></div>
+    <div
+      class="fixed z-50 min-w-[160px] rounded-lg border border-[var(--ui-border)] bg-[var(--ui-popover)] p-1 text-xs text-[var(--ui-popover-foreground)] shadow-lg animate-in fade-in-50"
+      style="left: {contextMenuPos.x}px; top: {contextMenuPos.y}px;"
+    >
+      <button
+        type="button"
+        onclick={async () => {
+          await handleCopy();
+          showContextMenu = false;
+        }}
+        class="flex w-full items-center px-2.5 py-1.5 rounded-sm hover:bg-[var(--ui-accent)] hover:text-[var(--ui-accent-foreground)] cursor-pointer"
+      >
+        Copy Selection (Ctrl+C)
+      </button>
+      {#if exportable}
+        <button
+          type="button"
+          onclick={() => {
+            exportToCSV();
+            showContextMenu = false;
+          }}
+          class="flex w-full items-center px-2.5 py-1.5 rounded-sm hover:bg-[var(--ui-accent)] hover:text-[var(--ui-accent-foreground)] cursor-pointer"
+        >
+          Export CSV
+        </button>
+        <button
+          type="button"
+          onclick={() => {
+            exportToExcel();
+            showContextMenu = false;
+          }}
+          class="flex w-full items-center px-2.5 py-1.5 rounded-sm hover:bg-[var(--ui-accent)] hover:text-[var(--ui-accent-foreground)] cursor-pointer"
+        >
+          Export Excel (.xls)
+        </button>
+      {/if}
+      <div class="my-1 h-px bg-[var(--ui-border)]"></div>
+      <button
+        type="button"
+        onclick={() => {
+          rowSelection = {};
+          showContextMenu = false;
+        }}
+        class="flex w-full items-center px-2.5 py-1.5 rounded-sm hover:bg-[var(--ui-accent)] hover:text-[var(--ui-accent-foreground)] cursor-pointer text-[var(--ui-muted-foreground)]"
+      >
+        Clear Selection
+      </button>
+    </div>
+  {/if}
 
   <!-- Status Bar -->
   {#if statusBar}

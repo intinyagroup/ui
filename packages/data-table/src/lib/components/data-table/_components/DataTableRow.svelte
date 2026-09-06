@@ -3,6 +3,7 @@
   import type { Snippet } from 'svelte';
   import type { DataTableMeta } from '@intinyagroup/grid-core';
   import DataTableDetailRow from './DataTableDetailRow.svelte';
+  import DataTableCellEdit from './DataTableCellEdit.svelte';
   import { ChevronRight } from 'lucide-svelte';
 
   let {
@@ -60,9 +61,9 @@
 
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <tr
-  class="group border-t border-[var(--ui-border)]/70 transition-colors hover:bg-[var(--ui-secondary)]/45 {selectable ? 'cursor-pointer' : ''} {isSelected ? 'bg-[var(--ui-primary)]/5' : ''} {isPinned ? 'sticky z-20 bg-[var(--ui-card)] shadow-[0_2px_4px_-1px_rgba(0,0,0,0.06)]' : ''}"
+  class="group border-t border-[var(--ui-border)]/70 transition-colors hover:bg-[var(--ui-secondary)]/45 {row.getIsGrouped() ? 'bg-[var(--ui-secondary)]/30 font-semibold cursor-pointer' : ''} {selectable ? 'cursor-pointer' : ''} {isSelected ? 'bg-[var(--ui-primary)]/5' : ''} {isPinned ? 'sticky z-20 bg-[var(--ui-card)] shadow-[0_2px_4px_-1px_rgba(0,0,0,0.06)]' : ''}"
   style={isPinned ? `top: ${pinnedOffset}px;` : undefined}
-  onclick={selectable ? () => onToggleSelect(row.id) : onRowClick ? () => onRowClick(row.original) : undefined}
+  onclick={row.getIsGrouped() ? row.getToggleExpandedHandler() : selectable ? () => onToggleSelect(row.id) : onRowClick ? () => onRowClick(row.original) : undefined}
 >
   {#if selectable}
     <td class="w-12 px-4 align-middle {density === 'compact' ? 'py-2' : 'py-4'}">
@@ -78,14 +79,18 @@
   {/if}
 
   <!-- Expand toggle cell -->
-  {#if canExpand}
+  {#if canExpand || row.getIsGrouped()}
     <td class="w-10 px-2 align-middle {density === 'compact' ? 'py-2' : 'py-4'}">
       <button
-        onclick={(e) => { e.stopPropagation(); onExpandToggle?.(row.id); }}
+        onclick={(e) => {
+          e.stopPropagation();
+          if (row.getIsGrouped()) row.toggleExpanded();
+          else onExpandToggle?.(row.id);
+        }}
         class="flex items-center justify-center size-6 rounded-md text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] transition-colors cursor-pointer"
-        aria-label={expanded ? 'Collapse row' : 'Expand row'}
+        aria-label={row.getIsExpanded() || expanded ? 'Collapse row' : 'Expand row'}
       >
-        <ChevronRight class="size-4 transition-transform {expanded ? 'rotate-90' : ''}" />
+        <ChevronRight class="size-4 transition-transform {row.getIsExpanded() || expanded ? 'rotate-90' : ''}" />
       </button>
     </td>
   {/if}
@@ -107,7 +112,21 @@
         {columnAlign(meta) === 'right' ? 'text-right' : ''}
         {density === 'compact' ? 'py-2' : 'py-4'}"
     >
-      {#if cell}
+      {#if row.getIsGrouped() && tableCell.getIsGrouped()}
+        <div class="flex items-center gap-2">
+          <span>{tableCell.getValue() ?? '-'}</span>
+          <span class="inline-flex items-center rounded-full bg-[var(--ui-primary)]/15 px-2 py-0.5 text-[10px] font-bold text-[var(--ui-primary)]">
+            {row.subRows.length} items
+          </span>
+        </div>
+      {:else if isEditable}
+        <DataTableCellEdit
+          value={tableCell.getValue()}
+          editable={true}
+          onCommit={(newVal) => onCellEdit?.(row.id, tableCell.column.id, newVal)}
+          onCancel={() => {}}
+        />
+      {:else if cell}
         {@render cell({
           row: row.original,
           columnId: tableCell.column.id,
