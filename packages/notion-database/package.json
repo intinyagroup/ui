@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/notion-database",
-  "version": "0.1.1-alpha.11",
+  "version": "0.1.1-alpha.12",
   "description": "Notion-style multi-view database component (Table, Board, Calendar, Gallery) for Svelte 5",
   "type": "module",
   "exports": {
