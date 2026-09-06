@@ -4,11 +4,13 @@
   import { cn } from '@intinyagroup/grid-core/utils';
   import {
     createChapter,
+    createContentBlock,
     createDefaultSettings,
     reorderChapters,
     getTotalWordCount,
     getEstimatedPages,
     type Chapter,
+    type ContentBlock,
     type BookMetadata,
     type BookLayout,
     type BookSettings,
@@ -45,16 +47,14 @@
     activeChapterId = id;
   }
 
-  function handleAddChapter(type: Chapter['type']) {
-    const count = settings.chapters.filter((ch) => ch.type === type).length;
-    const title = type === 'chapter' ? `Chapter ${count + 1}` : type.charAt(0).toUpperCase() + type.slice(1);
-    const chapter = createChapter(title, type);
-    chapter.order = settings.chapters.length;
+  function handleAddChapter(type: any = 'page', parentId: string | null = null) {
+    const defaultTitle = parentId ? 'Sub-page' : `Page ${settings.chapters.length + 1}`;
+    const newBlock = createContentBlock(defaultTitle, type, parentId, settings.chapters.length);
     settings = {
       ...settings,
-      chapters: [...settings.chapters, chapter],
+      chapters: [...settings.chapters, newBlock],
     };
-    activeChapterId = chapter.id;
+    activeChapterId = newBlock.id;
   }
 
   function handleDeleteChapter(id: string) {
