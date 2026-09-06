@@ -14,12 +14,14 @@
   import TableHeader from '@tiptap/extension-table-header';
   import Typography from '@tiptap/extension-typography';
   import BubbleMenu from '@tiptap/extension-bubble-menu';
+  import TaskList from '@tiptap/extension-task-list';
+  import TaskItem from '@tiptap/extension-task-item';
   import {
     Bold, Italic, Underline as UnderlineIcon, Strikethrough, Highlighter,
     AlignLeft, AlignCenter, AlignRight, AlignJustify,
     List, ListOrdered, Quote, Code, Minus, Link as LinkIcon, Image as ImageIcon,
     Undo, Redo, Heading1, Heading2, Heading3, TableIcon, Plus, Trash2,
-    Video,
+    Video, CheckSquare, Info, AlertTriangle, Sparkles, HelpCircle
   } from 'lucide-svelte';
   import { Button, Separator } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/grid-core/utils';
@@ -49,6 +51,34 @@
   let isActive = $state<Record<string, boolean>>({});
   let uploadingCount = $state(0);
 
+  // Slash commands state
+  let showSlashMenu = $state(false);
+  let slashSearch = $state('');
+  let slashIndex = $state(0);
+  let slashMenuPos = $state({ top: 0, left: 0 });
+
+  const slashCommands = [
+    { title: 'Heading 1', desc: 'Big section heading', icon: Heading1, action: () => setHeading(1) },
+    { title: 'Heading 2', desc: 'Medium section heading', icon: Heading2, action: () => setHeading(2) },
+    { title: 'Heading 3', desc: 'Small subsection heading', icon: Heading3, action: () => setHeading(3) },
+    { title: 'To-do list', desc: 'Track tasks with a checklist', icon: CheckSquare, action: () => editor?.chain().focus().toggleTaskList().run() },
+    { title: 'Bullet list', desc: 'Create a bulleted list', icon: List, action: () => toggleBulletList() },
+    { title: 'Numbered list', desc: 'Create a numbered list', icon: ListOrdered, action: () => toggleOrderedList() },
+    { title: 'Quote', desc: 'Capture a quote or blockquote', icon: Quote, action: () => toggleBlockquote() },
+    { title: 'Code block', desc: 'Code snippet with syntax highlight', icon: Code, action: () => toggleCodeBlock() },
+    { title: 'Callout Info', desc: 'Informational highlight block', icon: Info, action: () => insertCallout('info') },
+    { title: 'Callout Warning', desc: 'Warning or caution block', icon: AlertTriangle, action: () => insertCallout('warning') },
+    { title: 'Callout Tip', desc: 'Tip or recommendation block', icon: Sparkles, action: () => insertCallout('tip') },
+    { title: 'Table', desc: 'Insert 3x3 table grid', icon: TableIcon, action: () => insertTable() },
+    { title: 'Divider', desc: 'Visually divide sections', icon: Minus, action: () => insertHorizontalRule() },
+  ];
+
+  const slashFilteredCommands = $derived(
+    slashCommands.filter((c) =>
+      c.title.toLowerCase().includes(slashSearch.toLowerCase()) ||
+      c.desc.toLowerCase().includes(slashSearch.toLowerCase())
+    )
+  );
   // ---------------------------------------------------------------------------
   // Custom Extensions
   // ---------------------------------------------------------------------------
@@ -172,28 +202,76 @@
         src = await onImageUpload(compressed);
       } else {
         // Fallback: inline data URL (no server upload)
-        src = await new Promise<string>((resolve) => {
-          const reader = new FileReader();
-          reader.onload = (ev) => resolve(ev.target?.result as string);
-          reader.readAsDataURL(file);
-        });
+        src = await fileToDataUrl(file);
       }
       editor.chain().focus().setImage({ src }).run();
-    } catch (err) {
-      console.error('Failed to upload image:', err);
     } finally {
       uploadingCount--;
     }
   }
 
-  async function handleFiles(files: File[]) {
-    const images = Array.from(files).filter((f) => f.type.startsWith('image/'));
-    await Promise.all(images.map(uploadAndInsertImage));
+  function handleFiles(files: File[]) {
+    for (const file of files) {
+      if (file.type.startsWith('image/')) {
+        uploadAndInsertImage(file);
+      }
+    }
   }
 
-  // ---------------------------------------------------------------------------
-  // YouTube Embed
-  // ---------------------------------------------------------------------------
+  const CustomYoutube = Node.create({
+    name: 'youtube',
+    group: 'block',
+    atom: true,
+    addAttributes() {
+      return {
+        src: { default: null },
+      };
+    },
+    parseHTML() {
+      return [{ tag: 'iframe[src*="youtube"]' }];
+    },
+    renderHTML({ HTMLAttributes }) {
+      return [
+        'div',
+        { class: 'video-container my-4 aspect-video rounded-xl overflow-hidden' },
+        [
+          'iframe',
+          mergeAttributes(HTMLAttributes, {
+            class: 'w-full h-full border-0',
+            allow:
+              'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+            allowfullscreen: 'true',
+          }),
+        ],
+      ];
+    },
+  });
+
+  /** Callout block extension with type icon & colored border */
+  const Callout = Node.create({
+    name: 'callout',
+    group: 'block',
+    content: 'block+',
+    defining: true,
+    addAttributes() {
+      return {
+        type: { default: 'info' }, // info | warning | tip
+      };
+    },
+    parseHTML() {
+      return [{ tag: 'div[data-type="callout"]' }];
+    },
+    renderHTML({ HTMLAttributes }) {
+      return [
+        'div',
+        mergeAttributes(HTMLAttributes, {
+          'data-type': 'callout',
+          class: `callout-box callout-${HTMLAttributes.type || 'info'} my-3 p-3.5 rounded-xl border flex gap-3`,
+        }),
+        0,
+      ];
+    },
+  });
 
   function addYoutube() {
     const url = window.prompt('Enter YouTube URL:');
@@ -264,12 +342,21 @@
   function insertTable() {
     editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
   }
-  function toggleHighlight(color?: string) {
-    if (color) {
-      editor?.chain().focus().toggleHighlight({ color }).run();
-    } else {
-      editor?.chain().focus().toggleHighlight().run();
-    }
+  function insertCallout(type: 'info' | 'warning' | 'tip') {
+    editor?.chain().focus().insertContent({
+      type: 'callout',
+      attrs: { type },
+      content: [{ type: 'paragraph', text: 'Tulis catatan penting di sini...' }]
+    }).run();
+  }
+
+  function executeSlashCommand(cmd: typeof slashCommands[0]) {
+    if (!editor) return;
+    const { from } = editor.state.selection;
+    const deleteFrom = from - (slashSearch.length + 1);
+    editor.chain().focus().deleteRange({ from: Math.max(0, deleteFrom), to: from }).run();
+    cmd.action();
+    showSlashMenu = false;
   }
   function addColumnBefore() { editor?.chain().focus().addColumnBefore().run(); }
   function addColumnAfter() { editor?.chain().focus().addColumnAfter().run(); }
@@ -317,6 +404,9 @@
             e.view.state.selection.content().size > 0,
         }),
         CustomYoutube,
+        Callout,
+        TaskList,
+        TaskItem.configure({ nested: true }),
       ],
       content,
       editable,
@@ -324,6 +414,32 @@
         const html = e.getHTML();
         isActive = getActiveStates(e);
         onUpdate?.(html);
+
+        // Detect slash command trigger
+        const { state } = e;
+        const { from } = state.selection;
+        const textBefore = state.doc.textBetween(Math.max(0, from - 20), from, '\n', '\0');
+        const slashMatch = textBefore.match(/\/([a-zA-Z0-9]*)$/);
+
+        if (slashMatch) {
+          slashSearch = slashMatch[1];
+          slashIndex = 0;
+          try {
+            const coords = e.view.coordsAtPos(from);
+            const parentRect = editorEl?.getBoundingClientRect();
+            if (parentRect) {
+              slashMenuPos = {
+                top: coords.bottom - parentRect.top + 8,
+                left: Math.max(16, Math.min(coords.left - parentRect.left, parentRect.width - 260))
+              };
+            }
+          } catch {
+            slashMenuPos = { top: 60, left: 24 };
+          }
+          showSlashMenu = true;
+        } else {
+          showSlashMenu = false;
+        }
       },
       onSelectionUpdate: ({ editor: e }) => {
         isActive = getActiveStates(e);
@@ -363,6 +479,32 @@
             }
             return false;
           },
+          keydown: (_view, event) => {
+            if (showSlashMenu) {
+              if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                slashIndex = (slashIndex + 1) % slashFilteredCommands.length;
+                return true;
+              }
+              if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                slashIndex = (slashIndex - 1 + slashFilteredCommands.length) % slashFilteredCommands.length;
+                return true;
+              }
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                const cmd = slashFilteredCommands[slashIndex];
+                if (cmd) executeSlashCommand(cmd);
+                return true;
+              }
+              if (event.key === 'Escape') {
+                event.preventDefault();
+                showSlashMenu = false;
+                return true;
+              }
+            }
+            return false;
+          }
         },
       },
     });
@@ -717,6 +859,40 @@
     style="min-height: {height}px;"
   ></div>
 
+  <!-- Slash Command Popover Menu -->
+  {#if showSlashMenu && slashFilteredCommands.length > 0}
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <div
+      class="absolute z-50 w-64 max-h-72 overflow-y-auto rounded-xl border border-[var(--ui-border)] bg-[var(--ui-popover)] p-1.5 shadow-2xl text-[var(--ui-popover-foreground)] animate-in fade-in-50 zoom-in-95"
+      style="top: {slashMenuPos.top}px; left: {slashMenuPos.left}px;"
+    >
+      <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--ui-muted-foreground)]">
+        Basic blocks
+      </div>
+      {#each slashFilteredCommands as cmd, i (cmd.title)}
+        {@const Icon = cmd.icon}
+        <button
+          type="button"
+          class={cn(
+            'flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-left transition-colors cursor-pointer',
+            i === slashIndex ? 'bg-[var(--ui-accent)] text-[var(--ui-accent-foreground)]' : 'hover:bg-[var(--ui-secondary)]'
+          )}
+          onmouseenter={() => (slashIndex = i)}
+          onclick={() => executeSlashCommand(cmd)}
+        >
+          <div class="flex size-7 items-center justify-center rounded-md border border-[var(--ui-border)] bg-[var(--ui-card)] shrink-0">
+            <Icon class="size-4 text-[var(--ui-foreground)]" />
+          </div>
+          <div class="flex flex-col min-w-0">
+            <span class="text-xs font-semibold text-[var(--ui-foreground)]">{cmd.title}</span>
+            <span class="text-[10px] text-[var(--ui-muted-foreground)] truncate">{cmd.desc}</span>
+          </div>
+        </button>
+      {/each}
+    </div>
+  {/if}
+
   <!-- BubbleMenu: floating toolbar on text selection (element bound for TipTap) -->
   <div
     bind:this={bubbleMenuEl}
@@ -844,6 +1020,55 @@
     padding-left: 1rem;
     margin-left: 0;
     color: var(--ui-muted-foreground);
+  }
+  /* Task List / Checklists */
+  :global(.tiptap ul[data-type="taskList"]) {
+    list-style: none;
+    padding: 0;
+  }
+  :global(.tiptap ul[data-type="taskList"] li) {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0.25rem 0;
+  }
+  :global(.tiptap ul[data-type="taskList"] li > label) {
+    user-select: none;
+    margin-top: 0.2rem;
+  }
+  :global(.tiptap ul[data-type="taskList"] li > label input[type="checkbox"]) {
+    cursor: pointer;
+    accent-color: var(--ui-primary);
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+  }
+  :global(.tiptap ul[data-type="taskList"] li[data-checked="true"] > div) {
+    text-decoration: line-through;
+    color: var(--ui-muted-foreground);
+  }
+
+  /* Callout Boxes */
+  :global(.tiptap .callout-box) {
+    background: var(--ui-secondary);
+    border-radius: 0.75rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--ui-border);
+    margin: 0.75rem 0;
+    display: flex;
+    gap: 0.75rem;
+  }
+  :global(.tiptap .callout-info) {
+    background: color-mix(in oklch, var(--ui-info) 8%, transparent);
+    border-color: color-mix(in oklch, var(--ui-info) 30%, transparent);
+  }
+  :global(.tiptap .callout-warning) {
+    background: color-mix(in oklch, var(--ui-warning) 8%, transparent);
+    border-color: color-mix(in oklch, var(--ui-warning) 30%, transparent);
+  }
+  :global(.tiptap .callout-tip) {
+    background: color-mix(in oklch, var(--ui-success) 8%, transparent);
+    border-color: color-mix(in oklch, var(--ui-success) 30%, transparent);
   }
   :global(.tiptap pre) {
     background: var(--ui-secondary);
