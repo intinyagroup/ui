@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Download, Eye, Edit3, Settings } from 'lucide-svelte';
+  import { Download, Eye, Edit3, Settings, Search } from 'lucide-svelte';
   import { Button } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/grid-core/utils';
   import {
@@ -20,7 +20,7 @@
   import BookPreview from './BookPreview.svelte';
   import BookSettingsPanel from './BookSettings.svelte';
   import ExportDialog from './ExportDialog.svelte';
-
+  import DocumentSearchDialog from './DocumentSearchDialog.svelte';
   let {
     initialSettings,
     class: className,
@@ -34,10 +34,9 @@
   } = $props();
 
   let settings = $state(initialSettings ?? createDefaultSettings());
-  let activeChapterId = $state(settings.chapters[0]?.id ?? '');
-  let viewMode = $state<'edit' | 'preview'>('edit');
-  let showSettings = $state(false);
   let showExport = $state(false);
+  let showSearchDialog = $state(false);
+  let showSettings = $state(false);
 
   const activeChapter = $derived(settings.chapters.find((ch) => ch.id === activeChapterId));
   const wordCount = $derived(getTotalWordCount(settings.chapters));
@@ -73,8 +72,14 @@
     settings = { ...settings, chapters: reorderChapters(chapters) };
   }
 
-  function handleContentChange(content: string) {
-    if (!activeChapterId) return;
+  function handleReparentBlock(blockId: string, newParentId: string | null) {
+    settings = {
+      ...settings,
+      chapters: settings.chapters.map((ch) =>
+        ch.id === blockId ? { ...ch, parentId: newParentId } : ch
+      )
+    };
+  }
     settings = {
       ...settings,
       chapters: settings.chapters.map((ch) =>
@@ -128,7 +133,16 @@
     </div>
 
     <div class="flex items-center gap-2">
-      <!-- View mode toggle -->
+      <Button
+        variant="outline"
+        size="sm"
+        class="h-8 gap-1.5 text-xs text-[var(--ui-muted-foreground)]"
+        onclick={() => (showSearchDialog = true)}
+        title="Search pages (⌘K)"
+      >
+        <Search class="size-3.5" />
+        <span class="hidden sm:inline">Search (⌘K)</span>
+      </Button>
       <div class="flex items-center border border-[var(--ui-border)] rounded-lg overflow-hidden">
         <button
           onclick={() => viewMode = 'edit'}
@@ -164,7 +178,6 @@
 
   <!-- Main content -->
   <div class="flex flex-1 overflow-hidden">
-    <!-- Sidebar -->
     <BookSidebar
       chapters={settings.chapters}
       {activeChapterId}
@@ -172,6 +185,7 @@
       onAddChapter={handleAddChapter}
       onDeleteChapter={handleDeleteChapter}
       onReorderChapters={handleReorderChapters}
+      onReparentBlock={handleReparentBlock}
       {wordCount}
       {estimatedPages}
     />
@@ -202,13 +216,19 @@
     <!-- Settings panel -->
     {#if showSettings}
       <BookSettingsPanel
-        metadata={settings.metadata}
-        layout={settings.layout}
-        onMetadataChange={handleMetadataChange}
-        onLayoutChange={handleLayoutChange}
+        bind:settings
+        onClose={() => showSettings = false}
       />
     {/if}
   </div>
+
+  <DocumentSearchDialog
+    bind:open={showSearchDialog}
+    blocks={settings.chapters}
+    onSelectBlock={(block) => {
+      activeChapterId = block.id;
+    }}
+  />
 </div>
 
 <!-- Export dialog -->

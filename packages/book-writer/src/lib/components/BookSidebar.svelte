@@ -35,13 +35,24 @@
     onAddChapter: (type: ContentBlockType, parentId?: string | null) => void;
     onDeleteChapter: (id: string) => void;
     onReorderChapters: (from: number, to: number) => void;
+    onReparentBlock?: (blockId: string, newParentId: string | null) => void;
+    wordCount: number;
+    estimatedPages: number;
+  }: {
+    chapters: ContentBlock[];
+    activeChapterId: string;
+    onSelectChapter: (id: string) => void;
+    onAddChapter: (type: ContentBlockType, parentId?: string | null) => void;
+    onDeleteChapter: (id: string) => void;
+    onReorderChapters: (from: number, to: number) => void;
+    onReparentBlock?: (blockId: string, newParentId: string | null) => void;
     wordCount: number;
     estimatedPages: number;
   } = $props();
 
-  let showAddMenu = $state(false);
+  let draggedBlockId = $state<string | null>(null);
+  let dropTargetBlockId = $state<string | null>(null);
   let collapsedMap = $state<Record<string, boolean>>({});
-
   const blockTree = $derived(buildBlockTree(chapters));
 
   function toggleCollapse(id: string) {
@@ -61,12 +72,36 @@
   {@const words = getChapterWordCount(node)}
 
   <div class="flex flex-col">
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
+      draggable="true"
+      ondragstart={(e) => {
+        draggedBlockId = node.id;
+        e.dataTransfer?.setData('text/plain', node.id);
+      }}
+      ondragover={(e) => {
+        e.preventDefault();
+        if (draggedBlockId !== node.id) dropTargetBlockId = node.id;
+      }}
+      ondragleave={() => {
+        if (dropTargetBlockId === node.id) dropTargetBlockId = null;
+      }}
+      ondrop={(e) => {
+        e.preventDefault();
+        const blockId = e.dataTransfer?.getData('text/plain');
+        if (blockId && blockId !== node.id) {
+          onReparentBlock?.(blockId, node.id);
+        }
+        draggedBlockId = null;
+        dropTargetBlockId = null;
+      }}
       class={cn(
-        "group flex items-center gap-1.5 px-2 py-1.5 rounded-lg cursor-pointer transition-colors text-xs select-none",
+        "group flex items-center gap-1.5 px-2 py-1.5 rounded-lg cursor-pointer transition-colors text-xs select-none relative",
         isActive
           ? "bg-[var(--ui-primary)]/10 text-[var(--ui-primary)] font-semibold border border-[var(--ui-primary)]/20"
-          : "hover:bg-[var(--ui-secondary)]/50 text-[var(--ui-foreground)] border border-transparent"
+          : "hover:bg-[var(--ui-secondary)]/50 text-[var(--ui-foreground)] border border-transparent",
+        draggedBlockId === node.id && "opacity-40",
+        dropTargetBlockId === node.id && "bg-[var(--ui-primary)]/15 ring-2 ring-inset ring-[var(--ui-primary)]"
       )}
       style="padding-left: {depth * 14 + 8}px;"
       onclick={() => onSelectChapter(node.id)}
