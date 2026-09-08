@@ -22,7 +22,7 @@
     "stage:apply": "npm stage apply",
     "cli": "pnpm --filter @intinyagroup/cli build",
     "generate:registry": "pnpm --filter @intinyagroup/cli generate:registry",
-    "prepare": "pnpm --filter @intinyagroup/docs exec svelte-kit sync && mkdir -p .svelte-kit && cp packages/docs/.svelte-kit/tsconfig.json .svelte-kit/",
+    "prepare": "husky",
     "test": "turbo run test --continue",
     "build:react": "turbo run build --filter=@intinyagroup/react"
   },
@@ -31,7 +31,9 @@
     "@sveltejs/vite-plugin-svelte": "^5.1.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/svelte": "^5.4.2",
+    "husky": "^9.1.7",
     "jsdom": "^30.0.1",
+    "lint-staged": "^17.5.0",
     "prettier": "^3.5.0",
     "prettier-plugin-svelte": "^3.5.0",
     "turbo": "^2.10.12",
@@ -49,6 +51,10 @@
         "esbuild"
       ]
     }
+  },
+  "lint-staged": {
+    "*.{js,ts,json,css,md}": "prettier --write",
+    "*.svelte": "prettier --plugin prettier-plugin-svelte --write"
   },
   "packageManager": "pnpm@10.33.2"
 }
