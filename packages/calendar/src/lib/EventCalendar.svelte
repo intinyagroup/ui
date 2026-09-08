@@ -44,6 +44,7 @@
     onEventClick,
     onDateClick,
     onAddEvent,
+    onDragCreate,
     onEventReschedule,
   }: {
     events?: CalendarEvent[];
@@ -59,12 +60,18 @@
     onAddEvent?: (newEvent: CalendarEvent) => void;
     onEventReschedule?: (detail: { event: CalendarEvent; newStart: Date; newEnd: Date }) => void;
     onEventResize?: (detail: { event: CalendarEvent; newStart: Date; newEnd: Date }) => void;
+    onDragCreate?: (detail: { start: Date; end: Date }) => void;
   } = $props();
 
   let draggedEventId = $state<string | null>(null);
   let resizingEventId = $state<string | null>(null);
   let resizeStartY = $state<number>(0);
   let resizeStartDuration = $state<number>(0);
+  // Drag-to-create state
+  let dragCreateStart = $state<{ date: Date; hour: number; minute: number } | null>(null);
+  let dragCreateEnd = $state<{ date: Date; hour: number; minute: number } | null>(null);
+  let isDragCreating = $state(false);
+  let dragCreateColumn = $state<Date | null>(null);
 
   function isMultiDayOrAllDay(ev: CalendarEvent): boolean {
     if (ev.allDay) return true;
@@ -130,6 +137,84 @@
         }
       }
       resizingEventId = null;
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    }
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  }
+  // Drag-to-create: snap to 15-minute increments
+  function snapTo15Minutes(minutes: number): number {
+    return Math.round(minutes / 15) * 15;
+  }
+
+  function handleDragCreateMouseDown(e: MouseEvent, date: Date, hour: number, containerEl: HTMLElement) {
+    // Only left click
+    if (e.button !== 0) return;
+    // Don't start drag-create if already dragging an event or resizing
+    if (draggedEventId || resizingEventId) return;
+    // Don't start if clicking on an event element
+    const target = e.target as HTMLElement;
+    if (target.closest('[role="button"]') || target.closest('.group\\/event')) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const rect = containerEl.getBoundingClientRect();
+    const y = e.clientY - rect.top;
+    const hourHeight = containerEl.id === 'week-day-col' ? 56 : 64;
+    const minutesInHour = (y / hourHeight) * 60;
+    const minute = snapTo15Minutes(minutesInHour);
+    const clampedMinute = Math.min(45, Math.max(0, minute));
+
+    dragCreateStart = { date, hour, minute: clampedMinute };
+    dragCreateEnd = { date, hour, minute: clampedMinute + 15 };
+    dragCreateColumn = date;
+    isDragCreating = true;
+
+    function onMouseMove(moveEvent: MouseEvent) {
+      if (!isDragCreating || !dragCreateStart) return;
+      const moveY = moveEvent.clientY - rect.top;
+      const moveMinutesInHour = (moveY / hourHeight) * 60;
+      const snappedMinutes = snapTo15Minutes(moveMinutesInHour);
+      const clampedMinutes = Math.min(24 * 60, Math.max(0, snappedMinutes));
+
+      const totalStartMinutes = dragCreateStart.hour * 60 + dragCreateStart.minute;
+      let totalEndMinutes = Math.max(totalStartMinutes + 15, clampedMinutes);
+      totalEndMinutes = Math.min(24 * 60, totalEndMinutes);
+
+      const endHour = Math.floor(totalEndMinutes / 60);
+      const endMinute = totalEndMinutes % 60;
+      dragCreateEnd = { date, hour: endHour, minute: endMinute };
+    }
+
+    function onMouseUp() {
+      if (isDragCreating && dragCreateStart && dragCreateEnd) {
+        const startMinutes = dragCreateStart.hour * 60 + dragCreateStart.minute;
+        const endMinutes = dragCreateEnd.hour * 60 + dragCreateEnd.minute;
+
+        if (endMinutes - startMinutes >= 15) {
+          const startDate = new Date(date);
+          startDate.setHours(dragCreateStart.hour, dragCreateStart.minute, 0, 0);
+          const endDate = new Date(date);
+          endDate.setHours(dragCreateEnd.hour, dragCreateEnd.minute, 0, 0);
+
+          onDragCreate?.({ start: startDate, end: endDate });
+
+          if (enableEventModal) {
+            newEventDate = new Date(date);
+            newEventStartTime = `${String(dragCreateStart.hour).padStart(2, '0')}:${String(dragCreateStart.minute).padStart(2, '0')}`;
+            newEventEndTime = `${String(dragCreateEnd.hour).padStart(2, '0')}:${String(dragCreateEnd.minute).padStart(2, '0')}`;
+            modalOpen = true;
+          }
+        }
+      }
+
+      isDragCreating = false;
+      dragCreateStart = null;
+      dragCreateEnd = null;
+      dragCreateColumn = null;
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
     }
@@ -578,14 +663,15 @@
 
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
-        <div
+        <div id="week-day-col"
           onclick={() => openCreateModal(d)}
           class="col-span-1 divide-y divide-[var(--ui-border)]/50 relative hover:bg-[var(--ui-secondary)]/10 cursor-pointer select-none"
         >
           {#each hours as hour}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
-              class="h-14 transition-colors hover:bg-[var(--ui-primary)]/10"
+              class="h-14 transition-colors hover:bg-[var(--ui-primary)]/10 pointer-events-auto"
+              onmousedown={(e) => handleDragCreateMouseDown(e, d, hour, e.currentTarget.closest('[id="week-day-col"]')!)}
               ondragover={(e) => e.preventDefault()}
               ondrop={(e) => {
                 e.preventDefault();
@@ -651,6 +737,21 @@
               ></div>
             </div>
           {/each}
+          <!-- Drag-to-create preview -->
+          {#if isDragCreating && dragCreateStart && dragCreateEnd && dragCreateColumn && isSameDay(dragCreateColumn, d)}
+            {@const startTotalMin = dragCreateStart.hour * 60 + dragCreateStart.minute}
+            {@const endTotalMin = dragCreateEnd.hour * 60 + dragCreateEnd.minute}
+            {@const previewTop = (startTotalMin / 60) * 56}
+            {@const previewHeight = Math.max(14, ((endTotalMin - startTotalMin) / 60) * 56)}
+            <div
+              class="absolute inset-x-0.5 z-20 rounded bg-blue-500/30 border border-blue-400/50 pointer-events-none flex items-start justify-center pt-0.5"
+              style="top: {previewTop}px; height: {previewHeight}px;"
+            >
+              <span class="text-[9px] font-semibold text-blue-700 select-none">
+                {String(dragCreateStart.hour).padStart(2, '0')}:{String(dragCreateStart.minute).padStart(2, '0')} - {String(dragCreateEnd.hour).padStart(2, '0')}:{String(dragCreateEnd.minute).padStart(2, '0')}
+              </span>
+            </div>
+          {/if}
         </div>
       {/each}
     </div>
@@ -675,12 +776,14 @@
 
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore a11y_click_events_have_key_events -->
-      <div
+      <div id="day-view-col"
         onclick={() => openCreateModal(currentDate)}
         class="col-span-10 divide-y divide-[var(--ui-border)]/50 relative p-1 hover:bg-[var(--ui-secondary)]/10 cursor-pointer select-none"
       >
-        {#each hours as _}
-          <div class="h-16"></div>
+        {#each hours as hour}
+          <div class="h-16 pointer-events-auto"
+            onmousedown={(e) => handleDragCreateMouseDown(e, currentDate, hour, e.currentTarget.closest('[id="day-view-col"]')!)}
+          ></div>
         {/each}
 
         <!-- Google Calendar style Current Time Red Line -->
@@ -740,6 +843,21 @@
             ></div>
           </div>
         {/each}
+        <!-- Drag-to-create preview -->
+        {#if isDragCreating && dragCreateStart && dragCreateEnd && isSameDay(dragCreateColumn!, currentDate)}
+          {@const startTotalMin = dragCreateStart.hour * 60 + dragCreateStart.minute}
+          {@const endTotalMin = dragCreateEnd.hour * 60 + dragCreateEnd.minute}
+          {@const previewTop = (startTotalMin / 60) * 64}
+          {@const previewHeight = Math.max(16, ((endTotalMin - startTotalMin) / 60) * 64)}
+          <div
+            class="absolute inset-x-1 z-20 rounded-lg bg-blue-500/30 border border-blue-400/50 pointer-events-none flex items-start justify-center pt-1"
+            style="top: {previewTop}px; height: {previewHeight}px;"
+          >
+            <span class="text-[10px] font-semibold text-blue-700 select-none">
+              {String(dragCreateStart.hour).padStart(2, '0')}:{String(dragCreateStart.minute).padStart(2, '0')} - {String(dragCreateEnd.hour).padStart(2, '0')}:{String(dragCreateEnd.minute).padStart(2, '0')}
+            </span>
+          </div>
+        {/if}
       </div>
     </div>
   {/if}

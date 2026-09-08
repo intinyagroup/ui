@@ -14,6 +14,7 @@
   } = $props();
 
   let editing = $state(false);
+// Svelte 5: intentional initial-value capture
   let editValue = $state(String(value ?? ''));
   let inputEl: HTMLInputElement | null = $state(null);
 

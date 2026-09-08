@@ -10,6 +10,10 @@
     "check": "echo 'storybook: no check needed'"
   },
   "dependencies": {
+    "@intinyagroup/calendar": "workspace:*",
+    "@intinyagroup/charts": "workspace:*",
+    "@intinyagroup/kanban": "workspace:*",
+    "@intinyagroup/spreadsheet": "workspace:*",
     "@intinyagroup/tokens": "workspace:*",
     "@intinyagroup/ui": "workspace:*"
   },

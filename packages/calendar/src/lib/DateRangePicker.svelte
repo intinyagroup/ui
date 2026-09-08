@@ -273,6 +273,8 @@
           {@const isEdge = isStart || isEnd}
 
           <div
+            role="gridcell"
+            aria-selected={isEdge}
             class={cn(
               'relative py-0.5 flex items-center justify-center',
               inRange && !isEdge && 'bg-[var(--ui-primary)]/10',

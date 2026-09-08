@@ -21,7 +21,8 @@
   "scripts": {
     "build": "svelte-package -o dist",
     "check": "echo 'no check'",
-    "dev": "svelte-package -o dist -w"
+    "dev": "svelte-package -o dist -w",
+    "test": "vitest run"
   },
   "dependencies": {
     "@intinyagroup/ui": "workspace:*",

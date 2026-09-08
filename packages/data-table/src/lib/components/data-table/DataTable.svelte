@@ -166,6 +166,7 @@
   } = $props();
 
   // Internal state
+// Svelte 5: intentional initial-value capture — internal state seeded from props at mount
   let sorting = $state<SortingState>(externalSorting ?? []);
   let pagination = $state<PaginationState>(externalPagination ?? { pageIndex: 0, pageSize: untrack(() => pageSize) });
   let globalFilter = $state(externalFilter ?? '');
@@ -269,6 +270,7 @@
   const selectedCount = $derived(Object.keys(rowSelection).length);
 
   // Keyboard navigation
+// Svelte 5: intentional initial-value capture — props used for conditional init
   const keyboard = keyboardNav
     ? createKeyboardNavigation({
         table,
@@ -291,6 +293,7 @@
     : null;
 
   // Clipboard
+// Svelte 5: intentional initial-value capture — prop used for conditional init
   const clip = clipboard
     ? createClipboard({ table })
     : null;

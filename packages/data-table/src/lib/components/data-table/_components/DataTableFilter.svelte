@@ -21,6 +21,7 @@
   );
 
   let open = $state(false);
+// Svelte 5: intentional initial-value capture
   let textInput = $state(typeof filterValue === 'string' ? filterValue : '');
 
   function applyTextFilter() {

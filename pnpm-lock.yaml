@@ -1032,6 +1032,18 @@ importers:
 
   packages/storybook:
     dependencies:
+      '@intinyagroup/calendar':
+        specifier: workspace:*
+        version: link:../calendar
+      '@intinyagroup/charts':
+        specifier: workspace:*
+        version: link:../charts
+      '@intinyagroup/kanban':
+        specifier: workspace:*
+        version: link:../kanban
+      '@intinyagroup/spreadsheet':
+        specifier: workspace:*
+        version: link:../spreadsheet
       '@intinyagroup/tokens':
         specifier: workspace:*
         version: link:../tokens

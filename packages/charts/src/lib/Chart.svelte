@@ -2,7 +2,6 @@
   import { onMount, onDestroy } from 'svelte';
   import {
     Chart as ChartJS,
-    type ChartConfiguration,
     type ChartData,
     type ChartOptions,
     type ChartType,
@@ -32,6 +31,7 @@
     width,
     class: className,
     onRef,
+    title,
   }: {
     type?: ChartType;
     data: ChartData<any>;
@@ -40,35 +40,44 @@
     width?: number;
     class?: string;
     onRef?: (chart: ChartJS) => void;
+    title?: import('svelte').Snippet;
   } = $props();
 
-  let canvas: HTMLCanvasElement | null = null;
-  let chart: ChartJS | null = null;
+  let canvas: HTMLCanvasElement | null = $state(null);
+  let chart: ChartJS | null = $state(null);
 
-  const defaultOptions: ChartOptions<any> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        position: 'bottom',
-        labels: { padding: 16, usePointStyle: true, pointStyle: 'circle', font: { size: 12 } },
+  function readToken(name: string, fallback: string): string {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+  }
+
+  const defaultOptions: ChartOptions<any> = $derived.by(() => {
+    const tooltipBg = readToken('--ui-card', 'rgba(0,0,0,0.8)');
+    const gridColor = readToken('--ui-border', 'rgba(0,0,0,0.05)');
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: { padding: 16, usePointStyle: true, pointStyle: 'circle', font: { size: 12 } },
+        },
+        tooltip: {
+          backgroundColor: tooltipBg,
+          titleFont: { size: 13, weight: 'bold' },
+          bodyFont: { size: 12 },
+          padding: 10,
+          cornerRadius: 8,
+        },
       },
-      tooltip: {
-        backgroundColor: 'rgba(0,0,0,0.8)',
-        titleFont: { size: 13, weight: 'bold' },
-        bodyFont: { size: 12 },
-        padding: 10,
-        cornerRadius: 8,
-      },
-    },
-    scales: type === 'bar' || type === 'line'
-      ? {
-          x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-          y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { font: { size: 11 } } },
-        }
-      : undefined,
-  };
+      scales: type === 'bar' || type === 'line'
+        ? {
+            x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+            y: { grid: { color: gridColor }, ticks: { font: { size: 11 } } },
+          }
+        : undefined,
+    } as const;
+  });
 
   function createChart() {
     if (!canvas) return;
@@ -89,6 +98,7 @@
   $effect(() => { if (chart) updateChart(); });
 </script>
 
-<div class={cn('relative', className)} style:height="{height}px" style:width={width ? `${width}px` : '100%'}>
-  <canvas bind:this={canvas}></canvas>
+<div class={cn('rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] p-4', className)} style:height="{height}px" style:width={width ? `${width}px` : '100%'}>
+  {@render title?.()}
+  <canvas bind:this={canvas} aria-label="{type} chart" role="img"></canvas>
 </div>
