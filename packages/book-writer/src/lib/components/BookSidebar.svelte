@@ -38,16 +38,6 @@
     onReparentBlock?: (blockId: string, newParentId: string | null) => void;
     wordCount: number;
     estimatedPages: number;
-  }: {
-    chapters: ContentBlock[];
-    activeChapterId: string;
-    onSelectChapter: (id: string) => void;
-    onAddChapter: (type: ContentBlockType, parentId?: string | null) => void;
-    onDeleteChapter: (id: string) => void;
-    onReorderChapters: (from: number, to: number) => void;
-    onReparentBlock?: (blockId: string, newParentId: string | null) => void;
-    wordCount: number;
-    estimatedPages: number;
   } = $props();
 
   let draggedBlockId = $state<string | null>(null);

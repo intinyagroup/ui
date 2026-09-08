@@ -36,6 +36,8 @@
   let settings = $state(initialSettings ?? createDefaultSettings());
   let showExport = $state(false);
   let showSearchDialog = $state(false);
+  let viewMode = $state<'edit' | 'preview'>('edit');
+  let activeChapterId = $state(settings.chapters[0]?.id ?? '');
   let showSettings = $state(false);
 
   const activeChapter = $derived(settings.chapters.find((ch) => ch.id === activeChapterId));
@@ -80,6 +82,8 @@
       )
     };
   }
+  function handleContentChange(content: string) {
+    if (!activeChapterId) return;
     settings = {
       ...settings,
       chapters: settings.chapters.map((ch) =>

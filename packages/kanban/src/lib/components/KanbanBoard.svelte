@@ -193,7 +193,7 @@
   };
 </script>
 
-<div class={cn('flex gap-4 overflow-x-auto pb-4', className)}>
+<div class={cn('flex flex-col md:flex-row gap-4 overflow-x-auto md:overflow-x-auto pb-4', className)}>
   {#each columns as column (column.id)}
     {@const columnCards = getColumnCards(column.id)}
     {@const exceeded = isWipExceeded(column)}
@@ -201,12 +201,12 @@
 
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
-      class="flex flex-col w-72 shrink-0 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-secondary)]/30"
+      class="flex flex-col w-full md:w-72 shrink-0 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-secondary)]/30"
       ondragover={(e) => handleDragOver(e, column.id, columnCards.length)}
       ondrop={(e) => handleDrop(e, column.id, columnCards.length)}
     >
       <!-- Column header -->
-      <div class="flex items-center justify-between px-3 py-2.5 border-b border-[var(--ui-border)]">
+      <div class="sticky top-0 z-10 flex items-center justify-between px-2 py-2 md:px-3 md:py-2.5 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/95">
         <div class="flex items-center gap-2">
           {#if column.color}
             <div class="size-2.5 rounded-full" style="background-color: {column.color}"></div>
@@ -242,7 +242,7 @@
       </div>
 
       <!-- Cards -->
-      <div class="flex-1 p-2 space-y-2 min-h-[100px]">
+      <div class="flex-1 p-2 md:p-3 space-y-2 min-h-[100px]">
         {#if swimlaneBy && swimlaneValues.length > 0}
           {#each swimlaneValues as sv (sv)}
             {@const svCards = getSwimlaneCards(column.id, sv)}
@@ -456,11 +456,11 @@
               if (e.key === 'Escape') cancelEditing();
             }}
             onblur={() => saveEditing(card)}
-            class="w-full text-sm font-medium px-1 py-0.5 -mx-1 -my-0.5 rounded border border-[var(--ui-primary)] bg-[var(--ui-card)] text-[var(--ui-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--ui-primary)]"
+            class="w-full text-xs md:text-sm font-medium px-1 py-0.5 -mx-1 -my-0.5 rounded border border-[var(--ui-primary)] bg-[var(--ui-card)] text-[var(--ui-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--ui-primary)]"
             onclick={(e) => e.stopPropagation()}
           />
         {:else}
-          <p class="text-sm font-medium text-[var(--ui-foreground)]">{card.title}</p>
+          <p class="text-xs md:text-sm font-medium text-[var(--ui-foreground)]">{card.title}</p>
         {/if}
 
         {#if card.description}

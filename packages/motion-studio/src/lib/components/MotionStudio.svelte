@@ -38,7 +38,7 @@
   );
 
   function play() { isPlaying = true; }
-  function pause() { is(false); isPlaying = false; }
+  function pause() { isPlaying = false; }
 
   function handleTimeUpdate(frame: number) { currentFrame = frame; }
 
@@ -113,7 +113,7 @@
     <div class="flex-1 flex flex-col overflow-hidden">
       <!-- Preview -->
       <div class="flex-1 overflow-auto flex items-center justify-center p-4 bg-[var(--ui-muted)]/20">
-        <VideoPlayer {composition} onTimeUpdate={handleTimeUpdate} onComplete={() => isPlaying = false} />
+        <Player {composition} onFrameUpdate={handleTimeUpdate} onPlay={play} onPause={pause} onEnded={() => isPlaying = false} />
       </div>
 
       <!-- Add sequence buttons -->
@@ -140,15 +140,20 @@
       </div>
 
       <!-- Timeline -->
-      <Timeline
-        {composition}
-        {currentFrame}
-        {isPlaying}
-        onFrameChange={(f) => { currentFrame = f; }}
-        onPlay={play}
-        onPause={pause}
-        onCompositionChange={handleCompositionChange}
-      />
+      <div class="flex items-center gap-3 px-4 py-2 border-t border-[var(--ui-border)] bg-[var(--ui-card)]">
+        <Button variant="ghost" size="sm" class="size-7 p-0" onclick={pause} disabled={!isPlaying}>
+          <Pause class="size-3" />
+        </Button>
+        <Button variant="ghost" size="sm" class="size-7 p-0" onclick={play} disabled={isPlaying}>
+          <Play class="size-3" />
+        </Button>
+        <input type="range" min={0} max={Math.max(0, composition.durationInFrames - 1)} value={currentFrame}
+          oninput={(e) => { currentFrame = Number(e.currentTarget.value); }}
+          class="flex-1 h-1 cursor-pointer" />
+        <span class="text-[10px] font-mono text-[var(--ui-muted-foreground)] w-16 text-right">
+          {currentFrame}/{composition.durationInFrames}
+        </span>
+      </div>
     </div>
 
     <!-- Right: Inspector -->

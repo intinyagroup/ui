@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Clock, Plus, X } from 'lucide-svelte';
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Clock, Plus, X } from 'lucide-svelte';
   import { Button } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/ui/utils';
   import {
@@ -72,6 +72,23 @@
   let dragCreateEnd = $state<{ date: Date; hour: number; minute: number } | null>(null);
   let isDragCreating = $state(false);
   let dragCreateColumn = $state<Date | null>(null);
+  // Mobile detection
+  let isMobile = $state(typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false);
+  $effect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(max-width: 767px)');
+    isMobile = mq.matches;
+    const handler = (e: MediaQueryListEvent) => { isMobile = e.matches; };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  });
+
+  // Mobile week: show only current day ± 1
+  const mobileWeekDays = $derived([
+    subDays(currentDate, 1),
+    currentDate,
+    addDays(currentDate, 1)
+  ]);
 
   function isMultiDayOrAllDay(ev: CalendarEvent): boolean {
     if (ev.allDay) return true;
@@ -390,8 +407,9 @@
       return format(currentDate, 'MMMM yyyy', { locale: activeDateFnsLocale });
     }
     if (view === 'week') {
-      const start = weekDays[0];
-      const end = weekDays[6];
+      const displayDays = isMobile ? mobileWeekDays : weekDays;
+      const start = displayDays[0];
+      const end = displayDays[displayDays.length - 1];
       const sStr = format(start, 'dd MMM', { locale: activeDateFnsLocale });
       const eStr = format(end, 'dd MMM yyyy', { locale: activeDateFnsLocale });
       return `${sStr} - ${eStr}`;
@@ -450,10 +468,10 @@
 
 <div class={cn('relative flex flex-col rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-xs overflow-hidden', className)}>
   <!-- Toolbar Header -->
-  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--ui-border)] p-4 sm:px-6">
-    <div class="flex items-center gap-2">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--ui-border)] p-4 sm:px-6">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2">
       <h2 class="text-base font-bold text-[var(--ui-foreground)] capitalize">{titleHeader}</h2>
-      <div class="flex items-center gap-1 ml-2">
+      <div class="flex items-center gap-1">
         <Button variant="outline" size="sm" class="size-8 p-0" onclick={goPrev}>
           <ChevronLeft class="size-4" />
         </Button>
@@ -464,7 +482,7 @@
           <ChevronRight class="size-4" />
         </Button>
       </div>
-      <span class="inline-flex items-center rounded-md bg-[var(--ui-secondary)]/50 px-2 py-0.5 text-[10px] font-medium text-[var(--ui-muted-foreground)]">
+      <span class="hidden sm:inline-flex items-center rounded-md bg-[var(--ui-secondary)]/50 px-2 py-0.5 text-[10px] font-medium text-[var(--ui-muted-foreground)]">
         {activeTimeZone}
       </span>
     </div>
@@ -476,37 +494,40 @@
           type="button"
           onclick={() => (view = 'month')}
           class={cn(
-            'rounded-md px-3 py-1 text-xs font-semibold transition-colors cursor-pointer',
+            'rounded-md px-2 sm:px-3 py-1 text-xs font-semibold transition-colors cursor-pointer',
             view === 'month' ? 'bg-[var(--ui-card)] text-[var(--ui-foreground)] shadow-xs' : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]'
           )}
         >
-          Month
+          <CalendarDays class="size-4 sm:hidden" />
+          <span class="hidden sm:inline">Month</span>
         </button>
         <button
           type="button"
           onclick={() => (view = 'week')}
           class={cn(
-            'rounded-md px-3 py-1 text-xs font-semibold transition-colors cursor-pointer',
+            'rounded-md px-2 sm:px-3 py-1 text-xs font-semibold transition-colors cursor-pointer',
             view === 'week' ? 'bg-[var(--ui-card)] text-[var(--ui-foreground)] shadow-xs' : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]'
           )}
         >
-          Week
+          <CalendarIcon class="size-4 sm:hidden" />
+          <span class="hidden sm:inline">Week</span>
         </button>
         <button
           type="button"
           onclick={() => (view = 'day')}
           class={cn(
-            'rounded-md px-3 py-1 text-xs font-semibold transition-colors cursor-pointer',
+            'rounded-md px-2 sm:px-3 py-1 text-xs font-semibold transition-colors cursor-pointer',
             view === 'day' ? 'bg-[var(--ui-card)] text-[var(--ui-foreground)] shadow-xs' : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]'
           )}
         >
-          Day
+          <Clock class="size-4 sm:hidden" />
+          <span class="hidden sm:inline">Day</span>
         </button>
       </div>
 
       {#if enableEventModal}
         <Button size="sm" class="gap-1.5 h-8 text-xs" onclick={() => openCreateModal(currentDate)}>
-          <Plus class="size-3.5" /> Add Event
+          <Plus class="size-3.5" /> <span class="hidden sm:inline">Add Event</span>
         </Button>
       {/if}
     </div>
@@ -540,7 +561,7 @@
             handleEventDrop(date);
           }}
           class={cn(
-            'min-h-[110px] p-1.5 flex flex-col gap-1 transition-colors hover:bg-[var(--ui-secondary)]/25 cursor-pointer select-none',
+            'min-h-[80px] md:min-h-[110px] p-1 md:p-1.5 flex flex-col gap-1 transition-colors hover:bg-[var(--ui-secondary)]/25 cursor-pointer select-none',
             !currentMonth && 'bg-[var(--ui-muted)]/15 opacity-50'
           )}
         >
@@ -562,7 +583,7 @@
 
           <!-- Event pills with spanning indicator -->
           <div class="flex flex-col gap-1 overflow-hidden">
-            {#each dayEvents.slice(0, 3) as ev (ev.id)}
+            {#each dayEvents.slice(0, isMobile ? 2 : 3) as ev (ev.id)}
               {@const isSpanning = isMultiDayOrAllDay(ev)}
               {@const isStartDay = isSameDay(new Date(ev.start), date)}
               {@const isEndDay = isSameDay(new Date(ev.end), date)}
@@ -580,7 +601,7 @@
                   onEventClick?.(ev);
                 }}
                 class={cn(
-                  'truncate px-1.5 py-0.5 text-left text-[11px] font-medium transition-opacity hover:opacity-85 text-white shadow-2xs cursor-grab active:cursor-grabbing',
+                  'truncate px-1.5 py-0.5 text-left text-[10px] md:text-[11px] font-medium transition-opacity hover:opacity-85 text-white shadow-2xs cursor-grab active:cursor-grabbing',
                   isSpanning ? 'rounded-none' : 'rounded',
                   isSpanning && isStartDay && 'rounded-l-md',
                   isSpanning && isEndDay && 'rounded-r-md',
@@ -596,9 +617,9 @@
               </button>
             {/each}
 
-            {#if dayEvents.length > 3}
+            {#if dayEvents.length > (isMobile ? 2 : 3)}
               <span class="text-[10px] font-semibold text-[var(--ui-muted-foreground)] px-1">
-                +{dayEvents.length - 3} more
+                +{dayEvents.length - (isMobile ? 2 : 3)} more
               </span>
             {/if}
           </div>
@@ -607,11 +628,11 @@
     </div>
   {:else if view === 'week'}
     <!-- WEEK VIEW -->
-    <div class="grid grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-center text-xs font-semibold text-[var(--ui-muted-foreground)] py-2">
+    <div class="grid grid-cols-4 md:grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-center text-xs font-semibold text-[var(--ui-muted-foreground)] py-2">
       <div class="col-span-1">Time</div>
-      {#each weekDays as d, idx}
+      {#each (isMobile ? mobileWeekDays : weekDays) as d}
         <div class="col-span-1 flex flex-col items-center">
-          <span class="capitalize">{dayNames[idx]}</span>
+          <span class="capitalize">{format(d, 'EEE', { locale: activeDateFnsLocale })}</span>
           <span class={cn('size-6 flex items-center justify-center rounded-full text-xs mt-0.5', isToday(d) ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)]' : '')}>
             {d.getDate()}
           </span>
@@ -620,13 +641,13 @@
     </div>
 
     <!-- All-day header slot (FullCalendar 1:1) -->
-    {@const allDayEvents = getAllDayEventsForWeek(weekDays)}
+    {@const allDayEvents = getAllDayEventsForWeek(isMobile ? mobileWeekDays : weekDays)}
     {#if allDayEvents.length > 0}
-      <div class="grid grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/10 text-xs divide-x divide-[var(--ui-border)] py-1.5">
+      <div class="grid grid-cols-4 md:grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/10 text-xs divide-x divide-[var(--ui-border)] py-1.5">
         <div class="col-span-1 text-right pr-2 text-[10px] uppercase tracking-wider font-semibold text-[var(--ui-muted-foreground)] flex items-center justify-end">
           all-day
         </div>
-        <div class="col-span-7 px-2 flex flex-col gap-1">
+        <div class="col-span-3 md:col-span-7 px-2 flex flex-col gap-1">
           {#each allDayEvents as ev (ev.id)}
             <button
               type="button"
@@ -644,7 +665,7 @@
       </div>
     {/if}
 
-    <div class="grid grid-cols-8 divide-x divide-[var(--ui-border)] max-h-[600px] overflow-y-auto">
+    <div class="grid grid-cols-4 md:grid-cols-8 divide-x divide-[var(--ui-border)] max-h-[600px] overflow-y-auto">
       <!-- Hours Column -->
       <div class="col-span-1 divide-y divide-[var(--ui-border)]/50 text-right pr-2 text-[11px] font-medium text-[var(--ui-muted-foreground)]">
         {#each hours as hour}
@@ -652,8 +673,8 @@
         {/each}
       </div>
 
-      <!-- 7 Days Grid Columns -->
-      {#each weekDays as d}
+      <!-- Day Grid Columns -->
+      {#each (isMobile ? mobileWeekDays : weekDays) as d}
         {@const dayEvents = getTimedEventsForDay(d)}
         {@const layoutEvents = computeOverlappingLayout(dayEvents)}
         {@const isCurrentDay = isToday(d)}
@@ -755,6 +776,12 @@
         </div>
       {/each}
     </div>
+    <!-- Mobile swipe hint -->
+    {#if isMobile}
+      <div class="px-4 py-2 text-center text-[11px] text-[var(--ui-muted-foreground)] border-t border-[var(--ui-border)]">
+        Swipe to see more days
+      </div>
+    {/if}
   {:else}
     <!-- DAY VIEW -->
     <div class="p-3 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 flex items-center justify-between">

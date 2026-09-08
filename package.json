@@ -11,7 +11,7 @@
     "build:core": "turbo run build --filter=@intinyagroup/ui",
     "storybook": "pnpm --filter @intinyagroup/storybook storybook",
     "build-storybook": "pnpm --filter @intinyagroup/storybook build-storybook",
-    "check": "pnpm -r run check",
+    "check": "turbo run check --continue",
     "lint": "pnpm -r run lint",
     "format": "prettier --write .",
     "version": "changeset version",
@@ -23,7 +23,7 @@
     "cli": "pnpm --filter @intinyagroup/cli build",
     "generate:registry": "pnpm --filter @intinyagroup/cli generate:registry",
     "prepare": "pnpm --filter @intinyagroup/docs exec svelte-kit sync && mkdir -p .svelte-kit && cp packages/docs/.svelte-kit/tsconfig.json .svelte-kit/",
-    "test": "pnpm --filter @intinyagroup/ui test && pnpm --filter @intinyagroup/grid-core test && pnpm --filter @intinyagroup/data-table test && pnpm --filter @intinyagroup/calendar test",
+    "test": "turbo run test --continue",
     "build:react": "turbo run build --filter=@intinyagroup/react"
   },
   "devDependencies": {

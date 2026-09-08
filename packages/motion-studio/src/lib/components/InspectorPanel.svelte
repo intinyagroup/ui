@@ -3,7 +3,7 @@
   import { Button, Input } from '@intinyagroup/ui';
   import { cn } from '@intinyagroup/grid-core/utils';
   import type { Sequence, Effect } from '@intinyagroup/motion';
-  import { effectPresets } from '@intinyagroup/motion';
+  // effectPresets available via @intinyagroup/motion-effects if needed
 
   let {
     sequence,

@@ -7,10 +7,10 @@ on:
     branches: [main]
 
 jobs:
-  build-test:
-    name: Build & Test
+  typecheck:
+    name: Typecheck
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -31,11 +31,53 @@ jobs:
           npx svelte-kit sync
           cd packages/core && npx svelte-kit sync
           cd ../docs && npx svelte-kit sync
-      - name: Run typecheck
-        run: pnpm run check
 
-      - name: Run unit tests
-        run: pnpm --filter @intinyagroup/ui test
+      - name: Run typecheck (parallel via Turborepo)
+        run: pnpm turbo run check --continue
 
-      - name: Build all packages
-        run: pnpm run build:all
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build dependencies first
+        run: pnpm turbo run build --filter=./... --filter=intinyagroup-ui
+
+      - name: Run unit tests (parallel via Turborepo)
+        run: pnpm turbo run test --continue
+
+  build:
+    name: Build All Packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages (parallel via Turborepo)
+        run: pnpm turbo run build --continue

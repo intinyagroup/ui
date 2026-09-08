@@ -47,6 +47,7 @@
     expandable = false,
     detail,
     mobileCardView = false,
+    responsive = true,
     editableColumns = [],
     // Virtualization
     virtualized = false,
@@ -126,6 +127,7 @@
     contextMenu?: boolean;
     detail?: Snippet<[{ row: TData; rowIndex: number }]>;
     mobileCardView?: boolean;
+    responsive?: boolean;
     virtualized?: boolean;
     virtualHeight?: number;
     statusBar?: boolean;
@@ -184,6 +186,22 @@
   let activeFilterColumnId = $state<string | null>(null);
   let scrollContainer = $state<HTMLElement | null>(null);
   let tableContainer = $state<HTMLElement | null>(null);
+  let isMobileViewport = $state(false);
+
+  // Responsive viewport detection
+  $effect(() => {
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia('(max-width: 767px)');
+    isMobileViewport = mql.matches;
+    const handler = (e: MediaQueryListEvent) => { isMobileViewport = e.matches; };
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  });
+
+  // Auto-enable compact density on mobile when responsive
+  const effectiveDensity = $derived(
+    responsive && isMobileViewport ? 'compact' as const : density
+  );
 
   // Load persisted settings
   $effect(() => {
@@ -227,7 +245,7 @@
       ? createVirtualizer({
           count: rowModel.rows.length,
           getScrollElement: () => scrollContainer,
-          estimateSize: () => density === 'compact' ? 40 : 56,
+          estimateSize: () => effectiveDensity === 'compact' ? 40 : 56,
           overscan: 10,
         })
       : null
@@ -546,8 +564,8 @@
 
         {#if densityToggle}
           <div class="flex items-center rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] p-1">
-            <button type="button" onclick={() => density = 'compact'} class="rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-colors {density === 'compact' ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-sm' : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'}">Compact</button>
-            <button type="button" onclick={() => density = 'spacious'} class="rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-colors {density === 'spacious' ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-sm' : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'}">Normal</button>
+            <button type="button" onclick={() => density = 'compact'} class="rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-colors {effectiveDensity === 'compact' ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-sm' : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'}">Compact</button>
+            <button type="button" onclick={() => density = 'spacious'} class="rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-colors {effectiveDensity === 'spacious' ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] shadow-sm' : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'}">Normal</button>
           </div>
         {/if}
 
@@ -737,12 +755,12 @@
   >
     {#if virtualized}
       <div bind:this={scrollContainer} class="overflow-auto" style="height: {virtualHeight}px;">
-        <table class="min-w-full text-sm tabular-nums" style="height: {virtualizer?.getTotalSize() ?? 0}px;">
+        <table class="{responsive ? 'min-w-[600px] sm:min-w-full' : 'min-w-full'} text-sm tabular-nums" style="height: {virtualizer?.getTotalSize() ?? 0}px;">
           <DataTableHeader
             {headerGroups}
             {selectable}
             {selectAllChecked}
-            {density}
+            {effectiveDensity}
             onToggleSelectAll={toggleSelectAll}
             onSort={handleSort}
             onPin={handlePin}
@@ -791,7 +809,7 @@
                   onclick={selectable ? () => toggleRow(row.id) : undefined}
                 >
                   {#if selectable}
-                    <td class="w-12 px-4 align-middle {density === 'compact' ? 'py-2' : 'py-4'}">
+                    <td class="w-12 px-4 align-middle {effectiveDensity === 'compact' ? 'py-2' : 'py-4'}">
                       <input
                         type="checkbox"
                         checked={!!rowSelection[row.id]}
@@ -803,7 +821,7 @@
                     </td>
                   {/if}
                   {#each row.getVisibleCells() as tableCell (tableCell.id)}
-                    <td class="px-4 align-middle text-sm font-medium text-[var(--ui-foreground)] {density === 'compact' ? 'py-2' : 'py-4'}">
+                    <td class="px-4 align-middle text-sm font-medium text-[var(--ui-foreground)] {effectiveDensity === 'compact' ? 'py-2' : 'py-4'}">
                       {tableCell.getValue() ?? '-'}
                     </td>
                   {/each}
@@ -827,12 +845,12 @@
         </table>
       </div>
     {:else}
-      <table class="min-w-full text-sm tabular-nums">
+      <table class="{responsive ? 'min-w-[600px] sm:min-w-full' : 'min-w-full'} text-sm tabular-nums">
         <DataTableHeader
           {headerGroups}
           {selectable}
           {selectAllChecked}
-          {density}
+          {effectiveDensity}
           onToggleSelectAll={toggleSelectAll}
           onSort={handleSort}
           onPin={handlePin}
@@ -850,7 +868,7 @@
               isSelected={!!rowSelection[row.id]}
               onToggleSelect={toggleRow}
               {cell}
-              {density}
+              {effectiveDensity}
               expanded={!!expanded[row.id]}
               onExpandToggle={toggleExpand}
               {detail}
@@ -858,7 +876,7 @@
               {editableColumns}
               columnCount={table.getAllLeafColumns().length}
               isPinned={true}
-              pinnedOffset={idx * (density === 'compact' ? 36 : 48)}
+              pinnedOffset={idx * (effectiveDensity === 'compact' ? 36 : 48)}
               focusedCell={keyboard?.focusedCell}
             />
           {/each}
@@ -867,7 +885,7 @@
               {row}
               onToggleSelect={toggleRow}
               {cell}
-              {density}
+              {effectiveDensity}
               expanded={!!expanded[row.id]}
               onExpandToggle={toggleExpand}
               {detail}

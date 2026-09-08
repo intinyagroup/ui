@@ -93,16 +93,6 @@ export async function exportToEpub(
       }
     );
   }
-    const chapterHtml = generateChapterHtml(chapter, layout);
-    book.addSection(
-      `chapter-${i + 1}.xhtml`,
-      chapterHtml,
-      {
-        spine: `chapter-${i + 1}`,
-        properties: { nav: { label: chapter.title } }
-      }
-    );
-  }
 
   // Generate EPUB blob
   const arrayBuffer = await book.archive.generateZip();

@@ -6,15 +6,13 @@
     LayoutGrid as GalleryIcon,
     Plus,
     Search,
-    Filter,
-    ArrowUpDown
   } from 'lucide-svelte';
   import { Button, Badge } from '@intinyagroup/ui';
-  import { DataTable, type ColumnDef } from '@intinyagroup/data-table';
+  import { DataTable, type ColumnDef, type SortingState, type ColumnFiltersState } from '@intinyagroup/data-table';
   import { Kanban } from '@intinyagroup/kanban';
   import { EventCalendar, type CalendarEvent } from '@intinyagroup/calendar';
   import { cn } from '@intinyagroup/ui/utils';
-  import type { Snippet } from 'svelte';
+
 
   export type DatabaseViewType = 'table' | 'board' | 'calendar' | 'gallery';
 
@@ -38,6 +36,8 @@
     class: className,
     onItemClick,
     onAddItem,
+    onUpdate,
+    onColumnFilterChange,
   }: {
     title?: string;
     icon?: string;
@@ -51,36 +51,75 @@
     class?: string;
     onItemClick?: (item: TItem) => void;
     onAddItem?: () => void;
+    onUpdate?: (item: TItem) => void;
+    onColumnFilterChange?: (detail: { columnId: string; filterValue: unknown }) => void;
   } = $props();
 
   let searchQuery = $state('');
+  let dbSort = $state<SortingState>([]);
+  let dbColumnFilters = $state<ColumnFiltersState>([]);
 
-  // Filtered items based on search
-  const filteredItems = $derived.by(() => {
+  const activeColumns = $derived(properties.map((p) => p.key));
+
+  // Items filtered for search (table view uses DataTable for sorting/filters)
+  const searchFilteredItems = $derived.by(() => {
     if (!searchQuery.trim()) return items;
     const q = searchQuery.toLowerCase();
-    return items.filter((item) => {
-      return Object.values(item).some((val) =>
-        val !== undefined && val !== null && String(val).toLowerCase().includes(q)
-      );
+    return items.filter((item) =>
+      Object.values(item).some(
+        (value) => value !== undefined && value !== null && String(value).toLowerCase().includes(q),
+      ),
+    );
+  });
+
+  // Client-side sorted items for non-table views (board/calendar/gallery) using the table sort state
+  const clientSortedItems = $derived.by(() => {
+    if (dbSort.length === 0) return searchFilteredItems;
+    const { id: sortColumnId, desc } = dbSort[0];
+    const dir = desc ? -1 : 1;
+    return [...searchFilteredItems].sort((a, b) => {
+      const aVal = a[sortColumnId];
+      const bVal = b[sortColumnId];
+      const aStr = aVal === undefined || aVal === null ? '' : String(aVal);
+      const bStr = bVal === undefined || bVal === null ? '' : String(bVal);
+      return dir * aStr.localeCompare(bStr);
     });
   });
 
-  // ---------------------------------------------------------------------------
-  // 1. Table View Configuration
-  // ---------------------------------------------------------------------------
+  function getRowId(item: TItem): string {
+    return String(item.id || item._id || '');
+  }
+
+  function applyColumnFilterToItem(item: TItem, columnId: string, filterValue: unknown): boolean {
+    if (filterValue === undefined || filterValue === null || filterValue === '') return true;
+    const cellValue = item[columnId];
+    const filterString = String(filterValue).toLowerCase();
+    return cellValue !== undefined && cellValue !== null && String(cellValue).toLowerCase().includes(filterString);
+  }
+
+  const filterAppliedItems = $derived.by(() => {
+    if (dbColumnFilters.length === 0) return clientSortedItems;
+    return clientSortedItems.filter((item) =>
+      dbColumnFilters.every((filter) => applyColumnFilterToItem(item, filter.id, filter.value)),
+    );
+  });
+
+  // Board/calendar/gallery continue to use this strictly filtered/sorted list
+  const filteredItems = filterAppliedItems;
+
   const tableColumns = $derived.by<ColumnDef<TItem, any>[]>(() => {
     return properties.map((prop) => ({
       accessorKey: prop.key,
       header: prop.label,
       cell: ({ getValue }) => {
-        const val = getValue();
+        const value = getValue();
         if (prop.type === 'select' || prop.type === 'status') {
-          const opt = prop.options?.find((o) => o.value === val);
-          return opt?.label || val || '-';
+          const option = prop.options?.find((candidate) => candidate.value === value);
+          return option?.label || value || '-';
         }
-        return val !== undefined && val !== null ? String(val) : '-';
-      }
+        return value !== undefined && value !== null ? String(value) : '-';
+      },
+      meta: { editable: prop.type !== 'date' },
     }));
   });
 
@@ -136,8 +175,28 @@
   });
 
   function getPropertyColor(propKey: string, val: string): string | undefined {
-    const prop = properties.find((p) => p.key === propKey);
-    return prop?.options?.find((o) => o.value === val)?.color;
+    const property = properties.find((candidate) => candidate.key === propKey);
+    return property?.options?.find((candidate) => candidate.value === val)?.color;
+  }
+
+  function handleCellEdit({ rowId, columnId, value }: { rowId: string; columnId: string; value: unknown }) {
+    const index = items.findIndex((item) => String(item.id || item._id) === rowId);
+    if (index === -1) return;
+    const nextItem = { ...items[index], [columnId]: value };
+    const nextItems = [...items.slice(0, index), nextItem, ...items.slice(index + 1)];
+    items = nextItems as TItem[];
+    onUpdate?.(nextItem);
+  }
+
+  function handleSortingChange(nextSorting: SortingState) {
+    dbSort = nextSorting;
+  }
+
+  function handleColumnFilterChange(detail: { columnId: string; filterValue: unknown }) {
+    dbColumnFilters = dbColumnFilters.some((filter) => filter.id === detail.columnId)
+      ? dbColumnFilters.map((filter) => (filter.id === detail.columnId ? { ...filter, value: detail.filterValue } : filter))
+      : [...dbColumnFilters, { id: detail.columnId, value: detail.filterValue }];
+    onColumnFilterChange?.(detail);
   }
 </script>
 
@@ -241,14 +300,20 @@
     {#if activeView === 'table'}
       <!-- 1. TABLE VIEW -->
       <DataTable
-        data={filteredItems}
+        data={searchFilteredItems}
         columns={tableColumns}
         searchable={false}
         exportable={true}
         densityToggle={true}
         columnToggle={true}
         floatingFilter={true}
+        externalSorting={dbSort}
+        externalColumnFilters={dbColumnFilters}
         onRowClick={(row) => onItemClick?.(row)}
+        onSortingChange={handleSortingChange}
+        onColumnFilterChange={handleColumnFilterChange}
+        onCellEdit={handleCellEdit}
+        editableColumns={activeColumns}
       />
     {:else if activeView === 'board'}
       <!-- 2. BOARD (KANBAN) VIEW -->
