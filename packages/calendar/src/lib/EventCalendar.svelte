@@ -58,18 +58,33 @@
     onDateClick?: (date: Date) => void;
     onAddEvent?: (newEvent: CalendarEvent) => void;
     onEventReschedule?: (detail: { event: CalendarEvent; newStart: Date; newEnd: Date }) => void;
+    onEventResize?: (detail: { event: CalendarEvent; newStart: Date; newEnd: Date }) => void;
   } = $props();
 
   let draggedEventId = $state<string | null>(null);
+  let resizingEventId = $state<string | null>(null);
+  let resizeStartY = $state<number>(0);
+  let resizeStartDuration = $state<number>(0);
 
-  function handleEventDrop(targetDate: Date, targetHour: number) {
+  function isMultiDayOrAllDay(ev: CalendarEvent): boolean {
+    if (ev.allDay) return true;
+    const s = new Date(ev.start);
+    const e = new Date(ev.end);
+    return !isSameDay(s, e) || (e.getTime() - s.getTime() >= 24 * 60 * 60 * 1000);
+  }
+
+  function handleEventDrop(targetDate: Date, targetHour?: number) {
     if (!draggedEventId) return;
     const ev = events.find((e) => e.id === draggedEventId);
     if (!ev) return;
 
     const origDurationMs = new Date(ev.end).getTime() - new Date(ev.start).getTime();
     const newStart = new Date(targetDate);
-    newStart.setHours(targetHour, 0, 0, 0);
+    if (targetHour !== undefined) {
+      newStart.setHours(targetHour, 0, 0, 0);
+    } else {
+      newStart.setHours(new Date(ev.start).getHours(), new Date(ev.start).getMinutes(), 0, 0);
+    }
     const newEnd = new Date(newStart.getTime() + origDurationMs);
 
     events = events.map((e) =>
@@ -79,15 +94,115 @@
     onEventReschedule?.({ event: ev, newStart, newEnd });
     draggedEventId = null;
   }
-  const activeDateFnsLocale = $derived(locale.startsWith('id') ? localeId : localeEn);
-  const weekStartsOn = $derived(firstDayOfWeek as 0 | 1 | 2 | 3 | 4 | 5 | 6);
+
+  function handleResizeStart(e: MouseEvent, ev: CalendarEvent) {
+    e.stopPropagation();
+    e.preventDefault();
+    resizingEventId = ev.id;
+    resizeStartY = e.clientY;
+    resizeStartDuration = new Date(ev.end).getTime() - new Date(ev.start).getTime();
+
+    function onMouseMove(moveEvent: MouseEvent) {
+      if (!resizingEventId) return;
+      const deltaY = moveEvent.clientY - resizeStartY;
+      // 56px per hour => deltaY / 56 hours
+      const deltaHours = deltaY / 56;
+      // Snap to 15 minute increments (0.25h = 15 * 60 * 1000 ms)
+      const snapIntervalMs = 15 * 60 * 1000;
+      const rawDeltaMs = deltaHours * 60 * 60 * 1000;
+      const snappedDeltaMs = Math.round(rawDeltaMs / snapIntervalMs) * snapIntervalMs;
+      const newDurationMs = Math.max(15 * 60 * 1000, resizeStartDuration + snappedDeltaMs);
+
+      events = events.map((item) => {
+        if (item.id === resizingEventId) {
+          const s = new Date(item.start);
+          return { ...item, end: new Date(s.getTime() + newDurationMs) };
+        }
+        return item;
+      });
+    }
+
+    function onMouseUp() {
+      if (resizingEventId) {
+        const finished = events.find((item) => item.id === resizingEventId);
+        if (finished) {
+          onEventResize?.({ event: finished, newStart: new Date(finished.start), newEnd: new Date(finished.end) });
+        }
+      }
+      resizingEventId = null;
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    }
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  }
+
+  type LayoutEvent = CalendarEvent & {
+    colIndex: number;
+    colTotal: number;
+  };
+
+  function computeOverlappingLayout(dayEvs: CalendarEvent[]): LayoutEvent[] {
+    // Sort events by start time, then longer events first
+    const sorted = [...dayEvs].sort((a, b) => {
+      const diff = new Date(a.start).getTime() - new Date(b.start).getTime();
+      if (diff !== 0) return diff;
+      return (new Date(b.end).getTime() - new Date(b.start).getTime()) - (new Date(a.end).getTime() - new Date(a.start).getTime());
+    });
+
+    const columns: CalendarEvent[][] = [];
+    const layoutMap = new Map<string, { colIndex: number }>();
+
+    for (const ev of sorted) {
+      let placed = false;
+      for (let i = 0; i < columns.length; i++) {
+        const lastInCol = columns[i][columns[i].length - 1];
+        if (new Date(lastInCol.end).getTime() <= new Date(ev.start).getTime()) {
+          columns[i].push(ev);
+          layoutMap.set(ev.id, { colIndex: i });
+          placed = true;
+          break;
+        }
+      }
+      if (!placed) {
+        columns.push([ev]);
+        layoutMap.set(ev.id, { colIndex: columns.length - 1 });
+      }
+    }
+
+    // Determine overlapping groups
+    return sorted.map((ev) => {
+      const colInfo = layoutMap.get(ev.id) || { colIndex: 0 };
+      // Count how many columns overlap with this event
+      let overlappingCols = 1;
+      for (let c = 0; c < columns.length; c++) {
+        const hasOverlap = columns[c].some(
+          (other) =>
+            new Date(other.start).getTime() < new Date(ev.end).getTime() &&
+            new Date(other.end).getTime() > new Date(ev.start).getTime()
+        );
+        if (hasOverlap && c + 1 > overlappingCols) {
+          overlappingCols = c + 1;
+        }
+      }
+
+      return {
+        ...ev,
+        colIndex: colInfo.colIndex,
+        colTotal: Math.max(1, overlappingCols),
+      };
+    });
+  }
 
   const activeTimeZone = $derived(
     timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
   );
 
-  const hours = Array.from({ length: 24 }, (_, i) => i);
+  const activeDateFnsLocale = $derived(locale.startsWith('id') ? localeId : localeEn);
+  const weekStartsOn = $derived(firstDayOfWeek as 0 | 1 | 2 | 3 | 4 | 5 | 6);
 
+  const hours = Array.from({ length: 24 }, (_, i) => i);
   // Day names localized and rotated according to firstDayOfWeek via date-fns
   const dayNames = $derived.by(() => {
     const start = startOfWeek(currentDate, { weekStartsOn });
@@ -137,7 +252,26 @@
   });
 
   function getEventsForDay(d: Date): CalendarEvent[] {
-    return events.filter((ev) => isSameDay(new Date(ev.start), d));
+    return events.filter((ev) => {
+      if (isSameDay(new Date(ev.start), d)) return true;
+      // Multi-day spanning: check if date falls between start and end
+      const s = new Date(ev.start);
+      const e = new Date(ev.end);
+      return d >= s && d <= e;
+    });
+  }
+
+  function getTimedEventsForDay(d: Date): CalendarEvent[] {
+    return events.filter((ev) => !isMultiDayOrAllDay(ev) && isSameDay(new Date(ev.start), d));
+  }
+
+  function getAllDayEventsForWeek(days: Date[]): CalendarEvent[] {
+    return events.filter((ev) => {
+      if (!isMultiDayOrAllDay(ev)) return false;
+      const s = new Date(ev.start);
+      const e = new Date(ev.end);
+      return days.some((d) => isSameDay(d, s) || isSameDay(d, e) || (d > s && d < e));
+    });
   }
 
   function getTimeInZone(date: Date): { hours: number; minutes: number } {
@@ -314,12 +448,18 @@
             onDateClick?.(date);
             openCreateModal(date);
           }}
+          ondragover={(e) => e.preventDefault()}
+          ondrop={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleEventDrop(date);
+          }}
           class={cn(
-            'min-h-[100px] p-2 flex flex-col gap-1 transition-colors hover:bg-[var(--ui-secondary)]/25 cursor-pointer',
+            'min-h-[110px] p-1.5 flex flex-col gap-1 transition-colors hover:bg-[var(--ui-secondary)]/25 cursor-pointer select-none',
             !currentMonth && 'bg-[var(--ui-muted)]/15 opacity-50'
           )}
         >
-          <div class="flex items-center justify-between mb-1">
+          <div class="flex items-center justify-between mb-0.5 px-1">
             <span
               class={cn(
                 'text-xs font-semibold size-6 flex items-center justify-center rounded-full',
@@ -335,27 +475,44 @@
             {/if}
           </div>
 
-          <!-- Event pills -->
+          <!-- Event pills with spanning indicator -->
           <div class="flex flex-col gap-1 overflow-hidden">
             {#each dayEvents.slice(0, 3) as ev (ev.id)}
+              {@const isSpanning = isMultiDayOrAllDay(ev)}
+              {@const isStartDay = isSameDay(new Date(ev.start), date)}
+              {@const isEndDay = isSameDay(new Date(ev.end), date)}
+
               <button
                 type="button"
+                draggable="true"
+                ondragstart={(e) => {
+                  e.stopPropagation();
+                  draggedEventId = ev.id;
+                  e.dataTransfer?.setData('text/plain', ev.id);
+                }}
                 onclick={(e) => {
                   e.stopPropagation();
                   onEventClick?.(ev);
                 }}
                 class={cn(
-                  'truncate rounded px-1.5 py-0.5 text-left text-[11px] font-medium transition-opacity hover:opacity-85 text-white shadow-2xs',
-                  ev.color ? '' : 'bg-[var(--ui-primary)]'
+                  'truncate px-1.5 py-0.5 text-left text-[11px] font-medium transition-opacity hover:opacity-85 text-white shadow-2xs cursor-grab active:cursor-grabbing',
+                  isSpanning ? 'rounded-none' : 'rounded',
+                  isSpanning && isStartDay && 'rounded-l-md',
+                  isSpanning && isEndDay && 'rounded-r-md',
+                  draggedEventId === ev.id ? 'opacity-40 ring-2 ring-white' : ''
                 )}
-                style={ev.color ? `background-color: ${ev.color};` : undefined}
+                style="background-color: {ev.color || 'var(--ui-primary)'};"
               >
-                {formatTime(ev.start)} {ev.title}
+                {#if isSpanning}
+                  <span class="font-semibold">{ev.title}</span>
+                {:else}
+                  <span class="opacity-80 font-normal">{formatTime(ev.start)}</span> {ev.title}
+                {/if}
               </button>
             {/each}
 
             {#if dayEvents.length > 3}
-              <span class="text-[10px] font-semibold text-[var(--ui-muted-foreground)] pl-1">
+              <span class="text-[10px] font-semibold text-[var(--ui-muted-foreground)] px-1">
                 +{dayEvents.length - 3} more
               </span>
             {/if}
@@ -377,6 +534,31 @@
       {/each}
     </div>
 
+    <!-- All-day header slot (FullCalendar 1:1) -->
+    {@const allDayEvents = getAllDayEventsForWeek(weekDays)}
+    {#if allDayEvents.length > 0}
+      <div class="grid grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/10 text-xs divide-x divide-[var(--ui-border)] py-1.5">
+        <div class="col-span-1 text-right pr-2 text-[10px] uppercase tracking-wider font-semibold text-[var(--ui-muted-foreground)] flex items-center justify-end">
+          all-day
+        </div>
+        <div class="col-span-7 px-2 flex flex-col gap-1">
+          {#each allDayEvents as ev (ev.id)}
+            <button
+              type="button"
+              onclick={(e) => {
+                e.stopPropagation();
+                onEventClick?.(ev);
+              }}
+              class="w-full truncate rounded px-2 py-0.5 text-left text-[11px] font-semibold text-white shadow-2xs hover:opacity-90"
+              style="background-color: {ev.color || 'var(--ui-primary)'};"
+            >
+              {ev.title} {#if ev.description}• {ev.description}{/if}
+            </button>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
     <div class="grid grid-cols-8 divide-x divide-[var(--ui-border)] max-h-[600px] overflow-y-auto">
       <!-- Hours Column -->
       <div class="col-span-1 divide-y divide-[var(--ui-border)]/50 text-right pr-2 text-[11px] font-medium text-[var(--ui-muted-foreground)]">
@@ -387,7 +569,8 @@
 
       <!-- 7 Days Grid Columns -->
       {#each weekDays as d}
-        {@const dayEvents = getEventsForDay(d)}
+        {@const dayEvents = getTimedEventsForDay(d)}
+        {@const layoutEvents = computeOverlappingLayout(dayEvents)}
         {@const isCurrentDay = isToday(d)}
         {@const nowTime = getTimeInZone(new Date())}
         {@const nowMinutes = nowTime.hours * 60 + nowTime.minutes}
@@ -397,7 +580,7 @@
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div
           onclick={() => openCreateModal(d)}
-          class="col-span-1 divide-y divide-[var(--ui-border)]/50 relative hover:bg-[var(--ui-secondary)]/10 cursor-pointer"
+          class="col-span-1 divide-y divide-[var(--ui-border)]/50 relative hover:bg-[var(--ui-secondary)]/10 cursor-pointer select-none"
         >
           {#each hours as hour}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -423,12 +606,22 @@
             </div>
           {/if}
 
-          <!-- Render Event Boxes -->
-          {#each dayEvents as ev (ev.id)}
-            {@const evTime = getTimeInZone(new Date(ev.start))}
-            {@const topPos = (evTime.hours + evTime.minutes / 60) * 56}
-            <button
-              type="button"
+          <!-- Render Event Boxes with Collision Overlap Calculation & Resizing -->
+          {#each layoutEvents as ev (ev.id)}
+            {@const evStartTime = getTimeInZone(new Date(ev.start))}
+            {@const evEndTime = getTimeInZone(new Date(ev.end))}
+            {@const startMinutes = evStartTime.hours * 60 + evStartTime.minutes}
+            {@const endMinutes = evEndTime.hours * 60 + evEndTime.minutes}
+            {@const durationMinutes = Math.max(15, endMinutes > startMinutes ? endMinutes - startMinutes : 60)}
+            {@const topPos = (startMinutes / 60) * 56}
+            {@const heightPos = Math.max(26, (durationMinutes / 60) * 56)}
+            {@const widthPercent = 100 / ev.colTotal}
+            {@const leftPercent = ev.colIndex * widthPercent}
+
+            <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+            <div
+              role="button"
+              tabindex="0"
               draggable="true"
               ondragstart={(e) => {
                 draggedEventId = ev.id;
@@ -438,12 +631,25 @@
                 e.stopPropagation();
                 onEventClick?.(ev);
               }}
-              class="absolute inset-x-1 rounded p-1 text-left text-[11px] text-white shadow-xs transition-opacity hover:opacity-90 overflow-hidden z-10 cursor-grab active:cursor-grabbing {draggedEventId === ev.id ? 'opacity-40 ring-2 ring-white' : ''}"
-              style="top: {topPos}px; height: 50px; background-color: {ev.color || 'var(--ui-primary)'};"
+              onkeydown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onEventClick?.(ev);
+                }
+              }}
+              class="group/event absolute rounded p-1 text-left text-[11px] text-white shadow-xs transition-opacity hover:opacity-95 overflow-hidden z-10 cursor-grab active:cursor-grabbing {draggedEventId === ev.id ? 'opacity-40 ring-2 ring-white' : ''}"
+              style="top: {topPos}px; height: {heightPos}px; left: calc({leftPercent}% + 2px); width: calc({widthPercent}% - 4px); background-color: {ev.color || 'var(--ui-primary)'};"
             >
-              <div class="font-bold truncate">{ev.title}</div>
-              <div class="text-[9px] opacity-80">{formatTime(ev.start)} - {formatTime(ev.end)}</div>
-            </button>
+              <div class="font-bold truncate leading-tight">{ev.title}</div>
+              <div class="text-[9px] opacity-85 leading-tight">{formatTime(ev.start)} - {formatTime(ev.end)}</div>
+
+              <!-- Bottom edge resize handle (FullCalendar 1:1) -->
+              <!-- svelte-ignore a11y_no_static_element_interactions -->
+              <div
+                class="absolute inset-x-0 bottom-0 h-2 cursor-s-resize opacity-0 group-hover/event:opacity-100 bg-white/20 hover:bg-white/40 transition-opacity z-20"
+                onmousedown={(e) => handleResizeStart(e, ev)}
+              ></div>
+            </div>
           {/each}
         </div>
       {/each}
@@ -471,7 +677,7 @@
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <div
         onclick={() => openCreateModal(currentDate)}
-        class="col-span-10 divide-y divide-[var(--ui-border)]/50 relative p-1 hover:bg-[var(--ui-secondary)]/10 cursor-pointer"
+        class="col-span-10 divide-y divide-[var(--ui-border)]/50 relative p-1 hover:bg-[var(--ui-secondary)]/10 cursor-pointer select-none"
       >
         {#each hours as _}
           <div class="h-16"></div>
@@ -490,21 +696,49 @@
           </div>
         {/if}
 
-        {#each getEventsForDay(currentDate) as ev (ev.id)}
-          {@const evTime = getTimeInZone(new Date(ev.start))}
-          {@const topPos = (evTime.hours + evTime.minutes / 60) * 64}
-          <button
-            type="button"
+        {#each computeOverlappingLayout(getTimedEventsForDay(currentDate)) as ev (ev.id)}
+          {@const evStartTime = getTimeInZone(new Date(ev.start))}
+          {@const evEndTime = getTimeInZone(new Date(ev.end))}
+          {@const startMinutes = evStartTime.hours * 60 + evStartTime.minutes}
+          {@const endMinutes = evEndTime.hours * 60 + evEndTime.minutes}
+          {@const durationMinutes = Math.max(15, endMinutes > startMinutes ? endMinutes - startMinutes : 60)}
+          {@const topPos = (startMinutes / 60) * 64}
+          {@const heightPos = Math.max(32, (durationMinutes / 60) * 64)}
+          {@const widthPercent = 100 / ev.colTotal}
+          {@const leftPercent = ev.colIndex * widthPercent}
+
+          <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+          <div
+            role="button"
+            tabindex="0"
+            draggable="true"
+            ondragstart={(e) => {
+              draggedEventId = ev.id;
+              e.dataTransfer?.setData('text/plain', ev.id);
+            }}
             onclick={(e) => {
               e.stopPropagation();
               onEventClick?.(ev);
             }}
-            class="absolute inset-x-4 rounded-lg p-2 text-left text-white shadow-sm transition-opacity hover:opacity-90 flex flex-col justify-center z-10"
-            style="top: {topPos}px; height: 56px; background-color: {ev.color || 'var(--ui-primary)'};"
+            onkeydown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onEventClick?.(ev);
+              }
+            }}
+            class="group/event absolute rounded-lg p-2 text-left text-white shadow-sm transition-opacity hover:opacity-95 overflow-hidden z-10 cursor-grab active:cursor-grabbing {draggedEventId === ev.id ? 'opacity-40 ring-2 ring-white' : ''}"
+            style="top: {topPos}px; height: {heightPos}px; left: calc({leftPercent}% + 4px); width: calc({widthPercent}% - 8px); background-color: {ev.color || 'var(--ui-primary)'};"
           >
-            <div class="font-bold text-xs">{ev.title}</div>
-            <div class="text-[10px] opacity-80">{formatTime(ev.start)} - {formatTime(ev.end)} {#if ev.description}• {ev.description}{/if}</div>
-          </button>
+            <div class="font-bold text-xs truncate leading-tight">{ev.title}</div>
+            <div class="text-[10px] opacity-85 leading-tight">{formatTime(ev.start)} - {formatTime(ev.end)} {#if ev.description}• {ev.description}{/if}</div>
+
+            <!-- Bottom resize handle -->
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
+            <div
+              class="absolute inset-x-0 bottom-0 h-2.5 cursor-s-resize opacity-0 group-hover/event:opacity-100 bg-white/20 hover:bg-white/40 transition-opacity z-20"
+              onmousedown={(e) => handleResizeStart(e, ev)}
+            ></div>
+          </div>
         {/each}
       </div>
     </div>
