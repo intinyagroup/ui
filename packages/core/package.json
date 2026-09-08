@@ -47,7 +47,7 @@
     "zod": "^3.24.0"
   },
   "devDependencies": {
-    "@internationalized/date": "^3.12.0",
+    "@internationalized/date": "^3.12.4",
     "@sveltejs/package": "^2.5.8",
     "@sveltejs/vite-plugin-svelte": "^5.1.1",
     "@types/qrcode": "^1.5.6",
