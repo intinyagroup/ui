@@ -17,6 +17,7 @@
     onColumnReorder,
     headerCell,
     floatingFilter = false,
+    density = 'spacious',
   }: {
     headerGroups: HeaderGroup<any>[];
     selectable: boolean;
@@ -29,13 +30,16 @@
     onColumnReorder: (fromId: string, toId: string) => void;
     headerCell?: import('svelte').Snippet<[{ columnId: string; header: string; canSort: boolean }]>;
     floatingFilter?: boolean;
+    density?: 'compact' | 'spacious';
   } = $props();
 
   let dragColumnId = $state<string | null>(null);
   let dropTargetId = $state<string | null>(null);
 
-  function columnAlign(columnDef: any) {
-    return (columnDef.meta as DataTableMeta<any> | undefined)?.align;
+  function columnAlign(columnDefOrMeta: any) {
+    if (!columnDefOrMeta) return undefined;
+    if ('align' in columnDefOrMeta) return columnDefOrMeta.align;
+    return (columnDefOrMeta.meta as DataTableMeta<any> | undefined)?.align;
   }
 
   function handleDragStart(e: DragEvent, columnId: string) {
@@ -161,15 +165,15 @@
             </div>
           {/if}
           <!-- Resize handle -->
-          {#if column.getCanResize()}
+          {#if column.getCanResize && column.getCanResize()}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
               class="absolute -right-1 top-0 h-full w-2.5 cursor-col-resize select-none touch-none flex items-center justify-center group/resize z-20"
-              onmousedown={column.getResizeHandler()}
-              ontouchstart={column.getResizeHandler()}
+              onmousedown={column.getResizeHandler?.()}
+              ontouchstart={column.getResizeHandler?.()}
             >
               <div
-                class="h-4/5 w-0.5 rounded-full transition-colors group-hover/resize:bg-[var(--ui-primary)]/80 {column.getIsResizing() ? 'bg-[var(--ui-primary)] w-1 shadow-xs' : 'bg-transparent'}"
+                class="h-4/5 w-0.5 rounded-full transition-colors group-hover/resize:bg-[var(--ui-primary)]/80 {column.getIsResizing?.() ? 'bg-[var(--ui-primary)] w-1 shadow-xs' : 'bg-transparent'}"
               ></div>
             </div>
           {/if}

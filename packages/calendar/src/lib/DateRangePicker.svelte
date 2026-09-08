@@ -186,14 +186,23 @@
 </script>
 
 <div class={cn('relative inline-block w-full max-w-sm', className)}>
-  <button
-    type="button"
-    {disabled}
-    onclick={() => (isOpen = !isOpen)}
+  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+  <div
+    role="button"
+    tabindex={disabled ? -1 : 0}
+    aria-disabled={disabled}
+    onclick={() => { if (!disabled) isOpen = !isOpen; }}
+    onkeydown={(e) => {
+      if (disabled) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        isOpen = !isOpen;
+      }
+    }}
     class={cn(
-      'flex h-10 w-full items-center justify-between rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-3 text-sm transition-colors text-left',
+      'flex h-10 w-full items-center justify-between rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-3 text-sm transition-colors text-left cursor-pointer select-none',
       'hover:border-[var(--ui-border)] focus:outline-none focus:ring-2 focus:ring-[var(--ui-ring)]/20 focus:border-[var(--ui-primary)]',
-      disabled && 'opacity-50 cursor-not-allowed',
+      disabled && 'opacity-50 cursor-not-allowed pointer-events-none',
       value.start ? 'text-[var(--ui-foreground)]' : 'text-[var(--ui-muted-foreground)]'
     )}
   >
@@ -205,14 +214,17 @@
     {#if value.start && !disabled}
       <button
         type="button"
-        onclick={clearRange}
+        onclick={(e) => {
+          e.stopPropagation();
+          clearRange();
+        }}
         class="p-1 rounded-full hover:bg-[var(--ui-secondary)] text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]"
         aria-label="Clear date range"
       >
         <X class="size-3.5" />
       </button>
     {/if}
-  </button>
+  </div>
 
   {#if isOpen}
     <!-- Backdrop for click outside -->

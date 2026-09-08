@@ -19,6 +19,7 @@ import {
   type ExpandedState,
   type GroupingState,
   type ColumnSizingState,
+  type ColumnSizingInfoState,
 } from '@tanstack/table-core';
 
 export type CoreTableState = {
@@ -33,6 +34,7 @@ export type CoreTableState = {
   grouping: GroupingState;
   expanded: ExpandedState;
   columnSizing: ColumnSizingState;
+  columnSizingInfo: ColumnSizingInfoState;
 };
 
 export type ServerSideConfig = {
@@ -75,6 +77,14 @@ export function createCoreTableModel<TData>(input: {
     grouping: input.state?.grouping ?? [],
     expanded: input.state?.expanded ?? {},
     columnSizing: input.state?.columnSizing ?? {},
+    columnSizingInfo: (input.state as any)?.columnSizingInfo ?? {
+      startOffset: null,
+      startSize: null,
+      deltaOffset: null,
+      deltaPercentage: null,
+      isResizingColumn: false,
+      columnSizingStart: [],
+    },
   };
 
   const serverSide = input.serverSide;

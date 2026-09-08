@@ -13,6 +13,9 @@
     "@ark-ui/svelte": "^5.24.1",
     "@intinyagroup/tokens": "workspace:*",
     "@intinyagroup/ui": "workspace:*",
+    "@intinyagroup/data-table": "workspace:*",
+    "@intinyagroup/calendar": "workspace:*",
+    "@intinyagroup/notion-database": "workspace:*",
     "lucide-svelte": "^1.0.1",
     "tw-animate-css": "^1.4.0"
   },

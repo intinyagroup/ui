@@ -84,6 +84,9 @@ importers:
       date-fns:
         specifier: ^4.4.0
         version: 4.4.0
+      lucide-svelte:
+        specifier: ^1.0.1
+        version: 1.0.1(svelte@5.56.8)
     devDependencies:
       '@sveltejs/package':
         specifier: ^2.5.8
@@ -257,6 +260,12 @@ importers:
       '@intinyagroup/ui':
         specifier: workspace:*
         version: link:../core
+      '@tanstack/svelte-virtual':
+        specifier: ^3.13.35
+        version: 3.13.35(svelte@5.56.8)
+      lucide-svelte:
+        specifier: ^1.0.1
+        version: 1.0.1(svelte@5.56.8)
     devDependencies:
       '@sveltejs/package':
         specifier: ^2.5.8
@@ -276,6 +285,15 @@ importers:
       '@ark-ui/svelte':
         specifier: ^5.24.1
         version: 5.24.1(svelte@5.56.8)
+      '@intinyagroup/calendar':
+        specifier: workspace:*
+        version: link:../calendar
+      '@intinyagroup/data-table':
+        specifier: workspace:*
+        version: link:../data-table
+      '@intinyagroup/notion-database':
+        specifier: workspace:*
+        version: link:../notion-database
       '@intinyagroup/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -461,6 +479,9 @@ importers:
       '@intinyagroup/ui':
         specifier: workspace:*
         version: link:../core
+      lucide-svelte:
+        specifier: ^1.0.1
+        version: 1.0.1(svelte@5.56.8)
     devDependencies:
       '@sveltejs/package':
         specifier: ^2.5.8

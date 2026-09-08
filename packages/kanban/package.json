@@ -20,7 +20,8 @@
   },
   "dependencies": {
     "@intinyagroup/ui": "workspace:*",
-    "@intinyagroup/grid-core": "workspace:*"
+    "@intinyagroup/grid-core": "workspace:*",
+    "lucide-svelte": "^1.0.1"
   },
   "devDependencies": {
     "@sveltejs/package": "^2.5.8",

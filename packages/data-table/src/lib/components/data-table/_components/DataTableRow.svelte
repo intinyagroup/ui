@@ -44,8 +44,10 @@
     focusedCell?: { rowId: string; columnId: string } | null;
   } = $props();
 
-  function columnAlign(columnDef: any) {
-    return (columnDef.meta as DataTableMeta<any> | undefined)?.align;
+  function columnAlign(columnDefOrMeta: any) {
+    if (!columnDefOrMeta) return undefined;
+    if ('align' in columnDefOrMeta) return columnDefOrMeta.align;
+    return (columnDefOrMeta.meta as DataTableMeta<any> | undefined)?.align;
   }
 
   function getCellStyle(column: any) {

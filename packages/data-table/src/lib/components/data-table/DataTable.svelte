@@ -840,9 +840,7 @@
           {floatingFilter}
         />
         <tbody>
-          {@const pinnedRows = rowModel.rows.filter((r) => pinnedRowIds.includes(r.id))}
-          {@const standardRows = rowModel.rows.filter((r) => !pinnedRowIds.includes(r.id))}
-          {#each pinnedRows as row, idx (row.id)}
+          {#each rowModel.rows.filter((r) => pinnedRowIds.includes(r.id)) as row, idx (row.id)}
             <DataTableRow
               {row}
               {selectable}
@@ -861,11 +859,9 @@
               focusedCell={keyboard?.focusedCell}
             />
           {/each}
-          {#each standardRows as row (row.id)}
+          {#each rowModel.rows.filter((r) => !pinnedRowIds.includes(r.id)) as row (row.id)}
             <DataTableRow
               {row}
-              {selectable}
-              isSelected={!!rowSelection[row.id]}
               onToggleSelect={toggleRow}
               {cell}
               {density}

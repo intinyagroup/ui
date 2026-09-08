@@ -44,6 +44,7 @@
     onEventClick,
     onDateClick,
     onAddEvent,
+    onEventReschedule,
   }: {
     events?: CalendarEvent[];
     view?: CalendarView;
@@ -56,8 +57,28 @@
     onEventClick?: (event: CalendarEvent) => void;
     onDateClick?: (date: Date) => void;
     onAddEvent?: (newEvent: CalendarEvent) => void;
+    onEventReschedule?: (detail: { event: CalendarEvent; newStart: Date; newEnd: Date }) => void;
   } = $props();
 
+  let draggedEventId = $state<string | null>(null);
+
+  function handleEventDrop(targetDate: Date, targetHour: number) {
+    if (!draggedEventId) return;
+    const ev = events.find((e) => e.id === draggedEventId);
+    if (!ev) return;
+
+    const origDurationMs = new Date(ev.end).getTime() - new Date(ev.start).getTime();
+    const newStart = new Date(targetDate);
+    newStart.setHours(targetHour, 0, 0, 0);
+    const newEnd = new Date(newStart.getTime() + origDurationMs);
+
+    events = events.map((e) =>
+      e.id === draggedEventId ? { ...e, start: newStart, end: newEnd } : e
+    );
+
+    onEventReschedule?.({ event: ev, newStart, newEnd });
+    draggedEventId = null;
+  }
   const activeDateFnsLocale = $derived(locale.startsWith('id') ? localeId : localeEn);
   const weekStartsOn = $derived(firstDayOfWeek as 0 | 1 | 2 | 3 | 4 | 5 | 6);
 
@@ -378,8 +399,17 @@
           onclick={() => openCreateModal(d)}
           class="col-span-1 divide-y divide-[var(--ui-border)]/50 relative hover:bg-[var(--ui-secondary)]/10 cursor-pointer"
         >
-          {#each hours as _}
-            <div class="h-14"></div>
+          {#each hours as hour}
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
+            <div
+              class="h-14 transition-colors hover:bg-[var(--ui-primary)]/10"
+              ondragover={(e) => e.preventDefault()}
+              ondrop={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleEventDrop(d, hour);
+              }}
+            ></div>
           {/each}
 
           <!-- Google Calendar style Current Time Red Line -->
@@ -399,11 +429,16 @@
             {@const topPos = (evTime.hours + evTime.minutes / 60) * 56}
             <button
               type="button"
+              draggable="true"
+              ondragstart={(e) => {
+                draggedEventId = ev.id;
+                e.dataTransfer?.setData('text/plain', ev.id);
+              }}
               onclick={(e) => {
                 e.stopPropagation();
                 onEventClick?.(ev);
               }}
-              class="absolute inset-x-1 rounded p-1 text-left text-[11px] text-white shadow-xs transition-opacity hover:opacity-90 overflow-hidden z-10"
+              class="absolute inset-x-1 rounded p-1 text-left text-[11px] text-white shadow-xs transition-opacity hover:opacity-90 overflow-hidden z-10 cursor-grab active:cursor-grabbing {draggedEventId === ev.id ? 'opacity-40 ring-2 ring-white' : ''}"
               style="top: {topPos}px; height: 50px; background-color: {ev.color || 'var(--ui-primary)'};"
             >
               <div class="font-bold truncate">{ev.title}</div>
@@ -432,11 +467,6 @@
         {/each}
       </div>
 
-      {@const isCurrentDay = isToday(currentDate)}
-      {@const nowTime = getTimeInZone(new Date())}
-      {@const nowMinutes = nowTime.hours * 60 + nowTime.minutes}
-      {@const currentTimeTop = (nowMinutes / 60) * 64}
-
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <div
@@ -448,7 +478,9 @@
         {/each}
 
         <!-- Google Calendar style Current Time Red Line -->
-        {#if isCurrentDay}
+        {#if isToday(currentDate)}
+          {@const nowTime = getTimeInZone(new Date())}
+          {@const currentTimeTop = ((nowTime.hours * 60 + nowTime.minutes) / 60) * 64}
           <div
             class="absolute inset-x-0 z-30 pointer-events-none flex items-center"
             style="top: {currentTimeTop}px;"
@@ -500,28 +532,30 @@
 
         <div class="space-y-3.5 text-xs">
           <div>
-            <label class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Title</label>
+            <label for="event-cal-title" class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Title</label>
             <input
+              id="event-cal-title"
               type="text"
               bind:value={newEventTitle}
               placeholder="Event title (e.g. Sprint Review)..."
               class="h-9 w-full rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-3 text-xs outline-none focus:border-[var(--ui-primary)]"
-              autofocus
             />
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Start Time</label>
+              <label for="event-cal-start-time" class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Start Time</label>
               <input
+                id="event-cal-start-time"
                 type="time"
                 bind:value={newEventStartTime}
                 class="h-9 w-full rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-2.5 text-xs outline-none focus:border-[var(--ui-primary)]"
               />
             </div>
             <div>
-              <label class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">End Time</label>
+              <label for="event-cal-end-time" class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">End Time</label>
               <input
+                id="event-cal-end-time"
                 type="time"
                 bind:value={newEventEndTime}
                 class="h-9 w-full rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-2.5 text-xs outline-none focus:border-[var(--ui-primary)]"
@@ -530,7 +564,7 @@
           </div>
 
           <div>
-            <label class="block mb-1.5 font-semibold text-[var(--ui-muted-foreground)]">Tag Color</label>
+            <span class="block mb-1.5 font-semibold text-[var(--ui-muted-foreground)]">Tag Color</span>
             <div class="flex items-center gap-2">
               {#each presetColors as col}
                 <button
@@ -548,11 +582,10 @@
           </div>
 
           <div>
-            <label class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Description (optional)</label>
+            <label for="event-cal-desc" class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Description (optional)</label>
             <textarea
+              id="event-cal-desc"
               bind:value={newEventDescription}
-              rows={2}
-              placeholder="Notes, agenda, or link..."
               class="w-full rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] p-2.5 text-xs outline-none focus:border-[var(--ui-primary)]"
             ></textarea>
           </div>

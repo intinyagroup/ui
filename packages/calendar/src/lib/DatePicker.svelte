@@ -1,9 +1,9 @@
 <script lang="ts">
   import * as Popover from '@intinyagroup/ui';
   import { Button, Input } from '@intinyagroup/ui';
-  import { Calendar, type CalendarDate } from '@intinyagroup/calendar';
+  import Calendar, { type CalendarDate } from './Calendar.svelte';
   import { Calendar as CalendarIcon, X } from 'lucide-svelte';
-  import { cn } from '@intinyagroup/grid-core/utils';
+  import { cn } from '@intinyagroup/ui/utils';
 
   let {
     value = $bindable(null),

@@ -124,14 +124,22 @@
       <!-- Cards -->
       <div class="flex-1 p-2 space-y-2 min-h-[100px]">
         {#each columnCards as card, index (card.id)}
-          <!-- svelte-ignore a11y_no_static_element_interactions -->
+          <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
           <div
+            role="button"
+            tabindex="0"
             draggable="true"
             ondragstart={(e) => handleDragStart(e, card)}
             ondragover={(e) => handleDragOver(e, column.id, index)}
             ondragend={handleDragEnd}
             onclick={() => onCardClick?.(card)}
-            class="group flex items-start gap-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] p-3 cursor-grab active:cursor-grabbing transition-all hover:shadow-sm
+            onkeydown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onCardClick?.(card);
+              }
+            }}
+            class="group flex items-start gap-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] p-3 cursor-grab active:cursor-grabbing transition-all hover:shadow-sm text-left
               {draggedCardId === card.id ? 'opacity-50 scale-95' : ''}
               {dragOverColumnId === column.id && dragOverIndex === index ? 'border-[var(--ui-primary)] border-dashed' : ''}"
           >
