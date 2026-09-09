@@ -1,9 +1,14 @@
 <script lang="ts">
-  import type { Header, HeaderGroup, Column, ColumnPinningState } from '@tanstack/table-core';
-  import { ArrowUp, ArrowDown, ArrowUpDown, GripVertical } from 'lucide-svelte';
-  import DataTableColumnMenu from './DataTableColumnMenu.svelte';
-  import DataTableFilter from './DataTableFilter.svelte';
-  import type { DataTableMeta } from '@intinyagroup/grid-core';
+  import type {
+    Header,
+    HeaderGroup,
+    Column,
+    ColumnPinningState,
+  } from "@tanstack/table-core";
+  import { ArrowUp, ArrowDown, ArrowUpDown, GripVertical } from "lucide-svelte";
+  import DataTableColumnMenu from "./DataTableColumnMenu.svelte";
+  import DataTableFilter from "./DataTableFilter.svelte";
+  import type { DataTableMeta } from "@intinyagroup/grid-core";
 
   let {
     headerGroups,
@@ -17,20 +22,22 @@
     onColumnReorder,
     headerCell,
     floatingFilter = false,
-    density = 'spacious',
+    density = "spacious",
   }: {
     headerGroups: HeaderGroup<any>[];
     selectable: boolean;
     selectAllChecked: boolean;
     onToggleSelectAll: () => void;
-    onSort: (columnId: string, direction: 'asc' | 'desc' | null) => void;
-    onPin: (columnId: string, side: 'left' | 'right' | null) => void;
+    onSort: (columnId: string, direction: "asc" | "desc" | null) => void;
+    onPin: (columnId: string, side: "left" | "right" | null) => void;
     onHide: (columnId: string) => void;
     onFilter: (columnId: string, filterValue: unknown) => void;
     onColumnReorder: (fromId: string, toId: string) => void;
-    headerCell?: import('svelte').Snippet<[{ columnId: string; header: string; canSort: boolean }]>;
+    headerCell?: import("svelte").Snippet<
+      [{ columnId: string; header: string; canSort: boolean }]
+    >;
     floatingFilter?: boolean;
-    density?: 'compact' | 'spacious';
+    density?: "compact" | "spacious";
   } = $props();
 
   let dragColumnId = $state<string | null>(null);
@@ -38,22 +45,23 @@
 
   function columnAlign(columnDefOrMeta: any) {
     if (!columnDefOrMeta) return undefined;
-    if ('align' in columnDefOrMeta) return columnDefOrMeta.align;
-    return (columnDefOrMeta.meta as DataTableMeta<any> | undefined)?.align;
+    if ("align" in columnDefOrMeta) return columnDefOrMeta.align;
+    const meta = columnDefOrMeta.meta;
+    return meta && typeof meta === "object" ? meta.align : undefined;
   }
 
   function handleDragStart(e: DragEvent, columnId: string) {
     dragColumnId = columnId;
     if (e.dataTransfer) {
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', columnId);
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", columnId);
     }
   }
 
   function handleDragOver(e: DragEvent, columnId: string) {
     e.preventDefault();
     if (e.dataTransfer) {
-      e.dataTransfer.dropEffect = 'move';
+      e.dataTransfer.dropEffect = "move";
     }
     dropTargetId = columnId;
   }
@@ -77,7 +85,9 @@
   }
 </script>
 
-<thead class="sticky top-0 z-20 bg-[var(--ui-secondary)]/80 text-left text-[11px] font-semibold text-[var(--ui-muted-foreground)] backdrop-blur-md">
+<thead
+  class="sticky top-0 z-20 bg-[var(--ui-secondary)]/80 text-left text-[11px] font-semibold text-[var(--ui-muted-foreground)] backdrop-blur-md"
+>
   {#each headerGroups as headerGroup (headerGroup.id)}
     <tr>
       {#if selectable}
@@ -93,25 +103,43 @@
       {/if}
       {#each headerGroup.headers as header (header.id)}
         {@const column = header.column}
-        {@const isPinnedLeft = column.getIsPinned() === 'left'}
-        {@const isPinnedRight = column.getIsPinned() === 'right'}
+        {@const isPinnedLeft = column.getIsPinned() === "left"}
+        {@const isPinnedRight = column.getIsPinned() === "right"}
         {@const canSort = column.getCanSort()}
         {@const currentSort = column.getIsSorted()}
         {@const meta = column.columnDef.meta as DataTableMeta<any> | undefined}
 
         <th
           class="px-4 py-3 transition-all relative select-none
-            {isPinnedLeft ? 'pinned-left bg-[var(--ui-card)] z-30 border-r border-[var(--ui-border)]' : ''}
-            {isPinnedRight ? 'pinned-right bg-[var(--ui-card)] z-30 border-l border-[var(--ui-border)]' : ''}
-            {canSort ? 'cursor-pointer hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]' : ''}
+            {isPinnedLeft
+            ? 'pinned-left bg-[var(--ui-card)] z-30 border-r border-[var(--ui-border)]'
+            : ''}
+            {isPinnedRight
+            ? 'pinned-right bg-[var(--ui-card)] z-30 border-l border-[var(--ui-border)]'
+            : ''}
+            {canSort
+            ? 'cursor-pointer hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'
+            : ''}
             {meta?.headerClassName ?? ''}
             {columnAlign(meta) === 'right' ? 'text-right' : ''}
             {dragColumnId === column.id ? 'opacity-40 scale-95' : ''}
-            {dropTargetId === column.id ? 'bg-[var(--ui-primary)]/10 ring-2 ring-inset ring-[var(--ui-primary)]' : ''}
+            {dropTargetId === column.id
+            ? 'bg-[var(--ui-primary)]/10 ring-2 ring-inset ring-[var(--ui-primary)]'
+            : ''}
             {density === 'compact' ? 'py-2' : 'py-3'}"
           onclick={(e) => {
             if (canSort) {
-              const direction = e.shiftKey ? (currentSort === 'asc' ? 'desc' : currentSort === 'desc' ? null : 'asc') : (currentSort === 'asc' ? 'desc' : currentSort === 'desc' ? null : 'asc');
+              const direction = e.shiftKey
+                ? currentSort === "asc"
+                  ? "desc"
+                  : currentSort === "desc"
+                    ? null
+                    : "asc"
+                : currentSort === "asc"
+                  ? "desc"
+                  : currentSort === "desc"
+                    ? null
+                    : "asc";
               onSort(column.id, direction);
             }
           }}
@@ -123,26 +151,37 @@
           ondragend={handleDragEnd}
         >
           {#if !header.isPlaceholder}
-            <div class="flex items-center gap-2 {meta?.align === 'right' ? 'justify-end' : ''}">
+            <div
+              class="flex items-center gap-2 {meta?.align === 'right'
+                ? 'justify-end'
+                : ''}"
+            >
               {#if canSort}
-                <GripVertical class="size-3.5 opacity-30 cursor-grab active:cursor-grabbing shrink-0" />
+                <GripVertical
+                  class="size-3.5 opacity-30 cursor-grab active:cursor-grabbing shrink-0"
+                />
               {/if}
 
               <span class="inline-flex items-center gap-1.5 min-w-0">
                 {#if headerCell}
                   {@render headerCell({
                     columnId: column.id,
-                    header: typeof column.columnDef.header === 'string' ? column.columnDef.header : column.id,
-                    canSort: !!canSort
+                    header:
+                      typeof column.columnDef.header === "string"
+                        ? column.columnDef.header
+                        : column.id,
+                    canSort: !!canSort,
                   })}
-                {:else if typeof column.columnDef.header === 'string'}
+                {:else if typeof column.columnDef.header === "string"}
                   {column.columnDef.header}
                 {/if}
                 {#if canSort}
-                  {#if currentSort === 'asc'}
+                  {#if currentSort === "asc"}
                     <ArrowUp class="size-3 text-[var(--ui-primary)] shrink-0" />
-                  {:else if currentSort === 'desc'}
-                    <ArrowDown class="size-3 text-[var(--ui-primary)] shrink-0" />
+                  {:else if currentSort === "desc"}
+                    <ArrowDown
+                      class="size-3 text-[var(--ui-primary)] shrink-0"
+                    />
                   {:else}
                     <ArrowUpDown class="size-3 opacity-20 shrink-0" />
                   {/if}
@@ -173,7 +212,9 @@
               ontouchstart={column.getResizeHandler?.()}
             >
               <div
-                class="h-4/5 w-0.5 rounded-full transition-colors group-hover/resize:bg-[var(--ui-primary)]/80 {column.getIsResizing?.() ? 'bg-[var(--ui-primary)] w-1 shadow-xs' : 'bg-transparent'}"
+                class="h-4/5 w-0.5 rounded-full transition-colors group-hover/resize:bg-[var(--ui-primary)]/80 {column.getIsResizing?.()
+                  ? 'bg-[var(--ui-primary)] w-1 shadow-xs'
+                  : 'bg-transparent'}"
               ></div>
             </div>
           {/if}
@@ -187,21 +228,29 @@
       {#if selectable}
         <th class="w-12 px-4 py-1.5"></th>
       {/if}
-      {#each headerGroups[0]?.headers ?? [] as header (header.id + '-filter')}
+      {#each headerGroups[0]?.headers ?? [] as header (header.id + "-filter")}
         {@const column = header.column}
-        {@const isPinnedLeft = column.getIsPinned() === 'left'}
-        {@const isPinnedRight = column.getIsPinned() === 'right'}
+        {@const isPinnedLeft = column.getIsPinned() === "left"}
+        {@const isPinnedRight = column.getIsPinned() === "right"}
         <th
           class="px-2 py-1.5 font-normal
-            {isPinnedLeft ? 'pinned-left bg-[var(--ui-card)] z-30 border-r border-[var(--ui-border)]' : ''}
-            {isPinnedRight ? 'pinned-right bg-[var(--ui-card)] z-30 border-l border-[var(--ui-border)]' : ''}"
+            {isPinnedLeft
+            ? 'pinned-left bg-[var(--ui-card)] z-30 border-r border-[var(--ui-border)]'
+            : ''}
+            {isPinnedRight
+            ? 'pinned-right bg-[var(--ui-card)] z-30 border-l border-[var(--ui-border)]'
+            : ''}"
         >
           {#if !header.isPlaceholder && column.getCanFilter()}
             <input
               type="text"
               placeholder="Filter..."
-              value={(column.getFilterValue() as string) ?? ''}
-              oninput={(e) => onFilter(column.id, (e.currentTarget as HTMLInputElement).value || undefined)}
+              value={(column.getFilterValue() as string) ?? ""}
+              oninput={(e) =>
+                onFilter(
+                  column.id,
+                  (e.currentTarget as HTMLInputElement).value || undefined,
+                )}
               class="h-7 w-full rounded border border-[var(--ui-input)] bg-[var(--ui-background)] px-2 text-[11px] text-[var(--ui-foreground)] outline-none transition-colors placeholder:text-[var(--ui-muted-foreground)]/50 focus:border-[var(--ui-primary)]"
             />
           {/if}
