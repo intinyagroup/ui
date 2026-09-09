@@ -1,7 +1,12 @@
 <script lang="ts">
-  import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, X } from 'lucide-svelte';
-  import { Button } from '@intinyagroup/ui';
-  import { cn } from '@intinyagroup/ui/utils';
+  import {
+    Calendar as CalendarIcon,
+    ChevronLeft,
+    ChevronRight,
+    X,
+  } from "lucide-svelte";
+  import { Button } from "@intinyagroup/ui";
+  import { cn } from "@intinyagroup/ui/utils";
   import {
     addMonths,
     subMonths,
@@ -16,9 +21,9 @@
     isSameMonth,
     isWithinInterval,
     isBefore,
-    format
-  } from 'date-fns';
-  import { id as localeId, enUS as localeEn } from 'date-fns/locale';
+    format,
+  } from "date-fns";
+  import { id as localeId, enUS as localeEn } from "date-fns/locale";
 
   export type CalendarDate = { year: number; month: number; day: number };
   export type DateRange = {
@@ -36,8 +41,8 @@
     min = null,
     max = null,
     disabled = false,
-    placeholder = 'Select date range...',
-    locale = 'en-US',
+    placeholder = "Select date range...",
+    locale = "en-US",
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday
     presets,
     class: className,
@@ -59,11 +64,15 @@
   const today = new Date();
 
   let viewDate = $state(
-    value?.start ? new Date(value.start.year, value.start.month, value.start.day) : today
+    value?.start
+      ? new Date(value.start.year, value.start.month, value.start.day)
+      : today,
   );
   let hoverDate = $state<Date | null>(null);
 
-  const activeDateFnsLocale = $derived(locale.startsWith('id') ? localeId : localeEn);
+  const activeDateFnsLocale = $derived(
+    locale.startsWith("id") ? localeId : localeEn,
+  );
   const weekStartsOn = $derived(firstDayOfWeek as 0 | 1 | 2 | 3 | 4 | 5 | 6);
 
   function toDate(d: CalendarDate | null): Date | null {
@@ -75,7 +84,7 @@
     return {
       year: date.getFullYear(),
       month: date.getMonth(),
-      day: date.getDate()
+      day: date.getDate(),
     };
   }
 
@@ -83,7 +92,7 @@
   const dayNames = $derived.by(() => {
     const start = startOfWeek(viewDate, { weekStartsOn });
     return Array.from({ length: 7 }, (_, i) => {
-      return format(addDays(start, i), 'EEE', { locale: activeDateFnsLocale });
+      return format(addDays(start, i), "EEE", { locale: activeDateFnsLocale });
     });
   });
 
@@ -98,7 +107,7 @@
     return days.map((d) => ({
       date: d,
       calendarDate: toCalendarDate(d),
-      currentMonth: isSameMonth(d, viewDate)
+      currentMonth: isSameMonth(d, viewDate),
     }));
   });
 
@@ -112,9 +121,15 @@
       value = { start: toCalendarDate(date), end: null };
     } else if (startDateObj && !endDateObj) {
       if (isBefore(date, startDateObj)) {
-        value = { start: toCalendarDate(date), end: toCalendarDate(startDateObj) };
+        value = {
+          start: toCalendarDate(date),
+          end: toCalendarDate(startDateObj),
+        };
       } else {
-        value = { start: toCalendarDate(startDateObj), end: toCalendarDate(date) };
+        value = {
+          start: toCalendarDate(startDateObj),
+          end: toCalendarDate(date),
+        };
       }
       onSelect?.(value);
       isOpen = false;
@@ -131,8 +146,8 @@
 
   function formatDisplayDate(date: CalendarDate | null): string {
     const d = toDate(date);
-    if (!d) return '';
-    return format(d, 'dd/MM/yyyy', { locale: activeDateFnsLocale });
+    if (!d) return "";
+    return format(d, "dd/MM/yyyy", { locale: activeDateFnsLocale });
   }
 
   const label = $derived.by(() => {
@@ -159,51 +174,64 @@
 
     return [
       {
-        label: 'Today',
-        range: { start: toCalendarDate(today), end: toCalendarDate(today) }
+        label: "Today",
+        range: { start: toCalendarDate(today), end: toCalendarDate(today) },
       },
       {
-        label: 'Next 7D',
-        range: { start: toCalendarDate(today), end: toCalendarDate(addDays(today, 7)) }
+        label: "Next 7D",
+        range: {
+          start: toCalendarDate(today),
+          end: toCalendarDate(addDays(today, 7)),
+        },
       },
       {
-        label: 'This Month',
-        range: { start: toCalendarDate(startOfMonth(today)), end: toCalendarDate(endOfMonth(today)) }
+        label: "This Month",
+        range: {
+          start: toCalendarDate(startOfMonth(today)),
+          end: toCalendarDate(endOfMonth(today)),
+        },
       },
       {
-        label: 'Last Month',
+        label: "Last Month",
         range: {
           start: toCalendarDate(startOfMonth(subMonths(today, 1))),
-          end: toCalendarDate(endOfMonth(subMonths(today, 1)))
-        }
+          end: toCalendarDate(endOfMonth(subMonths(today, 1))),
+        },
       },
       {
-        label: 'YTD',
-        range: { start: { year: y, month: 0, day: 1 }, end: toCalendarDate(today) }
-      }
+        label: "YTD",
+        range: {
+          start: { year: y, month: 0, day: 1 },
+          end: toCalendarDate(today),
+        },
+      },
     ];
   });
 </script>
 
-<div class={cn('relative inline-block w-full max-w-sm', className)}>
+<div class={cn("relative inline-block w-full max-w-sm", className)}>
   <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <div
     role="button"
     tabindex={disabled ? -1 : 0}
     aria-disabled={disabled}
-    onclick={() => { if (!disabled) isOpen = !isOpen; }}
+    onclick={() => {
+      if (!disabled) isOpen = !isOpen;
+    }}
     onkeydown={(e) => {
       if (disabled) return;
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         isOpen = !isOpen;
       }
     }}
     class={cn(
-      'flex h-10 w-full items-center justify-between rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-3 text-sm transition-colors text-left cursor-pointer select-none',
-      'hover:border-[var(--ui-border)] focus:outline-none focus:ring-2 focus:ring-[var(--ui-ring)]/20 focus:border-[var(--ui-primary)]',
-      disabled && 'opacity-50 cursor-not-allowed pointer-events-none',
-      value.start ? 'text-[var(--ui-foreground)]' : 'text-[var(--ui-muted-foreground)]'
+      "flex h-10 w-full items-center justify-between rounded-lg border border-[var(--ui-input)] bg-[var(--ui-background)] px-3 text-sm transition-colors text-left cursor-pointer select-none",
+      "hover:border-[var(--ui-border)] focus:outline-none focus:ring-2 focus:ring-[var(--ui-ring)]/20 focus:border-[var(--ui-primary)]",
+      disabled && "opacity-50 cursor-not-allowed pointer-events-none",
+      value.start
+        ? "text-[var(--ui-foreground)]"
+        : "text-[var(--ui-muted-foreground)]",
     )}
   >
     <div class="flex items-center gap-2 truncate">
@@ -237,37 +265,64 @@
     >
       <!-- Header controls -->
       <div class="flex items-center justify-between mb-3">
-        <Button variant="ghost" size="sm" class="size-7 p-0" onclick={prevMonth}>
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7 p-0"
+          onclick={prevMonth}
+        >
           <ChevronLeft class="size-4" />
         </Button>
-        <span class="text-xs font-semibold text-[var(--ui-foreground)] capitalize">
-          {format(viewDate, 'MMMM yyyy', { locale: activeDateFnsLocale })}
+        <span
+          class="text-xs font-semibold text-[var(--ui-foreground)] capitalize"
+        >
+          {format(viewDate, "MMMM yyyy", { locale: activeDateFnsLocale })}
         </span>
-        <Button variant="ghost" size="sm" class="size-7 p-0" onclick={nextMonth}>
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7 p-0"
+          onclick={nextMonth}
+        >
           <ChevronRight class="size-4" />
         </Button>
       </div>
 
       <!-- Day names -->
-      <div class="grid grid-cols-7 mb-1 text-center">
+      <div
+        class="grid grid-cols-7 mb-1 text-center"
+        style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; margin-bottom: 0.25rem;"
+      >
         {#each dayNames as day}
-          <span class="text-[11px] font-semibold text-[var(--ui-muted-foreground)] py-1 capitalize">
+          <span
+            class="text-[11px] font-semibold text-[var(--ui-muted-foreground)] py-1 capitalize"
+            style="text-align: center; font-size: 0.6875rem; padding: 0.25rem 0;"
+          >
             {day}
           </span>
         {/each}
       </div>
 
       <!-- Calendar grid -->
-      <div class="grid grid-cols-7 gap-y-1">
+      <div
+        class="grid grid-cols-7 gap-y-1"
+        style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 0.25rem;"
+      >
         {#each calendarDays as { date, calendarDate, currentMonth }}
-          {@const isStart = startDateObj ? isSameDay(startDateObj, date) : false}
+          {@const isStart = startDateObj
+            ? isSameDay(startDateObj, date)
+            : false}
           {@const isEnd = endDateObj ? isSameDay(endDateObj, date) : false}
           {@const activeRangeEnd = endDateObj || hoverDate}
           {@const inRange =
             startDateObj && activeRangeEnd
               ? isWithinInterval(date, {
-                  start: isBefore(startDateObj, activeRangeEnd) ? startDateObj : activeRangeEnd,
-                  end: isBefore(startDateObj, activeRangeEnd) ? activeRangeEnd : startDateObj
+                  start: isBefore(startDateObj, activeRangeEnd)
+                    ? startDateObj
+                    : activeRangeEnd,
+                  end: isBefore(startDateObj, activeRangeEnd)
+                    ? activeRangeEnd
+                    : startDateObj,
                 })
               : false}
           {@const isEdge = isStart || isEnd}
@@ -276,10 +331,16 @@
             role="gridcell"
             aria-selected={isEdge}
             class={cn(
-              'relative py-0.5 flex items-center justify-center',
-              inRange && !isEdge && 'bg-[var(--ui-primary)]/10',
-              isStart && activeRangeEnd && !isSameDay(startDateObj, activeRangeEnd) && 'rounded-l-md bg-[var(--ui-primary)]/10',
-              isEnd && startDateObj && !isSameDay(startDateObj, endDateObj) && 'rounded-r-md bg-[var(--ui-primary)]/10'
+              "relative py-0.5 flex items-center justify-center",
+              inRange && !isEdge && "bg-[var(--ui-primary)]/10",
+              isStart &&
+                activeRangeEnd &&
+                !isSameDay(startDateObj, activeRangeEnd) &&
+                "rounded-l-md bg-[var(--ui-primary)]/10",
+              isEnd &&
+                startDateObj &&
+                !isSameDay(startDateObj, endDateObj) &&
+                "rounded-r-md bg-[var(--ui-primary)]/10",
             )}
             onmouseenter={() => {
               if (startDateObj && !endDateObj) hoverDate = date;
@@ -290,11 +351,15 @@
               disabled={!currentMonth}
               onclick={() => handleDateClick(date)}
               class={cn(
-                'size-8 rounded-md text-xs font-medium transition-colors flex items-center justify-center cursor-pointer',
-                !currentMonth && 'opacity-20 cursor-default',
-                currentMonth && !isEdge && !inRange && 'hover:bg-[var(--ui-secondary)] text-[var(--ui-foreground)]',
-                inRange && !isEdge && 'text-[var(--ui-primary)] font-semibold',
-                isEdge && 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
+                "size-8 rounded-md text-xs font-medium transition-colors flex items-center justify-center cursor-pointer",
+                !currentMonth && "opacity-20 cursor-default",
+                currentMonth &&
+                  !isEdge &&
+                  !inRange &&
+                  "hover:bg-[var(--ui-secondary)] text-[var(--ui-foreground)]",
+                inRange && !isEdge && "text-[var(--ui-primary)] font-semibold",
+                isEdge &&
+                  "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs",
               )}
             >
               {date.getDate()}
@@ -304,7 +369,9 @@
       </div>
 
       <!-- Presets quick buttons bar -->
-      <div class="flex flex-wrap items-center gap-1.5 border-t border-[var(--ui-border)] mt-3 pt-2.5">
+      <div
+        class="flex flex-wrap items-center gap-1.5 border-t border-[var(--ui-border)] mt-3 pt-2.5"
+      >
         {#each activePresets as preset}
           <button
             type="button"

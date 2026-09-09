@@ -1,7 +1,15 @@
 <script lang="ts">
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Clock, Plus, X } from 'lucide-svelte';
-  import { Button } from '@intinyagroup/ui';
-  import { cn } from '@intinyagroup/ui/utils';
+  import {
+    ChevronLeft,
+    ChevronRight,
+    Calendar as CalendarIcon,
+    CalendarDays,
+    Clock,
+    Plus,
+    X,
+  } from "lucide-svelte";
+  import { Button } from "@intinyagroup/ui";
+  import { cn } from "@intinyagroup/ui/utils";
   import {
     addMonths,
     subMonths,
@@ -16,11 +24,11 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
     eachDayOfInterval,
     isSameDay,
     isSameMonth,
-    format
-  } from 'date-fns';
-  import { id as localeId, enUS as localeEn } from 'date-fns/locale';
+    format,
+  } from "date-fns";
+  import { id as localeId, enUS as localeEn } from "date-fns/locale";
 
-  export type CalendarView = 'month' | 'week' | 'day';
+  export type CalendarView = "month" | "week" | "day";
 
   export type CalendarEvent = {
     id: string;
@@ -34,9 +42,9 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
 
   let {
     events = $bindable([]),
-    view = $bindable('month' as CalendarView),
+    view = $bindable("month" as CalendarView),
     currentDate = $bindable(new Date()),
-    locale = 'en-US',
+    locale = "en-US",
     timeZone,
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday
     enableEventModal = true,
@@ -58,8 +66,16 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
     onEventClick?: (event: CalendarEvent) => void;
     onDateClick?: (date: Date) => void;
     onAddEvent?: (newEvent: CalendarEvent) => void;
-    onEventReschedule?: (detail: { event: CalendarEvent; newStart: Date; newEnd: Date }) => void;
-    onEventResize?: (detail: { event: CalendarEvent; newStart: Date; newEnd: Date }) => void;
+    onEventReschedule?: (detail: {
+      event: CalendarEvent;
+      newStart: Date;
+      newEnd: Date;
+    }) => void;
+    onEventResize?: (detail: {
+      event: CalendarEvent;
+      newStart: Date;
+      newEnd: Date;
+    }) => void;
     onDragCreate?: (detail: { start: Date; end: Date }) => void;
   } = $props();
 
@@ -68,33 +84,51 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
   let resizeStartY = $state<number>(0);
   let resizeStartDuration = $state<number>(0);
   // Drag-to-create state
-  let dragCreateStart = $state<{ date: Date; hour: number; minute: number } | null>(null);
-  let dragCreateEnd = $state<{ date: Date; hour: number; minute: number } | null>(null);
+  let dragCreateStart = $state<{
+    date: Date;
+    hour: number;
+    minute: number;
+  } | null>(null);
+  let dragCreateEnd = $state<{
+    date: Date;
+    hour: number;
+    minute: number;
+  } | null>(null);
   let isDragCreating = $state(false);
   let dragCreateColumn = $state<Date | null>(null);
   // Mobile detection
-  let isMobile = $state(typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false);
+  let isMobile = $state(
+    typeof window !== "undefined" && typeof window.matchMedia === "function"
+      ? window.matchMedia("(max-width: 767px)").matches
+      : false,
+  );
   $effect(() => {
-    if (typeof window === 'undefined') return;
-    const mq = window.matchMedia('(max-width: 767px)');
+    if (
+      typeof window === "undefined" ||
+      typeof window.matchMedia !== "function"
+    )
+      return;
+    const mq = window.matchMedia("(max-width: 767px)");
     isMobile = mq.matches;
-    const handler = (e: MediaQueryListEvent) => { isMobile = e.matches; };
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    const handler = (e: MediaQueryListEvent) => {
+      isMobile = e.matches;
+    };
+    mq.addEventListener?.("change", handler);
+    return () => mq.removeEventListener?.("change", handler);
   });
 
   // Mobile week: show only current day ± 1
   const mobileWeekDays = $derived([
     subDays(currentDate, 1),
     currentDate,
-    addDays(currentDate, 1)
+    addDays(currentDate, 1),
   ]);
 
   function isMultiDayOrAllDay(ev: CalendarEvent): boolean {
     if (ev.allDay) return true;
     const s = new Date(ev.start);
     const e = new Date(ev.end);
-    return !isSameDay(s, e) || (e.getTime() - s.getTime() >= 24 * 60 * 60 * 1000);
+    return !isSameDay(s, e) || e.getTime() - s.getTime() >= 24 * 60 * 60 * 1000;
   }
 
   function handleEventDrop(targetDate: Date, targetHour?: number) {
@@ -102,17 +136,23 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
     const ev = events.find((e) => e.id === draggedEventId);
     if (!ev) return;
 
-    const origDurationMs = new Date(ev.end).getTime() - new Date(ev.start).getTime();
+    const origDurationMs =
+      new Date(ev.end).getTime() - new Date(ev.start).getTime();
     const newStart = new Date(targetDate);
     if (targetHour !== undefined) {
       newStart.setHours(targetHour, 0, 0, 0);
     } else {
-      newStart.setHours(new Date(ev.start).getHours(), new Date(ev.start).getMinutes(), 0, 0);
+      newStart.setHours(
+        new Date(ev.start).getHours(),
+        new Date(ev.start).getMinutes(),
+        0,
+        0,
+      );
     }
     const newEnd = new Date(newStart.getTime() + origDurationMs);
 
     events = events.map((e) =>
-      e.id === draggedEventId ? { ...e, start: newStart, end: newEnd } : e
+      e.id === draggedEventId ? { ...e, start: newStart, end: newEnd } : e,
     );
 
     onEventReschedule?.({ event: ev, newStart, newEnd });
@@ -124,7 +164,8 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
     e.preventDefault();
     resizingEventId = ev.id;
     resizeStartY = e.clientY;
-    resizeStartDuration = new Date(ev.end).getTime() - new Date(ev.start).getTime();
+    resizeStartDuration =
+      new Date(ev.end).getTime() - new Date(ev.start).getTime();
 
     function onMouseMove(moveEvent: MouseEvent) {
       if (!resizingEventId) return;
@@ -134,8 +175,12 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
       // Snap to 15 minute increments (0.25h = 15 * 60 * 1000 ms)
       const snapIntervalMs = 15 * 60 * 1000;
       const rawDeltaMs = deltaHours * 60 * 60 * 1000;
-      const snappedDeltaMs = Math.round(rawDeltaMs / snapIntervalMs) * snapIntervalMs;
-      const newDurationMs = Math.max(15 * 60 * 1000, resizeStartDuration + snappedDeltaMs);
+      const snappedDeltaMs =
+        Math.round(rawDeltaMs / snapIntervalMs) * snapIntervalMs;
+      const newDurationMs = Math.max(
+        15 * 60 * 1000,
+        resizeStartDuration + snappedDeltaMs,
+      );
 
       events = events.map((item) => {
         if (item.id === resizingEventId) {
@@ -150,37 +195,47 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
       if (resizingEventId) {
         const finished = events.find((item) => item.id === resizingEventId);
         if (finished) {
-          onEventResize?.({ event: finished, newStart: new Date(finished.start), newEnd: new Date(finished.end) });
+          onEventResize?.({
+            event: finished,
+            newStart: new Date(finished.start),
+            newEnd: new Date(finished.end),
+          });
         }
       }
       resizingEventId = null;
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
     }
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
   }
   // Drag-to-create: snap to 15-minute increments
   function snapTo15Minutes(minutes: number): number {
     return Math.round(minutes / 15) * 15;
   }
 
-  function handleDragCreateMouseDown(e: MouseEvent, date: Date, hour: number, containerEl: HTMLElement) {
+  function handleDragCreateMouseDown(
+    e: MouseEvent,
+    date: Date,
+    hour: number,
+    containerEl: HTMLElement,
+  ) {
     // Only left click
     if (e.button !== 0) return;
     // Don't start drag-create if already dragging an event or resizing
     if (draggedEventId || resizingEventId) return;
     // Don't start if clicking on an event element
     const target = e.target as HTMLElement;
-    if (target.closest('[role="button"]') || target.closest('.group\\/event')) return;
+    if (target.closest('[role="button"]') || target.closest(".group\\/event"))
+      return;
 
     e.preventDefault();
     e.stopPropagation();
 
     const rect = containerEl.getBoundingClientRect();
     const y = e.clientY - rect.top;
-    const hourHeight = containerEl.id === 'week-day-col' ? 56 : 64;
+    const hourHeight = containerEl.id === "week-day-col" ? 56 : 64;
     const minutesInHour = (y / hourHeight) * 60;
     const minute = snapTo15Minutes(minutesInHour);
     const clampedMinute = Math.min(45, Math.max(0, minute));
@@ -197,7 +252,8 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
       const snappedMinutes = snapTo15Minutes(moveMinutesInHour);
       const clampedMinutes = Math.min(24 * 60, Math.max(0, snappedMinutes));
 
-      const totalStartMinutes = dragCreateStart.hour * 60 + dragCreateStart.minute;
+      const totalStartMinutes =
+        dragCreateStart.hour * 60 + dragCreateStart.minute;
       let totalEndMinutes = Math.max(totalStartMinutes + 15, clampedMinutes);
       totalEndMinutes = Math.min(24 * 60, totalEndMinutes);
 
@@ -213,7 +269,12 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
 
         if (endMinutes - startMinutes >= 15) {
           const startDate = new Date(date);
-          startDate.setHours(dragCreateStart.hour, dragCreateStart.minute, 0, 0);
+          startDate.setHours(
+            dragCreateStart.hour,
+            dragCreateStart.minute,
+            0,
+            0,
+          );
           const endDate = new Date(date);
           endDate.setHours(dragCreateEnd.hour, dragCreateEnd.minute, 0, 0);
 
@@ -221,8 +282,8 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
 
           if (enableEventModal) {
             newEventDate = new Date(date);
-            newEventStartTime = `${String(dragCreateStart.hour).padStart(2, '0')}:${String(dragCreateStart.minute).padStart(2, '0')}`;
-            newEventEndTime = `${String(dragCreateEnd.hour).padStart(2, '0')}:${String(dragCreateEnd.minute).padStart(2, '0')}`;
+            newEventStartTime = `${String(dragCreateStart.hour).padStart(2, "0")}:${String(dragCreateStart.minute).padStart(2, "0")}`;
+            newEventEndTime = `${String(dragCreateEnd.hour).padStart(2, "0")}:${String(dragCreateEnd.minute).padStart(2, "0")}`;
             modalOpen = true;
           }
         }
@@ -232,12 +293,12 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
       dragCreateStart = null;
       dragCreateEnd = null;
       dragCreateColumn = null;
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
     }
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
   }
 
   type LayoutEvent = CalendarEvent & {
@@ -250,7 +311,11 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
     const sorted = [...dayEvs].sort((a, b) => {
       const diff = new Date(a.start).getTime() - new Date(b.start).getTime();
       if (diff !== 0) return diff;
-      return (new Date(b.end).getTime() - new Date(b.start).getTime()) - (new Date(a.end).getTime() - new Date(a.start).getTime());
+      return (
+        new Date(b.end).getTime() -
+        new Date(b.start).getTime() -
+        (new Date(a.end).getTime() - new Date(a.start).getTime())
+      );
     });
 
     const columns: CalendarEvent[][] = [];
@@ -282,7 +347,7 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
         const hasOverlap = columns[c].some(
           (other) =>
             new Date(other.start).getTime() < new Date(ev.end).getTime() &&
-            new Date(other.end).getTime() > new Date(ev.start).getTime()
+            new Date(other.end).getTime() > new Date(ev.start).getTime(),
         );
         if (hasOverlap && c + 1 > overlappingCols) {
           overlappingCols = c + 1;
@@ -298,10 +363,12 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
   }
 
   const activeTimeZone = $derived(
-    timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+    timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
   );
 
-  const activeDateFnsLocale = $derived(locale.startsWith('id') ? localeId : localeEn);
+  const activeDateFnsLocale = $derived(
+    locale.startsWith("id") ? localeId : localeEn,
+  );
   const weekStartsOn = $derived(firstDayOfWeek as 0 | 1 | 2 | 3 | 4 | 5 | 6);
 
   const hours = Array.from({ length: 24 }, (_, i) => i);
@@ -309,7 +376,7 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
   const dayNames = $derived.by(() => {
     const start = startOfWeek(currentDate, { weekStartsOn });
     return Array.from({ length: 7 }, (_, i) => {
-      return format(addDays(start, i), 'EEE', { locale: activeDateFnsLocale });
+      return format(addDays(start, i), "EEE", { locale: activeDateFnsLocale });
     });
   });
 
@@ -318,14 +385,14 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
   }
 
   function goPrev() {
-    if (view === 'month') currentDate = subMonths(currentDate, 1);
-    else if (view === 'week') currentDate = subWeeks(currentDate, 1);
+    if (view === "month") currentDate = subMonths(currentDate, 1);
+    else if (view === "week") currentDate = subWeeks(currentDate, 1);
     else currentDate = subDays(currentDate, 1);
   }
 
   function goNext() {
-    if (view === 'month') currentDate = addMonths(currentDate, 1);
-    else if (view === 'week') currentDate = addWeeks(currentDate, 1);
+    if (view === "month") currentDate = addMonths(currentDate, 1);
+    else if (view === "week") currentDate = addWeeks(currentDate, 1);
     else currentDate = addDays(currentDate, 1);
   }
 
@@ -343,7 +410,7 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
     const days = eachDayOfInterval({ start: gridStart, end: gridEnd });
     return days.map((d) => ({
       date: d,
-      currentMonth: isSameMonth(d, currentDate)
+      currentMonth: isSameMonth(d, currentDate),
     }));
   });
 
@@ -364,7 +431,9 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
   }
 
   function getTimedEventsForDay(d: Date): CalendarEvent[] {
-    return events.filter((ev) => !isMultiDayOrAllDay(ev) && isSameDay(new Date(ev.start), d));
+    return events.filter(
+      (ev) => !isMultiDayOrAllDay(ev) && isSameDay(new Date(ev.start), d),
+    );
   }
 
   function getAllDayEventsForWeek(days: Date[]): CalendarEvent[] {
@@ -372,23 +441,25 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
       if (!isMultiDayOrAllDay(ev)) return false;
       const s = new Date(ev.start);
       const e = new Date(ev.end);
-      return days.some((d) => isSameDay(d, s) || isSameDay(d, e) || (d > s && d < e));
+      return days.some(
+        (d) => isSameDay(d, s) || isSameDay(d, e) || (d > s && d < e),
+      );
     });
   }
 
   function getTimeInZone(date: Date): { hours: number; minutes: number } {
-    const parts = new Intl.DateTimeFormat('en-US', {
+    const parts = new Intl.DateTimeFormat("en-US", {
       timeZone: activeTimeZone,
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false,
     }).formatToParts(date);
 
     let hours = 0;
     let minutes = 0;
     for (const p of parts) {
-      if (p.type === 'hour') hours = Number(p.value) % 24;
-      if (p.type === 'minute') minutes = Number(p.value);
+      if (p.type === "hour") hours = Number(p.value) % 24;
+      if (p.type === "minute") minutes = Number(p.value);
     }
     return { hours, minutes };
   }
@@ -396,54 +467,62 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
   function formatTime(date: Date): string {
     return new Intl.DateTimeFormat(locale, {
       timeZone: activeTimeZone,
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
     }).format(date);
   }
 
   const titleHeader = $derived.by(() => {
-    if (view === 'month') {
-      return format(currentDate, 'MMMM yyyy', { locale: activeDateFnsLocale });
+    if (view === "month") {
+      return format(currentDate, "MMMM yyyy", { locale: activeDateFnsLocale });
     }
-    if (view === 'week') {
+    if (view === "week") {
       const displayDays = isMobile ? mobileWeekDays : weekDays;
       const start = displayDays[0];
       const end = displayDays[displayDays.length - 1];
-      const sStr = format(start, 'dd MMM', { locale: activeDateFnsLocale });
-      const eStr = format(end, 'dd MMM yyyy', { locale: activeDateFnsLocale });
+      const sStr = format(start, "dd MMM", { locale: activeDateFnsLocale });
+      const eStr = format(end, "dd MMM yyyy", { locale: activeDateFnsLocale });
       return `${sStr} - ${eStr}`;
     }
-    return format(currentDate, 'dd MMMM yyyy', { locale: activeDateFnsLocale });
+    return format(currentDate, "dd MMMM yyyy", { locale: activeDateFnsLocale });
   });
 
   // Event modal state
   let modalOpen = $state(false);
-  let newEventTitle = $state('');
+  let newEventTitle = $state("");
   let newEventDate = $state(new Date());
-  let newEventStartTime = $state('09:00');
-  let newEventEndTime = $state('10:00');
-  let newEventColor = $state('#2563eb');
-  let newEventDescription = $state('');
+  let newEventStartTime = $state("09:00");
+  let newEventEndTime = $state("10:00");
+  let newEventColor = $state("#2563eb");
+  let newEventDescription = $state("");
 
-  const presetColors = ['#2563eb', '#7c3aed', '#059669', '#d97706', '#dc2626', '#0891b2', '#4b5563'];
+  const presetColors = [
+    "#2563eb",
+    "#7c3aed",
+    "#059669",
+    "#d97706",
+    "#dc2626",
+    "#0891b2",
+    "#4b5563",
+  ];
 
   function openCreateModal(date: Date) {
     if (!enableEventModal) return;
     newEventDate = new Date(date);
-    newEventTitle = '';
-    newEventStartTime = '09:00';
-    newEventEndTime = '10:00';
-    newEventColor = '#2563eb';
-    newEventDescription = '';
+    newEventTitle = "";
+    newEventStartTime = "09:00";
+    newEventEndTime = "10:00";
+    newEventColor = "#2563eb";
+    newEventDescription = "";
     modalOpen = true;
   }
 
   function handleSaveEvent() {
     if (!newEventTitle.trim()) return;
 
-    const [startH, startM] = newEventStartTime.split(':').map(Number);
-    const [endH, endM] = newEventEndTime.split(':').map(Number);
+    const [startH, startM] = newEventStartTime.split(":").map(Number);
+    const [endH, endM] = newEventEndTime.split(":").map(Number);
 
     const startDate = new Date(newEventDate);
     startDate.setHours(startH || 0, startM || 0, 0, 0);
@@ -457,7 +536,7 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
       start: startDate,
       end: endDate,
       color: newEventColor,
-      description: newEventDescription.trim() || undefined
+      description: newEventDescription.trim() || undefined,
     };
 
     events = [...events, newEv];
@@ -466,36 +545,56 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
   }
 </script>
 
-<div class={cn('relative flex flex-col rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-xs overflow-hidden', className)}>
+<div
+  class={cn(
+    "relative flex flex-col rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-xs overflow-hidden",
+    className,
+  )}
+>
   <!-- Toolbar Header -->
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--ui-border)] p-4 sm:px-6">
+  <div
+    class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--ui-border)] p-4 sm:px-6"
+  >
     <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-      <h2 class="text-base font-bold text-[var(--ui-foreground)] capitalize">{titleHeader}</h2>
+      <h2 class="text-base font-bold text-[var(--ui-foreground)] capitalize">
+        {titleHeader}
+      </h2>
       <div class="flex items-center gap-1">
         <Button variant="outline" size="sm" class="size-8 p-0" onclick={goPrev}>
           <ChevronLeft class="size-4" />
         </Button>
-        <Button variant="outline" size="sm" class="px-2.5 h-8 text-xs font-semibold" onclick={goToday}>
+        <Button
+          variant="outline"
+          size="sm"
+          class="px-2.5 h-8 text-xs font-semibold"
+          onclick={goToday}
+        >
           Today
         </Button>
         <Button variant="outline" size="sm" class="size-8 p-0" onclick={goNext}>
           <ChevronRight class="size-4" />
         </Button>
       </div>
-      <span class="hidden sm:inline-flex items-center rounded-md bg-[var(--ui-secondary)]/50 px-2 py-0.5 text-[10px] font-medium text-[var(--ui-muted-foreground)]">
+      <span
+        class="hidden sm:inline-flex items-center rounded-md bg-[var(--ui-secondary)]/50 px-2 py-0.5 text-[10px] font-medium text-[var(--ui-muted-foreground)]"
+      >
         {activeTimeZone}
       </span>
     </div>
 
     <div class="flex items-center gap-2">
       <!-- View selector tabs -->
-      <div class="inline-flex rounded-lg border border-[var(--ui-border)] bg-[var(--ui-secondary)]/30 p-1">
+      <div
+        class="inline-flex rounded-lg border border-[var(--ui-border)] bg-[var(--ui-secondary)]/30 p-1"
+      >
         <button
           type="button"
-          onclick={() => (view = 'month')}
+          onclick={() => (view = "month")}
           class={cn(
-            'rounded-md px-2 sm:px-3 py-1 text-xs font-semibold transition-colors cursor-pointer',
-            view === 'month' ? 'bg-[var(--ui-card)] text-[var(--ui-foreground)] shadow-xs' : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]'
+            "rounded-md px-2 sm:px-3 py-1 text-xs font-semibold transition-colors cursor-pointer",
+            view === "month"
+              ? "bg-[var(--ui-card)] text-[var(--ui-foreground)] shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]",
           )}
         >
           <CalendarDays class="size-4 sm:hidden" />
@@ -503,10 +602,12 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
         </button>
         <button
           type="button"
-          onclick={() => (view = 'week')}
+          onclick={() => (view = "week")}
           class={cn(
-            'rounded-md px-2 sm:px-3 py-1 text-xs font-semibold transition-colors cursor-pointer',
-            view === 'week' ? 'bg-[var(--ui-card)] text-[var(--ui-foreground)] shadow-xs' : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]'
+            "rounded-md px-2 sm:px-3 py-1 text-xs font-semibold transition-colors cursor-pointer",
+            view === "week"
+              ? "bg-[var(--ui-card)] text-[var(--ui-foreground)] shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]",
           )}
         >
           <CalendarIcon class="size-4 sm:hidden" />
@@ -514,10 +615,12 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
         </button>
         <button
           type="button"
-          onclick={() => (view = 'day')}
+          onclick={() => (view = "day")}
           class={cn(
-            'rounded-md px-2 sm:px-3 py-1 text-xs font-semibold transition-colors cursor-pointer',
-            view === 'day' ? 'bg-[var(--ui-card)] text-[var(--ui-foreground)] shadow-xs' : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]'
+            "rounded-md px-2 sm:px-3 py-1 text-xs font-semibold transition-colors cursor-pointer",
+            view === "day"
+              ? "bg-[var(--ui-card)] text-[var(--ui-foreground)] shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]",
           )}
         >
           <Clock class="size-4 sm:hidden" />
@@ -526,23 +629,34 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
       </div>
 
       {#if enableEventModal}
-        <Button size="sm" class="gap-1.5 h-8 text-xs" onclick={() => openCreateModal(currentDate)}>
-          <Plus class="size-3.5" /> <span class="hidden sm:inline">Add Event</span>
+        <Button
+          size="sm"
+          class="gap-1.5 h-8 text-xs"
+          onclick={() => openCreateModal(currentDate)}
+        >
+          <Plus class="size-3.5" />
+          <span class="hidden sm:inline">Add Event</span>
         </Button>
       {/if}
     </div>
   </div>
 
   <!-- Calendar Content -->
-  {#if view === 'month'}
+  {#if view === "month"}
     <!-- MONTH VIEW -->
-    <div class="grid grid-cols-7 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-center text-xs font-semibold text-[var(--ui-muted-foreground)] py-2">
+    <div
+      class="grid grid-cols-7 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-center text-xs font-semibold text-[var(--ui-muted-foreground)] py-2"
+      style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center;"
+    >
       {#each dayNames as day}
         <div class="capitalize">{day}</div>
       {/each}
     </div>
 
-    <div class="grid grid-cols-7 divide-x divide-y divide-[var(--ui-border)]">
+    <div
+      class="grid grid-cols-7 divide-x divide-y divide-[var(--ui-border)]"
+      style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr));"
+    >
       {#each monthDays as { date, currentMonth }}
         {@const dayEvents = getEventsForDay(date)}
         {@const todayActive = isToday(date)}
@@ -561,21 +675,25 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
             handleEventDrop(date);
           }}
           class={cn(
-            'min-h-[80px] md:min-h-[110px] p-1 md:p-1.5 flex flex-col gap-1 transition-colors hover:bg-[var(--ui-secondary)]/25 cursor-pointer select-none',
-            !currentMonth && 'bg-[var(--ui-muted)]/15 opacity-50'
+            "min-h-[80px] md:min-h-[110px] p-1 md:p-1.5 flex flex-col gap-1 transition-colors hover:bg-[var(--ui-secondary)]/25 cursor-pointer select-none",
+            !currentMonth && "bg-[var(--ui-muted)]/15 opacity-50",
           )}
         >
           <div class="flex items-center justify-between mb-0.5 px-1">
             <span
               class={cn(
-                'text-xs font-semibold size-6 flex items-center justify-center rounded-full',
-                todayActive ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)]' : 'text-[var(--ui-foreground)]'
+                "text-xs font-semibold size-6 flex items-center justify-center rounded-full",
+                todayActive
+                  ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)]"
+                  : "text-[var(--ui-foreground)]",
               )}
             >
               {date.getDate()}
             </span>
             {#if dayEvents.length > 0}
-              <span class="text-[10px] text-[var(--ui-muted-foreground)] font-medium">
+              <span
+                class="text-[10px] text-[var(--ui-muted-foreground)] font-medium"
+              >
                 {dayEvents.length} ev
               </span>
             {/if}
@@ -594,31 +712,38 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
                 ondragstart={(e) => {
                   e.stopPropagation();
                   draggedEventId = ev.id;
-                  e.dataTransfer?.setData('text/plain', ev.id);
+                  e.dataTransfer?.setData("text/plain", ev.id);
                 }}
                 onclick={(e) => {
                   e.stopPropagation();
                   onEventClick?.(ev);
                 }}
                 class={cn(
-                  'truncate px-1.5 py-0.5 text-left text-[10px] md:text-[11px] font-medium transition-opacity hover:opacity-85 text-white shadow-2xs cursor-grab active:cursor-grabbing',
-                  isSpanning ? 'rounded-none' : 'rounded',
-                  isSpanning && isStartDay && 'rounded-l-md',
-                  isSpanning && isEndDay && 'rounded-r-md',
-                  draggedEventId === ev.id ? 'opacity-40 ring-2 ring-white' : ''
+                  "truncate px-1.5 py-0.5 text-left text-[10px] md:text-[11px] font-medium transition-opacity hover:opacity-85 text-white shadow-2xs cursor-grab active:cursor-grabbing",
+                  isSpanning ? "rounded-none" : "rounded",
+                  isSpanning && isStartDay && "rounded-l-md",
+                  isSpanning && isEndDay && "rounded-r-md",
+                  draggedEventId === ev.id
+                    ? "opacity-40 ring-2 ring-white"
+                    : "",
                 )}
                 style="background-color: {ev.color || 'var(--ui-primary)'};"
               >
                 {#if isSpanning}
                   <span class="font-semibold">{ev.title}</span>
                 {:else}
-                  <span class="opacity-80 font-normal">{formatTime(ev.start)}</span> {ev.title}
+                  <span class="opacity-80 font-normal"
+                    >{formatTime(ev.start)}</span
+                  >
+                  {ev.title}
                 {/if}
               </button>
             {/each}
 
             {#if dayEvents.length > (isMobile ? 2 : 3)}
-              <span class="text-[10px] font-semibold text-[var(--ui-muted-foreground)] px-1">
+              <span
+                class="text-[10px] font-semibold text-[var(--ui-muted-foreground)] px-1"
+              >
                 +{dayEvents.length - (isMobile ? 2 : 3)} more
               </span>
             {/if}
@@ -626,14 +751,25 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
         </div>
       {/each}
     </div>
-  {:else if view === 'week'}
+  {:else if view === "week"}
     <!-- WEEK VIEW -->
-    <div class="grid grid-cols-4 md:grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-center text-xs font-semibold text-[var(--ui-muted-foreground)] py-2">
+    <div
+      class="grid grid-cols-4 md:grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-center text-xs font-semibold text-[var(--ui-muted-foreground)] py-2"
+    >
       <div class="col-span-1">Time</div>
-      {#each (isMobile ? mobileWeekDays : weekDays) as d}
+      {#each isMobile ? mobileWeekDays : weekDays as d}
         <div class="col-span-1 flex flex-col items-center">
-          <span class="capitalize">{format(d, 'EEE', { locale: activeDateFnsLocale })}</span>
-          <span class={cn('size-6 flex items-center justify-center rounded-full text-xs mt-0.5', isToday(d) ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)]' : '')}>
+          <span class="capitalize"
+            >{format(d, "EEE", { locale: activeDateFnsLocale })}</span
+          >
+          <span
+            class={cn(
+              "size-6 flex items-center justify-center rounded-full text-xs mt-0.5",
+              isToday(d)
+                ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)]"
+                : "",
+            )}
+          >
             {d.getDate()}
           </span>
         </div>
@@ -641,10 +777,16 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
     </div>
 
     <!-- All-day header slot (FullCalendar 1:1) -->
-    {@const allDayEvents = getAllDayEventsForWeek(isMobile ? mobileWeekDays : weekDays)}
+    {@const allDayEvents = getAllDayEventsForWeek(
+      isMobile ? mobileWeekDays : weekDays,
+    )}
     {#if allDayEvents.length > 0}
-      <div class="grid grid-cols-4 md:grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/10 text-xs divide-x divide-[var(--ui-border)] py-1.5">
-        <div class="col-span-1 text-right pr-2 text-[10px] uppercase tracking-wider font-semibold text-[var(--ui-muted-foreground)] flex items-center justify-end">
+      <div
+        class="grid grid-cols-4 md:grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/10 text-xs divide-x divide-[var(--ui-border)] py-1.5"
+      >
+        <div
+          class="col-span-1 text-right pr-2 text-[10px] uppercase tracking-wider font-semibold text-[var(--ui-muted-foreground)] flex items-center justify-end"
+        >
           all-day
         </div>
         <div class="col-span-3 md:col-span-7 px-2 flex flex-col gap-1">
@@ -658,23 +800,28 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
               class="w-full truncate rounded px-2 py-0.5 text-left text-[11px] font-semibold text-white shadow-2xs hover:opacity-90"
               style="background-color: {ev.color || 'var(--ui-primary)'};"
             >
-              {ev.title} {#if ev.description}• {ev.description}{/if}
+              {ev.title}
+              {#if ev.description}• {ev.description}{/if}
             </button>
           {/each}
         </div>
       </div>
     {/if}
 
-    <div class="grid grid-cols-4 md:grid-cols-8 divide-x divide-[var(--ui-border)] max-h-[600px] overflow-y-auto">
+    <div
+      class="grid grid-cols-4 md:grid-cols-8 divide-x divide-[var(--ui-border)] max-h-[600px] overflow-y-auto"
+    >
       <!-- Hours Column -->
-      <div class="col-span-1 divide-y divide-[var(--ui-border)]/50 text-right pr-2 text-[11px] font-medium text-[var(--ui-muted-foreground)]">
+      <div
+        class="col-span-1 divide-y divide-[var(--ui-border)]/50 text-right pr-2 text-[11px] font-medium text-[var(--ui-muted-foreground)]"
+      >
         {#each hours as hour}
-          <div class="h-14 pt-1">{String(hour).padStart(2, '0')}:00</div>
+          <div class="h-14 pt-1">{String(hour).padStart(2, "0")}:00</div>
         {/each}
       </div>
 
       <!-- Day Grid Columns -->
-      {#each (isMobile ? mobileWeekDays : weekDays) as d}
+      {#each isMobile ? mobileWeekDays : weekDays as d}
         {@const dayEvents = getTimedEventsForDay(d)}
         {@const layoutEvents = computeOverlappingLayout(dayEvents)}
         {@const isCurrentDay = isToday(d)}
@@ -684,7 +831,8 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
 
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
-        <div id="week-day-col"
+        <div
+          id="week-day-col"
           onclick={() => openCreateModal(d)}
           class="col-span-1 divide-y divide-[var(--ui-border)]/50 relative hover:bg-[var(--ui-secondary)]/10 cursor-pointer select-none"
         >
@@ -692,7 +840,13 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
               class="h-14 transition-colors hover:bg-[var(--ui-primary)]/10 pointer-events-auto"
-              onmousedown={(e) => handleDragCreateMouseDown(e, d, hour, e.currentTarget.closest('[id="week-day-col"]')!)}
+              onmousedown={(e) =>
+                handleDragCreateMouseDown(
+                  e,
+                  d,
+                  hour,
+                  e.currentTarget.closest('[id="week-day-col"]')!,
+                )}
               ondragover={(e) => e.preventDefault()}
               ondrop={(e) => {
                 e.preventDefault();
@@ -719,7 +873,10 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
             {@const evEndTime = getTimeInZone(new Date(ev.end))}
             {@const startMinutes = evStartTime.hours * 60 + evStartTime.minutes}
             {@const endMinutes = evEndTime.hours * 60 + evEndTime.minutes}
-            {@const durationMinutes = Math.max(15, endMinutes > startMinutes ? endMinutes - startMinutes : 60)}
+            {@const durationMinutes = Math.max(
+              15,
+              endMinutes > startMinutes ? endMinutes - startMinutes : 60,
+            )}
             {@const topPos = (startMinutes / 60) * 56}
             {@const heightPos = Math.max(26, (durationMinutes / 60) * 56)}
             {@const widthPercent = 100 / ev.colTotal}
@@ -732,23 +889,29 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
               draggable="true"
               ondragstart={(e) => {
                 draggedEventId = ev.id;
-                e.dataTransfer?.setData('text/plain', ev.id);
+                e.dataTransfer?.setData("text/plain", ev.id);
               }}
               onclick={(e) => {
                 e.stopPropagation();
                 onEventClick?.(ev);
               }}
               onkeydown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
                   onEventClick?.(ev);
                 }
               }}
-              class="group/event absolute rounded p-1 text-left text-[11px] text-white shadow-xs transition-opacity hover:opacity-95 overflow-hidden z-10 cursor-grab active:cursor-grabbing {draggedEventId === ev.id ? 'opacity-40 ring-2 ring-white' : ''}"
-              style="top: {topPos}px; height: {heightPos}px; left: calc({leftPercent}% + 2px); width: calc({widthPercent}% - 4px); background-color: {ev.color || 'var(--ui-primary)'};"
+              class="group/event absolute rounded p-1 text-left text-[11px] text-white shadow-xs transition-opacity hover:opacity-95 overflow-hidden z-10 cursor-grab active:cursor-grabbing {draggedEventId ===
+              ev.id
+                ? 'opacity-40 ring-2 ring-white'
+                : ''}"
+              style="top: {topPos}px; height: {heightPos}px; left: calc({leftPercent}% + 2px); width: calc({widthPercent}% - 4px); background-color: {ev.color ||
+                'var(--ui-primary)'};"
             >
               <div class="font-bold truncate leading-tight">{ev.title}</div>
-              <div class="text-[9px] opacity-85 leading-tight">{formatTime(ev.start)} - {formatTime(ev.end)}</div>
+              <div class="text-[9px] opacity-85 leading-tight">
+                {formatTime(ev.start)} - {formatTime(ev.end)}
+              </div>
 
               <!-- Bottom edge resize handle (FullCalendar 1:1) -->
               <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -760,16 +923,26 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
           {/each}
           <!-- Drag-to-create preview -->
           {#if isDragCreating && dragCreateStart && dragCreateEnd && dragCreateColumn && isSameDay(dragCreateColumn, d)}
-            {@const startTotalMin = dragCreateStart.hour * 60 + dragCreateStart.minute}
-            {@const endTotalMin = dragCreateEnd.hour * 60 + dragCreateEnd.minute}
+            {@const startTotalMin =
+              dragCreateStart.hour * 60 + dragCreateStart.minute}
+            {@const endTotalMin =
+              dragCreateEnd.hour * 60 + dragCreateEnd.minute}
             {@const previewTop = (startTotalMin / 60) * 56}
-            {@const previewHeight = Math.max(14, ((endTotalMin - startTotalMin) / 60) * 56)}
+            {@const previewHeight = Math.max(
+              14,
+              ((endTotalMin - startTotalMin) / 60) * 56,
+            )}
             <div
               class="absolute inset-x-0.5 z-20 rounded bg-blue-500/30 border border-blue-400/50 pointer-events-none flex items-start justify-center pt-0.5"
               style="top: {previewTop}px; height: {previewHeight}px;"
             >
               <span class="text-[9px] font-semibold text-blue-700 select-none">
-                {String(dragCreateStart.hour).padStart(2, '0')}:{String(dragCreateStart.minute).padStart(2, '0')} - {String(dragCreateEnd.hour).padStart(2, '0')}:{String(dragCreateEnd.minute).padStart(2, '0')}
+                {String(dragCreateStart.hour).padStart(2, "0")}:{String(
+                  dragCreateStart.minute,
+                ).padStart(2, "0")} - {String(dragCreateEnd.hour).padStart(
+                  2,
+                  "0",
+                )}:{String(dragCreateEnd.minute).padStart(2, "0")}
               </span>
             </div>
           {/if}
@@ -778,13 +951,17 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
     </div>
     <!-- Mobile swipe hint -->
     {#if isMobile}
-      <div class="px-4 py-2 text-center text-[11px] text-[var(--ui-muted-foreground)] border-t border-[var(--ui-border)]">
+      <div
+        class="px-4 py-2 text-center text-[11px] text-[var(--ui-muted-foreground)] border-t border-[var(--ui-border)]"
+      >
         Swipe to see more days
       </div>
     {/if}
   {:else}
     <!-- DAY VIEW -->
-    <div class="p-3 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 flex items-center justify-between">
+    <div
+      class="p-3 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 flex items-center justify-between"
+    >
       <div class="flex items-center gap-2">
         <Clock class="size-4 text-[var(--ui-muted-foreground)]" />
         <span class="text-sm font-semibold capitalize">{titleHeader}</span>
@@ -794,29 +971,42 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
       </span>
     </div>
 
-    <div class="grid grid-cols-12 divide-x divide-[var(--ui-border)] max-h-[600px] overflow-y-auto">
-      <div class="col-span-2 divide-y divide-[var(--ui-border)]/50 text-right pr-3 text-xs font-medium text-[var(--ui-muted-foreground)]">
+    <div
+      class="grid grid-cols-12 divide-x divide-[var(--ui-border)] max-h-[600px] overflow-y-auto"
+    >
+      <div
+        class="col-span-2 divide-y divide-[var(--ui-border)]/50 text-right pr-3 text-xs font-medium text-[var(--ui-muted-foreground)]"
+      >
         {#each hours as hour}
-          <div class="h-16 pt-2">{String(hour).padStart(2, '0')}:00</div>
+          <div class="h-16 pt-2">{String(hour).padStart(2, "0")}:00</div>
         {/each}
       </div>
 
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore a11y_click_events_have_key_events -->
-      <div id="day-view-col"
+      <div
+        id="day-view-col"
         onclick={() => openCreateModal(currentDate)}
         class="col-span-10 divide-y divide-[var(--ui-border)]/50 relative p-1 hover:bg-[var(--ui-secondary)]/10 cursor-pointer select-none"
       >
         {#each hours as hour}
-          <div class="h-16 pointer-events-auto"
-            onmousedown={(e) => handleDragCreateMouseDown(e, currentDate, hour, e.currentTarget.closest('[id="day-view-col"]')!)}
+          <div
+            class="h-16 pointer-events-auto"
+            onmousedown={(e) =>
+              handleDragCreateMouseDown(
+                e,
+                currentDate,
+                hour,
+                e.currentTarget.closest('[id="day-view-col"]')!,
+              )}
           ></div>
         {/each}
 
         <!-- Google Calendar style Current Time Red Line -->
         {#if isToday(currentDate)}
           {@const nowTime = getTimeInZone(new Date())}
-          {@const currentTimeTop = ((nowTime.hours * 60 + nowTime.minutes) / 60) * 64}
+          {@const currentTimeTop =
+            ((nowTime.hours * 60 + nowTime.minutes) / 60) * 64}
           <div
             class="absolute inset-x-0 z-30 pointer-events-none flex items-center"
             style="top: {currentTimeTop}px;"
@@ -831,7 +1021,10 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
           {@const evEndTime = getTimeInZone(new Date(ev.end))}
           {@const startMinutes = evStartTime.hours * 60 + evStartTime.minutes}
           {@const endMinutes = evEndTime.hours * 60 + evEndTime.minutes}
-          {@const durationMinutes = Math.max(15, endMinutes > startMinutes ? endMinutes - startMinutes : 60)}
+          {@const durationMinutes = Math.max(
+            15,
+            endMinutes > startMinutes ? endMinutes - startMinutes : 60,
+          )}
           {@const topPos = (startMinutes / 60) * 64}
           {@const heightPos = Math.max(32, (durationMinutes / 60) * 64)}
           {@const widthPercent = 100 / ev.colTotal}
@@ -844,23 +1037,32 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
             draggable="true"
             ondragstart={(e) => {
               draggedEventId = ev.id;
-              e.dataTransfer?.setData('text/plain', ev.id);
+              e.dataTransfer?.setData("text/plain", ev.id);
             }}
             onclick={(e) => {
               e.stopPropagation();
               onEventClick?.(ev);
             }}
             onkeydown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 onEventClick?.(ev);
               }
             }}
-            class="group/event absolute rounded-lg p-2 text-left text-white shadow-sm transition-opacity hover:opacity-95 overflow-hidden z-10 cursor-grab active:cursor-grabbing {draggedEventId === ev.id ? 'opacity-40 ring-2 ring-white' : ''}"
-            style="top: {topPos}px; height: {heightPos}px; left: calc({leftPercent}% + 4px); width: calc({widthPercent}% - 8px); background-color: {ev.color || 'var(--ui-primary)'};"
+            class="group/event absolute rounded-lg p-2 text-left text-white shadow-sm transition-opacity hover:opacity-95 overflow-hidden z-10 cursor-grab active:cursor-grabbing {draggedEventId ===
+            ev.id
+              ? 'opacity-40 ring-2 ring-white'
+              : ''}"
+            style="top: {topPos}px; height: {heightPos}px; left: calc({leftPercent}% + 4px); width: calc({widthPercent}% - 8px); background-color: {ev.color ||
+              'var(--ui-primary)'};"
           >
-            <div class="font-bold text-xs truncate leading-tight">{ev.title}</div>
-            <div class="text-[10px] opacity-85 leading-tight">{formatTime(ev.start)} - {formatTime(ev.end)} {#if ev.description}• {ev.description}{/if}</div>
+            <div class="font-bold text-xs truncate leading-tight">
+              {ev.title}
+            </div>
+            <div class="text-[10px] opacity-85 leading-tight">
+              {formatTime(ev.start)} - {formatTime(ev.end)}
+              {#if ev.description}• {ev.description}{/if}
+            </div>
 
             <!-- Bottom resize handle -->
             <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -872,16 +1074,25 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
         {/each}
         <!-- Drag-to-create preview -->
         {#if isDragCreating && dragCreateStart && dragCreateEnd && isSameDay(dragCreateColumn!, currentDate)}
-          {@const startTotalMin = dragCreateStart.hour * 60 + dragCreateStart.minute}
+          {@const startTotalMin =
+            dragCreateStart.hour * 60 + dragCreateStart.minute}
           {@const endTotalMin = dragCreateEnd.hour * 60 + dragCreateEnd.minute}
           {@const previewTop = (startTotalMin / 60) * 64}
-          {@const previewHeight = Math.max(16, ((endTotalMin - startTotalMin) / 60) * 64)}
+          {@const previewHeight = Math.max(
+            16,
+            ((endTotalMin - startTotalMin) / 60) * 64,
+          )}
           <div
             class="absolute inset-x-1 z-20 rounded-lg bg-blue-500/30 border border-blue-400/50 pointer-events-none flex items-start justify-center pt-1"
             style="top: {previewTop}px; height: {previewHeight}px;"
           >
             <span class="text-[10px] font-semibold text-blue-700 select-none">
-              {String(dragCreateStart.hour).padStart(2, '0')}:{String(dragCreateStart.minute).padStart(2, '0')} - {String(dragCreateEnd.hour).padStart(2, '0')}:{String(dragCreateEnd.minute).padStart(2, '0')}
+              {String(dragCreateStart.hour).padStart(2, "0")}:{String(
+                dragCreateStart.minute,
+              ).padStart(2, "0")} - {String(dragCreateEnd.hour).padStart(
+                2,
+                "0",
+              )}:{String(dragCreateEnd.minute).padStart(2, "0")}
             </span>
           </div>
         {/if}
@@ -893,13 +1104,17 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
   {#if modalOpen}
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4"
+    >
       <div
         onclick={(e) => e.stopPropagation()}
         class="w-full max-w-md rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] p-5 shadow-2xl animate-in fade-in-50 zoom-in-95"
       >
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-sm font-bold text-[var(--ui-foreground)]">Add New Event</h3>
+          <h3 class="text-sm font-bold text-[var(--ui-foreground)]">
+            Add New Event
+          </h3>
           <button
             type="button"
             onclick={() => (modalOpen = false)}
@@ -911,7 +1126,11 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
 
         <div class="space-y-3.5 text-xs">
           <div>
-            <label for="event-cal-title" class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Title</label>
+            <label
+              for="event-cal-title"
+              class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]"
+              >Title</label
+            >
             <input
               id="event-cal-title"
               type="text"
@@ -923,7 +1142,11 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label for="event-cal-start-time" class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Start Time</label>
+              <label
+                for="event-cal-start-time"
+                class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]"
+                >Start Time</label
+              >
               <input
                 id="event-cal-start-time"
                 type="time"
@@ -932,7 +1155,11 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
               />
             </div>
             <div>
-              <label for="event-cal-end-time" class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">End Time</label>
+              <label
+                for="event-cal-end-time"
+                class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]"
+                >End Time</label
+              >
               <input
                 id="event-cal-end-time"
                 type="time"
@@ -943,15 +1170,19 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
           </div>
 
           <div>
-            <span class="block mb-1.5 font-semibold text-[var(--ui-muted-foreground)]">Tag Color</span>
+            <span
+              class="block mb-1.5 font-semibold text-[var(--ui-muted-foreground)]"
+              >Tag Color</span
+            >
             <div class="flex items-center gap-2">
               {#each presetColors as col}
                 <button
                   type="button"
                   onclick={() => (newEventColor = col)}
                   class={cn(
-                    'size-6 rounded-full transition-transform hover:scale-110 cursor-pointer',
-                    newEventColor === col && 'ring-2 ring-offset-2 ring-[var(--ui-primary)]'
+                    "size-6 rounded-full transition-transform hover:scale-110 cursor-pointer",
+                    newEventColor === col &&
+                      "ring-2 ring-offset-2 ring-[var(--ui-primary)]",
                   )}
                   style="background-color: {col};"
                   aria-label="Select color {col}"
@@ -961,7 +1192,11 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
           </div>
 
           <div>
-            <label for="event-cal-desc" class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]">Description (optional)</label>
+            <label
+              for="event-cal-desc"
+              class="block mb-1 font-semibold text-[var(--ui-muted-foreground)]"
+              >Description (optional)</label
+            >
             <textarea
               id="event-cal-desc"
               bind:value={newEventDescription}
@@ -970,8 +1205,14 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, CalendarDays, Cloc
           </div>
         </div>
 
-        <div class="mt-5 flex items-center justify-end gap-2 border-t border-[var(--ui-border)] pt-3">
-          <Button variant="outline" size="sm" onclick={() => (modalOpen = false)}>Cancel</Button>
+        <div
+          class="mt-5 flex items-center justify-end gap-2 border-t border-[var(--ui-border)] pt-3"
+        >
+          <Button
+            variant="outline"
+            size="sm"
+            onclick={() => (modalOpen = false)}>Cancel</Button
+          >
           <Button size="sm" onclick={handleSaveEvent}>Save Event</Button>
         </div>
       </div>
