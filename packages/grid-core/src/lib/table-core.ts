@@ -20,7 +20,7 @@ import {
   type GroupingState,
   type ColumnSizingState,
   type ColumnSizingInfoState,
-} from '@tanstack/table-core';
+} from "@tanstack/table-core";
 
 export type CoreTableState = {
   sorting: SortingState;
@@ -48,8 +48,8 @@ export type ServerSideConfig = {
 
 export type DataTableMeta<TData> = {
   editable?: boolean;
-  align?: 'left' | 'right' | 'center';
-  filterType?: 'text' | 'number' | 'select' | 'date';
+  align?: "left" | "right" | "center";
+  filterType?: "text" | "number" | "select" | "date";
   filterOptions?: string[];
   className?: string;
   headerClassName?: string;
@@ -64,16 +64,19 @@ export function createCoreTableModel<TData>(input: {
   state?: Partial<CoreTableState>;
   serverSide?: ServerSideConfig;
   meta?: Record<string, unknown>;
+  /** Enable column resizing. Defaults to false — consumers must opt in. */
+  enableResizing?: boolean;
 }) {
   const state: CoreTableState = {
     sorting: input.state?.sorting ?? [],
     pagination: input.state?.pagination ?? { pageIndex: 0, pageSize: 20 },
-    globalFilter: input.state?.globalFilter ?? '',
+    globalFilter: input.state?.globalFilter ?? "",
     columnFilters: input.state?.columnFilters ?? [],
     columnVisibility: input.state?.columnVisibility ?? {},
     rowSelection: input.state?.rowSelection ?? {},
     columnPinning: input.state?.columnPinning ?? { left: [], right: [] },
-    columnOrder: input.state?.columnOrder ?? input.columns.map((_, i) => String(i)),
+    columnOrder:
+      input.state?.columnOrder ?? input.columns.map((_, i) => String(i)),
     grouping: input.state?.grouping ?? [],
     expanded: input.state?.expanded ?? {},
     columnSizing: input.state?.columnSizing ?? {},
@@ -88,22 +91,42 @@ export function createCoreTableModel<TData>(input: {
   };
 
   const serverSide = input.serverSide;
+  const resizing = input.enableResizing ?? false;
+
+  // When resizing is disabled (default), override all columns to disable resize handles.
+  // This prevents getCanResize() from returning true and accessing undefined columnSizingInfo.
+  const columns = resizing
+    ? input.columns
+    : input.columns.map((col) => ({
+        ...col,
+        enableResizing: false,
+      }));
 
   return createTable<TData>({
     data: input.data,
-    columns: input.columns,
+    columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: serverSide?.manualPagination ? undefined : getPaginationRowModel(),
-    getSortedRowModel: serverSide?.manualSorting ? undefined : getSortedRowModel(),
-    getFilteredRowModel: serverSide?.manualFiltering ? undefined : getFilteredRowModel(),
-    getGroupedRowModel: serverSide?.manualGrouping ? undefined : getGroupedRowModel(),
-    getExpandedRowModel: serverSide?.manualExpanding ? undefined : getExpandedRowModel(),
+    getPaginationRowModel: serverSide?.manualPagination
+      ? undefined
+      : getPaginationRowModel(),
+    getSortedRowModel: serverSide?.manualSorting
+      ? undefined
+      : getSortedRowModel(),
+    getFilteredRowModel: serverSide?.manualFiltering
+      ? undefined
+      : getFilteredRowModel(),
+    getGroupedRowModel: serverSide?.manualGrouping
+      ? undefined
+      : getGroupedRowModel(),
+    getExpandedRowModel: serverSide?.manualExpanding
+      ? undefined
+      : getExpandedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     pageCount: serverSide?.manualPagination
       ? Math.ceil(serverSide.rowCount / (state.pagination.pageSize || 10))
       : undefined,
-    columnResizeMode: 'onChange',
+    columnResizeMode: "onChange",
     enableMultiSort: true,
     enableSortingRemoval: true,
     state,
