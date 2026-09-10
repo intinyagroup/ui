@@ -9,26 +9,42 @@ import Title from "./dialog-title.svelte";
 import Trigger from "./dialog-trigger.svelte";
 import Root from "./dialog.svelte";
 
+/**
+ * Namespace-merged root: supports both `<Dialog>`/`<DialogContent>` (flat)
+ * and `<Dialog.Root>`/`<Dialog.Content>` (namespaced) usage.
+ */
+const Dialog = Object.assign(Root, {
+  Root,
+  Title,
+  Portal,
+  Footer,
+  Header,
+  Trigger,
+  Overlay,
+  Content,
+  Description,
+  Close,
+});
+
 export {
-	Root,
-	Title,
-	Portal,
-	Footer,
-	Header,
-	Trigger,
-	Overlay,
-	Content,
-	Description,
-	Close,
-	//
-	Root as Dialog,
-	Title as DialogTitle,
-	Portal as DialogPortal,
-	Footer as DialogFooter,
-	Header as DialogHeader,
-	Trigger as DialogTrigger,
-	Overlay as DialogOverlay,
-	Content as DialogContent,
-	Description as DialogDescription,
-	Close as DialogClose,
+  Root,
+  Title,
+  Portal,
+  Footer,
+  Header,
+  Trigger,
+  Overlay,
+  Content,
+  Description,
+  Close,
+  Dialog,
+  Title as DialogTitle,
+  Portal as DialogPortal,
+  Footer as DialogFooter,
+  Header as DialogHeader,
+  Trigger as DialogTrigger,
+  Overlay as DialogOverlay,
+  Content as DialogContent,
+  Description as DialogDescription,
+  Close as DialogClose,
 };
