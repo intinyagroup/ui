@@ -123,15 +123,22 @@ jobs:
             fi
             if [ -d "packages/$pkg" ]; then
               (
-                cd packages/$pkg
+                cd "packages/$pkg"
+                published=false
                 for attempt in 1 2 3 4; do
                   if npm publish --tag "$TAG" --access public; then
+                    published=true
                     break
-                  else
+                  fi
+                  if [ "$attempt" -lt 4 ]; then
                     echo "Publish failed for $pkg (attempt $attempt), waiting 20s before retry..."
                     sleep 20
                   fi
                 done
+                if [ "$published" != true ]; then
+                  echo "Publish failed permanently for $pkg after 4 attempts" >&2
+                  exit 1
+                fi
               )
               sleep 6
             fi
