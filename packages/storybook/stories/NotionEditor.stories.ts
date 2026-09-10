@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/svelte';
-import RichTextEditor from '@intinyagroup/rich-text/components/RichTextEditor.svelte';
+import type { Meta, StoryObj } from "@storybook/svelte";
+import { RichTextEditor } from "@intinyagroup/rich-text";
 
 const notionContent = `
   <h1>Product Strategy Document</h1>
@@ -26,14 +26,15 @@ const notionContent = `
 `;
 
 const meta = {
-  title: 'Notion/NotionEditor (SubPages & Checklists)',
+  title: "Notion/NotionEditor (SubPages & Checklists)",
   component: RichTextEditor,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   args: {
-    mode: 'bubble',
-    placeholder: "Ketik '/' untuk memasukkan sub-page, heading, atau checklist...",
-    content: notionContent
-  }
+    mode: "bubble",
+    placeholder:
+      "Ketik '/' untuk memasukkan sub-page, heading, atau checklist...",
+    content: notionContent,
+  },
 } satisfies Meta<typeof RichTextEditor>;
 
 export default meta;
@@ -43,6 +44,6 @@ export const DefaultNotionPage: Story = {};
 
 export const ClassicModeWithToolbar: Story = {
   args: {
-    mode: 'classic'
-  }
+    mode: "classic",
+  },
 };

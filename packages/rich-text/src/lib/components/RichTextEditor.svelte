@@ -1,36 +1,62 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import { Editor, Node, mergeAttributes } from '@tiptap/core';
-  import StarterKit from '@tiptap/starter-kit';
-  import Placeholder from '@tiptap/extension-placeholder';
-  import Underline from '@tiptap/extension-underline';
-  import TextAlign from '@tiptap/extension-text-align';
-  import Link from '@tiptap/extension-link';
-  import Image from '@tiptap/extension-image';
-  import Highlight from '@tiptap/extension-highlight';
-  import Table from '@tiptap/extension-table';
-  import TableRow from '@tiptap/extension-table-row';
-  import TableCell from '@tiptap/extension-table-cell';
-  import TableHeader from '@tiptap/extension-table-header';
-  import Typography from '@tiptap/extension-typography';
-  import BubbleMenu from '@tiptap/extension-bubble-menu';
-  import TaskList from '@tiptap/extension-task-list';
-  import TaskItem from '@tiptap/extension-task-item';
+  import { onMount, onDestroy } from "svelte";
+  import { Editor, Node, mergeAttributes } from "@tiptap/core";
+  import StarterKit from "@tiptap/starter-kit";
+  import Placeholder from "@tiptap/extension-placeholder";
+  import Underline from "@tiptap/extension-underline";
+  import TextAlign from "@tiptap/extension-text-align";
+  import Link from "@tiptap/extension-link";
+  import Image from "@tiptap/extension-image";
+  import Highlight from "@tiptap/extension-highlight";
+  import Table from "@tiptap/extension-table";
+  import TableRow from "@tiptap/extension-table-row";
+  import TableCell from "@tiptap/extension-table-cell";
+  import TableHeader from "@tiptap/extension-table-header";
+  import Typography from "@tiptap/extension-typography";
+  import BubbleMenu from "@tiptap/extension-bubble-menu";
+  import TaskList from "@tiptap/extension-task-list";
+  import TaskItem from "@tiptap/extension-task-item";
   import {
-    Bold, Italic, Underline as UnderlineIcon, Strikethrough, Highlighter,
-    AlignLeft, AlignCenter, AlignRight, AlignJustify,
-    List, ListOrdered, Quote, Code, Minus, Link as LinkIcon, Image as ImageIcon,
-    Undo, Redo, Heading1, Heading2, Heading3, TableIcon, Plus, Trash2,
-    Video, CheckSquare, Info, AlertTriangle, Sparkles, HelpCircle, FileText
-  } from 'lucide-svelte';
-  import { Button, Separator } from '@intinyagroup/ui';
-  import { cn } from '@intinyagroup/grid-core/utils';
+    Bold,
+    Italic,
+    Underline as UnderlineIcon,
+    Strikethrough,
+    Highlighter,
+    AlignLeft,
+    AlignCenter,
+    AlignRight,
+    AlignJustify,
+    List,
+    ListOrdered,
+    Quote,
+    Code,
+    Minus,
+    Link as LinkIcon,
+    Image as ImageIcon,
+    Undo,
+    Redo,
+    Heading1,
+    Heading2,
+    Heading3,
+    TableIcon,
+    Plus,
+    Trash2,
+    Video,
+    CheckSquare,
+    Info,
+    AlertTriangle,
+    Sparkles,
+    HelpCircle,
+    FileText,
+  } from "lucide-svelte";
+  import { Button, Separator } from "@intinyagroup/ui";
+  import { cn } from "@intinyagroup/grid-core/utils";
 
   let {
-    content = '',
-    placeholder = 'Start writing...',
+    content = "",
+    placeholder = "Start writing...",
     editable = true,
-    mode = 'classic',
+    mode = "classic",
     height = 400,
     class: className,
     onUpdate,
@@ -41,7 +67,7 @@
     placeholder?: string;
     editable?: boolean;
     /** Toolbar mode: 'classic' (fixed top toolbar), 'bubble' (Notion-style floating toolbar only), or 'none' */
-    mode?: 'classic' | 'bubble' | 'none';
+    mode?: "classic" | "bubble" | "none";
     height?: number;
     class?: string;
     onUpdate?: (html: string) => void;
@@ -58,32 +84,103 @@
 
   // Slash commands state
   let showSlashMenu = $state(false);
-  let slashSearch = $state('');
+  let slashSearch = $state("");
   let slashIndex = $state(0);
   let slashMenuPos = $state({ top: 0, left: 0 });
 
   const slashCommands = [
-    { title: 'Sub-page', desc: 'Embed a sub-page inside this page', icon: FileText, action: () => insertSubPage() },
-    { title: 'Heading 1', desc: 'Big section heading', icon: Heading1, action: () => setHeading(1) },
-    { title: 'Heading 2', desc: 'Medium section heading', icon: Heading2, action: () => setHeading(2) },
-    { title: 'Heading 3', desc: 'Small subsection heading', icon: Heading3, action: () => setHeading(3) },
-    { title: 'To-do list', desc: 'Track tasks with a checklist', icon: CheckSquare, action: () => editor?.chain().focus().toggleTaskList().run() },
-    { title: 'Bullet list', desc: 'Create a bulleted list', icon: List, action: () => toggleBulletList() },
-    { title: 'Numbered list', desc: 'Create a numbered list', icon: ListOrdered, action: () => toggleOrderedList() },
-    { title: 'Quote', desc: 'Capture a quote or blockquote', icon: Quote, action: () => toggleBlockquote() },
-    { title: 'Code block', desc: 'Code snippet with syntax highlight', icon: Code, action: () => toggleCodeBlock() },
-    { title: 'Callout Info', desc: 'Informational highlight block', icon: Info, action: () => insertCallout('info') },
-    { title: 'Callout Warning', desc: 'Warning or caution block', icon: AlertTriangle, action: () => insertCallout('warning') },
-    { title: 'Callout Tip', desc: 'Tip or recommendation block', icon: Sparkles, action: () => insertCallout('tip') },
-    { title: 'Table', desc: 'Insert 3x3 table grid', icon: TableIcon, action: () => insertTable() },
-    { title: 'Divider', desc: 'Visually divide sections', icon: Minus, action: () => insertHorizontalRule() },
+    {
+      title: "Sub-page",
+      desc: "Embed a sub-page inside this page",
+      icon: FileText,
+      action: () => insertSubPage(),
+    },
+    {
+      title: "Heading 1",
+      desc: "Big section heading",
+      icon: Heading1,
+      action: () => setHeading(1),
+    },
+    {
+      title: "Heading 2",
+      desc: "Medium section heading",
+      icon: Heading2,
+      action: () => setHeading(2),
+    },
+    {
+      title: "Heading 3",
+      desc: "Small subsection heading",
+      icon: Heading3,
+      action: () => setHeading(3),
+    },
+    {
+      title: "To-do list",
+      desc: "Track tasks with a checklist",
+      icon: CheckSquare,
+      action: () => editor?.chain().focus().toggleTaskList().run(),
+    },
+    {
+      title: "Bullet list",
+      desc: "Create a bulleted list",
+      icon: List,
+      action: () => toggleBulletList(),
+    },
+    {
+      title: "Numbered list",
+      desc: "Create a numbered list",
+      icon: ListOrdered,
+      action: () => toggleOrderedList(),
+    },
+    {
+      title: "Quote",
+      desc: "Capture a quote or blockquote",
+      icon: Quote,
+      action: () => toggleBlockquote(),
+    },
+    {
+      title: "Code block",
+      desc: "Code snippet with syntax highlight",
+      icon: Code,
+      action: () => toggleCodeBlock(),
+    },
+    {
+      title: "Callout Info",
+      desc: "Informational highlight block",
+      icon: Info,
+      action: () => insertCallout("info"),
+    },
+    {
+      title: "Callout Warning",
+      desc: "Warning or caution block",
+      icon: AlertTriangle,
+      action: () => insertCallout("warning"),
+    },
+    {
+      title: "Callout Tip",
+      desc: "Tip or recommendation block",
+      icon: Sparkles,
+      action: () => insertCallout("tip"),
+    },
+    {
+      title: "Table",
+      desc: "Insert 3x3 table grid",
+      icon: TableIcon,
+      action: () => insertTable(),
+    },
+    {
+      title: "Divider",
+      desc: "Visually divide sections",
+      icon: Minus,
+      action: () => insertHorizontalRule(),
+    },
   ];
 
   const slashFilteredCommands = $derived(
-    slashCommands.filter((c) =>
-      c.title.toLowerCase().includes(slashSearch.toLowerCase()) ||
-      c.desc.toLowerCase().includes(slashSearch.toLowerCase())
-    )
+    slashCommands.filter(
+      (c) =>
+        c.title.toLowerCase().includes(slashSearch.toLowerCase()) ||
+        c.desc.toLowerCase().includes(slashSearch.toLowerCase()),
+    ),
   );
   // ---------------------------------------------------------------------------
   // Custom Extensions
@@ -95,16 +192,19 @@
       return {
         ...this.parent?.(),
         href: { default: null },
-        alt: { default: '' },
-        title: { default: '' },
-        target: { default: '_blank' },
+        alt: { default: "" },
+        title: { default: "" },
+        target: { default: "_blank" },
       };
     },
     renderHTML({ HTMLAttributes }) {
       const { href, target, alt, title, ...rest } = HTMLAttributes;
-      const img = ['img', mergeAttributes(this.options.HTMLAttributes, rest, { alt, title })];
+      const img = [
+        "img",
+        mergeAttributes(this.options.HTMLAttributes, rest, { alt, title }),
+      ];
       if (href) {
-        return ['a', { href, target, class: 'image-link' }, img];
+        return ["a", { href, target, class: "image-link" }, img];
       }
       return img;
     },
@@ -112,8 +212,8 @@
 
   /** YouTube iframe embed node */
   const CustomYoutube = Node.create({
-    name: 'youtube',
-    group: 'block',
+    name: "youtube",
+    group: "block",
     atom: true,
     addAttributes() {
       return { src: { default: null } };
@@ -126,14 +226,14 @@
     },
     renderHTML({ HTMLAttributes }) {
       return [
-        'div',
-        { class: 'video-wrapper' },
+        "div",
+        { class: "video-wrapper" },
         [
-          'iframe',
+          "iframe",
           mergeAttributes(HTMLAttributes, {
-            width: '100%',
-            height: '315',
-            allowfullscreen: 'true',
+            width: "100%",
+            height: "315",
+            allowfullscreen: "true",
           }),
         ],
       ];
@@ -152,8 +252,8 @@
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
           if (!ctx) {
             resolve(file);
             return;
@@ -179,13 +279,13 @@
           canvas.toBlob(
             (blob) => {
               if (blob) {
-                resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+                resolve(new File([blob], file.name, { type: "image/jpeg" }));
               } else {
                 resolve(file);
               }
             },
-            'image/jpeg',
-            0.85
+            "image/jpeg",
+            0.85,
           );
         };
         img.src = e.target?.result as string;
@@ -218,15 +318,15 @@
 
   function handleFiles(files: File[]) {
     for (const file of files) {
-      if (file.type.startsWith('image/')) {
+      if (file.type.startsWith("image/")) {
         uploadAndInsertImage(file);
       }
     }
   }
 
   const CustomYoutube = Node.create({
-    name: 'youtube',
-    group: 'block',
+    name: "youtube",
+    group: "block",
     atom: true,
     addAttributes() {
       return {
@@ -238,15 +338,17 @@
     },
     renderHTML({ HTMLAttributes }) {
       return [
-        'div',
-        { class: 'video-container my-4 aspect-video rounded-xl overflow-hidden' },
+        "div",
+        {
+          class: "video-container my-4 aspect-video rounded-xl overflow-hidden",
+        },
         [
-          'iframe',
+          "iframe",
           mergeAttributes(HTMLAttributes, {
-            class: 'w-full h-full border-0',
+            class: "w-full h-full border-0",
             allow:
-              'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
-            allowfullscreen: 'true',
+              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+            allowfullscreen: "true",
           }),
         ],
       ];
@@ -254,14 +356,14 @@
   });
   /** SubPage block extension (Page-in-page card) */
   const SubPage = Node.create({
-    name: 'subpage',
-    group: 'block',
+    name: "subpage",
+    group: "block",
     atom: true,
     addAttributes() {
       return {
         id: { default: () => `page-${Date.now()}` },
-        title: { default: 'Untitled Sub-page' },
-        icon: { default: '📄' }
+        title: { default: "Untitled Sub-page" },
+        icon: { default: "📄" },
       };
     },
     parseHTML() {
@@ -269,28 +371,40 @@
     },
     renderHTML({ HTMLAttributes }) {
       return [
-        'div',
+        "div",
         mergeAttributes(HTMLAttributes, {
-          'data-type': 'subpage',
-          class: 'subpage-block my-2 flex items-center gap-2.5 px-3 py-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] hover:bg-[var(--ui-secondary)]/50 transition-colors cursor-pointer shadow-xs group',
-          'data-page-id': HTMLAttributes.id,
-          'data-page-title': HTMLAttributes.title
+          "data-type": "subpage",
+          class:
+            "subpage-block my-2 flex items-center gap-2.5 px-3 py-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] hover:bg-[var(--ui-secondary)]/50 transition-colors cursor-pointer shadow-xs group",
+          "data-page-id": HTMLAttributes.id,
+          "data-page-title": HTMLAttributes.title,
         }),
-        ['span', { class: 'text-base shrink-0 select-none' }, HTMLAttributes.icon || '📄'],
-        ['span', { class: 'text-sm font-semibold text-[var(--ui-foreground)] underline-offset-4 group-hover:underline truncate' }, HTMLAttributes.title || 'Untitled Sub-page']
+        [
+          "span",
+          { class: "text-base shrink-0 select-none" },
+          HTMLAttributes.icon || "📄",
+        ],
+        [
+          "span",
+          {
+            class:
+              "text-sm font-semibold text-[var(--ui-foreground)] underline-offset-4 group-hover:underline truncate",
+          },
+          HTMLAttributes.title || "Untitled Sub-page",
+        ],
       ];
     },
   });
 
   /** Callout block extension with type icon & colored border */
   const Callout = Node.create({
-    name: 'callout',
-    group: 'block',
-    content: 'block+',
+    name: "callout",
+    group: "block",
+    content: "block+",
     defining: true,
     addAttributes() {
       return {
-        type: { default: 'info' }, // info | warning | tip
+        type: { default: "info" }, // info | warning | tip
       };
     },
     parseHTML() {
@@ -298,10 +412,10 @@
     },
     renderHTML({ HTMLAttributes }) {
       return [
-        'div',
+        "div",
         mergeAttributes(HTMLAttributes, {
-          'data-type': 'callout',
-          class: `callout-box callout-${HTMLAttributes.type || 'info'} my-3 p-3.5 rounded-xl border flex gap-3`,
+          "data-type": "callout",
+          class: `callout-box callout-${HTMLAttributes.type || "info"} my-3 p-3.5 rounded-xl border flex gap-3`,
         }),
         0,
       ];
@@ -309,10 +423,10 @@
   });
 
   function addYoutube() {
-    const url = window.prompt('Enter YouTube URL:');
+    const url = window.prompt("Enter YouTube URL:");
     if (!url || !editor) return;
     const match = url.match(
-      /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/
+      /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/,
     );
     const id = match && match[2].length === 11 ? match[2] : null;
     if (id) {
@@ -320,7 +434,7 @@
         .chain()
         .focus()
         .insertContent({
-          type: 'youtube',
+          type: "youtube",
           attrs: { src: `https://www.youtube.com/embed/${id}` },
         })
         .run();
@@ -333,82 +447,138 @@
 
   function getActiveStates(e: Editor): Record<string, boolean> {
     return {
-      bold: e.isActive('bold'),
-      italic: e.isActive('italic'),
-      underline: e.isActive('underline'),
-      strike: e.isActive('strike'),
-      highlight: e.isActive('highlight'),
-      h1: e.isActive('heading', { level: 1 }),
-      h2: e.isActive('heading', { level: 2 }),
-      h3: e.isActive('heading', { level: 3 }),
-      bulletList: e.isActive('bulletList'),
-      orderedList: e.isActive('orderedList'),
-      blockquote: e.isActive('blockquote'),
-      codeBlock: e.isActive('codeBlock'),
-      alignLeft: e.isActive({ textAlign: 'left' }),
-      alignCenter: e.isActive({ textAlign: 'center' }),
-      alignRight: e.isActive({ textAlign: 'right' }),
-      alignJustify: e.isActive({ textAlign: 'justify' }),
-      link: e.isActive('link'),
+      bold: e.isActive("bold"),
+      italic: e.isActive("italic"),
+      underline: e.isActive("underline"),
+      strike: e.isActive("strike"),
+      highlight: e.isActive("highlight"),
+      h1: e.isActive("heading", { level: 1 }),
+      h2: e.isActive("heading", { level: 2 }),
+      h3: e.isActive("heading", { level: 3 }),
+      bulletList: e.isActive("bulletList"),
+      orderedList: e.isActive("orderedList"),
+      blockquote: e.isActive("blockquote"),
+      codeBlock: e.isActive("codeBlock"),
+      alignLeft: e.isActive({ textAlign: "left" }),
+      alignCenter: e.isActive({ textAlign: "center" }),
+      alignRight: e.isActive({ textAlign: "right" }),
+      alignJustify: e.isActive({ textAlign: "justify" }),
+      link: e.isActive("link"),
     };
   }
 
-  function toggleBold() { editor?.chain().focus().toggleBold().run(); }
-  function toggleItalic() { editor?.chain().focus().toggleItalic().run(); }
-  function toggleUnderline() { editor?.chain().focus().toggleUnderline().run(); }
-  function toggleStrike() { editor?.chain().focus().toggleStrike().run(); }
-  function setHeading(level: 1 | 2 | 3) { editor?.chain().focus().toggleHeading({ level }).run(); }
-  function toggleBulletList() { editor?.chain().focus().toggleBulletList().run(); }
-  function toggleOrderedList() { editor?.chain().focus().toggleOrderedList().run(); }
-  function toggleBlockquote() { editor?.chain().focus().toggleBlockquote().run(); }
-  function toggleCodeBlock() { editor?.chain().focus().toggleCodeBlock().run(); }
-  function setAlign(align: 'left' | 'center' | 'right' | 'justify') {
+  function toggleBold() {
+    editor?.chain().focus().toggleBold().run();
+  }
+  function toggleItalic() {
+    editor?.chain().focus().toggleItalic().run();
+  }
+  function toggleUnderline() {
+    editor?.chain().focus().toggleUnderline().run();
+  }
+  function toggleStrike() {
+    editor?.chain().focus().toggleStrike().run();
+  }
+  function setHeading(level: 1 | 2 | 3) {
+    editor?.chain().focus().toggleHeading({ level }).run();
+  }
+  function toggleBulletList() {
+    editor?.chain().focus().toggleBulletList().run();
+  }
+  function toggleOrderedList() {
+    editor?.chain().focus().toggleOrderedList().run();
+  }
+  function toggleBlockquote() {
+    editor?.chain().focus().toggleBlockquote().run();
+  }
+  function toggleCodeBlock() {
+    editor?.chain().focus().toggleCodeBlock().run();
+  }
+  function setAlign(align: "left" | "center" | "right" | "justify") {
     editor?.chain().focus().setTextAlign(align).run();
   }
   function setLink() {
-    const url = window.prompt('Enter URL:');
+    const url = window.prompt("Enter URL:");
     if (url) editor?.chain().focus().setLink({ href: url }).run();
   }
   function setImage() {
-    const url = window.prompt('Enter image URL:');
+    const url = window.prompt("Enter image URL:");
     if (url) editor?.chain().focus().setImage({ src: url }).run();
   }
-  function insertHorizontalRule() { editor?.chain().focus().setHorizontalRule().run(); }
-  function insertTable() {
-    editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
+  function insertHorizontalRule() {
+    editor?.chain().focus().setHorizontalRule().run();
   }
-  function insertCallout(type: 'info' | 'warning' | 'tip') {
-    editor?.chain().focus().insertContent({
-      type: 'callout',
-      attrs: { type },
-      content: [{ type: 'paragraph', text: 'Tulis catatan penting di sini...' }]
-    }).run();
+  function insertTable() {
+    editor
+      ?.chain()
+      .focus()
+      .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+      .run();
+  }
+  function insertCallout(type: "info" | "warning" | "tip") {
+    editor
+      ?.chain()
+      .focus()
+      .insertContent({
+        type: "callout",
+        attrs: { type },
+        content: [
+          { type: "paragraph", text: "Tulis catatan penting di sini..." },
+        ],
+      })
+      .run();
   }
   function insertSubPage() {
-    const title = window.prompt('Enter Sub-page title:') || 'Untitled Sub-page';
-    editor?.chain().focus().insertContent({
-      type: 'subpage',
-      attrs: { id: `page-${Date.now()}`, title, icon: '📄' }
-    }).run();
+    const title = window.prompt("Enter Sub-page title:") || "Untitled Sub-page";
+    editor
+      ?.chain()
+      .focus()
+      .insertContent({
+        type: "subpage",
+        attrs: { id: `page-${Date.now()}`, title, icon: "📄" },
+      })
+      .run();
   }
 
-  function executeSlashCommand(cmd: typeof slashCommands[0]) {
+  function executeSlashCommand(cmd: (typeof slashCommands)[0]) {
     if (!editor) return;
     const { from } = editor.state.selection;
     const deleteFrom = from - (slashSearch.length + 1);
-    editor.chain().focus().deleteRange({ from: Math.max(0, deleteFrom), to: from }).run();
+    editor
+      .chain()
+      .focus()
+      .deleteRange({ from: Math.max(0, deleteFrom), to: from })
+      .run();
     cmd.action();
     showSlashMenu = false;
   }
-  function addColumnBefore() { editor?.chain().focus().addColumnBefore().run(); }
-  function addColumnAfter() { editor?.chain().focus().addColumnAfter().run(); }
-  function deleteColumn() { editor?.chain().focus().deleteColumn().run(); }
-  function addRowBefore() { editor?.chain().focus().addRowBefore().run(); }
-  function addRowAfter() { editor?.chain().focus().addRowAfter().run(); }
-  function deleteRow() { editor?.chain().focus().deleteRow().run(); }
-  function deleteTable() { editor?.chain().focus().deleteTable().run(); }
-  function undo() { editor?.chain().focus().undo().run(); }
-  function redo() { editor?.chain().focus().redo().run(); }
+  function addColumnBefore() {
+    editor?.chain().focus().addColumnBefore().run();
+  }
+  function addColumnAfter() {
+    editor?.chain().focus().addColumnAfter().run();
+  }
+  function deleteColumn() {
+    editor?.chain().focus().deleteColumn().run();
+  }
+  function addRowBefore() {
+    editor?.chain().focus().addRowBefore().run();
+  }
+  function addRowAfter() {
+    editor?.chain().focus().addRowAfter().run();
+  }
+  function deleteRow() {
+    editor?.chain().focus().deleteRow().run();
+  }
+  function deleteTable() {
+    editor?.chain().focus().deleteTable().run();
+  }
+  function undo() {
+    editor?.chain().focus().undo().run();
+  }
+  function redo() {
+    editor?.chain().focus().redo().run();
+  }
 
   // ---------------------------------------------------------------------------
   // Lifecycle
@@ -423,12 +593,12 @@
         StarterKit,
         Placeholder.configure({ placeholder }),
         Underline,
-        TextAlign.configure({ types: ['heading', 'paragraph'] }),
+        TextAlign.configure({ types: ["heading", "paragraph"] }),
         Link.configure({ openOnClick: false }),
         CustomImage.configure({
           inline: false,
           HTMLAttributes: {
-            class: 'rounded-lg mx-auto block max-w-full h-auto cursor-pointer',
+            class: "rounded-lg mx-auto block max-w-full h-auto cursor-pointer",
           },
         }),
         Highlight.configure({ multicolor: true }),
@@ -439,10 +609,10 @@
         TableHeader,
         BubbleMenu.configure({
           element: bubbleMenuEl!,
-          pluginKey: 'bubbleMenu',
+          pluginKey: "bubbleMenu",
           shouldShow: ({ editor: e }) =>
             e.isEditable &&
-            !e.isActive('table') &&
+            !e.isActive("table") &&
             e.view.state.selection.content().size > 0,
         }),
         CustomYoutube,
@@ -461,7 +631,12 @@
         // Detect slash command trigger
         const { state } = e;
         const { from } = state.selection;
-        const textBefore = state.doc.textBetween(Math.max(0, from - 20), from, '\n', '\0');
+        const textBefore = state.doc.textBetween(
+          Math.max(0, from - 20),
+          from,
+          "\n",
+          "\0",
+        );
         const slashMatch = textBefore.match(/\/([a-zA-Z0-9]*)$/);
 
         if (slashMatch) {
@@ -473,7 +648,13 @@
             if (parentRect) {
               slashMenuPos = {
                 top: coords.bottom - parentRect.top + 8,
-                left: Math.max(16, Math.min(coords.left - parentRect.left, parentRect.width - 260))
+                left: Math.max(
+                  16,
+                  Math.min(
+                    coords.left - parentRect.left,
+                    parentRect.width - 260,
+                  ),
+                ),
               };
             }
           } catch {
@@ -489,7 +670,8 @@
       },
       editorProps: {
         attributes: {
-          class: 'prose prose-sm max-w-none focus:outline-none',
+          class:
+            "rich-text-content prose prose-sm max-w-none focus:outline-none",
         },
         handleDOMEvents: {
           paste: (_view, event) => {
@@ -497,7 +679,7 @@
             if (!items) return false;
             const imageFiles: File[] = [];
             for (let i = 0; i < items.length; i++) {
-              if (items[i].type.startsWith('image/')) {
+              if (items[i].type.startsWith("image/")) {
                 const file = items[i].getAsFile();
                 if (file) imageFiles.push(file);
               }
@@ -513,7 +695,7 @@
             const files = event.dataTransfer?.files;
             if (!files?.length) return false;
             const imageFiles = Array.from(files).filter((f) =>
-              f.type.startsWith('image/')
+              f.type.startsWith("image/"),
             );
             if (imageFiles.length) {
               event.preventDefault();
@@ -523,10 +705,12 @@
             return false;
           },
           click: (_view, event) => {
-            const target = (event.target as HTMLElement)?.closest('.subpage-block') as HTMLElement | null;
+            const target = (event.target as HTMLElement)?.closest(
+              ".subpage-block",
+            ) as HTMLElement | null;
             if (target) {
-              const id = target.getAttribute('data-page-id') || '';
-              const title = target.getAttribute('data-page-title') || '';
+              const id = target.getAttribute("data-page-id") || "";
+              const title = target.getAttribute("data-page-title") || "";
               onOpenSubPage?.({ id, title });
               return true;
             }
@@ -534,30 +718,32 @@
           },
           keydown: (_view, event) => {
             if (showSlashMenu) {
-              if (event.key === 'ArrowDown') {
+              if (event.key === "ArrowDown") {
                 event.preventDefault();
                 slashIndex = (slashIndex + 1) % slashFilteredCommands.length;
                 return true;
               }
-              if (event.key === 'ArrowUp') {
+              if (event.key === "ArrowUp") {
                 event.preventDefault();
-                slashIndex = (slashIndex - 1 + slashFilteredCommands.length) % slashFilteredCommands.length;
+                slashIndex =
+                  (slashIndex - 1 + slashFilteredCommands.length) %
+                  slashFilteredCommands.length;
                 return true;
               }
-              if (event.key === 'Enter') {
+              if (event.key === "Enter") {
                 event.preventDefault();
                 const cmd = slashFilteredCommands[slashIndex];
                 if (cmd) executeSlashCommand(cmd);
                 return true;
               }
-              if (event.key === 'Escape') {
+              if (event.key === "Escape") {
                 event.preventDefault();
                 showSlashMenu = false;
                 return true;
               }
             }
             return false;
-          }
+          },
         },
       },
     });
@@ -570,14 +756,16 @@
 
 <div
   class={cn(
-    'rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-xs overflow-hidden transition-colors',
-    className
+    "rich-text-editor group rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-sm overflow-hidden transition-[border-color,box-shadow] focus-within:border-[var(--ui-ring)] focus-within:ring-2 focus-within:ring-[var(--ui-ring)]/15",
+    className,
   )}
 >
   <!-- Fixed Top Toolbar (only shown in 'classic' mode) -->
-  {#if editable && mode === 'classic'}
+  {#if editable && mode === "classic"}
     <div
-      class="flex flex-wrap items-center gap-1 px-3 py-2 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/25 backdrop-blur-xs"
+      class="rich-text-toolbar sticky top-0 z-20 flex min-h-12 items-center gap-1 overflow-x-auto border-b border-[var(--ui-border)] bg-[var(--ui-card)]/95 px-2.5 py-2 backdrop-blur-md sm:px-3"
+      role="toolbar"
+      aria-label="Text formatting"
     >
       <div class="flex items-center gap-0.5">
         <Button
@@ -607,10 +795,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.h1
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={() => setHeading(1)}
           title="Heading 1"
@@ -621,10 +809,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.h2
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={() => setHeading(2)}
           title="Heading 2"
@@ -635,10 +823,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.h3
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={() => setHeading(3)}
           title="Heading 3"
@@ -654,10 +842,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.bold
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={toggleBold}
           title="Bold (Ctrl+B)"
@@ -668,10 +856,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.italic
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={toggleItalic}
           title="Italic (Ctrl+I)"
@@ -682,10 +870,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.underline
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={toggleUnderline}
           title="Underline (Ctrl+U)"
@@ -696,10 +884,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.strike
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={toggleStrike}
           title="Strikethrough"
@@ -710,12 +898,12 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.highlight
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
-          onclick={() => toggleHighlight('#fef08a')}
+          onclick={() => toggleHighlight("#fef08a")}
           title="Highlight text"
         >
           <Highlighter class="size-3.5" />
@@ -728,10 +916,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.bulletList
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={toggleBulletList}
           title="Bullet list"
@@ -742,10 +930,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.orderedList
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={toggleOrderedList}
           title="Numbered list"
@@ -756,10 +944,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.blockquote
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={toggleBlockquote}
           title="Quote"
@@ -770,10 +958,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.codeBlock
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={toggleCodeBlock}
           title="Code block"
@@ -789,12 +977,12 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.alignLeft
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
-          onclick={() => setAlign('left')}
+          onclick={() => setAlign("left")}
           title="Align left"
         >
           <AlignLeft class="size-3.5" />
@@ -803,12 +991,12 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.alignCenter
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
-          onclick={() => setAlign('center')}
+          onclick={() => setAlign("center")}
           title="Align center"
         >
           <AlignCenter class="size-3.5" />
@@ -817,12 +1005,12 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.alignRight
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
-          onclick={() => setAlign('right')}
+          onclick={() => setAlign("right")}
           title="Align right"
         >
           <AlignRight class="size-3.5" />
@@ -831,12 +1019,12 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.alignJustify
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
-          onclick={() => setAlign('justify')}
+          onclick={() => setAlign("justify")}
           title="Align justify"
         >
           <AlignJustify class="size-3.5" />
@@ -850,10 +1038,10 @@
           variant="ghost"
           size="sm"
           class={cn(
-            'size-7.5 p-0 rounded-md transition-colors',
+            "size-7.5 p-0 rounded-md transition-colors",
             isActive.link
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-              : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
           )}
           onclick={setLink}
           title="Insert link"
@@ -898,17 +1086,17 @@
         </Button>
       </div>
       {#if uploadingCount > 0}
-        <span class="ml-auto text-xs text-[var(--ui-muted-foreground)] font-medium">
-          Uploading {uploadingCount} image{uploadingCount > 1 ? 's' : ''}...
+        <span
+          class="ml-auto text-xs text-[var(--ui-muted-foreground)] font-medium"
+        >
+          Uploading {uploadingCount} image{uploadingCount > 1 ? "s" : ""}...
         </span>
       {/if}
     </div>
   {/if}
-
-  <!-- Editor -->
   <div
     bind:this={editorEl}
-    class="prose prose-sm max-w-none p-4 focus:outline-none"
+    class="rich-text-content prose prose-sm max-w-none p-5 sm:p-7 focus:outline-none"
     style="min-height: {height}px;"
   ></div>
 
@@ -920,7 +1108,9 @@
       class="absolute z-50 w-64 max-h-72 overflow-y-auto rounded-xl border border-[var(--ui-border)] bg-[var(--ui-popover)] p-1.5 shadow-2xl text-[var(--ui-popover-foreground)] animate-in fade-in-50 zoom-in-95"
       style="top: {slashMenuPos.top}px; left: {slashMenuPos.left}px;"
     >
-      <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--ui-muted-foreground)]">
+      <div
+        class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--ui-muted-foreground)]"
+      >
         Basic blocks
       </div>
       {#each slashFilteredCommands as cmd, i (cmd.title)}
@@ -928,18 +1118,26 @@
         <button
           type="button"
           class={cn(
-            'flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-left transition-colors cursor-pointer',
-            i === slashIndex ? 'bg-[var(--ui-accent)] text-[var(--ui-accent-foreground)]' : 'hover:bg-[var(--ui-secondary)]'
+            "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-left transition-colors cursor-pointer",
+            i === slashIndex
+              ? "bg-[var(--ui-accent)] text-[var(--ui-accent-foreground)]"
+              : "hover:bg-[var(--ui-secondary)]",
           )}
           onmouseenter={() => (slashIndex = i)}
           onclick={() => executeSlashCommand(cmd)}
         >
-          <div class="flex size-7 items-center justify-center rounded-md border border-[var(--ui-border)] bg-[var(--ui-card)] shrink-0">
+          <div
+            class="flex size-7 items-center justify-center rounded-md border border-[var(--ui-border)] bg-[var(--ui-card)] shrink-0"
+          >
             <Icon class="size-4 text-[var(--ui-foreground)]" />
           </div>
           <div class="flex flex-col min-w-0">
-            <span class="text-xs font-semibold text-[var(--ui-foreground)]">{cmd.title}</span>
-            <span class="text-[10px] text-[var(--ui-muted-foreground)] truncate">{cmd.desc}</span>
+            <span class="text-xs font-semibold text-[var(--ui-foreground)]"
+              >{cmd.title}</span
+            >
+            <span class="text-[10px] text-[var(--ui-muted-foreground)] truncate"
+              >{cmd.desc}</span
+            >
           </div>
         </button>
       {/each}
@@ -956,10 +1154,10 @@
         variant="ghost"
         size="sm"
         class={cn(
-          'size-7 p-0 rounded-md transition-colors',
-          editor.isActive('bold')
-            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          "size-7 p-0 rounded-md transition-colors",
+          editor.isActive("bold")
+            ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+            : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
         )}
         onclick={toggleBold}
       >
@@ -969,10 +1167,10 @@
         variant="ghost"
         size="sm"
         class={cn(
-          'size-7 p-0 rounded-md transition-colors',
-          editor.isActive('italic')
-            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          "size-7 p-0 rounded-md transition-colors",
+          editor.isActive("italic")
+            ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+            : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
         )}
         onclick={toggleItalic}
       >
@@ -982,10 +1180,10 @@
         variant="ghost"
         size="sm"
         class={cn(
-          'size-7 p-0 rounded-md transition-colors',
-          editor.isActive('underline')
-            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          "size-7 p-0 rounded-md transition-colors",
+          editor.isActive("underline")
+            ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+            : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
         )}
         onclick={toggleUnderline}
       >
@@ -995,10 +1193,10 @@
         variant="ghost"
         size="sm"
         class={cn(
-          'size-7 p-0 rounded-md transition-colors',
-          editor.isActive('strike')
-            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          "size-7 p-0 rounded-md transition-colors",
+          editor.isActive("strike")
+            ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+            : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
         )}
         onclick={toggleStrike}
       >
@@ -1008,12 +1206,12 @@
         variant="ghost"
         size="sm"
         class={cn(
-          'size-7 p-0 rounded-md transition-colors',
-          editor.isActive('highlight')
-            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          "size-7 p-0 rounded-md transition-colors",
+          editor.isActive("highlight")
+            ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+            : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
         )}
-        onclick={() => toggleHighlight('#fef08a')}
+        onclick={() => toggleHighlight("#fef08a")}
       >
         <Highlighter class="size-3.5" />
       </Button>
@@ -1021,10 +1219,10 @@
         variant="ghost"
         size="sm"
         class={cn(
-          'size-7 p-0 rounded-md transition-colors',
-          editor.isActive('link')
-            ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs'
-            : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+          "size-7 p-0 rounded-md transition-colors",
+          editor.isActive("link")
+            ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)] font-bold shadow-xs"
+            : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
         )}
         onclick={setLink}
       >
@@ -1179,7 +1377,7 @@
     background: color-mix(in srgb, var(--ui-primary) 10%, transparent);
   }
   :global(.tiptap .selectedCell::after) {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.05);
@@ -1219,5 +1417,181 @@
     background-color: #fef08a;
     padding: 0.1em 0.2em;
     border-radius: 2px;
+  }
+
+  /* Rich-text surface contract: survives host Tailwind scanning boundaries. */
+  :global(.rich-text-editor) {
+    --rich-text-content-width: 72ch;
+    color: var(--ui-foreground);
+  }
+  :global(.rich-text-toolbar) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--ui-border) transparent;
+  }
+  :global(.rich-text-toolbar > div) {
+    flex-shrink: 0;
+  }
+  :global(.rich-text-content) {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--ui-card);
+  }
+  :global(.rich-text-content .tiptap) {
+    max-width: var(--rich-text-content-width);
+    margin: 0 auto;
+  }
+  :global(.rich-text-content .tiptap ::selection) {
+    background: color-mix(in oklch, var(--ui-primary) 24%, transparent);
+  }
+  :global(.rich-text-content .tiptap p.is-editor-empty:first-child::before) {
+    color: color-mix(in oklch, var(--ui-muted-foreground) 80%, transparent);
+  }
+  :global(.rich-text-content .tiptap:focus) {
+    outline: none;
+  }
+
+  /* Polished document surface */
+  :global(.rich-text-content .tiptap) {
+    color: var(--ui-foreground);
+    caret-color: var(--ui-primary);
+    line-height: 1.75;
+    font-size: 0.9375rem;
+  }
+  :global(.rich-text-content .tiptap > :first-child) {
+    margin-top: 0;
+  }
+  :global(.rich-text-content .tiptap > :last-child) {
+    margin-bottom: 0;
+  }
+  :global(.tiptap p) {
+    margin: 0.65rem 0;
+  }
+  :global(.tiptap h1),
+  :global(.tiptap h2),
+  :global(.tiptap h3) {
+    color: var(--ui-foreground);
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+  }
+  :global(.tiptap h1) {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 1.75rem 0 0.75rem;
+  }
+  :global(.tiptap h2) {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    margin: 1.5rem 0 0.65rem;
+  }
+  :global(.tiptap h3) {
+    font-size: 1.125rem;
+    margin: 1.25rem 0 0.5rem;
+  }
+  :global(.tiptap strong) {
+    font-weight: 700;
+    color: var(--ui-foreground);
+  }
+  :global(.tiptap a:not(.image-link)) {
+    color: var(--ui-primary);
+    text-decoration: underline;
+    text-decoration-color: color-mix(
+      in oklch,
+      var(--ui-primary) 35%,
+      transparent
+    );
+    text-underline-offset: 3px;
+  }
+  :global(.tiptap a:not(.image-link):hover) {
+    text-decoration-color: var(--ui-primary);
+  }
+  :global(.tiptap ul),
+  :global(.tiptap ol) {
+    margin: 0.75rem 0;
+  }
+  :global(.tiptap li + li) {
+    margin-top: 0.25rem;
+  }
+  :global(.tiptap blockquote) {
+    background: color-mix(in oklch, var(--ui-primary) 5%, transparent);
+    border-left-width: 3px;
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+  }
+  :global(.tiptap pre) {
+    border: 1px solid var(--ui-border);
+    background: var(--ui-secondary);
+    color: var(--ui-foreground);
+    box-shadow: inset 0 1px 0 color-mix(in oklch, white 5%, transparent);
+    overflow-x: auto;
+  }
+  :global(.tiptap code:not(pre code)) {
+    color: var(--ui-primary);
+    border: 1px solid color-mix(in oklch, var(--ui-primary) 15%, transparent);
+  }
+  :global(.tiptap table) {
+    display: block;
+    overflow-x: auto;
+    border: 1px solid var(--ui-border);
+    border-radius: 0.625rem;
+    background: var(--ui-card);
+  }
+  :global(.tiptap th),
+  :global(.tiptap td) {
+    min-width: 7rem;
+    border-color: var(--ui-border);
+    padding: 0.625rem 0.75rem;
+  }
+  :global(.tiptap th) {
+    color: var(--ui-foreground);
+    background: var(--ui-secondary);
+    font-size: 0.8125rem;
+  }
+  :global(.tiptap td) {
+    color: var(--ui-foreground);
+  }
+  :global(.tiptap .selectedCell) {
+    background: color-mix(in oklch, var(--ui-primary) 12%, transparent);
+  }
+  :global(.tiptap .selectedCell::after) {
+    background: color-mix(in oklch, var(--ui-primary) 10%, transparent);
+  }
+  :global(.tiptap img) {
+    border: 1px solid var(--ui-border);
+    box-shadow: 0 8px 24px
+      color-mix(in oklch, var(--ui-foreground) 10%, transparent);
+    transition: box-shadow 150ms ease-out;
+  }
+  :global(.tiptap img:hover) {
+    box-shadow: 0 12px 30px
+      color-mix(in oklch, var(--ui-foreground) 16%, transparent);
+  }
+  :global(.tiptap .callout-box) {
+    box-shadow: 0 1px 2px
+      color-mix(in oklch, var(--ui-foreground) 6%, transparent);
+  }
+  :global(.tiptap hr) {
+    border-top-color: var(--ui-border);
+    margin: 1.5rem 0;
+  }
+  :global(.tiptap:focus-visible) {
+    outline: none;
+  }
+
+  @media (max-width: 640px) {
+    :global(.rich-text-toolbar) {
+      scrollbar-width: none;
+    }
+    :global(.rich-text-toolbar::-webkit-scrollbar) {
+      display: none;
+    }
+    :global(.rich-text-content .tiptap) {
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.rich-text-editor),
+    :global(.tiptap img) {
+      transition: none;
+    }
   }
 </style>
