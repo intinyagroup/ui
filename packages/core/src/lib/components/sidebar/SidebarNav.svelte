@@ -12,8 +12,8 @@
     defaultExpanded = [],
     persistKey,
     title = "Navigation",
+    onTitleClick,
     class: className,
-    onNavigate,
   }: {
     items?: SidebarNavItemData[];
     activeId?: string;
@@ -21,8 +21,8 @@
     defaultExpanded?: string[];
     persistKey?: string;
     title?: string;
+    onTitleClick?: () => void;
     class?: string;
-    onNavigate?: (item: SidebarNavItemData) => void;
   } = $props();
 
   let expandedIds = $state(new Set(defaultExpanded));
@@ -77,7 +77,18 @@
     )}
   >
     {#if !collapsed}
-      <span class="truncate text-sm font-semibold">{title}</span>
+      {#if onTitleClick}
+        <button
+          type="button"
+          onclick={onTitleClick}
+          class="min-w-0 flex-1 truncate text-left text-sm font-semibold hover:text-primary transition-colors"
+          >{title}</button
+        >
+      {:else}
+        <span class="min-w-0 flex-1 truncate text-sm font-semibold"
+          >{title}</span
+        >
+      {/if}
     {/if}
     <button
       type="button"
