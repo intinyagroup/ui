@@ -27,8 +27,13 @@
     format,
   } from "date-fns";
   import { id as localeId, enUS as localeEn } from "date-fns/locale";
+  import {
+    expandRecurringEvents,
+    type CalendarRecurrence,
+    type CalendarResource,
+  } from "./recurrence";
 
-  export type CalendarView = "month" | "week" | "day";
+  export type CalendarView = "month" | "week" | "day" | "resourceTimeline";
 
   export type CalendarEvent = {
     id: string;
@@ -38,6 +43,10 @@
     color?: string;
     description?: string;
     allDay?: boolean;
+    /** Optional minimal recurrence. See CalendarRecurrence for supported semantics. */
+    recurrence?: CalendarRecurrence;
+    /** Resource row used by resourceTimeline view. */
+    resourceId?: string;
   };
 
   let {
@@ -48,6 +57,9 @@
     timeZone,
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday
     enableEventModal = true,
+    resources = [],
+    resourceTimelineStartHour = 0,
+    resourceTimelineEndHour = 24,
     class: className,
     onEventClick,
     onDateClick,
@@ -62,6 +74,9 @@
     timeZone?: string;
     firstDayOfWeek?: number;
     enableEventModal?: boolean;
+    resources?: CalendarResource[];
+    resourceTimelineStartHour?: number;
+    resourceTimelineEndHour?: number;
     class?: string;
     onEventClick?: (event: CalendarEvent) => void;
     onDateClick?: (date: Date) => void;
@@ -300,6 +315,78 @@
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
   }
+  const visibleRange = $derived.by(() => {
+    if (view === "month") {
+      const start = startOfWeek(startOfMonth(currentDate), { weekStartsOn });
+      const end = endOfWeek(endOfMonth(currentDate), { weekStartsOn });
+      return { start, end };
+    }
+    if (view === "week") {
+      return {
+        start: startOfWeek(currentDate, { weekStartsOn }),
+        end: endOfWeek(currentDate, { weekStartsOn }),
+      };
+    }
+    return {
+      start: new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+      ),
+      end: new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate() + 1,
+      ),
+    };
+  });
+
+  // Recurrence expansion stays viewport-bounded, preserving existing event APIs.
+  const displayEvents = $derived(
+    expandRecurringEvents(events, visibleRange.start, visibleRange.end),
+  );
+
+  function getResourceEvents(resourceId: string): CalendarEvent[] {
+    return displayEvents.filter((event) => {
+      if (event.resourceId !== resourceId) return false;
+      const start = new Date(event.start);
+      const end = new Date(event.end);
+      const dayStart = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+      );
+      const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
+      return end >= dayStart && start <= dayEnd;
+    });
+  }
+
+  function timelinePosition(date: Date): number {
+    const start = Math.min(23, Math.max(0, resourceTimelineStartHour));
+    const end = Math.max(start + 1, Math.min(24, resourceTimelineEndHour));
+    const total = (end - start) * 60;
+    const local = getTimeInZone(date).hours * 60 + getTimeInZone(date).minutes;
+    return ((local - start * 60) / total) * 100;
+  }
+
+  function timelineWidth(event: CalendarEvent): number {
+    const start = Math.min(23, Math.max(0, resourceTimelineStartHour));
+    const end = Math.max(start + 1, Math.min(24, resourceTimelineEndHour));
+    const total = (end - start) * 60;
+    const begin = getTimeInZone(new Date(event.start));
+    const finish = getTimeInZone(new Date(event.end));
+    const duration = Math.max(
+      15,
+      finish.hours * 60 + finish.minutes - (begin.hours * 60 + begin.minutes),
+    );
+    return (duration / total) * 100;
+  }
+
+  const timelineHours = $derived.by(() => {
+    const start = Math.min(23, Math.max(0, resourceTimelineStartHour));
+    const end = Math.max(start + 1, Math.min(24, resourceTimelineEndHour));
+    return Array.from({ length: end - start }, (_, index) => start + index);
+  });
 
   type LayoutEvent = CalendarEvent & {
     colIndex: number;
@@ -421,9 +508,8 @@
   });
 
   function getEventsForDay(d: Date): CalendarEvent[] {
-    return events.filter((ev) => {
+    return displayEvents.filter((ev) => {
       if (isSameDay(new Date(ev.start), d)) return true;
-      // Multi-day spanning: check if date falls between start and end
       const s = new Date(ev.start);
       const e = new Date(ev.end);
       return d >= s && d <= e;
@@ -431,13 +517,13 @@
   }
 
   function getTimedEventsForDay(d: Date): CalendarEvent[] {
-    return events.filter(
+    return displayEvents.filter(
       (ev) => !isMultiDayOrAllDay(ev) && isSameDay(new Date(ev.start), d),
     );
   }
 
   function getAllDayEventsForWeek(days: Date[]): CalendarEvent[] {
-    return events.filter((ev) => {
+    return displayEvents.filter((ev) => {
       if (!isMultiDayOrAllDay(ev)) return false;
       const s = new Date(ev.start);
       const e = new Date(ev.end);
@@ -625,6 +711,19 @@
         >
           <Clock class="size-4 sm:hidden" />
           <span class="hidden sm:inline">Day</span>
+        </button>
+        <button
+          type="button"
+          onclick={() => (view = "resourceTimeline")}
+          class={cn(
+            "rounded-md px-2 sm:px-3 py-1 text-xs font-semibold transition-colors cursor-pointer",
+            view === "resourceTimeline"
+              ? "bg-[var(--ui-card)] text-[var(--ui-foreground)] shadow-xs"
+              : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)]",
+          )}
+        >
+          <span class="hidden sm:inline">Resources</span>
+          <span class="sm:hidden">Rows</span>
         </button>
       </div>
 
@@ -957,7 +1056,7 @@
         Swipe to see more days
       </div>
     {/if}
-  {:else}
+  {:else if view === "day"}
     <!-- DAY VIEW -->
     <div
       class="p-3 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 flex items-center justify-between"
@@ -1098,8 +1197,106 @@
         {/if}
       </div>
     </div>
+  {:else if view === "resourceTimeline"}
+    <div
+      class="border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 px-4 py-2 text-xs text-[var(--ui-muted-foreground)]"
+    >
+      Resource timeline · {format(currentDate, "dd MMMM yyyy", {
+        locale: activeDateFnsLocale,
+      })}
+    </div>
+    {#if resources.length === 0}
+      <div class="p-8 text-center text-sm text-[var(--ui-muted-foreground)]">
+        Add resources to render warehouse, user, or room schedules.
+      </div>
+    {:else}
+      <div class="overflow-x-auto">
+        <div class="min-w-[760px]">
+          <div
+            class="grid grid-cols-[180px_1fr] border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-[10px] font-semibold text-[var(--ui-muted-foreground)]"
+          >
+            <div class="border-r border-[var(--ui-border)] px-3 py-2">
+              Resource
+            </div>
+            <div
+              class="relative grid"
+              style="grid-template-columns: repeat({timelineHours.length}, minmax(0, 1fr));"
+            >
+              {#each timelineHours as hour}
+                <div
+                  class="border-r border-[var(--ui-border)] px-1 py-2 text-center"
+                >
+                  {String(hour).padStart(2, "0")}:00
+                </div>
+              {/each}
+            </div>
+          </div>
+          {#each resources as resource (resource.id)}
+            {@const resourceEvents = getResourceEvents(resource.id)}
+            <div
+              class="grid min-h-16 grid-cols-[180px_1fr] border-b border-[var(--ui-border)]"
+            >
+              <div class="border-r border-[var(--ui-border)] px-3 py-3">
+                <div class="text-xs font-semibold text-[var(--ui-foreground)]">
+                  {resource.label}
+                </div>
+                {#if resource.description}<div
+                    class="mt-0.5 truncate text-[10px] text-[var(--ui-muted-foreground)]"
+                  >
+                    {resource.description}
+                  </div>{/if}
+              </div>
+              <div
+                role="button"
+                tabindex="0"
+                class="relative min-h-16 bg-[var(--ui-card)]"
+                onclick={() => onDateClick?.(currentDate)}
+                onkeydown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    onDateClick?.(currentDate);
+                  }
+                }}
+              >
+                <div
+                  class="pointer-events-none absolute inset-0 grid"
+                  style="grid-template-columns: repeat({timelineHours.length}, minmax(0, 1fr));"
+                >
+                  {#each timelineHours as _hour}<div
+                      class="border-r border-[var(--ui-border)]/50"
+                    ></div>{/each}
+                </div>
+                {#each resourceEvents as ev (ev.id)}
+                  <button
+                    type="button"
+                    class="absolute top-2 h-12 min-w-4 truncate rounded px-2 text-left text-[10px] font-semibold text-white shadow-xs hover:opacity-90"
+                    style="left: {Math.max(
+                      0,
+                      timelinePosition(new Date(ev.start)),
+                    )}%; width: {Math.max(
+                      2,
+                      Math.min(100, timelineWidth(ev)),
+                    )}%; background-color: {ev.color ||
+                      resource.color ||
+                      'var(--ui-primary)'};"
+                    onclick={(event) => {
+                      event.stopPropagation();
+                      onEventClick?.(ev);
+                    }}
+                  >
+                    <span>{ev.title}</span>
+                    <span class="ml-1 font-normal opacity-80"
+                      >{formatTime(ev.start)}</span
+                    >
+                  </button>
+                {/each}
+              </div>
+            </div>
+          {/each}
+        </div>
+      </div>
+    {/if}
   {/if}
-
   <!-- Quick Event Creation Modal -->
   {#if modalOpen}
     <!-- svelte-ignore a11y_no_static_element_interactions -->

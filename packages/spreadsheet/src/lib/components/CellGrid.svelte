@@ -1,9 +1,23 @@
 <script lang="ts">
-  import { createVirtualizer } from '@tanstack/svelte-virtual';
-  import { colIndexToLabel, getCellId, parseCellId, clamp } from '../cell-utils.js';
-  import { formatCellDisplay, coerceValue, type CellMap } from '../cell-model.js';
-  import { isCellInRange, isCellInRanges, isCellActive, type CellRange } from '../selection-store.js';
-  import CellEditor from './CellEditor.svelte';
+  import { createVirtualizer } from "@tanstack/svelte-virtual";
+  import {
+    colIndexToLabel,
+    getCellId,
+    parseCellId,
+    clamp,
+  } from "../cell-utils.js";
+  import {
+    formatCellDisplay,
+    coerceValue,
+    type CellMap,
+  } from "../cell-model.js";
+  import {
+    isCellInRange,
+    isCellInRanges,
+    isCellActive,
+    type CellRange,
+  } from "../selection-store.js";
+  import CellEditor from "./CellEditor.svelte";
 
   let {
     cells,
@@ -54,12 +68,20 @@
     return rowHeights.get(row) ?? defaultRowHeight;
   }
 
+  const columnSizes = $derived(
+    Array.from({ length: colCount }, (_, i) => getColWidth(i)),
+  );
+  const rowSizes = $derived(
+    Array.from({ length: rowCount }, (_, i) => getRowHeight(i)),
+  );
+  const columnIndexes = $derived(Array.from({ length: colCount }, (_, i) => i));
+
   const totalWidth = $derived(
-    Array.from({ length: colCount }, (_, i) => getColWidth(i)).reduce((a, b) => a + b, 0)
+    columnSizes.reduce((total, width) => total + width, 0),
   );
 
   const totalHeight = $derived(
-    Array.from({ length: rowCount }, (_, i) => getRowHeight(i)).reduce((a, b) => a + b, 0)
+    rowSizes.reduce((total, height) => total + height, 0),
   );
 
   const rowVirtualizer = $derived(
@@ -70,7 +92,7 @@
           estimateSize: (index) => getRowHeight(index),
           overscan: 5,
         })
-      : null
+      : null,
   );
 
   function handleMouseDown(row: number, col: number, e: MouseEvent) {
@@ -108,32 +130,62 @@
     if (editingCellId) return;
 
     switch (key) {
-      case 'ArrowDown': e.preventDefault(); onSelectCell(clamp(activeCell.row + 1, 0, rowCount - 1), activeCell.col); break;
-      case 'ArrowUp': e.preventDefault(); onSelectCell(clamp(activeCell.row - 1, 0, rowCount - 1), activeCell.col); break;
-      case 'ArrowRight': e.preventDefault(); onSelectCell(activeCell.row, clamp(activeCell.col + 1, 0, colCount - 1)); break;
-      case 'ArrowLeft': e.preventDefault(); onSelectCell(activeCell.row, clamp(activeCell.col - 1, 0, colCount - 1)); break;
-      case 'Tab':
+      case "ArrowDown":
+        e.preventDefault();
+        onSelectCell(
+          clamp(activeCell.row + 1, 0, rowCount - 1),
+          activeCell.col,
+        );
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        onSelectCell(
+          clamp(activeCell.row - 1, 0, rowCount - 1),
+          activeCell.col,
+        );
+        break;
+      case "ArrowRight":
+        e.preventDefault();
+        onSelectCell(
+          activeCell.row,
+          clamp(activeCell.col + 1, 0, colCount - 1),
+        );
+        break;
+      case "ArrowLeft":
+        e.preventDefault();
+        onSelectCell(
+          activeCell.row,
+          clamp(activeCell.col - 1, 0, colCount - 1),
+        );
+        break;
+      case "Tab":
         e.preventDefault();
         if (isCtrl) {
-          onSelectCell(activeCell.row, clamp(activeCell.col - 1, 0, colCount - 1));
+          onSelectCell(
+            activeCell.row,
+            clamp(activeCell.col - 1, 0, colCount - 1),
+          );
         } else {
-          onSelectCell(activeCell.row, clamp(activeCell.col + 1, 0, colCount - 1));
+          onSelectCell(
+            activeCell.row,
+            clamp(activeCell.col + 1, 0, colCount - 1),
+          );
         }
         break;
-      case 'Enter':
+      case "Enter":
         e.preventDefault();
         onEditCell(activeCell.row, activeCell.col);
         break;
-      case 'F2':
+      case "F2":
         e.preventDefault();
         onEditCell(activeCell.row, activeCell.col);
         break;
-      case 'Delete':
-      case 'Backspace':
+      case "Delete":
+      case "Backspace":
         e.preventDefault();
-        onCommitEdit('');
+        onCommitEdit("");
         break;
-      case 'Escape':
+      case "Escape":
         onCancelEdit();
         break;
     }
@@ -152,7 +204,10 @@
   aria-label="Spreadsheet"
 >
   {#if rowVirtualizer}
-    <div style="height: {totalHeight}px; width: {totalWidth}px;" class="relative">
+    <div
+      style="height: {totalHeight}px; width: {totalWidth}px;"
+      class="relative"
+    >
       {#each rowVirtualizer.getVirtualItems() as virtualRow (virtualRow.key)}
         {@const row = virtualRow.index}
         <div
@@ -160,13 +215,15 @@
           style="top: {virtualRow.start}px; height: {virtualRow.size}px; width: {totalWidth}px;"
         >
           <!-- Row header -->
-          <div class="flex items-center justify-center border-r border-[var(--ui-border)] bg-[var(--ui-secondary)]/50 text-[10px] font-medium text-[var(--ui-muted-foreground)] shrink-0"
-            style="width: 48px; height: {virtualRow.size}px;">
+          <div
+            class="flex items-center justify-center border-r border-[var(--ui-border)] bg-[var(--ui-secondary)]/50 text-[10px] font-medium text-[var(--ui-muted-foreground)] shrink-0"
+            style="width: 48px; height: {virtualRow.size}px;"
+          >
             {row + 1}
           </div>
 
           <!-- Cells -->
-          {#each Array.from({ length: colCount }, (_, i) => i) as col (col)}
+          {#each columnIndexes as col (col)}
             {@const cellId = getCellId(row, col)}
             {@const cell = cells.get(cellId)}
             {@const isActive = isCellActive(row, col, activeCell)}
@@ -181,20 +238,31 @@
                 {isSelected && !isActive ? 'bg-[var(--ui-primary)]/8' : ''}
                 {cell?.style?.bold ? 'font-bold' : ''}
                 {cell?.style?.italic ? 'italic' : ''}
-                {cell?.style?.align === 'right' ? 'text-right' : cell?.style?.align === 'center' ? 'text-center' : 'text-left'}"
-              style="width: {colWidth}px; min-width: {colWidth}px; {cell?.style?.textColor ? `color: ${cell.style.textColor}` : ''} {cell?.style?.bgColor ? `background-color: ${cell.style.bgColor}` : ''}"
+                {cell?.style?.align === 'right'
+                ? 'text-right'
+                : cell?.style?.align === 'center'
+                  ? 'text-center'
+                  : 'text-left'}"
+              style="width: {colWidth}px; min-width: {colWidth}px; {cell?.style
+                ?.textColor
+                ? `color: ${cell.style.textColor}`
+                : ''} {cell?.style?.bgColor
+                ? `background-color: ${cell.style.bgColor}`
+                : ''}"
               onmousedown={(e) => handleMouseDown(row, col, e)}
               onmouseover={() => handleMouseOver(row, col)}
               ondblclick={() => handleDoubleClick(row, col)}
             >
               {#if isEditing}
                 <CellEditor
-                  value={cell?.formula ?? String(cell?.value ?? '')}
+                  value={cell?.formula ?? String(cell?.value ?? "")}
                   {onCommitEdit}
                   {onCancelEdit}
                 />
               {:else}
-                <div class="absolute inset-0 flex items-center px-1.5 text-sm truncate pointer-events-none">
+                <div
+                  class="absolute inset-0 flex items-center px-1.5 text-sm truncate pointer-events-none"
+                >
                   {formatCellDisplay(cell?.value, cell?.style?.format)}
                 </div>
               {/if}

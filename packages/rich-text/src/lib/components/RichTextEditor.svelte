@@ -1,7 +1,9 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import { Editor, Node, mergeAttributes } from "@tiptap/core";
+  import { Editor, Mark, Node, mergeAttributes } from "@tiptap/core";
   import StarterKit from "@tiptap/starter-kit";
+  import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+  import { common, createLowlight } from "lowlight";
   import Placeholder from "@tiptap/extension-placeholder";
   import Underline from "@tiptap/extension-underline";
   import TextAlign from "@tiptap/extension-text-align";
@@ -48,9 +50,14 @@
     Sparkles,
     HelpCircle,
     FileText,
+    Search,
+    Download,
+    Unlink,
   } from "lucide-svelte";
-  import { Button, Separator } from "@intinyagroup/ui";
+  import { Button, Input, Separator } from "@intinyagroup/ui";
   import { cn } from "@intinyagroup/grid-core/utils";
+
+  const lowlight = createLowlight(common);
 
   let {
     content = "",
@@ -62,6 +69,8 @@
     onUpdate,
     onImageUpload,
     onOpenSubPage,
+    onExportHtml,
+    onExportMarkdown,
   }: {
     content?: string;
     placeholder?: string;
@@ -74,6 +83,10 @@
     /** Called when paste/drop provides an image file. Return a URL to insert. */
     onImageUpload?: (file: File) => Promise<string>;
     onOpenSubPage?: (page: { id: string; title: string }) => void;
+    /** Called by HTML export action with current document HTML. */
+    onExportHtml?: (html: string) => void;
+    /** Called by Markdown export action with best-effort CommonMark output. */
+    onExportMarkdown?: (markdown: string) => void;
   } = $props();
 
   let editorEl: HTMLDivElement | null = null;
@@ -81,12 +94,51 @@
   let editor: Editor | null = null;
   let isActive = $state<Record<string, boolean>>({});
   let uploadingCount = $state(0);
+  let showFindReplace = $state(false);
+  let findQuery = $state("");
+  let replaceQuery = $state("");
+  let findCount = $state(0);
+
+  const TextColor = Mark.create({
+    name: "textColor",
+    addAttributes() {
+      return { color: { default: null } };
+    },
+    parseHTML() {
+      return [
+        {
+          tag: "span[data-text-color]",
+          getAttrs: (element) => ({
+            color:
+              (element as HTMLElement).style.color ||
+              element.getAttribute("color") ||
+              null,
+          }),
+        },
+      ];
+    },
+    renderHTML({ HTMLAttributes }) {
+      const color = HTMLAttributes.color;
+      return [
+        "span",
+        mergeAttributes({
+          "data-text-color": "",
+          style: color ? `color: ${color}` : undefined,
+        }),
+        0,
+      ];
+    },
+  });
 
   // Slash commands state
   let showSlashMenu = $state(false);
   let slashSearch = $state("");
   let slashIndex = $state(0);
   let slashMenuPos = $state({ top: 0, left: 0 });
+
+  let textColor = $state("#1f2937");
+  let highlightColor = $state("#fef08a");
+  let searchMatches: Array<{ from: number; to: number }> = [];
 
   const slashCommands = [
     {
@@ -324,36 +376,6 @@
     }
   }
 
-  const CustomYoutube = Node.create({
-    name: "youtube",
-    group: "block",
-    atom: true,
-    addAttributes() {
-      return {
-        src: { default: null },
-      };
-    },
-    parseHTML() {
-      return [{ tag: 'iframe[src*="youtube"]' }];
-    },
-    renderHTML({ HTMLAttributes }) {
-      return [
-        "div",
-        {
-          class: "video-container my-4 aspect-video rounded-xl overflow-hidden",
-        },
-        [
-          "iframe",
-          mergeAttributes(HTMLAttributes, {
-            class: "w-full h-full border-0",
-            allow:
-              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-            allowfullscreen: "true",
-          }),
-        ],
-      ];
-    },
-  });
   /** SubPage block extension (Page-in-page card) */
   const SubPage = Node.create({
     name: "subpage",
@@ -452,6 +474,7 @@
       underline: e.isActive("underline"),
       strike: e.isActive("strike"),
       highlight: e.isActive("highlight"),
+      textColor: e.isActive("textColor"),
       h1: e.isActive("heading", { level: 1 }),
       h2: e.isActive("heading", { level: 2 }),
       h3: e.isActive("heading", { level: 3 }),
@@ -467,6 +490,115 @@
     };
   }
 
+  function setTextColor(color: string) {
+    textColor = color;
+    editor?.chain().focus().setMark("textColor", { color }).run();
+  }
+  function toggleTextColor() {
+    if (editor?.isActive("textColor"))
+      editor.chain().focus().unsetMark("textColor").run();
+    else setTextColor(textColor);
+  }
+  function toggleHighlight(color = highlightColor) {
+    highlightColor = color;
+    editor?.chain().focus().toggleHighlight({ color }).run();
+  }
+  function updateSearchMatches() {
+    searchMatches = [];
+    if (!editor || !findQuery) {
+      findCount = 0;
+      return;
+    }
+    const query = findQuery.toLocaleLowerCase();
+    editor.state.doc.descendants((node, pos) => {
+      if (!node.isText || !node.text) return;
+      let index = 0;
+      const text = node.text.toLocaleLowerCase();
+      while ((index = text.indexOf(query, index)) !== -1) {
+        searchMatches.push({
+          from: pos + 1 + index,
+          to: pos + 1 + index + query.length,
+        });
+        index += query.length;
+      }
+    });
+    findCount = searchMatches.length;
+  }
+  function findNext() {
+    updateSearchMatches();
+    if (!editor || !searchMatches.length) return;
+    const current = editor.state.selection.from;
+    const next =
+      searchMatches.find((match) => match.from > current) ?? searchMatches[0];
+    editor.chain().focus().setTextSelection(next).run();
+  }
+  function replaceCurrent() {
+    if (!editor || !findQuery) return;
+    const current = editor.state.selection;
+    if (
+      current.from !== current.to &&
+      editor.state.doc.textBetween(current.from, current.to) === findQuery
+    ) {
+      editor
+        .chain()
+        .focus()
+        .insertContentAt({ from: current.from, to: current.to }, replaceQuery)
+        .run();
+    } else findNext();
+    updateSearchMatches();
+  }
+  function replaceAll() {
+    updateSearchMatches();
+    if (!editor || !searchMatches.length) return;
+    const transaction = editor.state.tr;
+    for (const match of [...searchMatches].reverse())
+      transaction.insertText(replaceQuery, match.from, match.to);
+    editor.view.dispatch(transaction);
+    updateSearchMatches();
+  }
+  function markdownFromHtml(html: string) {
+    return html
+      .replace(/<br\s*\/?>(\n)?/gi, "\n")
+      .replace(
+        /<h([1-6])>(.*?)<\/h\1>/gi,
+        (_m, level, text) => `${"#".repeat(Number(level))} ${text}\n\n`,
+      )
+      .replace(/<strong>(.*?)<\/strong>/gi, "**$1**")
+      .replace(/<em>(.*?)<\/em>/gi, "_$1_")
+      .replace(/<u>(.*?)<\/u>/gi, "__$1__")
+      .replace(/<s>(.*?)<\/s>/gi, "~~$1~~")
+      .replace(/<a[^>]+href=["']([^"']+)["'][^>]*>(.*?)<\/a>/gi, "[$2]($1)")
+      .replace(/<li>(.*?)<\/li>/gi, "- $1\n")
+      .replace(/<p>(.*?)<\/p>/gi, "$1\n\n")
+      .replace(/<hr\s*\/?>(\n)?/gi, "---\n\n")
+      .replace(/<[^>]+>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+  function downloadText(filename: string, content: string, type: string) {
+    const url = URL.createObjectURL(new Blob([content], { type }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+  function exportHtml() {
+    if (!editor) return;
+    const html = editor.getHTML();
+    onExportHtml?.(html);
+    downloadText("document.html", html, "text/html;charset=utf-8");
+  }
+  function exportMarkdown() {
+    if (!editor) return;
+    const markdown = markdownFromHtml(editor.getHTML());
+    onExportMarkdown?.(markdown);
+    downloadText("document.md", markdown, "text/markdown;charset=utf-8");
+  }
   function toggleBold() {
     editor?.chain().focus().toggleBold().run();
   }
@@ -496,10 +628,6 @@
   }
   function setAlign(align: "left" | "center" | "right" | "justify") {
     editor?.chain().focus().setTextAlign(align).run();
-  }
-  function setLink() {
-    const url = window.prompt("Enter URL:");
-    if (url) editor?.chain().focus().setLink({ href: url }).run();
   }
   function setImage() {
     const url = window.prompt("Enter image URL:");
@@ -552,6 +680,19 @@
     cmd.action();
     showSlashMenu = false;
   }
+  function setLink() {
+    if (!editor) return;
+    if (editor.isActive("link")) {
+      const current = editor.getAttributes("link").href || "";
+      const url = window.prompt("Edit URL:", current);
+      if (url === null) return;
+      if (!url.trim()) editor.chain().focus().unsetLink().run();
+      else editor.chain().focus().setLink({ href: url.trim() }).run();
+      return;
+    }
+    const url = window.prompt("Enter URL:");
+    if (url?.trim()) editor.chain().focus().setLink({ href: url.trim() }).run();
+  }
   function addColumnBefore() {
     editor?.chain().focus().addColumnBefore().run();
   }
@@ -590,9 +731,11 @@
     editor = new Editor({
       element: editorEl,
       extensions: [
-        StarterKit,
+        StarterKit.configure({ codeBlock: false }),
+        CodeBlockLowlight.configure({ lowlight }),
         Placeholder.configure({ placeholder }),
         Underline,
+        TextColor,
         TextAlign.configure({ types: ["heading", "paragraph"] }),
         Link.configure({ openOnClick: false }),
         CustomImage.configure({
@@ -908,6 +1051,43 @@
         >
           <Highlighter class="size-3.5" />
         </Button>
+        <label
+          class="relative flex size-7.5 cursor-pointer items-center justify-center rounded-md text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)] focus-within:ring-2 focus-within:ring-[var(--ui-ring)]"
+          title="Text color"
+        >
+          <span class="text-xs font-bold" style="color: {textColor}">A</span>
+          <input
+            class="absolute inset-0 cursor-pointer opacity-0"
+            type="color"
+            value={textColor}
+            aria-label="Text color"
+            onchange={(event) =>
+              setTextColor((event.currentTarget as HTMLInputElement).value)}
+          />
+        </label>
+        <label
+          class="relative flex size-7.5 cursor-pointer items-center justify-center rounded-md text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)] hover:text-[var(--ui-foreground)] focus-within:ring-2 focus-within:ring-[var(--ui-ring)]"
+          title="Highlight color"
+        >
+          <Highlighter class="size-3.5" style="color: {highlightColor}" />
+          <input
+            class="absolute inset-0 cursor-pointer opacity-0"
+            type="color"
+            value={highlightColor}
+            aria-label="Highlight color"
+            onchange={(event) =>
+              toggleHighlight((event.currentTarget as HTMLInputElement).value)}
+          />
+        </label>
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]"
+          onclick={toggleTextColor}
+          title="Toggle text color"
+        >
+          <span class="text-xs font-bold">A</span>
+        </Button>
       </div>
 
       <Separator orientation="vertical" class="h-4 mx-1.5 opacity-60" />
@@ -1048,6 +1228,46 @@
         >
           <LinkIcon class="size-3.5" />
         </Button>
+        {#if isActive.link}
+          <Button
+            variant="ghost"
+            size="sm"
+            class="size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]"
+            onclick={() => editor?.chain().focus().unsetLink().run()}
+            title="Remove link"
+          >
+            <Unlink class="size-3.5" />
+          </Button>
+        {/if}
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]"
+          onclick={() => (showFindReplace = !showFindReplace)}
+          title="Find and replace"
+        >
+          <Search class="size-3.5" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class="size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]"
+          onclick={exportHtml}
+          title="Export HTML"
+        >
+          <Download class="size-3.5" /><span class="sr-only">Export HTML</span>
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          class="hidden size-7.5 p-0 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)] sm:inline-flex"
+          onclick={exportMarkdown}
+          title="Export Markdown"
+        >
+          <FileText class="size-3.5" /><span class="sr-only"
+            >Export Markdown</span
+          >
+        </Button>
         <Button
           variant="ghost"
           size="sm"
@@ -1092,6 +1312,39 @@
           Uploading {uploadingCount} image{uploadingCount > 1 ? "s" : ""}...
         </span>
       {/if}
+    </div>
+  {/if}
+  {#if editable && mode === "classic" && showFindReplace}
+    <div
+      class="flex flex-wrap items-center gap-2 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/30 px-3 py-2"
+      role="search"
+      aria-label="Find and replace"
+    >
+      <Input
+        class="h-8 min-w-32 flex-1 sm:max-w-56"
+        bind:value={findQuery}
+        placeholder="Find text"
+        aria-label="Find text"
+        oninput={updateSearchMatches}
+        onkeydown={(event) => event.key === "Enter" && findNext()}
+      />
+      <Input
+        class="h-8 min-w-32 flex-1 sm:max-w-56"
+        bind:value={replaceQuery}
+        placeholder="Replace with"
+        aria-label="Replace with"
+      />
+      <span
+        class="text-xs tabular-nums text-[var(--ui-muted-foreground)]"
+        aria-live="polite">{findCount} match{findCount === 1 ? "" : "es"}</span
+      >
+      <Button variant="outline" size="sm" onclick={findNext}>Find next</Button>
+      <Button variant="outline" size="sm" onclick={replaceCurrent}
+        >Replace</Button
+      >
+      <Button variant="outline" size="sm" onclick={replaceAll}
+        >Replace all</Button
+      >
     </div>
   {/if}
   <div

@@ -329,6 +329,7 @@
 
           <div
             role="gridcell"
+            tabindex="-1"
             aria-selected={isEdge}
             class={cn(
               "relative py-0.5 flex items-center justify-center",

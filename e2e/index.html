@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-ui-theme="neutral">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Intinya UI browser harness</title>
+    <style>
+      :root { font: 16px/1.45 system-ui, sans-serif; color: #18212b; background: #f7f8fa; }
+      [data-ui-theme="dark"] { color-scheme: dark; color: #ecf2f8; background: #12161c; }
+      body { margin: 0; padding: 2rem; }
+      main { max-width: 70rem; margin: auto; display: grid; gap: 1rem; }
+      section { padding: 1rem; border: 1px solid #c9d1dc; border-radius: .6rem; background: Canvas; }
+      button, input { font: inherit; padding: .4rem .6rem; }
+      button { cursor: pointer; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { text-align: left; padding: .45rem; border-bottom: 1px solid #c9d1dc; }
+      [contenteditable] { min-height: 5rem; padding: .6rem; border: 1px solid #8997a8; border-radius: .3rem; }
+      [draggable="true"] { padding: .55rem; margin: .4rem 0; border: 1px solid #8997a8; border-radius: .3rem; background: #e8eef5; cursor: grab; }
+      .columns { display: flex; gap: 1rem; }
+      .column { flex: 1; min-height: 7rem; padding: .5rem; border: 1px dashed #8997a8; }
+      .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: .25rem; }
+      .calendar-grid button[aria-pressed="true"] { outline: 3px solid #2563eb; }
+      [data-ui-theme="dark"] section { background: #1c232d; border-color: #536274; }
+      [data-ui-theme="dark"] [draggable="true"] { background: #293646; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Intinya UI browser harness</h1>
+      <section aria-labelledby="calendar-heading">
+        <h2 id="calendar-heading">Calendar</h2>
+        <button type="button" id="calendar-add">Add Event</button>
+        <div class="calendar-grid" aria-label="September 2026 dates">
+          <button type="button" aria-label="September 10, 2026" aria-pressed="false">10</button>
+          <button type="button" aria-label="September 11, 2026" aria-pressed="false">11</button>
+          <button type="button" aria-label="September 12, 2026" aria-pressed="false">12</button>
+        </div>
+        <p id="calendar-status" role="status">No date selected</p>
+        <form id="event-form" hidden>
+          <label>Event title <input name="title" required /></label>
+          <button type="submit">Save Event</button>
+        </form>
+      </section>
+      <section aria-labelledby="table-heading">
+        <h2 id="table-heading">DataTable</h2>
+        <table aria-label="Users table"><thead><tr><th>Name</th><th>Email</th></tr></thead><tbody><tr><td>Joshua</td><td>joshua@intinya.dev</td></tr></tbody></table>
+      </section>
+      <section aria-labelledby="editor-heading">
+        <h2 id="editor-heading">Rich text editor</h2>
+        <div role="toolbar" aria-label="Rich text toolbar"><button type="button" data-command="bold"><strong>B</strong></button><button type="button" data-command="italic"><em>I</em></button></div>
+        <div id="editor" contenteditable="true" aria-label="Editor" role="textbox"></div>
+      </section>
+      <section aria-labelledby="kanban-heading">
+        <h2 id="kanban-heading">Kanban</h2>
+        <div class="columns"><div class="column" aria-label="To Do" role="region"><div draggable="true" id="card-a">Design system audit</div></div><div class="column" aria-label="Done" role="region"></div></div>
+        <p id="kanban-status" role="status">Card in To Do</p>
+      </section>
+      <section aria-labelledby="theme-heading">
+        <h2 id="theme-heading">Theme</h2>
+        <button type="button" id="theme-toggle">Toggle dark theme</button>
+      </section>
+    </main>
+    <script>
+      const root = document.documentElement;
+      document.querySelectorAll('.calendar-grid button').forEach((button) => button.addEventListener('click', () => {
+        document.querySelectorAll('.calendar-grid button').forEach((day) => day.setAttribute('aria-pressed', String(day === button)));
+        document.querySelector('#calendar-status').textContent = `Selected ${button.getAttribute('aria-label')}`;
+      }));
+      document.querySelector('#calendar-add').addEventListener('click', () => { document.querySelector('#event-form').hidden = false; });
+      document.querySelector('#event-form').addEventListener('submit', (event) => { event.preventDefault(); document.querySelector('#calendar-status').textContent = `Created ${new FormData(event.target).get('title')}`; event.target.hidden = true; });
+      document.querySelector('#theme-toggle').addEventListener('click', () => { root.dataset.uiTheme = root.dataset.uiTheme === 'dark' ? 'neutral' : 'dark'; root.classList.toggle('dark', root.dataset.uiTheme === 'dark'); });
+      document.querySelectorAll('[data-command]').forEach((button) => button.addEventListener('click', () => document.execCommand(button.dataset.command)));
+      let dragged;
+      document.querySelectorAll('[draggable="true"]').forEach((card) => card.addEventListener('dragstart', () => { dragged = card; }));
+      document.querySelectorAll('.column').forEach((column) => column.addEventListener('dragover', (event) => event.preventDefault()));
+      document.querySelectorAll('.column').forEach((column) => column.addEventListener('drop', () => { if (dragged) { column.append(dragged); document.querySelector('#kanban-status').textContent = `Card in ${column.getAttribute('aria-label')}`; } }));
+    </script>
+  </body>
+</html>

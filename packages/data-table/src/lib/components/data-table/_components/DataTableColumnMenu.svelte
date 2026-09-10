@@ -1,7 +1,34 @@
 <script lang="ts">
-  import * as DropdownMenu from '@intinyagroup/ui';
-  import { ArrowUp, ArrowDown, ArrowUpDown, Pin, PinOff, EyeOff, ArrowLeftFromLine, ArrowRightFromLine, Filter, Expand, Shrink } from 'lucide-svelte';
-  import type { Column } from '@tanstack/table-core';
+  import {
+    DropdownMenu as DropdownMenuRoot,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+  } from "@intinyagroup/ui";
+  const DropdownMenu = {
+    Root: DropdownMenuRoot,
+    Trigger: DropdownMenuTrigger,
+    Content: DropdownMenuContent,
+    Item: DropdownMenuItem,
+    Label: DropdownMenuLabel,
+    Separator: DropdownMenuSeparator,
+  };
+  import {
+    ArrowUp,
+    ArrowDown,
+    ArrowUpDown,
+    Pin,
+    PinOff,
+    EyeOff,
+    ArrowLeftFromLine,
+    ArrowRightFromLine,
+    Filter,
+    Expand,
+    Shrink,
+  } from "lucide-svelte";
+  import type { Column } from "@tanstack/table-core";
 
   let {
     column,
@@ -15,8 +42,8 @@
     onExpand,
   }: {
     column: Column<any, unknown>;
-    onSort: (direction: 'asc' | 'desc' | null) => void;
-    onPin: (side: 'left' | 'right' | null) => void;
+    onSort: (direction: "asc" | "desc" | null) => void;
+    onPin: (side: "left" | "right" | null) => void;
     onHide: () => void;
     onFilter: () => void;
     isFiltered?: boolean;
@@ -31,7 +58,9 @@
   const isPinned = $derived(column.getIsPinned());
   const canHide = $derived(column.getCanHide());
   const headerLabel = $derived(
-    typeof column.columnDef.header === 'string' ? column.columnDef.header : column.id
+    typeof column.columnDef.header === "string"
+      ? column.columnDef.header
+      : column.id,
   );
 </script>
 
@@ -54,18 +83,21 @@
 
   <DropdownMenu.Content align="start" class="w-52">
     {#if canSort}
-      <DropdownMenu.Label class="text-[0.65rem] uppercase tracking-wider text-[var(--ui-muted-foreground)]">Sort</DropdownMenu.Label>
-      <DropdownMenu.Item onclick={() => onSort('asc')}>
+      <DropdownMenu.Label
+        class="text-[0.65rem] uppercase tracking-wider text-[var(--ui-muted-foreground)]"
+        >Sort</DropdownMenu.Label
+      >
+      <DropdownMenu.Item onclick={() => onSort("asc")}>
         <ArrowUp class="size-4 mr-2" />
         Sort ascending
-        {#if currentSort === 'asc'}
+        {#if currentSort === "asc"}
           <span class="ml-auto text-[var(--ui-primary)] text-xs">✓</span>
         {/if}
       </DropdownMenu.Item>
-      <DropdownMenu.Item onclick={() => onSort('desc')}>
+      <DropdownMenu.Item onclick={() => onSort("desc")}>
         <ArrowDown class="size-4 mr-2" />
         Sort descending
-        {#if currentSort === 'desc'}
+        {#if currentSort === "desc"}
           <span class="ml-auto text-[var(--ui-primary)] text-xs">✓</span>
         {/if}
       </DropdownMenu.Item>
@@ -80,18 +112,25 @@
     {/if}
 
     {#if canPin}
-      <DropdownMenu.Label class="text-[0.65rem] uppercase tracking-wider text-[var(--ui-muted-foreground)]">Pin</DropdownMenu.Label>
-      <DropdownMenu.Item onclick={() => onPin(isPinned === 'left' ? null : 'left')}>
+      <DropdownMenu.Label
+        class="text-[0.65rem] uppercase tracking-wider text-[var(--ui-muted-foreground)]"
+        >Pin</DropdownMenu.Label
+      >
+      <DropdownMenu.Item
+        onclick={() => onPin(isPinned === "left" ? null : "left")}
+      >
         <ArrowLeftFromLine class="size-4 mr-2" />
         Pin left
-        {#if isPinned === 'left'}
+        {#if isPinned === "left"}
           <span class="ml-auto text-[var(--ui-primary)] text-xs">✓</span>
         {/if}
       </DropdownMenu.Item>
-      <DropdownMenu.Item onclick={() => onPin(isPinned === 'right' ? null : 'right')}>
+      <DropdownMenu.Item
+        onclick={() => onPin(isPinned === "right" ? null : "right")}
+      >
         <ArrowRightFromLine class="size-4 mr-2" />
         Pin right
-        {#if isPinned === 'right'}
+        {#if isPinned === "right"}
           <span class="ml-auto text-[var(--ui-primary)] text-xs">✓</span>
         {/if}
       </DropdownMenu.Item>

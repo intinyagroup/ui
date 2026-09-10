@@ -1,16 +1,18 @@
-import type { Meta, StoryObj } from '@storybook/svelte';
-import Tabs from '@intinyagroup/ui/components/tabs/tabs.svelte';
-import TabsList from '@intinyagroup/ui/components/tabs/tabs-list.svelte';
-import TabsTrigger from '@intinyagroup/ui/components/tabs/tabs-trigger.svelte';
-import TabsContent from '@intinyagroup/ui/components/tabs/tabs-content.svelte';
+import type { Meta, StoryObj } from "@storybook/svelte";
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "@intinyagroup/ui/components/tabs";
 
 const meta = {
-  title: 'Layout/Tabs',
+  title: "Layout/Tabs",
   component: Tabs,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   args: {
-    value: 'account'
-  }
+    value: "account",
+  },
 } satisfies Meta<Tabs>;
 
 export default meta;
@@ -24,26 +26,38 @@ export const Default: Story = {
       {
         Component: TabsList,
         children: [
-          { Component: TabsTrigger, props: { value: 'account' }, children: 'Account' },
-          { Component: TabsTrigger, props: { value: 'password' }, children: 'Password' },
-          { Component: TabsTrigger, props: { value: 'settings' }, children: 'Settings' }
-        ]
+          {
+            Component: TabsTrigger,
+            props: { value: "account" },
+            children: "Account",
+          },
+          {
+            Component: TabsTrigger,
+            props: { value: "password" },
+            children: "Password",
+          },
+          {
+            Component: TabsTrigger,
+            props: { value: "settings" },
+            children: "Settings",
+          },
+        ],
       },
       {
         Component: TabsContent,
-        props: { value: 'account' },
-        children: 'Manage your account settings and personal preferences.'
+        props: { value: "account" },
+        children: "Manage your account settings and personal preferences.",
       },
       {
         Component: TabsContent,
-        props: { value: 'password' },
-        children: 'Change your password and secure your login credentials.'
+        props: { value: "password" },
+        children: "Change your password and secure your login credentials.",
       },
       {
         Component: TabsContent,
-        props: { value: 'settings' },
-        children: 'Configure application notifications and display settings.'
-      }
-    ]
-  })
+        props: { value: "settings" },
+        children: "Configure application notifications and display settings.",
+      },
+    ],
+  }),
 };

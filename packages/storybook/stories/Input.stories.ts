@@ -1,22 +1,22 @@
-import type { Meta, StoryObj } from '@storybook/svelte';
-import Input from '@intinyagroup/ui/components/input/input.svelte';
+import type { Meta, StoryObj } from "@storybook/svelte";
+import { Input } from "@intinyagroup/ui/components/input";
 
 const meta = {
-  title: 'Primitives/Input',
+  title: "Primitives/Input",
   component: Input,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     type: {
-      control: 'select',
-      options: ['text', 'password', 'email', 'number', 'tel', 'url']
+      control: "select",
+      options: ["text", "password", "email", "number", "tel", "url"],
     },
     disabled: {
-      control: 'boolean'
+      control: "boolean",
     },
     placeholder: {
-      control: 'text'
-    }
-  }
+      control: "text",
+    },
+  },
 } satisfies Meta<Input>;
 
 export default meta;
@@ -24,26 +24,26 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    value: 'Default value'
-  }
+    value: "Default value",
+  },
 };
 
 export const Disabled: Story = {
   args: {
     disabled: true,
-    value: 'Disabled input'
-  }
+    value: "Disabled input",
+  },
 };
 
 export const WithPlaceholder: Story = {
   args: {
-    placeholder: 'Enter your email address...'
-  }
+    placeholder: "Enter your email address...",
+  },
 };
 
 export const TypePassword: Story = {
   args: {
-    type: 'password',
-    placeholder: 'Enter password...'
-  }
+    type: "password",
+    placeholder: "Enter password...",
+  },
 };

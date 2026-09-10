@@ -9,8 +9,18 @@
     FileSpreadsheet,
     FileText,
   } from "lucide-svelte";
-  import * as DropdownMenu from "@intinyagroup/ui";
-  import { createVirtualizer } from "@tanstack/svelte-virtual";
+  import {
+    DropdownMenu as DropdownMenuRoot,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+  } from "@intinyagroup/ui";
+  const DropdownMenu = {
+    Root: DropdownMenuRoot,
+    Trigger: DropdownMenuTrigger,
+    Content: DropdownMenuContent,
+    Item: DropdownMenuItem,
+  };
   import type {
     ColumnDef,
     PaginationState,
