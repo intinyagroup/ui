@@ -8,8 +8,8 @@ import {
   DialogDescription,
   DialogFooter,
   DialogClose,
-  Button,
 } from "@intinyagroup/ui/components/dialog";
+import { Button } from "@intinyagroup/ui/components/button";
 
 const meta = {
   title: "Overlay/Dialog",

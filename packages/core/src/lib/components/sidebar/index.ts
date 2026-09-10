@@ -10,31 +10,35 @@ import MenuItem from "./SidebarMenuItem.svelte";
 import MenuButton from "./SidebarMenuButton.svelte";
 import Trigger from "./SidebarTrigger.svelte";
 import Inset from "./SidebarInset.svelte";
-
+import Nav from "./SidebarNav.svelte";
+import type { SidebarNavItemData } from "./SidebarNavItem.svelte";
 export {
-	Root,
-	Header,
-	Content,
-	Footer,
-	Group,
-	GroupLabel,
-	GroupContent,
-	Menu,
-	MenuItem,
-	MenuButton,
-	Trigger,
-	Inset,
-	//
-	Root as SidebarRoot,
-	Header as SidebarHeader,
-	Content as SidebarContent,
-	Footer as SidebarFooter,
-	Group as SidebarGroup,
-	GroupLabel as SidebarGroupLabel,
-	GroupContent as SidebarGroupContent,
-	Menu as SidebarMenu,
-	MenuItem as SidebarMenuItem,
-	MenuButton as SidebarMenuButton,
-	Trigger as SidebarTrigger,
-	Inset as SidebarInset,
+  Root,
+  Header,
+  Content,
+  Footer,
+  Group,
+  GroupLabel,
+  GroupContent,
+  Menu,
+  MenuItem,
+  MenuButton,
+  Trigger,
+  Inset,
+  Nav,
+  //
+  Root as SidebarRoot,
+  Header as SidebarHeader,
+  Content as SidebarContent,
+  Footer as SidebarFooter,
+  Group as SidebarGroup,
+  GroupLabel as SidebarGroupLabel,
+  GroupContent as SidebarGroupContent,
+  Menu as SidebarMenu,
+  MenuItem as SidebarMenuItem,
+  MenuButton as SidebarMenuButton,
+  Trigger as SidebarTrigger,
+  Inset as SidebarInset,
 };
+export { Nav as SidebarNav };
+export type { SidebarNavItemData };

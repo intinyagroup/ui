@@ -1,0 +1,770 @@
+{
+  "v": 5,
+  "entries": {
+    "primitives-badge--docs": {
+      "id": "primitives-badge--docs",
+      "title": "Primitives/Badge",
+      "name": "Docs",
+      "importPath": "./stories/Badge.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "primitives-badge--default": {
+      "type": "story",
+      "id": "primitives-badge--default",
+      "name": "Default",
+      "title": "Primitives/Badge",
+      "importPath": "./stories/Badge.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/badge",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-badge--secondary": {
+      "type": "story",
+      "id": "primitives-badge--secondary",
+      "name": "Secondary",
+      "title": "Primitives/Badge",
+      "importPath": "./stories/Badge.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/badge",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-badge--destructive": {
+      "type": "story",
+      "id": "primitives-badge--destructive",
+      "name": "Destructive",
+      "title": "Primitives/Badge",
+      "importPath": "./stories/Badge.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/badge",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-badge--outline": {
+      "type": "story",
+      "id": "primitives-badge--outline",
+      "name": "Outline",
+      "title": "Primitives/Badge",
+      "importPath": "./stories/Badge.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/badge",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "display-barcode--docs": {
+      "id": "display-barcode--docs",
+      "title": "Display/Barcode",
+      "name": "Docs",
+      "importPath": "./stories/Barcode.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "display-barcode--default": {
+      "type": "story",
+      "id": "display-barcode--default",
+      "name": "Default",
+      "title": "Display/Barcode",
+      "importPath": "./stories/Barcode.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/barcode",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "display-barcode--product-ean": {
+      "type": "story",
+      "id": "display-barcode--product-ean",
+      "name": "Product EAN",
+      "title": "Display/Barcode",
+      "importPath": "./stories/Barcode.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/barcode",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-button--docs": {
+      "id": "primitives-button--docs",
+      "title": "Primitives/Button",
+      "name": "Docs",
+      "importPath": "./stories/Button.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "primitives-button--default": {
+      "type": "story",
+      "id": "primitives-button--default",
+      "name": "Default",
+      "title": "Primitives/Button",
+      "importPath": "./stories/Button.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/button",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-button--destructive": {
+      "type": "story",
+      "id": "primitives-button--destructive",
+      "name": "Destructive",
+      "title": "Primitives/Button",
+      "importPath": "./stories/Button.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/button",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-button--outline": {
+      "type": "story",
+      "id": "primitives-button--outline",
+      "name": "Outline",
+      "title": "Primitives/Button",
+      "importPath": "./stories/Button.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/button",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-button--secondary": {
+      "type": "story",
+      "id": "primitives-button--secondary",
+      "name": "Secondary",
+      "title": "Primitives/Button",
+      "importPath": "./stories/Button.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/button",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-button--ghost": {
+      "type": "story",
+      "id": "primitives-button--ghost",
+      "name": "Ghost",
+      "title": "Primitives/Button",
+      "importPath": "./stories/Button.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/button",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-button--small": {
+      "type": "story",
+      "id": "primitives-button--small",
+      "name": "Small",
+      "title": "Primitives/Button",
+      "importPath": "./stories/Button.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/button",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-button--large": {
+      "type": "story",
+      "id": "primitives-button--large",
+      "name": "Large",
+      "title": "Primitives/Button",
+      "importPath": "./stories/Button.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/button",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-button--disabled": {
+      "type": "story",
+      "id": "primitives-button--disabled",
+      "name": "Disabled",
+      "title": "Primitives/Button",
+      "importPath": "./stories/Button.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/button",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-card--docs": {
+      "id": "layout-card--docs",
+      "title": "Layout/Card",
+      "name": "Docs",
+      "importPath": "./stories/Card.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "layout-card--default": {
+      "type": "story",
+      "id": "layout-card--default",
+      "name": "Default",
+      "title": "Layout/Card",
+      "importPath": "./stories/Card.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/card",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-card--with-header": {
+      "type": "story",
+      "id": "layout-card--with-header",
+      "name": "With Header",
+      "title": "Layout/Card",
+      "importPath": "./stories/Card.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/card",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-card--content": {
+      "type": "story",
+      "id": "layout-card--content",
+      "name": "Content",
+      "title": "Layout/Card",
+      "importPath": "./stories/Card.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/card",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-card--footer": {
+      "type": "story",
+      "id": "layout-card--footer",
+      "name": "Footer",
+      "title": "Layout/Card",
+      "importPath": "./stories/Card.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/card",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "charts-chart--docs": {
+      "id": "charts-chart--docs",
+      "title": "Charts/Chart",
+      "name": "Docs",
+      "importPath": "./stories/Chart.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "charts-chart--bar": {
+      "type": "story",
+      "id": "charts-chart--bar",
+      "name": "Bar",
+      "title": "Charts/Chart",
+      "importPath": "./stories/Chart.stories.ts",
+      "componentPath": "@intinyagroup/charts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "charts-chart--line": {
+      "type": "story",
+      "id": "charts-chart--line",
+      "name": "Line",
+      "title": "Charts/Chart",
+      "importPath": "./stories/Chart.stories.ts",
+      "componentPath": "@intinyagroup/charts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "charts-chart--doughnut": {
+      "type": "story",
+      "id": "charts-chart--doughnut",
+      "name": "Doughnut",
+      "title": "Charts/Chart",
+      "importPath": "./stories/Chart.stories.ts",
+      "componentPath": "@intinyagroup/charts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "charts-chart--radar": {
+      "type": "story",
+      "id": "charts-chart--radar",
+      "name": "Radar",
+      "title": "Charts/Chart",
+      "importPath": "./stories/Chart.stories.ts",
+      "componentPath": "@intinyagroup/charts",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "data-datatable--docs": {
+      "id": "data-datatable--docs",
+      "title": "Data/DataTable",
+      "name": "Docs",
+      "importPath": "./stories/DataTable.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "data-datatable--default": {
+      "type": "story",
+      "id": "data-datatable--default",
+      "name": "Default",
+      "title": "Data/DataTable",
+      "importPath": "./stories/DataTable.stories.ts",
+      "componentPath": "@intinyagroup/data-table",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "data-datatable--with-quick-filters": {
+      "type": "story",
+      "id": "data-datatable--with-quick-filters",
+      "name": "With Quick Filters",
+      "title": "Data/DataTable",
+      "importPath": "./stories/DataTable.stories.ts",
+      "componentPath": "@intinyagroup/data-table",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "data-datatable--with-pinned-rows": {
+      "type": "story",
+      "id": "data-datatable--with-pinned-rows",
+      "name": "With Pinned Rows",
+      "title": "Data/DataTable",
+      "importPath": "./stories/DataTable.stories.ts",
+      "componentPath": "@intinyagroup/data-table",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "data-datatable--mobile-card-view-responsive": {
+      "type": "story",
+      "id": "data-datatable--mobile-card-view-responsive",
+      "name": "Mobile Card View Responsive",
+      "title": "Data/DataTable",
+      "importPath": "./stories/DataTable.stories.ts",
+      "componentPath": "@intinyagroup/data-table",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "calendar-daterangepicker--docs": {
+      "id": "calendar-daterangepicker--docs",
+      "title": "Calendar/DateRangePicker",
+      "name": "Docs",
+      "importPath": "./stories/DateRangePicker.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "calendar-daterangepicker--default": {
+      "type": "story",
+      "id": "calendar-daterangepicker--default",
+      "name": "Default",
+      "title": "Calendar/DateRangePicker",
+      "importPath": "./stories/DateRangePicker.stories.ts",
+      "componentPath": "@intinyagroup/calendar",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "calendar-daterangepicker--indonesian-locale-with-monday-start": {
+      "type": "story",
+      "id": "calendar-daterangepicker--indonesian-locale-with-monday-start",
+      "name": "Indonesian Locale With Monday Start",
+      "title": "Calendar/DateRangePicker",
+      "importPath": "./stories/DateRangePicker.stories.ts",
+      "componentPath": "@intinyagroup/calendar",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "calendar-daterangepicker--custom-presets": {
+      "type": "story",
+      "id": "calendar-daterangepicker--custom-presets",
+      "name": "Custom Presets",
+      "title": "Calendar/DateRangePicker",
+      "importPath": "./stories/DateRangePicker.stories.ts",
+      "componentPath": "@intinyagroup/calendar",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "overlay-dialog--docs": {
+      "id": "overlay-dialog--docs",
+      "title": "Overlay/Dialog",
+      "name": "Docs",
+      "importPath": "./stories/Dialog.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "overlay-dialog--default": {
+      "type": "story",
+      "id": "overlay-dialog--default",
+      "name": "Default",
+      "title": "Overlay/Dialog",
+      "importPath": "./stories/Dialog.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/dialog",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "data-datatable-enterprise-ag-grid-style--docs": {
+      "id": "data-datatable-enterprise-ag-grid-style--docs",
+      "title": "Data/DataTable (Enterprise AG-Grid Style)",
+      "name": "Docs",
+      "importPath": "./stories/EnterpriseDataTable.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "data-datatable-enterprise-ag-grid-style--floating-filter-row": {
+      "type": "story",
+      "id": "data-datatable-enterprise-ag-grid-style--floating-filter-row",
+      "name": "Floating Filter Row",
+      "title": "Data/DataTable (Enterprise AG-Grid Style)",
+      "importPath": "./stories/EnterpriseDataTable.stories.ts",
+      "componentPath": "@intinyagroup/data-table",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "data-datatable-enterprise-ag-grid-style--in-place-editing": {
+      "type": "story",
+      "id": "data-datatable-enterprise-ag-grid-style--in-place-editing",
+      "name": "In Place Editing",
+      "title": "Data/DataTable (Enterprise AG-Grid Style)",
+      "importPath": "./stories/EnterpriseDataTable.stories.ts",
+      "componentPath": "@intinyagroup/data-table",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "data-datatable-enterprise-ag-grid-style--right-click-context-menu": {
+      "type": "story",
+      "id": "data-datatable-enterprise-ag-grid-style--right-click-context-menu",
+      "name": "Right Click Context Menu",
+      "title": "Data/DataTable (Enterprise AG-Grid Style)",
+      "importPath": "./stories/EnterpriseDataTable.stories.ts",
+      "componentPath": "@intinyagroup/data-table",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "data-datatable-enterprise-ag-grid-style--row-grouping-tree": {
+      "type": "story",
+      "id": "data-datatable-enterprise-ag-grid-style--row-grouping-tree",
+      "name": "Row Grouping Tree",
+      "title": "Data/DataTable (Enterprise AG-Grid Style)",
+      "importPath": "./stories/EnterpriseDataTable.stories.ts",
+      "componentPath": "@intinyagroup/data-table",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "calendar-eventcalendar-fullcalendar--docs": {
+      "id": "calendar-eventcalendar-fullcalendar--docs",
+      "title": "Calendar/EventCalendar (FullCalendar)",
+      "name": "Docs",
+      "importPath": "./stories/EventCalendar.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "calendar-eventcalendar-fullcalendar--default-browser-timezone": {
+      "type": "story",
+      "id": "calendar-eventcalendar-fullcalendar--default-browser-timezone",
+      "name": "Default Browser Timezone",
+      "title": "Calendar/EventCalendar (FullCalendar)",
+      "importPath": "./stories/EventCalendar.stories.ts",
+      "componentPath": "@intinyagroup/calendar",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "calendar-eventcalendar-fullcalendar--jakarta-timezone-wib": {
+      "type": "story",
+      "id": "calendar-eventcalendar-fullcalendar--jakarta-timezone-wib",
+      "name": "Jakarta Timezone WIB",
+      "title": "Calendar/EventCalendar (FullCalendar)",
+      "importPath": "./stories/EventCalendar.stories.ts",
+      "componentPath": "@intinyagroup/calendar",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "calendar-eventcalendar-fullcalendar--tokyo-timezone-jst": {
+      "type": "story",
+      "id": "calendar-eventcalendar-fullcalendar--tokyo-timezone-jst",
+      "name": "Tokyo Timezone JST",
+      "title": "Calendar/EventCalendar (FullCalendar)",
+      "importPath": "./stories/EventCalendar.stories.ts",
+      "componentPath": "@intinyagroup/calendar",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "calendar-eventcalendar-fullcalendar--london-timezone-utc": {
+      "type": "story",
+      "id": "calendar-eventcalendar-fullcalendar--london-timezone-utc",
+      "name": "London Timezone UTC",
+      "title": "Calendar/EventCalendar (FullCalendar)",
+      "importPath": "./stories/EventCalendar.stories.ts",
+      "componentPath": "@intinyagroup/calendar",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-input--docs": {
+      "id": "primitives-input--docs",
+      "title": "Primitives/Input",
+      "name": "Docs",
+      "importPath": "./stories/Input.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "primitives-input--default": {
+      "type": "story",
+      "id": "primitives-input--default",
+      "name": "Default",
+      "title": "Primitives/Input",
+      "importPath": "./stories/Input.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/input",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-input--disabled": {
+      "type": "story",
+      "id": "primitives-input--disabled",
+      "name": "Disabled",
+      "title": "Primitives/Input",
+      "importPath": "./stories/Input.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/input",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-input--with-placeholder": {
+      "type": "story",
+      "id": "primitives-input--with-placeholder",
+      "name": "With Placeholder",
+      "title": "Primitives/Input",
+      "importPath": "./stories/Input.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/input",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "primitives-input--type-password": {
+      "type": "story",
+      "id": "primitives-input--type-password",
+      "name": "Type Password",
+      "title": "Primitives/Input",
+      "importPath": "./stories/Input.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/input",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "kanban-kanbanboard--docs": {
+      "id": "kanban-kanbanboard--docs",
+      "title": "Kanban/KanbanBoard",
+      "name": "Docs",
+      "importPath": "./stories/KanbanBoard.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "kanban-kanbanboard--default": {
+      "type": "story",
+      "id": "kanban-kanbanboard--default",
+      "name": "Default",
+      "title": "Kanban/KanbanBoard",
+      "importPath": "./stories/KanbanBoard.stories.ts",
+      "componentPath": "@intinyagroup/kanban",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "kanban-kanbanboard--with-wip-limits": {
+      "type": "story",
+      "id": "kanban-kanbanboard--with-wip-limits",
+      "name": "With Wip Limits",
+      "title": "Kanban/KanbanBoard",
+      "importPath": "./stories/KanbanBoard.stories.ts",
+      "componentPath": "@intinyagroup/kanban",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "kanban-kanbanboard--with-swimlanes": {
+      "type": "story",
+      "id": "kanban-kanbanboard--with-swimlanes",
+      "name": "With Swimlanes",
+      "title": "Kanban/KanbanBoard",
+      "importPath": "./stories/KanbanBoard.stories.ts",
+      "componentPath": "@intinyagroup/kanban",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "kanban-kanbanboard--with-labels": {
+      "type": "story",
+      "id": "kanban-kanbanboard--with-labels",
+      "name": "With Labels",
+      "title": "Kanban/KanbanBoard",
+      "importPath": "./stories/KanbanBoard.stories.ts",
+      "componentPath": "@intinyagroup/kanban",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "notion-notiondatabase-multi-view--docs": {
+      "id": "notion-notiondatabase-multi-view--docs",
+      "title": "Notion/NotionDatabase (Multi-View)",
+      "name": "Docs",
+      "importPath": "./stories/NotionDatabase.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "notion-notiondatabase-multi-view--table-view": {
+      "type": "story",
+      "id": "notion-notiondatabase-multi-view--table-view",
+      "name": "Table View",
+      "title": "Notion/NotionDatabase (Multi-View)",
+      "importPath": "./stories/NotionDatabase.stories.ts",
+      "componentPath": "@intinyagroup/notion-database",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "notion-notiondatabase-multi-view--board-kanban-view": {
+      "type": "story",
+      "id": "notion-notiondatabase-multi-view--board-kanban-view",
+      "name": "Board Kanban View",
+      "title": "Notion/NotionDatabase (Multi-View)",
+      "importPath": "./stories/NotionDatabase.stories.ts",
+      "componentPath": "@intinyagroup/notion-database",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "notion-notiondatabase-multi-view--calendar-timeline-view": {
+      "type": "story",
+      "id": "notion-notiondatabase-multi-view--calendar-timeline-view",
+      "name": "Calendar Timeline View",
+      "title": "Notion/NotionDatabase (Multi-View)",
+      "importPath": "./stories/NotionDatabase.stories.ts",
+      "componentPath": "@intinyagroup/notion-database",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "notion-notiondatabase-multi-view--gallery-cards-view": {
+      "type": "story",
+      "id": "notion-notiondatabase-multi-view--gallery-cards-view",
+      "name": "Gallery Cards View",
+      "title": "Notion/NotionDatabase (Multi-View)",
+      "importPath": "./stories/NotionDatabase.stories.ts",
+      "componentPath": "@intinyagroup/notion-database",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "notion-notioneditor-subpages-checklists--docs": {
+      "id": "notion-notioneditor-subpages-checklists--docs",
+      "title": "Notion/NotionEditor (SubPages & Checklists)",
+      "name": "Docs",
+      "importPath": "./stories/NotionEditor.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "notion-notioneditor-subpages-checklists--default-notion-page": {
+      "type": "story",
+      "id": "notion-notioneditor-subpages-checklists--default-notion-page",
+      "name": "Default Notion Page",
+      "title": "Notion/NotionEditor (SubPages & Checklists)",
+      "importPath": "./stories/NotionEditor.stories.ts",
+      "componentPath": "@intinyagroup/rich-text",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "notion-notioneditor-subpages-checklists--classic-mode-with-toolbar": {
+      "type": "story",
+      "id": "notion-notioneditor-subpages-checklists--classic-mode-with-toolbar",
+      "name": "Classic Mode With Toolbar",
+      "title": "Notion/NotionEditor (SubPages & Checklists)",
+      "importPath": "./stories/NotionEditor.stories.ts",
+      "componentPath": "@intinyagroup/rich-text",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "display-qrcode--docs": {
+      "id": "display-qrcode--docs",
+      "title": "Display/QRCode",
+      "name": "Docs",
+      "importPath": "./stories/QRCode.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "display-qrcode--default": {
+      "type": "story",
+      "id": "display-qrcode--default",
+      "name": "Default",
+      "title": "Display/QRCode",
+      "importPath": "./stories/QRCode.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/qr-code",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "display-qrcode--large": {
+      "type": "story",
+      "id": "display-qrcode--large",
+      "name": "Large",
+      "title": "Display/QRCode",
+      "importPath": "./stories/QRCode.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/qr-code",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "editors-richtexteditor--docs": {
+      "id": "editors-richtexteditor--docs",
+      "title": "Editors/RichTextEditor",
+      "name": "Docs",
+      "importPath": "./stories/RichTextEditor.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "editors-richtexteditor--classic": {
+      "type": "story",
+      "id": "editors-richtexteditor--classic",
+      "name": "Classic",
+      "title": "Editors/RichTextEditor",
+      "importPath": "./stories/RichTextEditor.stories.ts",
+      "componentPath": "@intinyagroup/rich-text",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "editors-richtexteditor--bubble": {
+      "type": "story",
+      "id": "editors-richtexteditor--bubble",
+      "name": "Bubble",
+      "title": "Editors/RichTextEditor",
+      "importPath": "./stories/RichTextEditor.stories.ts",
+      "componentPath": "@intinyagroup/rich-text",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "editors-richtexteditor--read-only": {
+      "type": "story",
+      "id": "editors-richtexteditor--read-only",
+      "name": "Read Only",
+      "title": "Editors/RichTextEditor",
+      "importPath": "./stories/RichTextEditor.stories.ts",
+      "componentPath": "@intinyagroup/rich-text",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "form-searchselect-select2-multiselect--docs": {
+      "id": "form-searchselect-select2-multiselect--docs",
+      "title": "Form/SearchSelect (Select2 / MultiSelect)",
+      "name": "Docs",
+      "importPath": "./stories/SearchSelect.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "form-searchselect-select2-multiselect--single-select": {
+      "type": "story",
+      "id": "form-searchselect-select2-multiselect--single-select",
+      "name": "Single Select",
+      "title": "Form/SearchSelect (Select2 / MultiSelect)",
+      "importPath": "./stories/SearchSelect.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/search-select",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "form-searchselect-select2-multiselect--multi-select": {
+      "type": "story",
+      "id": "form-searchselect-select2-multiselect--multi-select",
+      "name": "Multi Select",
+      "title": "Form/SearchSelect (Select2 / MultiSelect)",
+      "importPath": "./stories/SearchSelect.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/search-select",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "form-searchselect-select2-multiselect--remote-loading": {
+      "type": "story",
+      "id": "form-searchselect-select2-multiselect--remote-loading",
+      "name": "Remote Loading",
+      "title": "Form/SearchSelect (Select2 / MultiSelect)",
+      "importPath": "./stories/SearchSelect.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/search-select",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "navigation-sidebarnav--docs": {
+      "id": "navigation-sidebarnav--docs",
+      "title": "Navigation/SidebarNav",
+      "name": "Docs",
+      "importPath": "./stories/SidebarNav.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "navigation-sidebarnav--expanded": {
+      "type": "story",
+      "id": "navigation-sidebarnav--expanded",
+      "name": "Expanded",
+      "title": "Navigation/SidebarNav",
+      "importPath": "./stories/SidebarNav.stories.ts",
+      "componentPath": "@intinyagroup/ui",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "navigation-sidebarnav--collapsed": {
+      "type": "story",
+      "id": "navigation-sidebarnav--collapsed",
+      "name": "Collapsed",
+      "title": "Navigation/SidebarNav",
+      "importPath": "./stories/SidebarNav.stories.ts",
+      "componentPath": "@intinyagroup/ui",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "data-spreadsheet--docs": {
+      "id": "data-spreadsheet--docs",
+      "title": "Data/Spreadsheet",
+      "name": "Docs",
+      "importPath": "./stories/Spreadsheet.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "data-spreadsheet--empty": {
+      "type": "story",
+      "id": "data-spreadsheet--empty",
+      "name": "Empty",
+      "title": "Data/Spreadsheet",
+      "importPath": "./stories/Spreadsheet.stories.ts",
+      "componentPath": "@intinyagroup/spreadsheet",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "data-spreadsheet--with-data": {
+      "type": "story",
+      "id": "data-spreadsheet--with-data",
+      "name": "With Data",
+      "title": "Data/Spreadsheet",
+      "importPath": "./stories/Spreadsheet.stories.ts",
+      "componentPath": "@intinyagroup/spreadsheet",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "layout-tabs--docs": {
+      "id": "layout-tabs--docs",
+      "title": "Layout/Tabs",
+      "name": "Docs",
+      "importPath": "./stories/Tabs.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "layout-tabs--default": {
+      "type": "story",
+      "id": "layout-tabs--default",
+      "name": "Default",
+      "title": "Layout/Tabs",
+      "importPath": "./stories/Tabs.stories.ts",
+      "componentPath": "@intinyagroup/ui/components/tabs",
+      "tags": ["dev", "test", "autodocs"]
+    }
+  }
+}
