@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/calendar",
-  "version": "0.1.1-alpha.26",
+  "version": "0.1.1-alpha.27",
   "description": "Calendar and DatePicker components for intinyagroup UI",
   "type": "module",
   "exports": {
