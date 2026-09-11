@@ -2,6 +2,7 @@
   import { ChevronRight } from "lucide-svelte";
   import { cn } from "$lib/utils.js";
   import type { Component } from "svelte";
+  import SidebarNavItem from "./SidebarNavItem.svelte";
 
   export type SidebarNavItemData = {
     id: string;
@@ -10,6 +11,7 @@
     icon?: Component;
     badge?: string | number;
     disabled?: boolean;
+    hidden?: boolean | (() => boolean);
     children?: SidebarNavItemData[];
   };
 
@@ -21,6 +23,7 @@
     expandedIds,
     onToggle,
     onNavigate,
+    filterItem,
   }: {
     item: SidebarNavItemData;
     depth?: number;
@@ -29,6 +32,7 @@
     expandedIds: Set<string>;
     onToggle: (id: string) => void;
     onNavigate?: (item: SidebarNavItemData) => void;
+    filterItem?: (item: SidebarNavItemData) => boolean;
   } = $props();
 
   const hasChildren = $derived(Boolean(item.children?.length));
@@ -98,8 +102,8 @@
 
   {#if hasChildren && expanded && !collapsed}
     <div id={`sidebar-children-${item.id}`} class="mt-0.5 space-y-0.5">
-      {#each item.children ?? [] as child (child.id)}
-        <svelte:self
+      {#each item.children?.filter((child) => !filterItem || filterItem(child)) ?? [] as child (child.id)}
+        <SidebarNavItem
           item={child}
           depth={depth + 1}
           {collapsed}
@@ -107,6 +111,7 @@
           {expandedIds}
           {onToggle}
           {onNavigate}
+          {filterItem}
         />
       {/each}
     </div>

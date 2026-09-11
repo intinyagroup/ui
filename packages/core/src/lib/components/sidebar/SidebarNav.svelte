@@ -13,6 +13,8 @@
     persistKey,
     title = "Navigation",
     onTitleClick,
+    onNavigate,
+    filterItem,
     class: className,
   }: {
     items?: SidebarNavItemData[];
@@ -22,8 +24,19 @@
     persistKey?: string;
     title?: string;
     onTitleClick?: () => void;
+    onNavigate?: (item: SidebarNavItemData) => void;
+    filterItem?: (item: SidebarNavItemData) => boolean;
     class?: string;
   } = $props();
+  function isItemVisible(item: SidebarNavItemData): boolean {
+    const isHidden =
+      typeof item.hidden === "function" ? item.hidden() : Boolean(item.hidden);
+    if (isHidden) return false;
+    if (filterItem && !filterItem(item)) return false;
+    return true;
+  }
+
+  const visibleItems = $derived(items.filter(isItemVisible));
 
   let expandedIds = $state(new Set(defaultExpanded));
 
@@ -109,7 +122,7 @@
     class="min-h-0 flex-1 space-y-0.5 overflow-y-auto p-2"
     aria-label={title}
   >
-    {#each items as item (item.id)}
+    {#each visibleItems as item (item.id)}
       <SidebarNavItem
         {item}
         {collapsed}
@@ -117,6 +130,7 @@
         {expandedIds}
         onToggle={toggleExpanded}
         {onNavigate}
+        {filterItem}
       />
     {/each}
   </nav>
