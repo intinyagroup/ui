@@ -272,6 +272,9 @@ importers:
       '@tanstack/svelte-virtual':
         specifier: ^3.13.35
         version: 3.13.35(svelte@5.56.8)
+      '@tanstack/table-core':
+        specifier: ^8.21.3
+        version: 8.21.3
       lucide-svelte:
         specifier: ^1.0.1
         version: 1.0.1(svelte@5.56.8)
