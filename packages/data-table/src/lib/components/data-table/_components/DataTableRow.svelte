@@ -125,8 +125,8 @@
   {#each row.getVisibleCells() as tableCell (tableCell.id)}
     {@const meta = tableCell.column.columnDef.meta as
       DataTableMeta<any> | undefined}
-    {@const isPinnedLeft = tableCell.column.getIsPinned() === "left"}
-    {@const isPinnedRight = tableCell.column.getIsPinned() === "right"}
+    {@const isPinnedLeft = tableCell.column.getIsPinned() === "start"}
+    {@const isPinnedRight = tableCell.column.getIsPinned() === "end"}
     {@const isEditable =
       editableColumns.includes(tableCell.column.id) || meta?.editable}
 

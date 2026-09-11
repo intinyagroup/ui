@@ -26,10 +26,10 @@ pnpm add @intinyagroup/data-table @intinyagroup/ui @intinyagroup/tokens
     status: string;
   }
 
-  const columns: ColumnDef<User>[] = [
+  const columns: ColumnDef<any, User, any>[] = [
     { accessorKey: 'name', header: 'Name' },
     { accessorKey: 'role', header: 'Role' },
-    { accessorKey: 'status', header: 'Status' }
+    { accessorKey: 'status', header: 'Status' },
   ];
 
   const data: User[] = [
@@ -142,21 +142,21 @@ Right-click anywhere on the table grid to copy matrix data (TSV) or export direc
 
 ## Props Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `TData[]` | `[]` | Array of row objects |
-| `columns` | `ColumnDef[]` | `[]` | Column definitions array |
-| `title` | `string` | — | Table header title |
-| `description` | `string` | — | Subtitle / description |
-| `searchable` | `boolean` | `true` | Enable global debounced search bar |
-| `debounceMs` | `number` | `300` | Search debounce interval in milliseconds |
-| `exportable` | `boolean` | `true` | Enable CSV and Excel (.xls) exports |
-| `floatingFilter` | `boolean` | `false` | Enable floating per-column filter row |
-| `mobileCardView` | `boolean` | `false` | Enable stacked card layout on mobile viewports |
-| `expandable` | `boolean` | `false` | Enable expandable chevron buttons |
-| `pinnedRowIds` | `string[]` | `[]` | Row IDs to freeze at the top with sticky elevation |
-| `quickFilters` | `Array` | `[]` | Array of `{ id, label, value }` quick filter chips |
-| `editableColumns`| `string[]` | `[]` | Column IDs that allow in-place editing |
-| `contextMenu` | `boolean` | `true` | Enable enterprise right-click context menu |
-| `serverSide` | `boolean` | `false` | Enable server-side pagination, sorting, and filtering |
-| `rowCount` | `number` | `0` | Total records count on server (for server-side mode) |
+| Prop              | Type          | Default | Description                                           |
+| ----------------- | ------------- | ------- | ----------------------------------------------------- |
+| `data`            | `TData[]`     | `[]`    | Array of row objects                                  |
+| `columns`         | `ColumnDef[]` | `[]`    | Column definitions array                              |
+| `title`           | `string`      | —       | Table header title                                    |
+| `description`     | `string`      | —       | Subtitle / description                                |
+| `searchable`      | `boolean`     | `true`  | Enable global debounced search bar                    |
+| `debounceMs`      | `number`      | `300`   | Search debounce interval in milliseconds              |
+| `exportable`      | `boolean`     | `true`  | Enable CSV and Excel (.xls) exports                   |
+| `floatingFilter`  | `boolean`     | `false` | Enable floating per-column filter row                 |
+| `mobileCardView`  | `boolean`     | `false` | Enable stacked card layout on mobile viewports        |
+| `expandable`      | `boolean`     | `false` | Enable expandable chevron buttons                     |
+| `pinnedRowIds`    | `string[]`    | `[]`    | Row IDs to freeze at the top with sticky elevation    |
+| `quickFilters`    | `Array`       | `[]`    | Array of `{ id, label, value }` quick filter chips    |
+| `editableColumns` | `string[]`    | `[]`    | Column IDs that allow in-place editing                |
+| `contextMenu`     | `boolean`     | `true`  | Enable enterprise right-click context menu            |
+| `serverSide`      | `boolean`     | `false` | Enable server-side pagination, sorting, and filtering |
+| `rowCount`        | `number`      | `0`     | Total records count on server (for server-side mode)  |

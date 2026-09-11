@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/react",
-  "version": "0.1.1-alpha.23",
+  "version": "0.2.0",
   "description": "React component library powered by Ark UI and @intinyagroup/tokens",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -26,7 +26,7 @@
     "@ark-ui/react": "^5.39.1",
     "@intinyagroup/grid-core": "workspace:*",
     "@intinyagroup/tokens": "workspace:*",
-    "@tanstack/react-table": "^8.21.3",
+    "@tanstack/react-table": "^9.2.4",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "tailwind-merge": "^3.5.0",

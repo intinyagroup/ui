@@ -1,17 +1,36 @@
 import * as React from 'react';
 import {
-  useReactTable,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
+  useTable,
   flexRender,
+  createCoreRowModel,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  tableFeatures,
+  columnFilteringFeature,
+  columnVisibilityFeature,
+  globalFilteringFeature,
+  rowSortingFeature,
+  rowPaginationFeature,
   type ColumnDef,
+  type RowData,
   type SortingState,
   type ColumnFiltersState,
   type PaginationState,
-  type OnChangeFn
+  type OnChangeFn,
 } from '@tanstack/react-table';
+
+const reactFeatures = tableFeatures({
+  columnFilteringFeature,
+  columnVisibilityFeature,
+  globalFilteringFeature,
+  rowSortingFeature,
+  rowPaginationFeature,
+  filteredRowModel: createFilteredRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+  sortedRowModel: createSortedRowModel(),
+  coreRowModel: createCoreRowModel(),
+});
 import {
   Button,
   Input,
@@ -34,7 +53,7 @@ import {
   ArrowDown,
   Download,
   FileSpreadsheet,
-  FileText
+  FileText,
 } from 'lucide-react';
 
 export interface ServerSideConfig {
@@ -47,8 +66,8 @@ export interface ServerSideConfig {
   onSearchChange?: (search: string) => void;
 }
 
-export interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+export interface DataTableProps<TData extends RowData, TValue> {
+  columns: ColumnDef<typeof reactFeatures, TData, any>[];
   data: TData[];
   title?: string;
   searchKey?: string;
@@ -63,7 +82,7 @@ export interface DataTableProps<TData, TValue> {
   onExport?: (format: 'csv' | 'xlsx', data: TData[]) => void;
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends RowData, TValue>({
   columns,
   data,
   title,
@@ -117,39 +136,19 @@ export function DataTable<TData, TValue>({
     }
   };
 
-  // Debounced search handling
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isServerSide) {
-        serverSide.onSearchChange?.(searchValue);
-      } else if (searchKey) {
-        table.getColumn(searchKey)?.setFilterValue(searchValue);
-      }
-    }, debounceMs);
-
-    return () => clearTimeout(timer);
-  }, [searchValue, debounceMs, isServerSide, searchKey]);
-
-  const table = useReactTable({
+  const table = useTable({
+    features: reactFeatures,
     data,
     columns,
     enableMultiSort,
-    pageCount: isServerSide ? Math.ceil(serverSide.rowCount / pagination.pageSize) : undefined,
+    rowCount: isServerSide ? serverSide.rowCount : undefined,
     manualPagination: isServerSide,
     manualSorting: isServerSide,
     manualFiltering: isServerSide,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: isServerSide ? undefined : getPaginationRowModel(),
     onSortingChange: handleSortingChange,
-    getSortedRowModel: isServerSide ? undefined : getSortedRowModel(),
     onPaginationChange: handlePaginationChange,
     onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: isServerSide ? undefined : getFilteredRowModel(),
-    state: {
-      sorting,
-      pagination,
-      columnFilters
-    }
+    state: { sorting, pagination, columnFilters },
   });
 
   const exportToCSV = React.useCallback(() => {
@@ -371,7 +370,7 @@ export function DataTable<TData, TValue>({
             <ChevronLeft className="size-4" />
           </Button>
           <span className="text-sm font-medium px-2">
-            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount() || 1}
+            Page {table.state.pagination.pageIndex + 1} of {table.getPageCount() || 1}
           </span>
           <Button
             variant="outline"

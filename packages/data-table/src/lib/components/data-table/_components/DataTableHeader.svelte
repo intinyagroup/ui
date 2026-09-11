@@ -29,7 +29,7 @@
     selectAllChecked: boolean;
     onToggleSelectAll: () => void;
     onSort: (columnId: string, direction: "asc" | "desc" | null) => void;
-    onPin: (columnId: string, side: "left" | "right" | null) => void;
+    onPin: (columnId: string, side: "start" | "end" | null) => void;
     onHide: (columnId: string) => void;
     onFilter: (columnId: string, filterValue: unknown) => void;
     onColumnReorder: (fromId: string, toId: string) => void;
@@ -103,8 +103,8 @@
       {/if}
       {#each headerGroup.headers as header (header.id)}
         {@const column = header.column}
-        {@const isPinnedLeft = column.getIsPinned() === "left"}
-        {@const isPinnedRight = column.getIsPinned() === "right"}
+        {@const isPinnedLeft = column.getIsPinned() === "start"}
+        {@const isPinnedRight = column.getIsPinned() === "end"}
         {@const canSort = column.getCanSort()}
         {@const currentSort = column.getIsSorted()}
         {@const meta = column.columnDef.meta as DataTableMeta<any> | undefined}
@@ -230,8 +230,8 @@
       {/if}
       {#each headerGroups[0]?.headers ?? [] as header (header.id + "-filter")}
         {@const column = header.column}
-        {@const isPinnedLeft = column.getIsPinned() === "left"}
-        {@const isPinnedRight = column.getIsPinned() === "right"}
+        {@const isPinnedLeft = column.getIsPinned() === "start"}
+        {@const isPinnedRight = column.getIsPinned() === "end"}
         <th
           class="px-2 py-1.5 font-normal
             {isPinnedLeft

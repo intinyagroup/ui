@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/data-table",
-  "version": "0.1.1-alpha.25",
+  "version": "0.2.0",
   "description": "Enterprise DataTable component built on grid-core",
   "type": "module",
   "exports": {
@@ -23,7 +23,7 @@
     "@intinyagroup/ui": "workspace:*",
     "@intinyagroup/grid-core": "workspace:*",
     "@tanstack/svelte-virtual": "^3.13.35",
-    "@tanstack/table-core": "^8.21.3",
+    "@tanstack/table-core": "^9.2.4",
     "lucide-svelte": "^1.0.1"
   },
   "devDependencies": {

@@ -4,21 +4,21 @@ on:
   workflow_dispatch:
     inputs:
       release-type:
-        description: 'Release type'
+        description: "Release type"
         required: true
-        default: 'alpha'
+        default: "alpha"
         type: choice
-        options: [alpha, beta, stable]
+        options: [alpha, beta, stable, prepared]
       version:
-        description: 'Version bump for stable (patch/minor/major); ignored for alpha/beta'
+        description: "Version bump for stable (patch/minor/major); ignored for alpha/beta/prepared"
         required: true
-        default: 'patch'
+        default: "patch"
         type: choice
         options: [patch, minor, major]
       package:
         description: 'Specific package to publish (leave "all" for all packages)'
         required: false
-        default: 'all'
+        default: "all"
 jobs:
   publish:
     name: Publish all packages to npm
@@ -40,8 +40,17 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Validate prepared versions
+        if: ${{ github.event.inputs.release-type == 'prepared' }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pending = fs.readdirSync('.changeset').filter((f) => f.endsWith('.md') && f !== 'README.md');
+            if (pending.length) throw new Error('Prepared release has unprocessed changesets: ' + pending.join(', '));
+          "
 
       - name: Bump versions
+        if: ${{ github.event.inputs.release-type != 'prepared' }}
         run: |
           node -e "
             const fs = require('fs');
@@ -59,9 +68,16 @@ jobs:
               const v = base.split('.').map(Number);
               if (stage === 'stable') {
                 // Drop prerelease suffix, bump the requested segment.
-                if (bump === 'minor') v[1]++;
-                else if (bump === 'major') v[0]++;
-                else if (!suffix) v[2]++; // already stable: patch
+                if (bump === 'minor') {
+                  v[1]++;
+                  v[2] = 0;
+                } else if (bump === 'major') {
+                  v[0]++;
+                  v[1] = 0;
+                  v[2] = 0;
+                } else if (!suffix) {
+                  v[2]++; // already stable: patch
+                }
                 j.version = v.join('.');
               } else {
                 // Prerelease stage: bump what's there.
@@ -87,6 +103,7 @@ jobs:
           grep -h '"version"' packages/*/package.json | sort | uniq -c
 
       - name: Commit bumped versions
+        if: ${{ github.event.inputs.release-type != 'prepared' }}
         run: |
           git config user.name "intinya-bot"
           git config user.email "bot@intinya.dev"
@@ -114,6 +131,7 @@ jobs:
           STAGE='${{ github.event.inputs.release-type }}'
           TAG="$STAGE"
           [ "$STAGE" = "stable" ] && TAG="latest"
+          [ "$STAGE" = "prepared" ] && TAG="latest"
           TARGET_PKG='${{ github.event.inputs.package }}'
           for pkg in "${ORDER[@]}"; do
             if [ "$TARGET_PKG" != "all" ] && [ "$TARGET_PKG" != "" ]; then
@@ -124,6 +142,12 @@ jobs:
             if [ -d "packages/$pkg" ]; then
               (
                 cd "packages/$pkg"
+                pkg_name=$(node -p "require('./package.json').name")
+                pkg_ver=$(node -p "require('./package.json').version")
+                if npm view "$pkg_name@$pkg_ver" version >/dev/null 2>&1; then
+                  echo "⏩ $pkg_name@$pkg_ver is already published, skipping."
+                  exit 0
+                fi
                 published=false
                 for attempt in 1 2 3 4; do
                   if npm publish --tag "$TAG" --access public; then
@@ -156,7 +180,7 @@ jobs:
       - name: Tag release
         id: tag
         run: |
-          VERSION=$(node -p "require('./packages/tokens/package.json').version")
+          VERSION=$(node -p "require('./packages/core/package.json').version")
           echo "Release version: $VERSION"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           git config user.name "intinya-bot"
@@ -169,7 +193,7 @@ jobs:
         with:
           tag_name: v${{ steps.tag.outputs.version }}
           generate_release_notes: true
-          prerelease: ${{ github.event.inputs.release-type != 'stable' }}
+          prerelease: ${{ github.event.inputs.release-type != 'stable' && github.event.inputs.release-type != 'prepared' }}
           name: v${{ steps.tag.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
 

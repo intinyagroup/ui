@@ -38,6 +38,7 @@
   import { cn } from "@intinyagroup/grid-core/utils";
   import {
     createCoreTableModel,
+    coreFeatures,
     type ServerSideConfig,
     resolvePagination,
     getPageCount,
@@ -137,7 +138,7 @@
     customPagination,
   }: {
     data: TData[];
-    columns: ColumnDef<TData, unknown>[];
+    columns: ColumnDef<typeof coreFeatures, TData, unknown>[];
     title?: string;
     description?: string;
     searchable?: boolean;
@@ -237,13 +238,14 @@
   let density = $state<"compact" | "spacious">("spacious");
   let columnVisibility = $state<Record<string, boolean>>({});
   let columnPinning = $state<ColumnPinningState>(
-    externalColumnPinning ?? { left: [], right: [] },
+    externalColumnPinning ?? { start: [], end: [] },
   );
   let columnOrder = $state<ColumnOrderState>(externalColumnOrder ?? []);
   let expanded = $state<ExpandedState>(externalExpanded ?? {});
   let columnFilters = $state<ColumnFiltersState>(externalColumnFilters ?? []);
   let groupingState = $state<GroupingState>(externalGrouping ?? []);
   let showColumnsDropdown = $state(false);
+  let columnSizing = $state<Record<string, number>>({});
   let rowSelection = $state<RowSelectionState>({});
   let selectAllChecked = $state(false);
   let activeFilterColumnId = $state<string | null>(null);
@@ -278,10 +280,7 @@
         if (saved.columnPinning) columnPinning = saved.columnPinning;
         if (saved.columnOrder) columnOrder = saved.columnOrder;
         if (saved.columnSizing) {
-          // Apply saved column sizing to columns
-          for (const [colId, width] of Object.entries(saved.columnSizing)) {
-            table.getColumn(colId)?.setSize(width);
-          }
+          columnSizing = { ...saved.columnSizing };
         }
       }
     }
@@ -300,6 +299,7 @@
         columnOrder,
         sorting,
         pageSize: pagination.pageSize,
+        columnSizing,
       });
     }
   });
@@ -352,7 +352,6 @@
         }
       : undefined,
   );
-
   const table = $derived.by(() =>
     createCoreTableModel({
       data,
@@ -366,8 +365,59 @@
         columnOrder,
         expanded,
         columnFilters,
-        grouping,
+        grouping: groupingState,
+        columnSizing,
       },
+      onSortingChange: (updater) =>
+        applyStateUpdater(updater, sorting, (next) => (sorting = next)),
+      onPaginationChange: (updater) =>
+        applyStateUpdater(updater, pagination, (next) => (pagination = next)),
+      onGlobalFilterChange: (updater) =>
+        applyStateUpdater(
+          updater,
+          globalFilter,
+          (next) => (globalFilter = next),
+        ),
+      onColumnFiltersChange: (updater) =>
+        applyStateUpdater(
+          updater,
+          columnFilters,
+          (next) => (columnFilters = next),
+        ),
+      onColumnVisibilityChange: (updater) =>
+        applyStateUpdater(
+          updater,
+          columnVisibility,
+          (next) => (columnVisibility = next),
+        ),
+      onRowSelectionChange: (updater) =>
+        applyStateUpdater(
+          updater,
+          rowSelection,
+          (next) => (rowSelection = next),
+        ),
+      onColumnPinningChange: (updater) =>
+        applyStateUpdater(
+          updater,
+          columnPinning,
+          (next) => (columnPinning = next),
+        ),
+      onColumnOrderChange: (updater) =>
+        applyStateUpdater(updater, columnOrder, (next) => (columnOrder = next)),
+      onGroupingChange: (updater) =>
+        applyStateUpdater(
+          updater,
+          groupingState,
+          (next) => (groupingState = next),
+        ),
+      onExpandedChange: (updater) =>
+        applyStateUpdater(updater, expanded, (next) => (expanded = next)),
+      onColumnSizingChange: (updater) =>
+        applyStateUpdater(
+          updater,
+          columnSizing,
+          (next) => (columnSizing = next),
+        ),
       serverSide: serverSideConfig,
       enableResizing: resizable,
     }),
@@ -487,6 +537,17 @@
     }
   }
 
+  function applyStateUpdater<T>(
+    updater: T | ((previous: T) => T),
+    current: T,
+    set: (next: T) => void,
+  ) {
+    set(
+      typeof updater === "function"
+        ? (updater as (previous: T) => T)(current)
+        : updater,
+    );
+  }
   function handleSort(columnId: string, direction: "asc" | "desc" | null) {
     const nextSorting =
       direction === null ? [] : [{ id: columnId, desc: direction === "desc" }];
@@ -498,15 +559,15 @@
       });
   }
 
-  function handlePin(columnId: string, side: "left" | "right" | null) {
+  function handlePin(columnId: string, side: "start" | "end" | null) {
     const next = {
-      left: [...columnPinning.left],
-      right: [...columnPinning.right],
+      start: [...columnPinning.start],
+      end: [...columnPinning.end],
     };
-    next.left = next.left.filter((id) => id !== columnId);
-    next.right = next.right.filter((id) => id !== columnId);
-    if (side === "left") next.left.push(columnId);
-    else if (side === "right") next.right.push(columnId);
+    next.start = next.start.filter((id) => id !== columnId);
+    next.end = next.end.filter((id) => id !== columnId);
+    if (side === "start") next.start.push(columnId);
+    else if (side === "end") next.end.push(columnId);
     columnPinning = next;
     onColumnPinningChange?.(next);
   }

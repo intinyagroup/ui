@@ -43,7 +43,7 @@
   }: {
     column: Column<any, unknown>;
     onSort: (direction: "asc" | "desc" | null) => void;
-    onPin: (side: "left" | "right" | null) => void;
+    onPin: (side: "start" | "end" | null) => void;
     onHide: () => void;
     onFilter: () => void;
     isFiltered?: boolean;
@@ -117,20 +117,20 @@
         >Pin</DropdownMenu.Label
       >
       <DropdownMenu.Item
-        onclick={() => onPin(isPinned === "left" ? null : "left")}
+        onclick={() => onPin(isPinned === "start" ? null : "start")}
       >
         <ArrowLeftFromLine class="size-4 mr-2" />
-        Pin left
-        {#if isPinned === "left"}
+        Pin start
+        {#if isPinned === "start"}
           <span class="ml-auto text-[var(--ui-primary)] text-xs">✓</span>
         {/if}
       </DropdownMenu.Item>
       <DropdownMenu.Item
-        onclick={() => onPin(isPinned === "right" ? null : "right")}
+        onclick={() => onPin(isPinned === "end" ? null : "end")}
       >
         <ArrowRightFromLine class="size-4 mr-2" />
-        Pin right
-        {#if isPinned === "right"}
+        Pin end
+        {#if isPinned === "end"}
           <span class="ml-auto text-[var(--ui-primary)] text-xs">✓</span>
         {/if}
       </DropdownMenu.Item>

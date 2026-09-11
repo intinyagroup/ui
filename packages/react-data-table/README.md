@@ -20,8 +20,8 @@ pnpm add @intinyagroup/react-data-table @intinyagroup/react @intinyagroup/tokens
 ## Usage
 
 ```tsx
-import React from 'react';
-import { DataTable, type ColumnDef } from '@intinyagroup/react-data-table';
+import React from "react";
+import { DataTable, type ColumnDef } from "@intinyagroup/react-data-table";
 
 interface User {
   id: string;
@@ -29,17 +29,17 @@ interface User {
   role: string;
 }
 
-const columns: ColumnDef<User>[] = [
-  { accessorKey: 'id', header: 'ID' },
-  { accessorKey: 'name', header: 'Name' },
-  { accessorKey: 'role', header: 'Role' },
+const columns: ColumnDef<any, User, any>[] = [
+  { accessorKey: "id", header: "ID" },
+  { accessorKey: "name", header: "Name" },
+  { accessorKey: "role", header: "Role" },
 ];
 
 export function UserList() {
   return (
     <DataTable
       columns={columns}
-      data={[{ id: '1', name: 'Joshua', role: 'Admin' }]}
+      data={[{ id: "1", name: "Joshua", role: "Admin" }]}
       searchKey="name"
       exportable={true}
     />
