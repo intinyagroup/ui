@@ -339,7 +339,7 @@ importers:
         version: 5.56.8
       svelte-check:
         specifier: ^4.4.6
-        version: 4.7.4(picomatch@4.0.7)(svelte@5.56.8)(typescript@6.0.3)
+        version: 4.7.4(picomatch@4.0.5)(svelte@5.56.8)(typescript@6.0.3)
       typescript:
         specifier: ^6.0.2
         version: 6.0.3
@@ -722,8 +722,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.5(@capacitor/core@8.5.1)
       '@capacitor/haptics':
-        specifier: ^7.0.0
-        version: 7.0.5(@capacitor/core@8.5.1)
+        specifier: ^8.0.2
+        version: 8.0.2(@capacitor/core@8.5.1)
       '@capacitor/local-notifications':
         specifier: ^7.0.0
         version: 7.0.7(@capacitor/core@8.5.1)
@@ -1212,10 +1212,10 @@ packages:
     peerDependencies:
       '@capacitor/core': '>=7.0.0'
 
-  '@capacitor/haptics@7.0.5':
-    resolution: {integrity: sha512-ujXuUkL8UG1YLhuJo/q+jiHr0K5JmclGZHmV1RttmiUBRG1XpC4Fc4gXUJyEX+6IoyfwWhgtPvJFRUB31HYnRQ==}
+  '@capacitor/haptics@8.0.2':
+    resolution: {integrity: sha512-c2hZzRR5Fk1tbTvhG1jhh2XBAf3EhnIerMIb2sl7Mt41Gxx1fhBJFDa0/BI1IbY4loVepyyuqNC9820/GZuoWQ==}
     peerDependencies:
-      '@capacitor/core': '>=7.0.0'
+      '@capacitor/core': '>=8.0.0'
 
   '@capacitor/local-notifications@7.0.7':
     resolution: {integrity: sha512-3qSpa8PpVMONHqBOaJ4RbA/lB5vOdEngtep0myGmP3S56gShPScDCotbw7dwmQy3NCdY4Up9nH3ySrGvUh2jZg==}
@@ -5701,7 +5701,7 @@ snapshots:
     dependencies:
       '@capacitor/core': 8.5.1
 
-  '@capacitor/haptics@7.0.5(@capacitor/core@8.5.1)':
+  '@capacitor/haptics@8.0.2(@capacitor/core@8.5.1)':
     dependencies:
       '@capacitor/core': 8.5.1
 
@@ -9565,6 +9565,19 @@ snapshots:
   supports-color@7.2.0:
     dependencies:
       has-flag: 4.0.0
+
+  svelte-check@4.7.4(picomatch@4.0.5)(svelte@5.56.8)(typescript@6.0.3):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.31
+      '@sveltejs/load-config': 0.2.1
+      chokidar: 4.0.3
+      fdir: 6.5.0(picomatch@4.0.5)
+      picocolors: 1.1.1
+      sade: 1.8.1
+      svelte: 5.56.8
+      typescript: 6.0.3
+    transitivePeerDependencies:
+      - picomatch
 
   svelte-check@4.7.4(picomatch@4.0.7)(svelte@5.56.8)(typescript@6.0.3):
     dependencies:
