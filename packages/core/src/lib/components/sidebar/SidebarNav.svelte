@@ -77,7 +77,7 @@
   data-slot="sidebar-nav"
   data-state={collapsed ? "collapsed" : "expanded"}
   class={cn(
-    "flex h-full min-h-0 w-64 flex-col border-r border-border bg-card text-foreground transition-[width] duration-200 ease-out",
+    "flex h-full min-h-0 w-[17rem] flex-col border-r border-border/70 bg-background text-foreground transition-[width] duration-200 ease-out",
     collapsed && "w-14",
     className,
   )}
@@ -85,7 +85,7 @@
 >
   <div
     class={cn(
-      "flex h-12 shrink-0 items-center border-b border-border px-3",
+      "flex h-16 shrink-0 items-center border-b border-border/65 px-3.5",
       collapsed ? "justify-center" : "justify-between",
     )}
   >
@@ -119,7 +119,7 @@
   </div>
 
   <nav
-    class="min-h-0 flex-1 space-y-0.5 overflow-y-auto p-2"
+    class="min-h-0 flex-1 space-y-1 overflow-y-auto px-2.5 py-3 [scrollbar-gutter:stable]"
     aria-label={title}
   >
     {#each visibleItems as item (item.id)}
