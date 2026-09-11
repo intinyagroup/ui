@@ -194,11 +194,11 @@ importers:
         specifier: ^1.28.0
         version: 1.28.0(svelte@5.56.8)
       '@tanstack/svelte-virtual':
-        specifier: ^3.13.35
-        version: 3.13.35(svelte@5.56.8)
+        specifier: ^3.13.37
+        version: 3.13.37(svelte@5.56.8)
       '@tanstack/table-core':
-        specifier: ^8.21.3
-        version: 8.21.3
+        specifier: ^9.2.4
+        version: 9.2.4
       bits-ui:
         specifier: ^1.8.0
         version: 1.8.0(svelte@5.56.8)
@@ -270,11 +270,11 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@tanstack/svelte-virtual':
-        specifier: ^3.13.35
-        version: 3.13.35(svelte@5.56.8)
+        specifier: ^3.13.37
+        version: 3.13.37(svelte@5.56.8)
       '@tanstack/table-core':
-        specifier: ^8.21.3
-        version: 8.21.3
+        specifier: ^9.2.4
+        version: 9.2.4
       lucide-svelte:
         specifier: ^1.0.1
         version: 1.0.1(svelte@5.56.8)
@@ -342,7 +342,7 @@ importers:
         version: 5.56.8
       svelte-check:
         specifier: ^4.4.6
-        version: 4.7.4(picomatch@4.0.7)(svelte@5.56.8)(typescript@6.0.3)
+        version: 4.7.4(picomatch@4.0.5)(svelte@5.56.8)(typescript@6.0.3)
       typescript:
         specifier: ^6.0.2
         version: 6.0.3
@@ -430,11 +430,11 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@tanstack/svelte-virtual':
-        specifier: ^3.13.35
-        version: 3.13.35(svelte@5.56.8)
+        specifier: ^3.13.37
+        version: 3.13.37(svelte@5.56.8)
       '@tanstack/table-core':
-        specifier: ^8.21.3
-        version: 8.21.3
+        specifier: ^9.2.4
+        version: 9.2.4
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -845,8 +845,8 @@ importers:
         specifier: workspace:*
         version: link:../tokens
       '@tanstack/react-table':
-        specifier: ^8.21.3
-        version: 8.21.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: ^9.2.4
+        version: 9.2.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -897,8 +897,8 @@ importers:
         specifier: workspace:*
         version: link:../tokens
       '@tanstack/react-table':
-        specifier: ^8.21.3
-        version: 8.21.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: ^9.2.4
+        version: 9.2.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1053,8 +1053,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@tanstack/svelte-virtual':
-        specifier: ^3.13.35
-        version: 3.13.35(svelte@5.56.8)
+        specifier: ^3.13.37
+        version: 3.13.37(svelte@5.56.8)
       lucide-svelte:
         specifier: ^1.0.1
         version: 1.0.1(svelte@5.56.8)
@@ -2432,24 +2432,32 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7 || ^8
 
-  '@tanstack/react-table@8.21.3':
-    resolution: {integrity: sha512-5nNMTSETP4ykGegmVkhjcS8tTLW6Vl4axfEGQN3v0zdHYbK4UfoqfPChclTrJ4EoK9QynqAu9oUf8VEmrpZ5Ww==}
-    engines: {node: '>=12'}
+  '@tanstack/react-store@0.11.1':
+    resolution: {integrity: sha512-HaIGKI3YLmjBYIvy5DFDY23oNaYZIsTZfngey07Uh5iLVJgM3bIGCnZeOFOqzjFld9JHWcaHJnasD/bKoGKwJQ==}
     peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@tanstack/svelte-virtual@3.13.35':
-    resolution: {integrity: sha512-4ur3bPzSXnZZtQWwns/ziCR9pJ/4x/AlBIeDZu96MKrRMbZBL1TQkGiO+ZaX5zCgdpXUZwJnehKzBp32KOumCQ==}
+  '@tanstack/react-table@9.2.4':
+    resolution: {integrity: sha512-Rzp1Q4e0/nIgEjmISYR5HeEgLTNtrG+C7NFZf/AbCxPO5hg+zC3yNGwcoECigUk8SFzzvhXbd2rFdtP2ZiGrfA==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      react: '>=18'
+
+  '@tanstack/store@0.11.1':
+    resolution: {integrity: sha512-mzTOBhypOuDJAy/D8n2MfUZ1HFkXnmSETviRyhqEC8LUE7/IZQExOTxMANj3KjTofYTkFNpBY67qaVrT41YccA==}
+
+  '@tanstack/svelte-virtual@3.13.37':
+    resolution: {integrity: sha512-06d8Cvycaecjz0kyFs/odHa1Ol2bf7fVoi1LC2nh9ci0pQ4imL0vKYYSl/RoivSoJJswXg0AqiDIXBjitVJ1TA==}
     peerDependencies:
       svelte: ^3.48.0 || ^4.0.0 || ^5.0.0
 
-  '@tanstack/table-core@8.21.3':
-    resolution: {integrity: sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==}
-    engines: {node: '>=12'}
+  '@tanstack/table-core@9.2.4':
+    resolution: {integrity: sha512-GwdDyGGr6UXAtubF14yAwcXvdaogqfsQgIk89Suebjxob/Rjq2xvfmXsjDF1rQmKmhHsJm9TOY7myxv3i6geJw==}
+    engines: {node: '>=20'}
 
-  '@tanstack/virtual-core@3.17.7':
-    resolution: {integrity: sha512-bp+v10y65sp2H7WpWfIMyxTNfl8ZVfxFTLRjPIFRryi6FV/J33z4IS53WO4pTk36KlvJ4iLiQz+oaydDC1xbcA==}
+  '@tanstack/virtual-core@3.17.9':
+    resolution: {integrity: sha512-M8Bzy7CCMvUjRiuoHVH9mRjyUVczRs8v8RcUEphLFGc445ZP4KQ15Y1sLqhQqJi/HgGJrxfCHnEnIX0x9mVrBg==}
 
   '@testing-library/dom@10.4.1':
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
@@ -5180,6 +5188,11 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
+  use-sync-external-store@1.6.0:
+    resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -6748,20 +6761,33 @@ snapshots:
       tailwindcss: 4.3.3
       vite: 8.2.2(@types/node@25.9.5)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.9.0)
 
-  '@tanstack/react-table@8.21.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+  '@tanstack/react-store@0.11.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@tanstack/table-core': 8.21.3
+      '@tanstack/store': 0.11.1
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
+      use-sync-external-store: 1.6.0(react@19.2.8)
 
-  '@tanstack/svelte-virtual@3.13.35(svelte@5.56.8)':
+  '@tanstack/react-table@9.2.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@tanstack/virtual-core': 3.17.7
+      '@tanstack/react-store': 0.11.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@tanstack/table-core': 9.2.4
+      react: 19.2.8
+    transitivePeerDependencies:
+      - react-dom
+
+  '@tanstack/store@0.11.1': {}
+
+  '@tanstack/svelte-virtual@3.13.37(svelte@5.56.8)':
+    dependencies:
+      '@tanstack/virtual-core': 3.17.9
       svelte: 5.56.8
 
-  '@tanstack/table-core@8.21.3': {}
+  '@tanstack/table-core@9.2.4':
+    dependencies:
+      '@tanstack/store': 0.11.1
 
-  '@tanstack/virtual-core@3.17.7': {}
+  '@tanstack/virtual-core@3.17.9': {}
 
   '@testing-library/dom@10.4.1':
     dependencies:
@@ -9543,6 +9569,19 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
+  svelte-check@4.7.4(picomatch@4.0.5)(svelte@5.56.8)(typescript@6.0.3):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.31
+      '@sveltejs/load-config': 0.2.1
+      chokidar: 4.0.3
+      fdir: 6.5.0(picomatch@4.0.5)
+      picocolors: 1.1.1
+      sade: 1.8.1
+      svelte: 5.56.8
+      typescript: 6.0.3
+    transitivePeerDependencies:
+      - picomatch
+
   svelte-check@4.7.4(picomatch@4.0.7)(svelte@5.56.8)(typescript@6.0.3):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
@@ -9853,6 +9892,10 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
+
+  use-sync-external-store@1.6.0(react@19.2.8):
+    dependencies:
+      react: 19.2.8
 
   util-deprecate@1.0.2: {}
 
