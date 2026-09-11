@@ -189,7 +189,7 @@ jobs:
           git push origin "v$VERSION" --force || echo "Tag already pushed or remote updated"
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.tag.outputs.version }}
           generate_release_notes: true
