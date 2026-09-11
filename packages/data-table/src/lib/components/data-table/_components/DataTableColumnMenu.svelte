@@ -53,7 +53,7 @@
   } = $props();
 
   const canSort = $derived(column.getCanSort());
-  const canPin = $derived(column.getIsPinnable());
+  const canPin = $derived(column.getCanPin());
   const currentSort = $derived(column.getIsSorted());
   const isPinned = $derived(column.getIsPinned());
   const canHide = $derived(column.getCanHide());
