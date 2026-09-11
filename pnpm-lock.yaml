@@ -339,7 +339,7 @@ importers:
         version: 5.56.8
       svelte-check:
         specifier: ^4.4.6
-        version: 4.7.4(picomatch@4.0.7)(svelte@5.56.8)(typescript@6.0.3)
+        version: 4.7.4(picomatch@4.0.5)(svelte@5.56.8)(typescript@6.0.3)
       typescript:
         specifier: ^6.0.2
         version: 6.0.3
@@ -704,8 +704,8 @@ importers:
         specifier: ^5.55.2
         version: 5.56.8
       three:
-        specifier: ^0.170.0
-        version: 0.170.0
+        specifier: ^0.185.1
+        version: 0.185.1
       typescript:
         specifier: ^6.0.2
         version: 6.0.3
@@ -4988,8 +4988,8 @@ packages:
   thenify@3.3.1:
     resolution: {integrity: sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==}
 
-  three@0.170.0:
-    resolution: {integrity: sha512-FQK+LEpYc0fBD+J8g6oSEyyNzjp+Q7Ks1C568WWaoMRLW+TkNNWmenWeGgJjV105Gd+p/2ql1ZcjYvNiPZBhuQ==}
+  three@0.185.1:
+    resolution: {integrity: sha512-5aojFCXKwnjBRZvUnt3WFfEcvUJgkN5LlijRFN95hMy8WVkG4I0QNcJE+OuWvuJ0bOdStrbfXn0pkd6/QyiAlg==}
 
   tiny-case@1.0.3:
     resolution: {integrity: sha512-Eet/eeMhkO6TX8mnUteS9zgPbUMQa4I6Kkp5ORiBD5476/m+PIRiumP5tmh5ioJpH7k51Kehawy2UDfsnxxY8Q==}
@@ -9540,6 +9540,19 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
+  svelte-check@4.7.4(picomatch@4.0.5)(svelte@5.56.8)(typescript@6.0.3):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.31
+      '@sveltejs/load-config': 0.2.1
+      chokidar: 4.0.3
+      fdir: 6.5.0(picomatch@4.0.5)
+      picocolors: 1.1.1
+      sade: 1.8.1
+      svelte: 5.56.8
+      typescript: 6.0.3
+    transitivePeerDependencies:
+      - picomatch
+
   svelte-check@4.7.4(picomatch@4.0.7)(svelte@5.56.8)(typescript@6.0.3):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
@@ -9689,7 +9702,7 @@ snapshots:
     dependencies:
       any-promise: 1.3.0
 
-  three@0.170.0: {}
+  three@0.185.1: {}
 
   tiny-case@1.0.3:
     optional: true
