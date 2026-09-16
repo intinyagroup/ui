@@ -45,8 +45,19 @@ jobs:
         run: |
           node -e "
             const fs = require('fs');
-            const pending = fs.readdirSync('.changeset').filter((f) => f.endsWith('.md') && f !== 'README.md');
-            if (pending.length) throw new Error('Prepared release has unprocessed changesets: ' + pending.join(', '));
+            const target = '${{ github.event.inputs.package }}';
+            const dir = target === 'ui' ? 'core' : target;
+            const files = target === 'all'
+              ? fs.readdirSync('packages').map((d) => `packages/${d}/package.json`)
+              : [`packages/${dir}/package.json`];
+            for (const file of files) {
+              if (!fs.existsSync(file)) continue;
+              const pkg = JSON.parse(fs.readFileSync(file, 'utf8'));
+              if (pkg.private) continue;
+              if (!/^\\d+\\.\\d+\\.\\d+$/.test(pkg.version)) {
+                throw new Error(pkg.name + ' must have stable prepared version, got ' + pkg.version);
+              }
+            }
           "
 
       - name: Bump versions
