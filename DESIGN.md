@@ -1,243 +1,227 @@
-# Intinya Design System
-
-Design language and token contract for the Intinya UI ecosystem — `@intinyagroup/ui` (123+ components), `@intinyagroup/md3`, `@intinyagroup/flat`, and 26 publishable packages. This document is the visual spec; `@intinyagroup/tokens` is the implementation. Code is authoritative; this spec describes the intended system.
-
-Live docs: https://ui.intinya.id
-
+---
+name: Technical Vanguard
+colors:
+  surface: "#faf8ff"
+  surface-dim: "#d2d9f4"
+  surface-bright: "#faf8ff"
+  surface-container-lowest: "#ffffff"
+  surface-container-low: "#f2f3ff"
+  surface-container: "#eaedff"
+  surface-container-high: "#e2e7ff"
+  surface-container-highest: "#dae2fd"
+  on-surface: "#131b2e"
+  on-surface-variant: "#3f4850"
+  inverse-surface: "#283044"
+  inverse-on-surface: "#eef0ff"
+  outline: "#707881"
+  outline-variant: "#bfc7d2"
+  surface-tint: "#006398"
+  primary: "#006194"
+  on-primary: "#ffffff"
+  primary-container: "#007bb9"
+  on-primary-container: "#fdfcff"
+  inverse-primary: "#93ccff"
+  secondary: "#855300"
+  on-secondary: "#ffffff"
+  secondary-container: "#fea619"
+  on-secondary-container: "#684000"
+  tertiary: "#006195"
+  on-tertiary: "#ffffff"
+  tertiary-container: "#287ab3"
+  on-tertiary-container: "#fdfcff"
+  error: "#ba1a1a"
+  on-error: "#ffffff"
+  error-container: "#ffdad6"
+  on-error-container: "#93000a"
+  primary-fixed: "#cce5ff"
+  primary-fixed-dim: "#93ccff"
+  on-primary-fixed: "#001d31"
+  on-primary-fixed-variant: "#004b73"
+  secondary-fixed: "#ffddb8"
+  secondary-fixed-dim: "#ffb95f"
+  on-secondary-fixed: "#2a1700"
+  on-secondary-fixed-variant: "#653e00"
+  tertiary-fixed: "#cde5ff"
+  tertiary-fixed-dim: "#94ccff"
+  on-tertiary-fixed: "#001d32"
+  on-tertiary-fixed-variant: "#004b74"
+  background: "#faf8ff"
+  on-background: "#131b2e"
+  surface-variant: "#dae2fd"
+  sky-deep: "#075985"
+  amber-dark: "#d97706"
+  slate-surface: "#f8fafc"
+  slate-subtle: "#f1f5f9"
+  slate-border: "#e2e8f0"
+  slate-muted: "#64748b"
+  slate-body: "#334155"
+typography:
+  display-hero:
+    fontFamily: Space Grotesk
+    fontSize: 48px
+    fontWeight: "700"
+    lineHeight: 56px
+    letterSpacing: -0.03em
+  headline-lg:
+    fontFamily: Space Grotesk
+    fontSize: 36px
+    fontWeight: "600"
+    lineHeight: 44px
+    letterSpacing: -0.02em
+  headline-lg-mobile:
+    fontFamily: Space Grotesk
+    fontSize: 28px
+    fontWeight: "600"
+    lineHeight: 36px
+    letterSpacing: -0.02em
+  headline-md:
+    fontFamily: Space Grotesk
+    fontSize: 24px
+    fontWeight: "600"
+    lineHeight: 32px
+    letterSpacing: -0.01em
+  headline-sm:
+    fontFamily: Space Grotesk
+    fontSize: 20px
+    fontWeight: "600"
+    lineHeight: 28px
+  title-md:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: "600"
+    lineHeight: 24px
+  title-sm:
+    fontFamily: Inter
+    fontSize: 14px
+    fontWeight: "600"
+    lineHeight: 20px
+  body-lg:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: "400"
+    lineHeight: 24px
+  body-md:
+    fontFamily: Inter
+    fontSize: 14px
+    fontWeight: "400"
+    lineHeight: 20px
+  body-sm:
+    fontFamily: Inter
+    fontSize: 12px
+    fontWeight: "400"
+    lineHeight: 16px
+  label-code:
+    fontFamily: JetBrains Mono
+    fontSize: 12px
+    fontWeight: "500"
+    lineHeight: 16px
+    letterSpacing: 0.02em
+  label-badge:
+    fontFamily: Inter
+    fontSize: 11px
+    fontWeight: "600"
+    lineHeight: 14px
+    letterSpacing: 0.04em
+rounded:
+  sm: 0.25rem
+  DEFAULT: 0.5rem
+  md: 0.75rem
+  lg: 1rem
+  xl: 1.5rem
+  full: 9999px
+spacing:
+  gutter: 1.5rem
+  gutter-mobile: 0.75rem
+  margin: 2rem
+  margin-mobile: 1rem
+  space-xs: 0.25rem
+  space-sm: 0.5rem
+  space-md: 1rem
+  space-lg: 1.5rem
+  space-xl: 2.5rem
 ---
 
-## 1. Design Principles
+## Brand & Style
 
-1. **One component library, many identities.** Every component renders through semantic tokens. A single CSS import restyles the entire library — no component changes, no rebuild.
-2. **Tokens are the only color path.** Components never hard-code colors. `bg-primary`, `text-muted-foreground` resolve through `--ui-*` custom properties; a hard-coded hex breaks all nine themes at once.
-3. **CSS custom properties, no JS theme objects.** Zero runtime cost (ADR-002). Themes are pure CSS under `[data-ui-theme="..."]` attribute selectors.
-4. **Accessible by default.** Color pairs carry foreground contrast (primary/foreground, card/card-foreground). Mobile components guarantee ≥44px touch targets, safe-area awareness, no hover-dependent behavior.
-5. **Boring where it counts.** Components use one reference pattern (Svelte 5 runes, `tv()` variants, `data-slot` hooks, `cn()` merging) so any developer can extend the library.
+This design system embodies high-velocity technical capability, structural discipline, and executive clarity. Designed for modern enterprise SaaS, the interface bridges developer-grade precision with intuitive administrative workflows. It prioritizes information density without visual fatigue, turning complex infrastructure telemetry, data grids, and configuration trees into legible, confident UI.
 
-## 2. Architecture
+The aesthetic philosophy draws from modern corporate minimalism integrated with subtle technical isometric influences. Layouts feel structured and intentional, defined by crisp contrast lines, layered cool surfaces, and tactical color pops. Vibrant sky-blue gradients anchor core navigation and primary operational verbs, while concentrated warm amber is reserved strictly for focal engagement, critical notifications, and high-value status moments.
 
-```
-packages/tokens/src/
-├── base.css        # neutral (default :root), warm, dark — shadcn-style
-├── md3.css         # Material Design 3 light/dark
-├── flat.css        # Flat/Geometric light/dark
-├── glass.css       # Glassmorphism light/dark
-├── brutalist.css   # Brutalist light/dark
-├── neumorphism.css # Neumorphism light/dark
-├── retro.css       # Retro/Vintage light/dark
-├── cyberpunk.css   # Cyberpunk light/dark
-└── minimalist.css  # Minimalist light/dark
-```
+## Colors
 
-Token flow:
+The color palette establishes an analytical, high-reliability workspace. The base canvas relies on ultra-clean white (`#ffffff`) and slate-tinted neutral fills (`#f8fafc`), framed by structured hairpins in pale slate (`#e2e8f0`).
 
-```
-theme CSS file                base.css                components
---ui-primary  ──►  @theme inline ──►  --color-primary  ──►  bg-primary
---ui-radius   ──►  --radius-lg      ──►  rounded-lg
-```
+- **Primary (`#0284c7`) & Tertiary (`#0369a1`)**: Serve as the core functional drivers. Primary blue governs main CTAs, active selection tabs, focused borders, and core progress trackers. Tertiary blue provides depth stops in gradient accents and interactive hover states.
+- **Secondary (`#f59e0b`) & Amber Dark (`#d97706`)**: Used as the focal contrast accent. Because of its intense chromatic energy against cool slate backgrounds, amber is applied surgically: alert pings, warning states, featured KPI indicators, and contextual tittle markers.
+- **Neutrals (`#0f172a`, `#334155`, `#64748b`)**: Deep slate handles high-contrast typographic rendering, ensuring maximum readability for enterprise metrics and dense text columns.
 
-Each theme file redefines the same `--ui-*` variables under attribute selectors. `base.css` maps them into Tailwind v4's `@theme inline` so utility classes resolve through the token layer. **Consumers must import a theme CSS file explicitly** — `@intinyagroup/ui` does not bundle tokens; unstyled output is the symptom of a missing import.
+## Typography
 
-Themes switch at runtime by setting `data-ui-theme` on the root element:
+The typographic hierarchy utilizes a multi-engine layout tailored for enterprise utilities:
 
-```html
-<html data-ui-theme="flat">
-```
+1. **Space Grotesk** commands page heads, card titles, and high-impact numerical stats. Its geometric DNA reflects the isometric angles of the brand logo, injecting technical identity without feeling illegible.
+2. **Inter** runs the entire interface backbone: body prose, form fields, tabular data, and navigational links. It maintains supreme legibility under dense information layouts.
+3. **JetBrains Mono** governs precise technical elements, API endpoints, raw metrics, and syntax-driven status pills.
 
-## 3. Semantic Color Tokens
+Keep tabular numbers enabled (`tnum` / `font-variant-numeric: tabular-nums`) across all numerical displays in dashboards and tables to prevent shifting baselines during live data streaming.
 
-Every theme defines these — override them in your root CSS to brand the library:
+## Layout & Spacing
 
-| Token | Purpose |
-|-------|---------|
-| `--ui-background` / `--ui-foreground` | Page surface / primary text |
-| `--ui-card` / `--ui-card-foreground` | Card surfaces / text |
-| `--ui-popover` / `--ui-popover-foreground` | Menus, popovers, sheets |
-| `--ui-primary` / `--ui-primary-foreground` | Primary actions, active states / label on primary |
-| `--ui-secondary` / `--ui-secondary-foreground` | Secondary actions |
-| `--ui-muted` / `--ui-muted-foreground` | Subtle, disabled surfaces |
-| `--ui-accent` / `--ui-accent-foreground` | Hover / highlight accents |
-| `--ui-destructive` | Errors, destructive actions |
-| `--ui-border` | Default borders |
-| `--ui-input` | Input borders |
-| `--ui-ring` | Focus rings |
+This design system uses a strict 8pt modular scale overlaid on a 12-column responsive fluid grid.
 
-Status aliases (theme-dependent values):
+- **Desktop (1280px+)**: 12 columns, 24px gutters (`1.5rem`), with a maximum viewport boundary of 1440px for standard dashboard shells. Lateral canvas margins are fixed at `2rem`.
+- **Tablet (768px - 1279px)**: 8 columns with 16px gutters. Structural sidebars collapse into persistent icon-rail configurations (64px wide).
+- **Mobile (< 768px)**: 4 columns, 12px gutters (`0.75rem`), with outer canvas padding of `1rem`. Secondary analytical panels collapse below the primary action surface.
 
-| Token | Neutral (base) | MD3 |
-|-------|---------------|-----|
-| `--ui-success` | `oklch(0.648 0.15 160)` green | `oklch(0.55 0.20 150)` green |
-| `--ui-warning` | `oklch(0.769 0.188 70)` amber | `oklch(0.65 0.18 80)` amber |
-| `--ui-info` | `oklch(0.646 0.222 41.116)` orange | `oklch(0.50 0.18 260)` blue |
+Internal component rhythm follows strict geometric density: micro-element gaps utilize `space-xs` (4px) and `space-sm` (8px); form rows and control groupings consistently use `space-md` (16px); section demarcations inside cards use `space-lg` (24px).
 
-`base.css` additionally defines `--ui-danger` (alias of destructive) in the warm theme. All values are OKLCH for perceptual consistency.
+## Elevation & Depth
 
-## 4. Typography
+Visual depth avoids heavy, muddy drop shadows. The system is built on an architectural layering strategy:
 
-Three font tokens per theme, with theme-appropriate defaults:
+1. **Base Layer (Level 0)**: Canvas ground (`#f8fafc`) with subtle structural borders (`#e2e8f0`).
+2. **Surface Layer (Level 1)**: Pure white (`#ffffff`) interactive cards, tables, and panels enclosed in a 1px border (`#e2e8f0`). Subtle ambient drop: `box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02)`.
+3. **Floating Overlays (Level 2)**: Popovers, context dropdowns, and flyout selectors. These receive crisp outlines paired with expanded ambient diffusion: `box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03)`.
+4. **Modal Layer (Level 3)**: Dialogue modals feature a 40% opacity slate backdrop overlay (`#0f172a66`) paired with 4px backdrop blur, focusing interaction exclusively on the elevated module.
 
-| Theme | `--ui-font-sans` | `--ui-font-mono` | `--ui-font-serif` |
-|-------|------------------|------------------|-------------------|
-| base (neutral) | `Inter Variable` | `SFMono-Regular` | `Georgia` |
-| md3 | `Roboto` | `Roboto Mono` | — |
-| flat | `Outfit` | `JetBrains Mono` | — |
-| glass | `Inter` | `SF Mono` | — |
-| brutalist | `Space Mono` (mono for everything) | `Space Mono` | — |
-| neumorphism | `Inter Variable` | `SFMono-Regular` | `Georgia` |
-| retro | `Georgia` (serif for everything) | `Courier New` | `Georgia` |
-| cyberpunk | system `ui-monospace` | `SFMono-Regular` | `ui-monospace` |
-| minimalist | `system-ui` | `SFMono-Regular` | `Georgia` |
+## Shapes
 
-Type personality rules per theme:
+The system implements a hybrid shape philosophy that balances geometric containment with ergonomic human touchpoints:
 
-- **brutalist** — links and buttons are `uppercase`, `font-weight: 700`, `letter-spacing: 0.05em`; body runs `letter-spacing: -0.02em`, `line-height: 1.5`.
-- **retro** — serif display, sepia-toned, `line-height: 1.6`.
-- **cyberpunk** — monospace-first, digital feel.
-- **minimalist** — system fonts, maximum whitespace.
-- **md3** — Roboto at `line-height: 1.6` per Material guidelines.
+- **Structural Elements (Cards, Panels, Modals)**: Standardized at Level 2 roundedness (`rounded-lg` / 16px or `rounded` / 8px) with sharp, precise 1px borders.
+- **Micro-Controls (Buttons, Status Chips, Indicators)**: Fully rounded pill silhouettes (`rounded-full` / 9999px) are deliberately applied to action buttons, search bars, and status tags. This creates an immediate visual signature inspired by the brand's tittle dot, setting interactive click targets apart from square analytical data grids.
 
-## 5. Spacing & Radius
+## Components
 
-**Spacing scale** (`--ui-space-*`), 4px base unit:
+### Buttons
 
-```
-0   0.25rem  0.5rem  0.75rem  1rem  1.25rem  1.5rem  2rem  2.5rem  3rem  4rem
-0     1        2       3       4      5        6       8     10     12    16
-```
+- **Primary Action**: Pill-shaped (`rounded-full`), rendered with a directional brand gradient (`linear-gradient(135deg, #0284c7 0%, #0369a1 100%)`), pure white text, medium weight, with 12px vertical and 24px horizontal padding. Hover shifts brightness upwards by 4%.
+- **Secondary Action**: White fill, 1px border (`#cbd5e1`), slate text (`#0f172a`). Hover introduces background `#f8fafc` and border `#0284c7`.
+- **Accent Action**: Energetic warm amber fill (`linear-gradient(135deg, #f59e0b 0%, #d97706 100%)`) with white text, exclusively deployed for conversion triggers or immediate resolution steps.
 
-**Radius** — `--ui-radius` is the base; Tailwind radius utilities derive from it:
+### Chips & Badges
 
-| Theme | `--ui-radius` | Character |
-|-------|---------------|-----------|
-| base (neutral) | `0.625rem` | rounded, safe |
-| md3 | `1rem` | Material shapes |
-| flat | `0px` | sharp corners |
-| glass | `1.5rem` | soft, frosted |
-| brutalist | `0px` | raw edges |
-| neumorphism | `1.5rem` | very rounded (soft UI) |
-| retro | `0px` | vintage print |
-| cyberpunk | `0px` | hard, digital |
-| minimalist | `0px` | strict |
+- Strict pill architecture (`rounded-full`). Height is capped at 22px with 8px horizontal padding.
+- **Info / Active**: `#e0f2fe` background with `#0369a1` text and an optional `#0284c7` pulsing dot.
+- **Warning / Staged**: `#fef3c7` background with `#b45309` text.
+- **Neutral / Metric**: `#f1f5f9` background with `#475569` text in monospaced font.
 
-Derived utilities: `--radius-sm = radius − 4px`, `--radius-md = radius − 2px`, `--radius-lg = radius`, `--radius-xl = radius + 4px`.
+### Form Inputs & Selectors
 
-## 6. Shadows & Elevation
+- Height 40px, rounded to 8px (`rounded-md`). Surface is white with 1px slate border (`#cbd5e1`).
+- Focus state: Border transitions to `#0284c7` with a 3px outer glow ring (`rgba(2, 132, 199, 0.15)`). Placeholder text set in `#94a3b8`.
 
-`--ui-shadow-xs` … `--ui-shadow-xl` (md3 adds `--ui-shadow-2xl`). Three philosophies:
+### Checkboxes & Radios
 
-| Theme | Shadow model |
-|-------|--------------|
-| base, glass | conventional layered elevation (neutral blacks) |
-| md3 | Material elevation: tonal shadows + key/ambient pairs; `--ui-shadow-xs: none` |
-| flat, brutalist, minimalist | **no shadows** — flat means flat |
-| neumorphism | dual shadows: dark offset + light offset (`5px 5px 10px` dark, `-5px -5px 10px` light) for raised surfaces; dark mode inverts to inset for pressed look |
-| retro | warm-tinted shadows (`oklch(0.70 0.02 60 / 0.3)`) |
-| cyberpunk | neon glow: layered `0 0 Npx` primary-colored halos |
+- Checkboxes: 16px square with 4px border radius. Radios: 16px circles.
+- Inactive: Border `#cbd5e1` on white.
+- Checked: `#0284c7` solid fill with crisp white check/dot icon inside.
 
-**MD3 state layers** (opacity overlays for interaction feedback):
+### Cards & Tables
 
-| State | Opacity |
-|-------|---------|
-| hover | `0.08` |
-| focus | `0.12` |
-| pressed | `0.12` |
-| dragged | `0.16` |
+- **Cards**: Pure white, 1px outline in `#e2e8f0`, rounded to 12px. Headers feature a distinct subtle baseline separator (`#f1f5f9`).
+- **Data Tables**: Header row uses `#f8fafc` with uppercase 11px label typography (`#64748b`). Row dividers use crisp 1px lines in `#f1f5f9`. Hover over any row initiates `#f8fafc` background transition.
 
-## 7. Motion
+### Code & Telemetry Blocks
 
-`--ui-transition-fast` / `-base` / `-slow` per theme — duration and curve carry the theme's personality:
-
-| Theme | fast | base | slow | Curve |
-|-------|------|------|------|-------|
-| base | 150ms | 200ms | 300ms | `cubic-bezier(0.4, 0, 0.2, 1)` |
-| md3 | 150ms | 250ms | 350ms | `cubic-bezier(0.2, 0, 0, 1)` (emphasized) |
-| flat | 100ms | 200ms | 300ms | `ease` |
-| glass | 150ms | 250ms | 400ms | `cubic-bezier(0.4, 0, 0.2, 1)` |
-| brutalist | 50ms | 100ms | 200ms | `linear` (no easing — raw) |
-| neumorphism | 200ms | 300ms | 400ms | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` |
-| retro | 150ms | 250ms | 400ms | `ease-out` (unhurried) |
-| cyberpunk | 80ms | 150ms | 250ms | `cubic-bezier(0.23, 1, 0.32, 1)` (sharp) |
-| minimalist | 100ms | 150ms | 200ms | `ease` (barely perceptible) |
-
-## 8. Theme Catalog
-
-| Theme | `data-ui-theme` | Personality | Radius | Shadows | Font | Palette |
-|-------|-----------------|-------------|--------|---------|------|---------|
-| Neutral | `neutral` (also `:root`), `dark`, `warm` | shadcn-style, muted, safe | 0.625rem | subtle | Inter | neutral slate |
-| MD3 | `md3`, `md3-dark` | elevated, stateful, Google-flavored | 1rem | elevation | Roboto | violet primary, tinted surfaces |
-| Flat | `flat`, `flat-dark` | bold, geometric, modern | 0 | none | Outfit | saturated indigo primary, 12-color flat palette (`--flat-red` … `--flat-rose`) |
-| Glass | `glass`, `glass-dark` | translucent, blur, depth | 1.5rem | soft blur | Inter | frosted white/10 alpha surfaces, gradient background |
-| Brutalist | `brutalist`, `brutalist-dark` | heavy type, raw borders, no softness | 0 | none | Space Mono | black/white + `--brutalist-red` `-yellow` `-blue` |
-| Neumorphism | `neumorphism`, `neumorphism-dark` | soft UI, dual shadows, pastel | 1.5rem | dual | Inter Variable | soft lavender + `--neumorph-pastel-*` |
-| Retro | `retro`, `retro-dark` | vintage warmth, sepia, serif | 0 | warm | Georgia | sepia + `--retro-sepia-brown` `-olive` `-rust` `-gold` |
-| Cyberpunk | `cyberpunk`, `cyberpunk-dark` | dark, neon-glowing, futuristic | 0 | neon glow | mono | near-black purple + `--cyber-neon-cyan` `-magenta` `-yellow` `-green` |
-| Minimalist | `minimalist`, `minimalist-dark` | ultra-clean, black & white, hairline borders | 0 | none | system-ui | monochrome only |
-
-Theme-specific accent palettes are exposed as flat CSS variables (`--flat-*`, `--brutalist-*`, `--neumorph-pastel-*`, `--retro-*`, `--cyber-neon-*`) for marketing surfaces. Flat additionally ships clip-path polygons (`--clip-hexagon`, `--clip-diamond`, `--clip-pentagon`, `--clip-star`, `--clip-triangle`, `--clip-octagon`) for geometric components. Glass ships `.glass` and `.glass-subtle` utility classes (`backdrop-filter: blur(var(--glass-blur))`).
-
-## 9. Component Conventions
-
-Reference implementation: `packages/core/src/lib/components/button/button.svelte`. Rules for any new component:
-
-- **Svelte 5 runes only** — `$props()`, no `export let`; `$bindable()` for mutable refs; zero `$$restProps` in shipped code.
-- **Variants via `tv()`** (`tailwind-variants`) in a `<script lang="ts" module>` block, exported as `<name>Variants` for consumer composition.
-- **Props** typed on `WithElementRef` / `WithoutChildren` helpers; `class: className` merged last through `cn()` (clsx + tailwind-merge) so callers can override.
-- **Every root element** carries `data-slot="<name>"` as a styling hook.
-- **Children** render via `{@render children?.()}`.
-- **Style through tokens** — Tailwind utilities that map to `--ui-*` only. Hard-coded colors break all nine themes.
-- **Barrel exports** — directory `index.ts`, then package `src/lib/index.ts` grouped by category. CLI registry must be regenerated (`node packages/cli/scripts/generate-registry.mjs`).
-- **Mobile** — ≥44px touch targets, safe-area awareness, no hover-dependent behavior.
-
-## 10. Usage
-
-```bash
-npm install @intinyagroup/tokens @intinyagroup/ui
-```
-
-```css
-/* pick a theme: base | md3 | flat | glass | brutalist | neumorphism | retro | cyberpunk | minimalist */
-@import "@intinyagroup/tokens/flat.css";
-```
-
-```svelte
-<script>
-  import { Button, Card } from '@intinyagroup/ui';
-</script>
-
-<Button>Click me</Button>
-```
-
-```html
-<html data-ui-theme="flat-dark">
-```
-
-### Branding an app (override, not fork)
-
-```css
-:root {
-  --ui-primary: oklch(0.55 0.2 150);      /* green brand */
-  --ui-radius: 0.75rem;                    /* rounder corners */
-  --ui-font-sans: "Outfit", system-ui, sans-serif;
-}
-
-[data-ui-theme="dark"] {
-  --ui-background: oklch(0.17 0.01 260);
-  --ui-foreground: oklch(0.96 0.005 260);
-}
-```
-
-## 11. Do / Don't
-
-| Do | Don't |
-|----|-------|
-| Style components via `--ui-*` tokens / mapped utilities | Hard-code hex colors in components |
-| Override tokens in consumer CSS for branding | Fork a theme file per project |
-| Import exactly one theme CSS file per app | Import multiple themes (last one wins on `:root` collisions) |
-| Use `data-ui-theme` for runtime switching | Switch themes via JS object mutation |
-| Keep foreground pairs contrast-safe in every theme | Add a color that exists in only one theme |
-| Regenerate the CLI registry with new components | Add a component without a docs page and navigation entry |
-
----
-
-Related docs: `packages/tokens/README.md`, `CLAUDE.md` (architecture), Obsidian vault ADRs (002 tokens-over-JS, 004 multi-theme) at `docs/adr/` in the Intinya project vault.
+- Dark slate container (`#0f172a`) with 8px corner radii, syntax highlights utilizing `#38bdf8` (sky accent) and `#fbbf24` (amber accent). Internal typography strictly `JetBrains Mono` at 12px.
