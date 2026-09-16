@@ -42,23 +42,25 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Validate prepared versions
         if: ${{ github.event.inputs.release-type == 'prepared' }}
+        env:
+          TARGET_PACKAGE: ${{ github.event.inputs.package }}
         run: |
-          node -e "
-            const fs = require('fs');
-            const target = '${{ github.event.inputs.package }}';
-            const dir = target === 'ui' ? 'core' : target;
-            const files = target === 'all'
-              ? fs.readdirSync('packages').map((d) => `packages/${d}/package.json`)
-              : [`packages/${dir}/package.json`];
-            for (const file of files) {
-              if (!fs.existsSync(file)) continue;
-              const pkg = JSON.parse(fs.readFileSync(file, 'utf8'));
-              if (pkg.private) continue;
-              if (!/^\\d+\\.\\d+\\.\\d+$/.test(pkg.version)) {
-                throw new Error(pkg.name + ' must have stable prepared version, got ' + pkg.version);
-              }
+          node <<'NODE'
+          const fs = require('fs');
+          const target = process.env.TARGET_PACKAGE || 'all';
+          const dir = target === 'ui' ? 'core' : target;
+          const files = target === 'all'
+            ? fs.readdirSync('packages').map((d) => 'packages/' + d + '/package.json')
+            : ['packages/' + dir + '/package.json'];
+          for (const file of files) {
+            if (!fs.existsSync(file)) continue;
+            const pkg = JSON.parse(fs.readFileSync(file, 'utf8'));
+            if (pkg.private) continue;
+            if (!/^\\d+\\.\\d+\\.\\d+$/.test(pkg.version)) {
+              throw new Error(pkg.name + ' must have stable prepared version, got ' + pkg.version);
             }
-          "
+          }
+          NODE
 
       - name: Bump versions
         if: ${{ github.event.inputs.release-type != 'prepared' }}
