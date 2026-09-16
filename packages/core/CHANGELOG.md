@@ -1,5 +1,11 @@
 # @intinyagroup/ui
 
+## 0.2.3
+
+### Patch Changes
+
+- 49fb73e: Fix malformed Firefox number-input spinner selector.
+
 ## 0.2.0
 
 ### Minor Changes
