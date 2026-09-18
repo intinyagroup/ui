@@ -66,6 +66,12 @@
     onNavigate?.(item);
   }
 
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    handleClick();
+  }
+
   function badgeToneClass(tone?: SidebarNavBadgeTone): string {
     switch (tone) {
       case "info":
@@ -98,6 +104,7 @@
 
   <button
     type="button"
+    data-sidebar-nav-item="true"
     disabled={item.disabled}
     aria-label={collapsed ? collapsedLabel : undefined}
     aria-current={active ? "page" : undefined}
@@ -106,6 +113,7 @@
     aria-haspopup={hasChildren ? "menu" : undefined}
     title={collapsed ? collapsedLabel : undefined}
     onclick={handleClick}
+    onkeydown={handleKeydown}
     class={cn(
       "group/sidebar-item relative flex min-h-10 w-full items-center gap-2.5 rounded-lg text-left text-[13px] leading-5 transition-[background-color,color,box-shadow] duration-150 motion-reduce:transition-none outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:opacity-45",
       active

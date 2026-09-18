@@ -105,6 +105,35 @@ describe("SidebarNav", () => {
     expect(screen.getByText("Allowed")).toBeInTheDocument();
   });
 
+  it("auto-expands ancestors of active descendants", () => {
+    render(SidebarNav, {
+      items: sampleItems,
+      activeId: "settings-profile",
+    });
+
+    expect(screen.getByText("Profile")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Settings" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+  });
+
+  it("moves focus between visible nav items with ArrowDown", async () => {
+    render(SidebarNav, {
+      items: [
+        { id: "first", label: "First" },
+        { id: "second", label: "Second" },
+      ],
+    });
+
+    const first = screen.getByRole("button", { name: "First" });
+    const second = screen.getByRole("button", { name: "Second" });
+    first.focus();
+    await fireEvent.keyDown(first, { key: "ArrowDown" });
+
+    expect(document.activeElement).toBe(second);
+  });
+
   it("provides accessible labels for collapsed items", () => {
     render(SidebarNav, {
       items: [{ id: "search", label: "Search", shortcut: "⌘K" }],

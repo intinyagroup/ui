@@ -1,5 +1,23 @@
+<script lang="ts" module>
+  // Custom drawer is not backed by Ark/Bits; share lock state across instances.
+  let bodyScrollLocks = 0;
+  let bodyOverflow = "";
+
+  export function lockDrawerBodyScroll() {
+    if (bodyScrollLocks++ === 0) {
+      bodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  export function unlockDrawerBodyScroll() {
+    if (bodyScrollLocks === 0 || --bodyScrollLocks > 0) return;
+    document.body.style.overflow = bodyOverflow;
+  }
+</script>
+
 <script lang="ts">
-  import { setContext, type Snippet } from "svelte";
+  import { setContext, tick, type Snippet } from "svelte";
 
   type DrawerDirection = "top" | "right" | "bottom" | "left";
 
@@ -27,59 +45,53 @@
     triggerElement = el;
   }
 
-  // Focus trap: trap Tab inside the drawer when open
+  // Custom drawer owns focus and scroll behavior; Ark/Bits overlays do not use this path.
   $effect(() => {
     if (!open) return;
 
-    const drawer = document.querySelector('[role="dialog"]') as HTMLElement;
-    if (!drawer) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    let cancelled = false;
+    let removeListener: (() => void) | undefined;
+    lockDrawerBodyScroll();
 
-    const focusableSelector =
-      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
-    const focusableElements = drawer.querySelectorAll(focusableSelector);
-    const firstFocusable = focusableElements[0] as HTMLElement | undefined;
-    const lastFocusable = focusableElements[focusableElements.length - 1] as
-      HTMLElement | undefined;
+    // Content renders in same update as `open`; wait before selecting focus target.
+    tick().then(() => {
+      if (cancelled) return;
+      const drawer = document.querySelector(
+        '[data-slot="drawer-content"]',
+      ) as HTMLElement | null;
+      if (!drawer) return;
 
-    // Auto-focus first focusable element inside the drawer
-    firstFocusable?.focus();
+      const focusableSelector =
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+      const focusableElements =
+        drawer.querySelectorAll<HTMLElement>(focusableSelector);
+      focusableElements[0]?.focus();
 
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key !== "Tab") return;
-
-      if (e.shiftKey) {
-        if (document.activeElement === firstFocusable) {
+      function handleKeyDown(e: KeyboardEvent) {
+        if (e.key !== "Tab" || focusableElements.length === 0) return;
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+        if (e.shiftKey && document.activeElement === firstFocusable) {
           e.preventDefault();
-          lastFocusable?.focus();
-        }
-      } else {
-        if (document.activeElement === lastFocusable) {
+          lastFocusable.focus();
+        } else if (!e.shiftKey && document.activeElement === lastFocusable) {
           e.preventDefault();
-          firstFocusable?.focus();
+          firstFocusable.focus();
         }
       }
-    }
 
-    drawer.addEventListener("keydown", handleKeyDown);
-    return () => drawer.removeEventListener("keydown", handleKeyDown);
-  });
+      drawer.addEventListener("keydown", handleKeyDown);
+      removeListener = () =>
+        drawer.removeEventListener("keydown", handleKeyDown);
+    });
 
-  // Restore focus to trigger when drawer closes
-  $effect(() => {
-    if (!open && triggerElement) {
-      triggerElement.focus();
-    }
-  });
-
-  // Lock body scroll when drawer is open
-  $effect(() => {
-    if (open) {
-      const original = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = original;
-      };
-    }
+    return () => {
+      cancelled = true;
+      removeListener?.();
+      unlockDrawerBodyScroll();
+      if (previouslyFocused?.isConnected) previouslyFocused.focus();
+    };
   });
 
   setContext("drawer-state", {

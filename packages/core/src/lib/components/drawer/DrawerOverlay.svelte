@@ -27,8 +27,8 @@
     aria-hidden="true"
     data-slot="drawer-overlay"
     class={cn(
-      "fixed inset-0 z-50 bg-[var(--ui-overlay-strong)] backdrop-blur-[1px]",
-      "transition-opacity duration-300",
+      "fixed inset-0 z-50 bg-[var(--ui-overlay-strong)] supports-backdrop-filter:backdrop-blur-[1px] [@media(prefers-reduced-transparency:reduce)]:backdrop-blur-none [@media(prefers-reduced-transparency:reduce)]:bg-[var(--ui-overlay-strong)]",
+      "transition-opacity duration-300 motion-reduce:transition-none",
       drawerState.open ? "opacity-100" : "opacity-0",
       className,
     )}

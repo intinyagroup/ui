@@ -1,5 +1,11 @@
 # @intinyagroup/ui
 
+## 0.2.8
+
+### Patch Changes
+
+- Harden overlay focus restoration, drawer scroll locking, reduced-motion behavior, reduced-transparency fallback, and SidebarNav keyboard navigation.
+
 ## 0.2.7
 
 ### Patch Changes

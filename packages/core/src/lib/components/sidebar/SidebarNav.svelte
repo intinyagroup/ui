@@ -88,6 +88,66 @@
     if (expanded !== undefined) expanded = ids;
     onExpandedChange?.(ids);
   }
+
+  function ancestorIdsForActive(): string[] {
+    if (!activeId) return [];
+    const ancestors: string[] = [];
+    function visit(candidates: SidebarNavItemData[], path: string[]): boolean {
+      for (const candidate of candidates) {
+        if (candidate.id === activeId) {
+          ancestors.push(...path);
+          return true;
+        }
+        if (
+          candidate.children &&
+          visit(candidate.children, [...path, candidate.id])
+        )
+          return true;
+      }
+      return false;
+    }
+    visit(items, []);
+    return ancestors;
+  }
+
+  $effect(() => {
+    const ancestors = ancestorIdsForActive();
+    if (!ancestors.length) return;
+    const next = new Set(expandedIds);
+    ancestors.forEach((id) => next.add(id));
+    if (next.size === expandedIds.size) return;
+    const ids = [...next];
+    expandedIds = next;
+    if (expanded !== undefined) expanded = ids;
+    onExpandedChange?.(ids);
+  });
+
+  function handleNavKeydown(event: KeyboardEvent) {
+    if (!(event.target instanceof HTMLElement)) return;
+    const current = event.target.closest<HTMLButtonElement>(
+      '[data-sidebar-nav-item="true"]',
+    );
+    const nav = event.currentTarget as HTMLElement;
+    if (!current || !nav.contains(current)) return;
+    if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+    const navItems = [
+      ...nav.querySelectorAll<HTMLButtonElement>(
+        '[data-sidebar-nav-item="true"]:not(:disabled)',
+      ),
+    ];
+    const index = navItems.indexOf(current);
+    if (index < 0 || navItems.length < 2) return;
+    const nextIndex =
+      event.key === "ArrowDown"
+        ? (index + 1) % navItems.length
+        : event.key === "ArrowUp"
+          ? (index - 1 + navItems.length) % navItems.length
+          : event.key === "Home"
+            ? 0
+            : navItems.length - 1;
+    event.preventDefault();
+    navItems[nextIndex]?.focus();
+  }
 </script>
 
 <aside
@@ -135,9 +195,11 @@
     </button>
   </div>
 
+  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <nav
     class="min-h-0 flex-1 space-y-1 overflow-y-auto px-2.5 py-3 [scrollbar-gutter:stable]"
     aria-label={title}
+    onkeydown={handleNavKeydown}
   >
     {#each visibleItems as item, itemIndex (item.id)}
       <SidebarNavItem

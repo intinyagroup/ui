@@ -63,7 +63,7 @@
     data-slot="drawer-content"
     data-direction={drawerState.direction}
     class={cn(
-      "fixed z-50 flex flex-col bg-popover text-sm text-popover-foreground shadow-lg",
+      "fixed z-50 flex flex-col bg-popover text-sm text-popover-foreground shadow-lg motion-reduce:transition-none",
       "transition-transform duration-300 ease-in-out",
       styles.position,
       drawerState.open ? styles.openTransform : styles.transform,

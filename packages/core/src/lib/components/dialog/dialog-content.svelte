@@ -41,7 +41,7 @@
       bind:ref
       data-slot="dialog-content"
       class={cn(
-        "relative z-50 grid w-full gap-4 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-background)] p-6 shadow-lg duration-200 text-sm text-[var(--ui-foreground)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+        "relative z-50 grid w-full gap-4 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-background)] p-6 shadow-lg duration-200 text-sm text-[var(--ui-foreground)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 motion-reduce:animate-none motion-reduce:transition-none",
         sizeClasses[size],
         className,
       )}
