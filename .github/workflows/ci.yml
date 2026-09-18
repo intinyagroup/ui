@@ -12,25 +12,37 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           run_install: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Cache Turborepo
+        uses: actions/cache@v6
+        with:
+          path: |
+            .turbo
+            packages/*/.turbo
+            node_modules/.cache/turbo
+          key: turbo-${{ runner.os }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-${{ github.ref_name }}-
+            turbo-${{ runner.os }}-
 
       - name: Generate svelte-kit tsconfig
-        run: |
-          npx svelte-kit sync
-          cd packages/core && npx svelte-kit sync
-          cd ../docs && npx svelte-kit sync
+        run: pnpm --filter @intinyagroup/docs exec svelte-kit sync
+
+      - name: Check changeset status
+        if: ${{ github.event_name == 'pull_request' }}
+        run: pnpm changeset status || echo "::warning::No changeset found or status check skipped"
 
       - name: Run typecheck (parallel via Turborepo)
         run: pnpm turbo run check --continue
@@ -40,19 +52,32 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           run_install: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Cache Turborepo & Vitest
+        uses: actions/cache@v6
+        with:
+          path: |
+            .turbo
+            packages/*/.turbo
+            node_modules/.cache/turbo
+            node_modules/.vitest
+            packages/*/node_modules/.vitest
+          key: turbo-test-${{ runner.os }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-test-${{ runner.os }}-${{ github.ref_name }}-
+            turbo-test-${{ runner.os }}-
 
       - name: Build dependencies first
         run: pnpm turbo run build --filter=./... --filter=intinyagroup-ui
@@ -65,19 +90,30 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           run_install: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Cache Turborepo
+        uses: actions/cache@v6
+        with:
+          path: |
+            .turbo
+            packages/*/.turbo
+            node_modules/.cache/turbo
+          key: turbo-${{ runner.os }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-${{ github.ref_name }}-
+            turbo-${{ runner.os }}-
 
       - name: Build all packages (parallel via Turborepo)
         run: pnpm turbo run build --continue

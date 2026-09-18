@@ -24,7 +24,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "svelte-package -o dist && find dist -name \"*.test.*\" -delete && find dist -name \"*Test.svelte*\" ! -name \"Testimonial*\" -delete && find dist -name \"*Test.svelte*\" ! -name \"Testimonial*\" -delete",
+    "build": "svelte-package -o dist && find dist -name \"*.test.*\" -delete && find dist -name \"*Test.svelte*\" ! -name \"Testimonial*\" -delete",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "dev": "svelte-package -o dist -w",
     "test": "vitest run"

@@ -9,6 +9,12 @@ on:
       - 'packages/core/**'
       - 'packages/md3/**'
       - 'packages/flat/**'
+      - 'packages/calendar/**'
+      - 'packages/charts/**'
+      - 'packages/data-table/**'
+      - 'packages/grid-core/**'
+      - 'packages/kanban/**'
+      - 'packages/notion-database/**'
       - 'packages/storybook/**'
   workflow_dispatch:
 
@@ -20,29 +26,33 @@ jobs:
       contents: read
       deployments: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           run_install: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Build packages
-        run: |
-          pnpm --filter @intinyagroup/tokens build
-          pnpm --filter @intinyagroup/ui build
-          pnpm --filter @intinyagroup/md3 build
-          pnpm --filter @intinyagroup/flat build
+      - name: Cache Turborepo
+        uses: actions/cache@v6
+        with:
+          path: |
+            .turbo
+            packages/*/.turbo
+            node_modules/.cache/turbo
+          key: turbo-docs-${{ runner.os }}-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-docs-${{ runner.os }}-${{ github.ref_name }}-
+            turbo-docs-${{ runner.os }}-
 
       - name: Build docs
-        run: pnpm --filter @intinyagroup/docs build
+        run: pnpm turbo run build --filter=@intinyagroup/docs
 
       - name: Deploy to Cloudflare Pages
         run: |
@@ -56,10 +66,7 @@ jobs:
 
 
       - name: Build storybook
-        run: |
-          npx svelte-kit sync
-          pnpm --filter @intinyagroup/storybook build-storybook
-
+        run: pnpm turbo run build --filter=@intinyagroup/storybook
 
       - name: Deploy storybook to Cloudflare Pages
         run: |

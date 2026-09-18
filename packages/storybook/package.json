@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "storybook": "storybook dev -p 6006",
+    "build": "storybook build",
     "build-storybook": "storybook build",
     "check": "echo 'storybook: no check needed'"
   },

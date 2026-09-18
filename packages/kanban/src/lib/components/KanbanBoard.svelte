@@ -1,8 +1,15 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  import { Plus, GripVertical, ChevronDown, ChevronRight, X, AlertTriangle } from 'lucide-svelte';
-  import { Button, Badge, Dialog } from '@intinyagroup/ui';
-  import { cn } from '@intinyagroup/grid-core/utils';
+  import type { Snippet } from "svelte";
+  import {
+    Plus,
+    GripVertical,
+    ChevronDown,
+    ChevronRight,
+    X,
+    AlertTriangle,
+  } from "lucide-svelte";
+  import { Button, Badge, Dialog } from "@intinyagroup/ui";
+  import { cn } from "@intinyagroup/grid-core/utils";
 
   export type KanbanLabel = {
     text: string;
@@ -23,7 +30,7 @@
     description?: string;
     tags?: string[];
     labels?: KanbanLabel[];
-    priority?: 'low' | 'medium' | 'high';
+    priority?: "low" | "medium" | "high";
     assignee?: string;
     [key: string]: any;
   };
@@ -43,7 +50,12 @@
   }: {
     columns: KanbanColumn[];
     cards: KanbanCard[];
-    onCardMove?: (cardId: string, fromColumnId: string, toColumnId: string, newIndex: number) => void;
+    onCardMove?: (
+      cardId: string,
+      fromColumnId: string,
+      toColumnId: string,
+      newIndex: number,
+    ) => void;
     onCardClick?: (card: KanbanCard) => void;
     onAddCard?: (columnId: string) => void;
     onAddColumn?: () => void;
@@ -60,15 +72,15 @@
 
   // Inline editing state
   let editingCardId = $state<string | null>(null);
-  let editingTitle = $state('');
+  let editingTitle = $state("");
 
   // Card detail modal state
   let detailCard = $state<KanbanCard | null>(null);
   let detailOpen = $state(false);
-  let detailTitle = $state('');
-  let detailDescription = $state('');
-  let detailPriority = $state<string>('');
-  let detailAssignee = $state('');
+  let detailTitle = $state("");
+  let detailDescription = $state("");
+  let detailPriority = $state<string>("");
+  let detailAssignee = $state("");
 
   // Swimlane collapsed state
   let collapsedSwimlanes = $state<Record<string, boolean>>({});
@@ -80,13 +92,15 @@
   function getSwimlaneValues(columnId: string): string[] {
     if (!swimlaneBy) return [];
     const colCards = getColumnCards(columnId);
-    const values = [...new Set(colCards.map((c) => (c[swimlaneBy] as string) ?? 'Unset'))];
+    const values = [
+      ...new Set(colCards.map((c) => (c[swimlaneBy] as string) ?? "Unset")),
+    ];
     return values.sort();
   }
 
   function getSwimlaneCards(columnId: string, value: string): KanbanCard[] {
     return getColumnCards(columnId).filter(
-      (c) => ((c[swimlaneBy!] as string) ?? 'Unset') === value
+      (c) => ((c[swimlaneBy!] as string) ?? "Unset") === value,
     );
   }
 
@@ -96,7 +110,10 @@
 
   function toggleSwimlane(columnId: string, value: string) {
     const key = `${columnId}:${value}`;
-    collapsedSwimlanes = { ...collapsedSwimlanes, [key]: !collapsedSwimlanes[key] };
+    collapsedSwimlanes = {
+      ...collapsedSwimlanes,
+      [key]: !collapsedSwimlanes[key],
+    };
   }
 
   function isWipExceeded(column: KanbanColumn): boolean {
@@ -108,14 +125,14 @@
   function handleDragStart(e: DragEvent, card: KanbanCard) {
     draggedCardId = card.id;
     if (e.dataTransfer) {
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', card.id);
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", card.id);
     }
   }
 
   function handleDragOver(e: DragEvent, columnId: string, index: number) {
     e.preventDefault();
-    if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+    if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
     dragOverColumnId = columnId;
     dragOverIndex = index;
   }
@@ -151,21 +168,21 @@
       onCardUpdate?.(card, { title: editingTitle.trim() });
     }
     editingCardId = null;
-    editingTitle = '';
+    editingTitle = "";
   }
 
   function cancelEditing() {
     editingCardId = null;
-    editingTitle = '';
+    editingTitle = "";
   }
 
   // Card detail modal
   function openDetail(card: KanbanCard) {
     detailCard = card;
     detailTitle = card.title;
-    detailDescription = card.description ?? '';
-    detailPriority = card.priority ?? '';
-    detailAssignee = card.assignee ?? '';
+    detailDescription = card.description ?? "";
+    detailPriority = card.priority ?? "";
+    detailAssignee = card.assignee ?? "";
     detailOpen = true;
     onCardClick?.(card);
   }
@@ -175,7 +192,7 @@
     onCardUpdate?.(detailCard, {
       title: detailTitle.trim() || detailCard.title,
       description: detailDescription,
-      priority: (detailPriority || undefined) as KanbanCard['priority'],
+      priority: (detailPriority || undefined) as KanbanCard["priority"],
       assignee: detailAssignee || undefined,
     });
     detailOpen = false;
@@ -187,13 +204,18 @@
   }
 
   const priorityColors: Record<string, string> = {
-    low: 'bg-blue-100 text-blue-700',
-    medium: 'bg-yellow-100 text-yellow-700',
-    high: 'bg-red-100 text-red-700',
+    low: "bg-blue-100 text-blue-700",
+    medium: "bg-yellow-100 text-yellow-700",
+    high: "bg-red-100 text-red-700",
   };
 </script>
 
-<div class={cn('flex flex-col md:flex-row gap-4 overflow-x-auto md:overflow-x-auto pb-4', className)}>
+<div
+  class={cn(
+    "flex flex-col md:flex-row gap-4 overflow-x-auto md:overflow-x-auto pb-4",
+    className,
+  )}
+>
   {#each columns as column (column.id)}
     {@const columnCards = getColumnCards(column.id)}
     {@const exceeded = isWipExceeded(column)}
@@ -206,14 +228,26 @@
       ondrop={(e) => handleDrop(e, column.id, columnCards.length)}
     >
       <!-- Column header -->
-      <div class="sticky top-0 z-10 flex items-center justify-between px-2 py-2 md:px-3 md:py-2.5 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/95">
+      <div
+        class="sticky top-0 z-10 flex items-center justify-between px-2 py-2 md:px-3 md:py-2.5 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/95"
+      >
         <div class="flex items-center gap-2">
           {#if column.color}
-            <div class="size-2.5 rounded-full" style="background-color: {column.color}"></div>
+            <div
+              class="size-2.5 rounded-full"
+              style="background-color: {column.color}"
+            ></div>
           {/if}
-          <span class="text-sm font-semibold text-[var(--ui-foreground)]">{column.title}</span>
-          <Badge variant={exceeded ? 'destructive' : 'secondary'} class="text-[10px] px-1.5 py-0">
-            {columnCards.length}{column.wipLimit != null ? `/${column.wipLimit}` : ''}
+          <span class="text-sm font-semibold text-[var(--ui-foreground)]"
+            >{column.title}</span
+          >
+          <Badge
+            variant={exceeded ? "destructive" : "secondary"}
+            class="text-[10px] px-1.5 py-0"
+          >
+            {columnCards.length}{column.wipLimit != null
+              ? `/${column.wipLimit}`
+              : ""}
           </Badge>
           {#if exceeded}
             <AlertTriangle class="size-3.5 text-red-500" />
@@ -229,12 +263,12 @@
               onAddCard(column.id);
             }}
             class={cn(
-              'p-1 rounded-md transition-colors cursor-pointer',
+              "p-1 rounded-md transition-colors cursor-pointer",
               exceeded
-                ? 'text-red-400 hover:text-red-600 hover:bg-red-50'
-                : 'text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]'
+                ? "text-red-400 hover:text-red-600 hover:bg-red-50"
+                : "text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)]",
             )}
-            aria-label={exceeded ? 'WIP limit reached' : 'Add card'}
+            aria-label={exceeded ? "WIP limit reached" : "Add card"}
           >
             <Plus class="size-4" />
           </button>
@@ -258,10 +292,14 @@
                   <ChevronDown class="size-3" />
                 {/if}
                 <span>{sv}</span>
-                <Badge variant="secondary" class="text-[9px] px-1 py-0 ml-auto">{svCards.length}</Badge>
+                <Badge variant="secondary" class="text-[9px] px-1 py-0 ml-auto"
+                  >{svCards.length}</Badge
+                >
               </button>
               {#if !isSwimlaneCollapsed(column.id, sv)}
-                <div class="space-y-2 pl-2 border-l-2 border-[var(--ui-border)] ml-1 mt-1">
+                <div
+                  class="space-y-2 pl-2 border-l-2 border-[var(--ui-border)] ml-1 mt-1"
+                >
                   {#each svCards as card, index (card.id)}
                     {@render cardRenderer(card, column.id, index)}
                   {/each}
@@ -292,11 +330,17 @@
 
 <!-- Card Detail Modal -->
 {#if detailCard}
-  <Dialog.Root bind:open={detailOpen} onOpenChange={(open) => { if (!open) closeDetail(); }}>
+  <Dialog.Root
+    bind:open={detailOpen}
+    onOpenChange={(open) => {
+      if (!open) closeDetail();
+    }}
+  >
     <Dialog.Content class="sm:max-w-lg">
       <Dialog.Header>
         <div class="flex items-center justify-between">
-          <Dialog.Title class="text-lg font-semibold">Card Details</Dialog.Title>
+          <Dialog.Title class="text-lg font-semibold">Card Details</Dialog.Title
+          >
           <button
             onclick={closeDetail}
             class="p-1 rounded-md text-[var(--ui-muted-foreground)] hover:text-[var(--ui-foreground)] hover:bg-[var(--ui-secondary)] transition-colors cursor-pointer"
@@ -310,8 +354,13 @@
       <div class="space-y-4 py-2">
         <!-- Title -->
         <div>
-          <label class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block">Title</label>
+          <label
+            for="kanban-detail-title"
+            class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block"
+            >Title</label
+          >
           <input
+            id="kanban-detail-title"
             type="text"
             bind:value={detailTitle}
             class="w-full text-sm px-3 py-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] text-[var(--ui-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ui-primary)]/50"
@@ -320,8 +369,13 @@
 
         <!-- Description -->
         <div>
-          <label class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block">Description</label>
+          <label
+            for="kanban-detail-desc"
+            class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block"
+            >Description</label
+          >
           <textarea
+            id="kanban-detail-desc"
             bind:value={detailDescription}
             rows={4}
             class="w-full text-sm px-3 py-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] text-[var(--ui-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ui-primary)]/50 resize-none"
@@ -332,7 +386,10 @@
         <!-- Labels -->
         {#if detailCard.labels && detailCard.labels.length > 0}
           <div>
-            <label class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block">Labels</label>
+            <span
+              class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block"
+              >Labels</span
+            >
             <div class="flex flex-wrap gap-1.5">
               {#each detailCard.labels as label}
                 <span
@@ -348,8 +405,13 @@
 
         <!-- Priority -->
         <div>
-          <label class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block">Priority</label>
+          <label
+            for="kanban-detail-priority"
+            class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block"
+            >Priority</label
+          >
           <select
+            id="kanban-detail-priority"
             bind:value={detailPriority}
             class="w-full text-sm px-3 py-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] text-[var(--ui-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ui-primary)]/50"
           >
@@ -362,8 +424,13 @@
 
         <!-- Assignee -->
         <div>
-          <label class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block">Assignee</label>
+          <label
+            for="kanban-detail-assignee"
+            class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block"
+            >Assignee</label
+          >
           <input
+            id="kanban-detail-assignee"
             type="text"
             bind:value={detailAssignee}
             class="w-full text-sm px-3 py-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] text-[var(--ui-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--ui-primary)]/50"
@@ -374,7 +441,10 @@
         <!-- Tags -->
         {#if detailCard.tags && detailCard.tags.length > 0}
           <div>
-            <label class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block">Tags</label>
+            <span
+              class="text-xs font-medium text-[var(--ui-muted-foreground)] mb-1 block"
+              >Tags</span
+            >
             <div class="flex flex-wrap gap-1.5">
               {#each detailCard.tags as tag}
                 <Badge variant="secondary" class="text-[10px]">{tag}</Badge>
@@ -411,7 +481,7 @@
       startEditing(card);
     }}
     onkeydown={(e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         if (editingCardId === card.id) {
           saveEditing(card);
@@ -422,9 +492,13 @@
     }}
     class="group flex items-start gap-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] p-3 cursor-grab active:cursor-grabbing transition-all hover:shadow-sm text-left
       {draggedCardId === card.id ? 'opacity-50 scale-95' : ''}
-      {dragOverColumnId === columnId && dragOverIndex === index ? 'border-[var(--ui-primary)] border-dashed' : ''}"
+      {dragOverColumnId === columnId && dragOverIndex === index
+      ? 'border-[var(--ui-primary)] border-dashed'
+      : ''}"
   >
-    <GripVertical class="size-4 mt-0.5 text-[var(--ui-muted-foreground)] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+    <GripVertical
+      class="size-4 mt-0.5 text-[var(--ui-muted-foreground)] opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+    />
 
     <div class="flex-1 min-w-0">
       {#if cardSnippet}
@@ -450,31 +524,45 @@
           <input
             type="text"
             value={editingTitle}
-            oninput={(e) => { editingTitle = e.currentTarget.value; }}
+            oninput={(e) => {
+              editingTitle = e.currentTarget.value;
+            }}
             onkeydown={(e) => {
-              if (e.key === 'Enter') saveEditing(card);
-              if (e.key === 'Escape') cancelEditing();
+              if (e.key === "Enter") saveEditing(card);
+              if (e.key === "Escape") cancelEditing();
             }}
             onblur={() => saveEditing(card)}
             class="w-full text-xs md:text-sm font-medium px-1 py-0.5 -mx-1 -my-0.5 rounded border border-[var(--ui-primary)] bg-[var(--ui-card)] text-[var(--ui-foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--ui-primary)]"
             onclick={(e) => e.stopPropagation()}
           />
         {:else}
-          <p class="text-xs md:text-sm font-medium text-[var(--ui-foreground)]">{card.title}</p>
+          <p class="text-xs md:text-sm font-medium text-[var(--ui-foreground)]">
+            {card.title}
+          </p>
         {/if}
 
         {#if card.description}
-          <p class="text-xs text-[var(--ui-muted-foreground)] mt-1 line-clamp-2">{card.description}</p>
+          <p
+            class="text-xs text-[var(--ui-muted-foreground)] mt-1 line-clamp-2"
+          >
+            {card.description}
+          </p>
         {/if}
         <div class="flex flex-wrap items-center gap-1.5 mt-2">
           {#if card.priority}
-            <span class="text-[10px] font-medium px-1.5 py-0.5 rounded {priorityColors[card.priority] ?? ''}">
+            <span
+              class="text-[10px] font-medium px-1.5 py-0.5 rounded {priorityColors[
+                card.priority
+              ] ?? ''}"
+            >
               {card.priority}
             </span>
           {/if}
           {#if card.tags}
             {#each card.tags as tag}
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-[var(--ui-secondary)] text-[var(--ui-muted-foreground)]">
+              <span
+                class="text-[10px] px-1.5 py-0.5 rounded bg-[var(--ui-secondary)] text-[var(--ui-muted-foreground)]"
+              >
                 {tag}
               </span>
             {/each}

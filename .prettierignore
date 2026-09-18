@@ -1,0 +1,12 @@
+node_modules
+.turbo
+.beads
+.svelte-kit
+build
+dist
+packages/*/dist
+packages/*/build
+packages/*/.svelte-kit
+packages/*/.turbo
+packages/storybook/storybook-static
+pnpm-lock.yaml

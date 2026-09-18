@@ -6,14 +6,19 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm --filter @intinyagroup/storybook storybook",
+    "dev:docs": "turbo run dev --filter=@intinyagroup/docs...",
     "build": "pnpm --filter @intinyagroup/tokens build && pnpm --filter @intinyagroup/ui build",
+    "build:docs": "turbo run build --filter=@intinyagroup/docs",
     "build:tokens": "turbo run build --filter=@intinyagroup/tokens",
     "build:core": "turbo run build --filter=@intinyagroup/ui",
     "storybook": "pnpm --filter @intinyagroup/storybook storybook",
-    "build-storybook": "pnpm --filter @intinyagroup/storybook build-storybook",
+    "build-storybook": "turbo run build --filter=@intinyagroup/storybook",
+    "test": "turbo run test",
+    "test:ui": "turbo run test --filter=@intinyagroup/ui",
     "check": "turbo run check --continue",
-    "lint": "pnpm -r run lint",
+    "lint": "pnpm -r --if-present run lint",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "version": "changeset version",
     "release": "pnpm build && changeset publish",
     "build:all": "turbo run build",
@@ -56,8 +61,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,json,css,md}": "prettier --write",
-    "*.svelte": "prettier --plugin prettier-plugin-svelte --write"
+    "*.{js,ts,json,css,md,svelte}": "prettier --write"
   },
   "packageManager": "pnpm@10.33.2"
 }

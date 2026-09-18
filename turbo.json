@@ -3,7 +3,16 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".svelte-kit/output/**", "build/**"],
+      "outputs": [
+        "dist/**",
+        ".svelte-kit/output/**",
+        "build/**",
+        "storybook-static/**"
+      ],
+      "cache": true
+    },
+    "@intinyagroup/tokens#build": {
+      "outputs": [],
       "cache": true
     },
     "check": {

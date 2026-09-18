@@ -297,9 +297,18 @@ importers:
       '@intinyagroup/calendar':
         specifier: workspace:*
         version: link:../calendar
+      '@intinyagroup/charts':
+        specifier: workspace:*
+        version: link:../charts
       '@intinyagroup/data-table':
         specifier: workspace:*
         version: link:../data-table
+      '@intinyagroup/flat':
+        specifier: workspace:*
+        version: link:../flat
+      '@intinyagroup/md3':
+        specifier: workspace:*
+        version: link:../md3
       '@intinyagroup/notion-database':
         specifier: workspace:*
         version: link:../notion-database

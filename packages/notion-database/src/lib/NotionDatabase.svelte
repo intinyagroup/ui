@@ -129,7 +129,7 @@
   });
 
   // Board/calendar/gallery continue to use this strictly filtered/sorted list
-  const filteredItems = filterAppliedItems;
+  const filteredItems = $derived(filterAppliedItems);
 
   const tableColumns = $derived.by<ColumnDef<TItem, any>[]>(() => {
     return properties.map((prop) => ({

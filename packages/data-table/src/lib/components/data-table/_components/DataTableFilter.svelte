@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import {
     Popover as PopoverRoot,
     PopoverTrigger,
@@ -44,7 +45,9 @@
 
   let open = $state(false);
   // Svelte 5: intentional initial-value capture
-  let textInput = $state(typeof filterValue === "string" ? filterValue : "");
+  let textInput = $state(
+    untrack(() => (typeof filterValue === "string" ? filterValue : "")),
+  );
 
   function applyTextFilter() {
     onFilterChange(textInput || undefined);

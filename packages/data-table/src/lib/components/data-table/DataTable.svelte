@@ -229,21 +229,27 @@
 
   // Internal state
   // Svelte 5: intentional initial-value capture — internal state seeded from props at mount
-  let sorting = $state<SortingState>(externalSorting ?? []);
+  let sorting = $state<SortingState>(untrack(() => externalSorting ?? []));
   let pagination = $state<PaginationState>(
-    externalPagination ?? { pageIndex: 0, pageSize: untrack(() => pageSize) },
+    untrack(() => externalPagination ?? { pageIndex: 0, pageSize: pageSize }),
   );
-  let globalFilter = $state(externalFilter ?? "");
+  let globalFilter = $state(untrack(() => externalFilter ?? ""));
   let lastPageSizeProp = $state(untrack(() => pageSize));
   let density = $state<"compact" | "spacious">("spacious");
   let columnVisibility = $state<Record<string, boolean>>({});
   let columnPinning = $state<ColumnPinningState>(
-    externalColumnPinning ?? { start: [], end: [] },
+    untrack(() => externalColumnPinning ?? { start: [], end: [] }),
   );
-  let columnOrder = $state<ColumnOrderState>(externalColumnOrder ?? []);
-  let expanded = $state<ExpandedState>(externalExpanded ?? {});
-  let columnFilters = $state<ColumnFiltersState>(externalColumnFilters ?? []);
-  let groupingState = $state<GroupingState>(externalGrouping ?? []);
+  let columnOrder = $state<ColumnOrderState>(
+    untrack(() => externalColumnOrder ?? []),
+  );
+  let expanded = $state<ExpandedState>(untrack(() => externalExpanded ?? {}));
+  let columnFilters = $state<ColumnFiltersState>(
+    untrack(() => externalColumnFilters ?? []),
+  );
+  let groupingState = $state<GroupingState>(
+    untrack(() => externalGrouping ?? []),
+  );
   let showColumnsDropdown = $state(false);
   let columnSizing = $state<Record<string, number>>({});
   let rowSelection = $state<RowSelectionState>({});
@@ -435,30 +441,32 @@
 
   // Keyboard navigation
   // Svelte 5: intentional initial-value capture — props used for conditional init
-  const keyboard = keyboardNav
-    ? createKeyboardNavigation({
-        table,
-        onCellSelect: (rowId, columnId) => {
-          // Focus cell for visual feedback
-        },
-        onCellEdit: (rowId, columnId) => {
-          // Trigger cell edit
-        },
-        onRowSelect: (rowId) => {
-          toggleRow(rowId);
-        },
-        onSelectAll: () => {
-          toggleSelectAll();
-        },
-        onDelete: (selectedRows) => {
-          // Could trigger bulk delete
-        },
-      })
-    : null;
+  const keyboard = untrack(() =>
+    keyboardNav
+      ? createKeyboardNavigation({
+          table,
+          onCellSelect: (rowId, columnId) => {
+            // Focus cell for visual feedback
+          },
+          onCellEdit: (rowId, columnId) => {
+            // Trigger cell edit
+          },
+          onRowSelect: (rowId) => {
+            toggleRow(rowId);
+          },
+          onSelectAll: () => {
+            toggleSelectAll();
+          },
+          onDelete: (selectedRows) => {
+            // Could trigger bulk delete
+          },
+        })
+      : null,
+  );
 
   // Clipboard
   // Svelte 5: intentional initial-value capture — prop used for conditional init
-  const clip = clipboard ? createClipboard({ table }) : null;
+  const clip = untrack(() => (clipboard ? createClipboard({ table }) : null));
 
   async function handleCopy() {
     if (clip) await clip.copySelectedRows();
