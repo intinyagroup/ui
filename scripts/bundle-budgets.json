@@ -1,0 +1,15 @@
+{
+  "@intinyagroup/ui": { "maxSizeKb": 500, "warningSizeKb": 350 },
+  "@intinyagroup/data-table": { "maxSizeKb": 350, "warningSizeKb": 250 },
+  "@intinyagroup/file-manager": { "maxSizeKb": 200, "warningSizeKb": 150 },
+  "@intinyagroup/calendar": { "maxSizeKb": 250, "warningSizeKb": 180 },
+  "@intinyagroup/grid-core": { "maxSizeKb": 100, "warningSizeKb": 70 },
+  "@intinyagroup/kanban": { "maxSizeKb": 120, "warningSizeKb": 80 },
+  "@intinyagroup/notion-database": { "maxSizeKb": 200, "warningSizeKb": 150 },
+  "@intinyagroup/rich-text": { "maxSizeKb": 300, "warningSizeKb": 220 },
+  "@intinyagroup/spreadsheet": { "maxSizeKb": 300, "warningSizeKb": 200 },
+  "@intinyagroup/charts": { "maxSizeKb": 250, "warningSizeKb": 180 },
+  "@intinyagroup/flat": { "maxSizeKb": 150, "warningSizeKb": 100 },
+  "@intinyagroup/md3": { "maxSizeKb": 150, "warningSizeKb": 100 },
+  "@intinyagroup/book-writer": { "maxSizeKb": 200, "warningSizeKb": 150 }
+}

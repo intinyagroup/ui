@@ -114,3 +114,6 @@ jobs:
 
       - name: Build all packages (parallel via Turborepo)
         run: pnpm turbo run build --continue
+
+      - name: Check bundle budgets
+        run: node scripts/check-bundle-budgets.mjs
