@@ -1,5 +1,11 @@
 # @intinyagroup/ui
 
+## 0.2.5
+
+### Patch Changes
+
+- Refine SidebarNav hierarchy, active states, controlled expansion, recursive filtering, and semantic overlay defaults.
+
 ## 0.2.4
 
 ### Patch Changes

@@ -9,36 +9,50 @@
     items = [],
     activeId,
     collapsed = $bindable(false),
+    expanded = $bindable<string[] | undefined>(undefined),
     defaultExpanded = [],
     persistKey,
     title = "Navigation",
     onTitleClick,
     onNavigate,
     filterItem,
+    onExpandedChange,
     class: className,
   }: {
     items?: SidebarNavItemData[];
     activeId?: string;
     collapsed?: boolean;
+    expanded?: string[];
     defaultExpanded?: string[];
     persistKey?: string;
     title?: string;
     onTitleClick?: () => void;
     onNavigate?: (item: SidebarNavItemData) => void;
     filterItem?: (item: SidebarNavItemData) => boolean;
+    onExpandedChange?: (ids: string[]) => void;
     class?: string;
   } = $props();
   function isItemVisible(item: SidebarNavItemData): boolean {
     const isHidden =
       typeof item.hidden === "function" ? item.hidden() : Boolean(item.hidden);
     if (isHidden) return false;
-    if (filterItem && !filterItem(item)) return false;
+    const childVisible = item.children?.some(isItemVisible) ?? false;
+    if (filterItem?.(item) === false && !childVisible) return false;
     return true;
   }
 
   const visibleItems = $derived(items.filter(isItemVisible));
 
-  let expandedIds = $state(new Set(defaultExpanded));
+  let expandedIds = $state(new Set<string>());
+  let hasInitializedExpanded = false;
+  $effect(() => {
+    if (hasInitializedExpanded) return;
+    hasInitializedExpanded = true;
+    expandedIds = new Set(expanded ?? defaultExpanded);
+  });
+  $effect(() => {
+    if (expanded !== undefined) expandedIds = new Set(expanded);
+  });
 
   $effect(() => {
     if (typeof window === "undefined" || !persistKey) return;
@@ -69,7 +83,10 @@
     const next = new Set(expandedIds);
     if (next.has(id)) next.delete(id);
     else next.add(id);
+    const ids = [...next];
     expandedIds = next;
+    if (expanded !== undefined) expanded = ids;
+    onExpandedChange?.(ids);
   }
 </script>
 

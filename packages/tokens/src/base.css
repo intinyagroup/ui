@@ -75,6 +75,17 @@
   --ui-ring: oklch(0.2 0.015 260);
   --ui-radius: 0.625rem;
 
+  /* Overlay and elevated-surface semantics */
+  --ui-overlay: color-mix(in srgb, var(--ui-foreground) 20%, transparent);
+  --ui-overlay-strong: color-mix(
+    in srgb,
+    var(--ui-foreground) 32%,
+    transparent
+  );
+  --ui-surface-elevated: color-mix(in srgb, var(--ui-card) 96%, transparent);
+  --ui-shadow-overlay: 0 20px 60px -32px
+    color-mix(in srgb, var(--ui-foreground) 35%, transparent);
+
   /* Semantic aliases */
   --ui-success: oklch(0.62 0.16 155);
   --ui-warning: oklch(0.75 0.18 75);
@@ -139,6 +150,23 @@
   --ui-success: oklch(0.68 0.17 155);
   --ui-warning: oklch(0.78 0.16 75);
   --ui-info: oklch(0.68 0.18 245);
+}
+
+/* Shared semantic overlay tokens resolve against active theme colors. */
+:root,
+[data-ui-theme="neutral"],
+[data-ui-theme="warm"],
+[data-ui-theme="dark"],
+.dark {
+  --ui-overlay: color-mix(in srgb, var(--ui-foreground) 20%, transparent);
+  --ui-overlay-strong: color-mix(
+    in srgb,
+    var(--ui-foreground) 32%,
+    transparent
+  );
+  --ui-surface-elevated: color-mix(in srgb, var(--ui-card) 96%, transparent);
+  --ui-shadow-overlay: 0 20px 60px -32px
+    color-mix(in srgb, var(--ui-foreground) 35%, transparent);
 }
 
 /* Spacing scale */
