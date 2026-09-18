@@ -1,0 +1,51 @@
+{
+  "name": "@intinyagroup/file-manager",
+  "version": "0.1.0",
+  "description": "Enterprise File Manager component with folder tree, breadcrumbs, grid/list view, upload, and file operations",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "svelte-package -o dist",
+    "check": "echo 'no check'",
+    "dev": "svelte-package -o dist -w",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@intinyagroup/ui": "workspace:*",
+    "@intinyagroup/grid-core": "workspace:*",
+    "lucide-svelte": "^1.0.1"
+  },
+  "devDependencies": {
+    "@sveltejs/package": "^2.5.8",
+    "@sveltejs/vite-plugin-svelte": "^5.1.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/svelte": "^5.4.2",
+    "jsdom": "^30.0.1",
+    "svelte": "^5.55.2",
+    "typescript": "^6.0.2",
+    "vitest": "^5.0.0"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intinyagroup/ui.git",
+    "directory": "packages/file-manager"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

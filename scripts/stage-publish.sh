@@ -52,6 +52,7 @@ PACKAGES=(
   react
   react-data-table
   notion-database
+  file-manager
 )
 
 

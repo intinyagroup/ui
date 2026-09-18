@@ -18,6 +18,7 @@
     "@intinyagroup/notion-database": "workspace:*",
     "@intinyagroup/rich-text": "workspace:*",
     "@intinyagroup/spreadsheet": "workspace:*",
+    "@intinyagroup/file-manager": "workspace:*",
     "@intinyagroup/tokens": "workspace:*",
     "@intinyagroup/ui": "workspace:*",
     "lowlight": "^3.3.0",
