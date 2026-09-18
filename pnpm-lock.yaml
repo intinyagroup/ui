@@ -11,6 +11,9 @@ importers:
       '@changesets/cli':
         specifier: ^2.29.0
         version: 2.31.1(@types/node@25.9.5)
+      '@intinyagroup/vitest-preset':
+        specifier: workspace:*
+        version: link:packages/shared
       '@playwright/test':
         specifier: ^1.63.0
         version: 1.63.0
@@ -97,6 +100,9 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(svelte@5.56.8)
     devDependencies:
+      '@intinyagroup/vitest-preset':
+        specifier: workspace:*
+        version: link:../shared
       '@sveltejs/package':
         specifier: ^2.5.8
         version: 2.5.8(svelte@5.56.8)(typescript@6.0.3)
@@ -230,6 +236,9 @@ importers:
       '@internationalized/date':
         specifier: ^3.12.0
         version: 3.12.3
+      '@intinyagroup/vitest-preset':
+        specifier: workspace:*
+        version: link:../shared
       '@sveltejs/package':
         specifier: ^2.5.8
         version: 2.5.8(svelte@5.56.8)(typescript@6.0.3)
@@ -276,6 +285,9 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(svelte@5.56.8)
     devDependencies:
+      '@intinyagroup/vitest-preset':
+        specifier: workspace:*
+        version: link:../shared
       '@sveltejs/package':
         specifier: ^2.5.8
         version: 2.5.8(svelte@5.56.8)(typescript@6.0.3)
@@ -348,7 +360,7 @@ importers:
         version: 5.56.8
       svelte-check:
         specifier: ^4.4.6
-        version: 4.7.4(picomatch@4.0.5)(svelte@5.56.8)(typescript@6.0.3)
+        version: 4.7.4(picomatch@4.0.7)(svelte@5.56.8)(typescript@6.0.3)
       typescript:
         specifier: ^6.0.2
         version: 6.0.3
@@ -405,6 +417,9 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(svelte@5.56.8)
     devDependencies:
+      '@intinyagroup/vitest-preset':
+        specifier: workspace:*
+        version: link:../shared
       '@sveltejs/package':
         specifier: ^2.5.8
         version: 2.5.8(svelte@5.56.8)(typescript@6.0.3)
@@ -485,6 +500,9 @@ importers:
         specifier: ^3.5.0
         version: 3.6.0
     devDependencies:
+      '@intinyagroup/vitest-preset':
+        specifier: workspace:*
+        version: link:../shared
       '@sveltejs/package':
         specifier: ^2.5.8
         version: 2.5.8(svelte@5.56.8)(typescript@6.0.3)
@@ -1055,6 +1073,8 @@ importers:
       typescript:
         specifier: ^6.0.2
         version: 6.0.3
+
+  packages/shared: {}
 
   packages/slides:
     dependencies:
@@ -9603,19 +9623,6 @@ snapshots:
   supports-color@7.2.0:
     dependencies:
       has-flag: 4.0.0
-
-  svelte-check@4.7.4(picomatch@4.0.5)(svelte@5.56.8)(typescript@6.0.3):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.31
-      '@sveltejs/load-config': 0.2.1
-      chokidar: 4.0.3
-      fdir: 6.5.0(picomatch@4.0.5)
-      picocolors: 1.1.1
-      sade: 1.8.1
-      svelte: 5.56.8
-      typescript: 6.0.3
-    transitivePeerDependencies:
-      - picomatch
 
   svelte-check@4.7.4(picomatch@4.0.7)(svelte@5.56.8)(typescript@6.0.3):
     dependencies:
