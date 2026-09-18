@@ -24,6 +24,7 @@ import {
   rowSelectionFeature,
   type ColumnDef,
   type Table,
+  type Row,
   type PaginationState,
   type SortingState,
   type ColumnVisibilityState,
@@ -134,6 +135,8 @@ export function createCoreTableModel<TData>(input: {
   serverSide?: ServerSideConfig;
   meta?: Record<string, unknown>;
   enableResizing?: boolean;
+  getSubRows?: (row: TData, index: number) => TData[] | undefined | null;
+  getRowId?: (row: TData, index: number, parent?: Row<TData>) => string;
 }): Table<typeof coreFeatures, TData> {
   const state: CoreTableState = {
     sorting: input.state?.sorting ?? [],
@@ -181,6 +184,8 @@ export function createCoreTableModel<TData>(input: {
     enableMultiSort: true,
     enableSortingRemoval: true,
     enableColumnResizing: resizing,
+    getSubRows: input.getSubRows,
+    getRowId: input.getRowId,
     renderFallbackValue: null,
     meta: input.meta,
   });

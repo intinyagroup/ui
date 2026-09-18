@@ -49,3 +49,38 @@ export {
   isImageFile,
   isTextFile,
 } from "./utils.js";
+
+// Filter AST & Query Builder Engine
+export {
+  createFilterGroup,
+  createFilterRule,
+  isFilterGroup,
+  getOperatorsForType,
+  evaluateFilterRule,
+  evaluateFilterGroup,
+  filterGroupToPredicate,
+  filterGroupToSQL,
+  filterGroupToJSON,
+  filterGroupFromJSON,
+  addRuleToGroup,
+  removeRuleFromGroup,
+  updateRuleInGroup,
+  updateGroupInGroup,
+  type FilterCondition,
+  type FilterOperator,
+  type FilterRule,
+  type FilterGroup,
+  type FilterField,
+} from "./filter-ast.js";
+
+// Tree Data Model & Utilities
+export {
+  flatToTree,
+  treeToFlat,
+  filterTree,
+  sortTree,
+  cascadeSelect,
+  type TreeNodeData,
+  type TreeNode,
+  type FlatTreeRow,
+} from "./tree-model.js";
