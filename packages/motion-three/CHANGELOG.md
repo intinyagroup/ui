@@ -1,5 +1,13 @@
 # @intinyagroup/motion-three
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [753000b]
+- Updated dependencies
+  - @intinyagroup/ui@0.2.7
+
 ## 0.1.1
 
 ### Patch Changes

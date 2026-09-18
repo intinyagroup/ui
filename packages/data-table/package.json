@@ -1,6 +1,6 @@
 {
   "name": "@intinyagroup/data-table",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Enterprise DataTable component built on grid-core",
   "type": "module",
   "exports": {

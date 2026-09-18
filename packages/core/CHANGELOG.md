@@ -1,5 +1,12 @@
 # @intinyagroup/ui
 
+## 0.2.7
+
+### Patch Changes
+
+- 753000b: Adjust DialogOverlay to use semantic foreground opacity and a 4px backdrop blur for lighter, theme-aware modal backdrops.
+- Standardize package export conditions with default and import fallbacks, resolve Svelte 5 reactivity and import issues, and align tiptap dependencies.
+
 ## 0.2.6
 
 ### Patch Changes

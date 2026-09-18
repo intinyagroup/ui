@@ -1,5 +1,14 @@
 # @intinyagroup/calendar
 
+## 0.1.2
+
+### Patch Changes
+
+- Standardize package export conditions with default and import fallbacks, resolve Svelte 5 reactivity and import issues, and align tiptap dependencies.
+- Updated dependencies [753000b]
+- Updated dependencies
+  - @intinyagroup/ui@0.2.7
+
 ## 0.1.1
 
 ### Patch Changes
