@@ -79,9 +79,6 @@ jobs:
             turbo-test-${{ runner.os }}-${{ github.ref_name }}-
             turbo-test-${{ runner.os }}-
 
-      - name: Build dependencies first
-        run: pnpm turbo run build --filter=./... --filter=intinyagroup-ui
-
       - name: Run unit tests (parallel via Turborepo)
         run: pnpm turbo run test --continue
 

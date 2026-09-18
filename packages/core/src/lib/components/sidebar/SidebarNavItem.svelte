@@ -107,7 +107,7 @@
     title={collapsed ? collapsedLabel : undefined}
     onclick={handleClick}
     class={cn(
-      "group/sidebar-item relative flex min-h-10 w-full items-center gap-2.5 rounded-lg text-left text-[13px] leading-5 transition-[background-color,color,box-shadow] duration-150 outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:opacity-45",
+      "group/sidebar-item relative flex min-h-10 w-full items-center gap-2.5 rounded-lg text-left text-[13px] leading-5 transition-[background-color,color,box-shadow] duration-150 motion-reduce:transition-none outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:opacity-45",
       active
         ? "bg-primary/[0.08] font-semibold text-primary shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--ui-primary)_12%,transparent)]"
         : "text-muted-foreground hover:bg-muted/60 hover:text-foreground",

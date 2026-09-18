@@ -94,7 +94,7 @@
   data-slot="sidebar-nav"
   data-state={collapsed ? "collapsed" : "expanded"}
   class={cn(
-    "flex h-full min-h-0 w-[17rem] flex-col border-r border-border/70 bg-background text-foreground transition-[width] duration-200 ease-out",
+    "flex h-full min-h-0 w-[17rem] flex-col border-r border-border/70 bg-background text-foreground transition-[width] duration-200 ease-out motion-reduce:transition-none",
     collapsed && "w-14",
     className,
   )}
