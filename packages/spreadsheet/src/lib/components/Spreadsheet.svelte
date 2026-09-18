@@ -10,12 +10,13 @@
   } from "lucide-svelte";
   import { Button } from "@intinyagroup/ui";
   import { cn } from "@intinyagroup/grid-core/utils";
-  import { getCellId, parseCellId, coerceValue } from "../cell-utils.js";
+  import { getCellId, parseCellId } from "../cell-utils.js";
   import {
     setCellValue,
     setCellValues,
     setCellStyles,
     createCell,
+    coerceValue,
     type CellMap,
     type CellStyle,
   } from "../cell-model.js";

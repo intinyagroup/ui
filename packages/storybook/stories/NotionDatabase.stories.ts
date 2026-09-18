@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/svelte";
-import NotionDatabase, {
+import {
+  NotionDatabase,
   type DatabaseProperty,
 } from "@intinyagroup/notion-database";
 
