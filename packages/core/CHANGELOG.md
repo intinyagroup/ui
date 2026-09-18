@@ -1,5 +1,11 @@
 # @intinyagroup/ui
 
+## 0.2.4
+
+### Patch Changes
+
+- Add `overlayClass` prop to Dialog, Sheet, and Drawer content components for per-instance backdrop styling.
+
 ## 0.2.3
 
 ### Patch Changes
