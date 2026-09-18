@@ -3,25 +3,36 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "inputs": ["src/**", "package.json", "tsconfig.json"],
       "outputs": [
         "dist/**",
         ".svelte-kit/output/**",
         "build/**",
         "storybook-static/**"
       ],
-      "cache": true
+      "cache": true,
+      "env": ["NODE_ENV"]
     },
     "@intinyagroup/tokens#build": {
+      "inputs": ["src/**", "package.json"],
       "outputs": [],
       "cache": true
     },
     "check": {
       "dependsOn": ["^build"],
+      "inputs": ["src/**", "package.json", "tsconfig.json"],
+      "outputs": [".turbo"],
       "cache": true
     },
     "test": {
       "dependsOn": ["^build"],
-      "cache": false
+      "inputs": [
+        "src/**",
+        "vitest.config.ts",
+        "vitest-setup.ts",
+        "package.json"
+      ],
+      "cache": true
     },
     "dev": {
       "cache": false,

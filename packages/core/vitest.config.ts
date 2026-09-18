@@ -9,12 +9,20 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: ["./vitest-setup.ts"],
+    fsModuleCache: true,
+    pool: "vmThreads",
+    poolOptions: {
+      vmThreads: {
+        maxThreads: 4,
+        minThreads: 1,
+      },
+    },
+    testTimeout: 15_000,
     server: {
       deps: {
         inline: [/svelte/],
       },
     },
-    fsModuleCache: true,
   },
   resolve: {
     conditions: ["browser"],
