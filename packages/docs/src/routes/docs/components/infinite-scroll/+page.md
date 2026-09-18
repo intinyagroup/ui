@@ -36,15 +36,15 @@ A scroll container that automatically loads more content when the user approache
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `hasMore` | `boolean` | `true` | Whether more items exist (bindable) |
-| `loading` | `boolean` | `false` | Loading state; shows a spinner when true (bindable) |
-| `error` | `boolean` | `false` | Error state; shows a retry button when true (bindable) |
-| `onLoadMore` | `() => void \| Promise<void>` | — | Called when the sentinel scrolls into view (required) |
-| `onRetry` | `() => void \| Promise<void>` | — | Called when the retry button is pressed |
-| `threshold` | `number` | `200` | Distance (px) from the bottom that triggers a load |
-| `class` | `string` | — | Additional classes (add `overflow` for the scroll container) |
+| Prop         | Type                          | Default | Description                                                  |
+| ------------ | ----------------------------- | ------- | ------------------------------------------------------------ |
+| `hasMore`    | `boolean`                     | `true`  | Whether more items exist (bindable)                          |
+| `loading`    | `boolean`                     | `false` | Loading state; shows a spinner when true (bindable)          |
+| `error`      | `boolean`                     | `false` | Error state; shows a retry button when true (bindable)       |
+| `onLoadMore` | `() => void \| Promise<void>` | —       | Called when the sentinel scrolls into view (required)        |
+| `onRetry`    | `() => void \| Promise<void>` | —       | Called when the retry button is pressed                      |
+| `threshold`  | `number`                      | `200`   | Distance (px) from the bottom that triggers a load           |
+| `class`      | `string`                      | —       | Additional classes (add `overflow` for the scroll container) |
 
 ## States
 

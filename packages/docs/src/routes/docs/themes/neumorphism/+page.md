@@ -17,7 +17,7 @@ npm install @intinyagroup/tokens@alpha
 
 ```svelte
 <script>
-  import '@intinyagroup/tokens/neumorphism.css';
+  import "@intinyagroup/tokens/neumorphism.css";
 </script>
 ```
 

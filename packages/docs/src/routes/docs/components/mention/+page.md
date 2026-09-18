@@ -6,16 +6,16 @@ A contenteditable rich-text editor for `@mention` mentions. As the user types `@
 
 ```svelte
 <script>
-  import { Mention } from '@intinyagroup/ui';
+  import { Mention } from "@intinyagroup/ui";
 
-  let value = $state('');
+  let value = $state("");
   const users = [
-    { id: '1', name: 'Ada Lovelace' },
-    { id: '2', name: 'Grace Hopper', avatar: '/ada.png' }
+    { id: "1", name: "Ada Lovelace" },
+    { id: "2", name: "Grace Hopper", avatar: "/ada.png" },
   ];
 
   function onMention(user) {
-    console.log('Mentioned', user);
+    console.log("Mentioned", user);
   }
 </script>
 
@@ -24,13 +24,13 @@ A contenteditable rich-text editor for `@mention` mentions. As the user types `@
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | `''` | Editor HTML content (bindable) |
-| `users` | `MentionUser[]` | `[]` | Selectable users, filtered by name (bindable) |
-| `placeholder` | `string` | `'Type @ to mention someone…'` | Placeholder shown when empty |
-| `onMention` | `(user: MentionUser) => void` | — | Called when a mention is inserted |
-| `class` | `string` | — | Additional classes |
+| Prop          | Type                          | Default                        | Description                                   |
+| ------------- | ----------------------------- | ------------------------------ | --------------------------------------------- |
+| `value`       | `string`                      | `''`                           | Editor HTML content (bindable)                |
+| `users`       | `MentionUser[]`               | `[]`                           | Selectable users, filtered by name (bindable) |
+| `placeholder` | `string`                      | `'Type @ to mention someone…'` | Placeholder shown when empty                  |
+| `onMention`   | `(user: MentionUser) => void` | —                              | Called when a mention is inserted             |
+| `class`       | `string`                      | —                              | Additional classes                            |
 
 ```ts
 type MentionUser = { id: string; name: string; avatar?: string };
@@ -38,11 +38,11 @@ type MentionUser = { id: string; name: string; avatar?: string };
 
 ## Keyboard navigation
 
-| Key | Action |
-|-----|--------|
+| Key                     | Action                           |
+| ----------------------- | -------------------------------- |
 | `ArrowUp` / `ArrowDown` | Move through the suggestion list |
-| `Enter` | Insert the highlighted mention |
-| `Escape` | Close the dropdown |
+| `Enter`                 | Insert the highlighted mention   |
+| `Escape`                | Close the dropdown               |
 
 The dropdown repositions to the caret as it moves (clicks, `selectionchange`, undo, etc.).
 

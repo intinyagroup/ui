@@ -6,7 +6,14 @@ A semantic HTML table with full styling.
 
 ```svelte
 <script>
-  import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@intinyagroup/ui';
+  import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableRow,
+    TableHead,
+    TableCell,
+  } from "@intinyagroup/ui";
 </script>
 
 <Table>

@@ -20,9 +20,9 @@ npx @intinyagroup/cli add drawer
     DrawerTitle,
     DrawerDescription,
     DrawerFooter,
-    DrawerClose
-  } from '@intinyagroup/ui';
-  import { Button } from '@intinyagroup/ui';
+    DrawerClose,
+  } from "@intinyagroup/ui";
+  import { Button } from "@intinyagroup/ui";
 </script>
 
 <Drawer>
@@ -59,9 +59,9 @@ npx @intinyagroup/cli add drawer
 
 ## Props
 
-| Sub-component | Description |
-|---------------|-------------|
-| `Drawer` | Root — accepts `open` (bindable) and `direction` (`'top' \| 'bottom' \| 'left' \| 'right'`) |
-| `DrawerContent` | The sliding panel — animates in from the specified direction |
-| `DrawerTrigger` | Opens the drawer on click |
-| `DrawerClose` | Closes the drawer on click |
+| Sub-component   | Description                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------- |
+| `Drawer`        | Root — accepts `open` (bindable) and `direction` (`'top' \| 'bottom' \| 'left' \| 'right'`) |
+| `DrawerContent` | The sliding panel — animates in from the specified direction                                |
+| `DrawerTrigger` | Opens the drawer on click                                                                   |
+| `DrawerClose`   | Closes the drawer on click                                                                  |

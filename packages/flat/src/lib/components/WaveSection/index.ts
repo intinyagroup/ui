@@ -1,1 +1,1 @@
-export { default as WaveSection } from './WaveSection.svelte';
+export { default as WaveSection } from "./WaveSection.svelte";

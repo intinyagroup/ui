@@ -75,7 +75,13 @@ Themes: `neutral`, `warm`, `dark`, `glass`, `brutalist`, `md3`, `flat`, `cyberpu
 
 ```svelte
 <script lang="ts">
-  import { Button, Card, CardHeader, CardTitle, CardContent } from '@intinyagroup/ui';
+  import {
+    Button,
+    Card,
+    CardHeader,
+    CardTitle,
+    CardContent,
+  } from "@intinyagroup/ui";
 </script>
 
 <Card>

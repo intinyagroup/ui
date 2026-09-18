@@ -12,7 +12,7 @@ npx @intinyagroup/cli add timeline
 
 ```svelte
 <script>
-  import { Timeline, TimelineItem, TimelineDot } from '@intinyagroup/ui';
+  import { Timeline, TimelineItem, TimelineDot } from "@intinyagroup/ui";
 </script>
 
 <Timeline>
@@ -48,8 +48,8 @@ npx @intinyagroup/cli add timeline
 
 ## Props
 
-| Sub-component | Description |
-|---------------|-------------|
-| `Timeline` | Root — vertical list with connecting line between items |
-| `TimelineItem` | Single entry — accepts `class` |
-| `TimelineDot` | Circle indicator — accepts `class` |
+| Sub-component  | Description                                             |
+| -------------- | ------------------------------------------------------- |
+| `Timeline`     | Root — vertical list with connecting line between items |
+| `TimelineItem` | Single entry — accepts `class`                          |
+| `TimelineDot`  | Circle indicator — accepts `class`                      |

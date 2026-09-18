@@ -8,16 +8,16 @@
     BookOpen,
     FileText,
     Folder,
-    CornerDownRight
-  } from 'lucide-svelte';
-  import { Button } from '@intinyagroup/ui';
-  import { cn } from '@intinyagroup/grid-core/utils';
+    CornerDownRight,
+  } from "lucide-svelte";
+  import { Button } from "@intinyagroup/ui";
+  import { cn } from "@intinyagroup/grid-core/utils";
   import {
     getChapterWordCount,
     buildBlockTree,
     type ContentBlock,
-    type ContentBlockType
-  } from '../book-model.js';
+    type ContentBlockType,
+  } from "../book-model.js";
 
   let {
     chapters,
@@ -67,7 +67,7 @@
       draggable="true"
       ondragstart={(e) => {
         draggedBlockId = node.id;
-        e.dataTransfer?.setData('text/plain', node.id);
+        e.dataTransfer?.setData("text/plain", node.id);
       }}
       ondragover={(e) => {
         e.preventDefault();
@@ -78,7 +78,7 @@
       }}
       ondrop={(e) => {
         e.preventDefault();
-        const blockId = e.dataTransfer?.getData('text/plain');
+        const blockId = e.dataTransfer?.getData("text/plain");
         if (blockId && blockId !== node.id) {
           onReparentBlock?.(blockId, node.id);
         }
@@ -91,7 +91,8 @@
           ? "bg-[var(--ui-primary)]/10 text-[var(--ui-primary)] font-semibold border border-[var(--ui-primary)]/20"
           : "hover:bg-[var(--ui-secondary)]/50 text-[var(--ui-foreground)] border border-transparent",
         draggedBlockId === node.id && "opacity-40",
-        dropTargetBlockId === node.id && "bg-[var(--ui-primary)]/15 ring-2 ring-inset ring-[var(--ui-primary)]"
+        dropTargetBlockId === node.id &&
+          "bg-[var(--ui-primary)]/15 ring-2 ring-inset ring-[var(--ui-primary)]",
       )}
       style="padding-left: {depth * 14 + 8}px;"
       onclick={() => onSelectChapter(node.id)}
@@ -116,24 +117,28 @@
       {/if}
 
       <span class="text-sm shrink-0 select-none">
-        {node.icon || (node.type === 'section' ? '📁' : '📄')}
+        {node.icon || (node.type === "section" ? "📁" : "📄")}
       </span>
 
       <span class="truncate flex-1 font-medium">
-        {node.title || 'Untitled'}
+        {node.title || "Untitled"}
       </span>
 
-      <span class="text-[10px] text-[var(--ui-muted-foreground)] shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+      <span
+        class="text-[10px] text-[var(--ui-muted-foreground)] shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+      >
         {formatWordCount(words)}w
       </span>
 
       <!-- Action buttons -->
-      <div class="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+      <div
+        class="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+      >
         <button
           type="button"
           onclick={(e) => {
             e.stopPropagation();
-            onAddChapter('page', node.id);
+            onAddChapter("page", node.id);
           }}
           class="p-1 rounded text-[var(--ui-muted-foreground)] hover:text-[var(--ui-primary)] hover:bg-[var(--ui-secondary)]"
           title="Add sub-page"
@@ -165,13 +170,22 @@
   </div>
 {/snippet}
 
-<div class="w-64 border-r border-[var(--ui-border)] bg-[var(--ui-card)] flex flex-col shrink-0">
+<div
+  class="w-64 border-r border-[var(--ui-border)] bg-[var(--ui-card)] flex flex-col shrink-0"
+>
   <!-- Header -->
-  <div class="px-3 py-2.5 border-b border-[var(--ui-border)] flex items-center justify-between">
+  <div
+    class="px-3 py-2.5 border-b border-[var(--ui-border)] flex items-center justify-between"
+  >
     <div>
-      <h3 class="text-xs font-bold text-[var(--ui-foreground)] uppercase tracking-wider">Pages & Blocks</h3>
+      <h3
+        class="text-xs font-bold text-[var(--ui-foreground)] uppercase tracking-wider"
+      >
+        Pages & Blocks
+      </h3>
       <p class="text-[10px] text-[var(--ui-muted-foreground)] mt-0.5">
-        {chapters.length} blocks · {formatWordCount(wordCount)} words · ~{estimatedPages} pages
+        {chapters.length} blocks · {formatWordCount(wordCount)} words · ~{estimatedPages}
+        pages
       </p>
     </div>
   </div>
@@ -189,7 +203,7 @@
       variant="outline"
       size="sm"
       class="w-full text-xs font-semibold gap-1.5"
-      onclick={() => onAddChapter('page', null)}
+      onclick={() => onAddChapter("page", null)}
     >
       <Plus class="size-3.5" /> Add New Page
     </Button>

@@ -1,6 +1,12 @@
 <script lang="ts">
-  import { toasts, type Toast } from '../../toast/store.js';
-  import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from 'lucide-svelte';
+  import { toasts, type Toast } from "../../toast/store.js";
+  import {
+    X,
+    CheckCircle,
+    AlertCircle,
+    AlertTriangle,
+    Info,
+  } from "lucide-svelte";
 
   const icons: Record<string, any> = {
     success: CheckCircle,
@@ -11,19 +17,19 @@
   };
 
   const colors: Record<string, string> = {
-    success: 'border-[var(--ui-success)]/30 bg-[var(--ui-success)]/5',
-    error: 'border-[var(--ui-destructive)]/30 bg-[var(--ui-destructive)]/5',
-    warning: 'border-[var(--ui-warning)]/30 bg-[var(--ui-warning)]/5',
-    info: 'border-[var(--ui-info)]/30 bg-[var(--ui-info)]/5',
-    default: 'border-[var(--ui-border)] bg-[var(--ui-card)]',
+    success: "border-[var(--ui-success)]/30 bg-[var(--ui-success)]/5",
+    error: "border-[var(--ui-destructive)]/30 bg-[var(--ui-destructive)]/5",
+    warning: "border-[var(--ui-warning)]/30 bg-[var(--ui-warning)]/5",
+    info: "border-[var(--ui-info)]/30 bg-[var(--ui-info)]/5",
+    default: "border-[var(--ui-border)] bg-[var(--ui-card)]",
   };
 
   const iconColors: Record<string, string> = {
-    success: 'text-[var(--ui-success)]',
-    error: 'text-[var(--ui-destructive)]',
-    warning: 'text-[var(--ui-warning)]',
-    info: 'text-[var(--ui-info)]',
-    default: 'text-[var(--ui-muted-foreground)]',
+    success: "text-[var(--ui-success)]",
+    error: "text-[var(--ui-destructive)]",
+    warning: "text-[var(--ui-warning)]",
+    info: "text-[var(--ui-info)]",
+    default: "text-[var(--ui-muted-foreground)]",
   };
 </script>
 
@@ -43,10 +49,14 @@
 
     <div class="flex-1 min-w-0">
       {#if toast.title}
-        <p class="text-sm font-semibold text-[var(--ui-foreground)]">{toast.title}</p>
+        <p class="text-sm font-semibold text-[var(--ui-foreground)]">
+          {toast.title}
+        </p>
       {/if}
       {#if toast.description}
-        <p class="mt-1 text-sm text-[var(--ui-muted-foreground)]">{toast.description}</p>
+        <p class="mt-1 text-sm text-[var(--ui-muted-foreground)]">
+          {toast.description}
+        </p>
       {/if}
       {#if toast.action}
         <button
@@ -69,7 +79,9 @@
 {/snippet}
 
 <!-- Toast container -->
-<div class="fixed bottom-4 right-4 z-[100] flex flex-col-reverse gap-2 pointer-events-none">
+<div
+  class="fixed bottom-4 right-4 z-[100] flex flex-col-reverse gap-2 pointer-events-none"
+>
   {#each $toasts as toast (toast.id)}
     <div class="pointer-events-auto animate-slide-in-right">
       {@render toastItem(toast)}

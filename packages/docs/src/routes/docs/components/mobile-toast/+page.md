@@ -11,7 +11,7 @@ A compact toast designed for mobile. Supports variants, auto-dismiss duration, t
 
 ```svelte
 <script>
-  import { MobileToast } from '@intinyagroup/ui';
+  import { MobileToast } from "@intinyagroup/ui";
 
   let open = $state(false);
 </script>
@@ -29,23 +29,23 @@ A compact toast designed for mobile. Supports variants, auto-dismiss duration, t
   bind:open
   message="New version available"
   action="Update"
-  onAction={() => console.log('updating…')}
+  onAction={() => console.log("updating…")}
 />
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `message` | `string` | — | Toast text |
-| `open` | `boolean` | `false` | Bindable visibility state |
-| `variant` | `'default' \| 'success' \| 'error' \| 'warning'` | `'default'` | Visual variant |
-| `duration` | `number` | `4000` | Auto-dismiss ms; `0` disables |
-| `position` | `'bottom' \| 'top'` | `'bottom'` | Screen position |
-| `action` | `string` | — | Optional action button label |
-| `onAction` | `() => void` | — | Called when the action is pressed |
-| `ondismiss` | `() => void` | — | Called after the toast closes |
-| `class` | `string` | — | Additional CSS classes |
+| Prop        | Type                                             | Default     | Description                       |
+| ----------- | ------------------------------------------------ | ----------- | --------------------------------- |
+| `message`   | `string`                                         | —           | Toast text                        |
+| `open`      | `boolean`                                        | `false`     | Bindable visibility state         |
+| `variant`   | `'default' \| 'success' \| 'error' \| 'warning'` | `'default'` | Visual variant                    |
+| `duration`  | `number`                                         | `4000`      | Auto-dismiss ms; `0` disables     |
+| `position`  | `'bottom' \| 'top'`                              | `'bottom'`  | Screen position                   |
+| `action`    | `string`                                         | —           | Optional action button label      |
+| `onAction`  | `() => void`                                     | —           | Called when the action is pressed |
+| `ondismiss` | `() => void`                                     | —           | Called after the toast closes     |
+| `class`     | `string`                                         | —           | Additional CSS classes            |
 
 ## Features
 

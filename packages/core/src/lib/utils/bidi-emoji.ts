@@ -5,40 +5,47 @@
 // Unicode bidirectional characters
 export const BIDI_CHARS = {
   // Strong right-to-left
-  RLM: '\u200F',  // Right-to-Left Mark
-  RTL: '\u202B',  // Right-to-Left Embedding
-  RLE: '\u202B',  // Right-to-Left Embedding
-  RLO: '\u202E',  // Right-to-Left Override
+  RLM: "\u200F", // Right-to-Left Mark
+  RTL: "\u202B", // Right-to-Left Embedding
+  RLE: "\u202B", // Right-to-Left Embedding
+  RLO: "\u202E", // Right-to-Left Override
 
   // Strong left-to-right
-  LRM: '\u200E',  // Left-to-Right Mark
-  LTR: '\u202A',  // Left-to-Right Embedding
-  LRE: '\u202A',  // Left-to-Right Embedding
-  LRO: '\u202D',  // Left-to-Right Override
+  LRM: "\u200E", // Left-to-Right Mark
+  LTR: "\u202A", // Left-to-Right Embedding
+  LRE: "\u202A", // Left-to-Right Embedding
+  LRO: "\u202D", // Left-to-Right Override
 
   // Neutral
-  FSI: '\u2068',  // First Strong Isolate
-  PDI: '\u2069',  // Pop Directional Isolate
-  PDF: '\u202C',  // Pop Directional Formatting
-
+  FSI: "\u2068", // First Strong Isolate
+  PDI: "\u2069", // Pop Directional Isolate
+  PDF: "\u202C", // Pop Directional Formatting
 } as const;
 
 // RTL languages
 export const RTL_LANGUAGES = [
-  'ar', 'ar-AE', 'ar-SA', 'ar-EG', 'ar-MA',
-  'he', 'he-IL',
-  'fa', 'fa-IR',
-  'ur', 'ur-PK',
-  'yi',
-  'ps',
-  'sd',
-  'ug',
-  'ku',
-  'fa-AF',
+  "ar",
+  "ar-AE",
+  "ar-SA",
+  "ar-EG",
+  "ar-MA",
+  "he",
+  "he-IL",
+  "fa",
+  "fa-IR",
+  "ur",
+  "ur-PK",
+  "yi",
+  "ps",
+  "sd",
+  "ug",
+  "ku",
+  "fa-AF",
 ] as const;
 
 // Common RTL scripts regex
-const RTL_SCRIPTS = /[\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]/;
+const RTL_SCRIPTS =
+  /[\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC]/;
 
 /**
  * Detect if text is RTL
@@ -60,27 +67,31 @@ export function isRTL(text: string): boolean {
  * Detect if a language code is RTL
  */
 export function isRTLLanguage(langCode: string): boolean {
-  const base = langCode.split('-')[0].toLowerCase();
-  return (RTL_LANGUAGES as readonly string[]).some(
-    (rtl) => rtl.toLowerCase().startsWith(base)
+  const base = langCode.split("-")[0].toLowerCase();
+  return (RTL_LANGUAGES as readonly string[]).some((rtl) =>
+    rtl.toLowerCase().startsWith(base),
   );
 }
 
 /**
  * Get text direction from content and language
  */
-export function getTextDirection(text: string, lang?: string): 'ltr' | 'rtl' {
-  if (lang && isRTLLanguage(lang)) return 'rtl';
-  return isRTL(text) ? 'rtl' : 'ltr';
+export function getTextDirection(text: string, lang?: string): "ltr" | "rtl" {
+  if (lang && isRTLLanguage(lang)) return "rtl";
+  return isRTL(text) ? "rtl" : "ltr";
 }
 
 /**
  * Wrap text with appropriate BIDI isolation
  */
-export function wrapBidi(text: string, direction: 'ltr' | 'rtl' | 'auto' = 'auto'): string {
-  const resolvedDirection = direction === 'auto' ? (isRTL(text) ? 'rtl' : 'ltr') : direction;
+export function wrapBidi(
+  text: string,
+  direction: "ltr" | "rtl" | "auto" = "auto",
+): string {
+  const resolvedDirection =
+    direction === "auto" ? (isRTL(text) ? "rtl" : "ltr") : direction;
 
-  const isolate = resolvedDirection === 'rtl' ? BIDI_CHARS.FSI : BIDI_CHARS.LRE;
+  const isolate = resolvedDirection === "rtl" ? BIDI_CHARS.FSI : BIDI_CHARS.LRE;
   const pop = BIDI_CHARS.PDI;
 
   return `${isolate}${text}${pop}`;
@@ -105,7 +116,7 @@ export function addLTRMark(text: string): string {
  */
 export function getDirectionStyle(text: string, lang?: string): string {
   const dir = getTextDirection(text, lang);
-  return `direction: ${dir}; text-align: ${dir === 'rtl' ? 'right' : 'left'};`;
+  return `direction: ${dir}; text-align: ${dir === "rtl" ? "right" : "left"};`;
 }
 
 /**
@@ -113,35 +124,308 @@ export function getDirectionStyle(text: string, lang?: string): string {
  */
 export const emojiCategories = [
   {
-    name: 'Smileys',
-    icon: '😊',
-    emojis: ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '😚', '😙', '🥲', '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🫢', '🫣', '🤫', '🤔', '🫡', '🤐', '🤨', '😐', '😑', '😶', '🫥', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🥵', '🥶', '🥴', '😵', '🤯', '🥳', '🥸', '😎', '🤓', '🧐']
+    name: "Smileys",
+    icon: "😊",
+    emojis: [
+      "😀",
+      "😃",
+      "😄",
+      "😁",
+      "😆",
+      "😅",
+      "🤣",
+      "😂",
+      "🙂",
+      "🙃",
+      "😉",
+      "😊",
+      "😇",
+      "🥰",
+      "😍",
+      "🤩",
+      "😘",
+      "😗",
+      "😚",
+      "😙",
+      "🥲",
+      "😋",
+      "😛",
+      "😜",
+      "🤪",
+      "😝",
+      "🤑",
+      "🤗",
+      "🤭",
+      "🫢",
+      "🫣",
+      "🤫",
+      "🤔",
+      "🫡",
+      "🤐",
+      "🤨",
+      "😐",
+      "😑",
+      "😶",
+      "🫥",
+      "😏",
+      "😒",
+      "🙄",
+      "😬",
+      "🤥",
+      "😌",
+      "😔",
+      "😪",
+      "🤤",
+      "😴",
+      "😷",
+      "🤒",
+      "🤕",
+      "🤢",
+      "🤮",
+      "🥵",
+      "🥶",
+      "🥴",
+      "😵",
+      "🤯",
+      "🥳",
+      "🥸",
+      "😎",
+      "🤓",
+      "🧐",
+    ],
   },
   {
-    name: 'Gestures',
-    icon: '👋',
-    emojis: ['👋', '🤚', '🖐️', '✋', '🖖', '🫱', '🫲', '🫳', '🫴', '👌', '🤌', '🤏', '✌️', '🤞', '🫰', '🤟', '🤘', '🤙', '👈', '👉', '👆', '🖕', '👇', '☝️', '🫵', '👍', '👎', '✊', '👊', '🤛', '🤜', '👏', '🙌', '🫶', '👐', '🤲', '🤝', '🙏']
+    name: "Gestures",
+    icon: "👋",
+    emojis: [
+      "👋",
+      "🤚",
+      "🖐️",
+      "✋",
+      "🖖",
+      "🫱",
+      "🫲",
+      "🫳",
+      "🫴",
+      "👌",
+      "🤌",
+      "🤏",
+      "✌️",
+      "🤞",
+      "🫰",
+      "🤟",
+      "🤘",
+      "🤙",
+      "👈",
+      "👉",
+      "👆",
+      "🖕",
+      "👇",
+      "☝️",
+      "🫵",
+      "👍",
+      "👎",
+      "✊",
+      "👊",
+      "🤛",
+      "🤜",
+      "👏",
+      "🙌",
+      "🫶",
+      "👐",
+      "🤲",
+      "🤝",
+      "🙏",
+    ],
   },
   {
-    name: 'Objects',
-    icon: '💡',
-    emojis: ['⌚', '📱', '📲', '💻', '⌨️', '🖥️', '🖨', '🖱️', '🖲️', '💽', '💾', '💿', '📀', '📼', '📷', '📸', '📹', '🎥', '📽️', '🎞️', '📞', '☎️', '📟', '📠', '📺', '📻', '🎙️', '🎚️', '🎛️', '🧭', '⏱️', '⏲️', '⏰', '🕰️', '⌛', '📡', '🔋', '🪫', '🪛', '🔧', '🔨', '⚒️', '🛠️', '⛏️', '🪚', '🔩', '⚙️', '🗜️', '🪤', '🧰', '🪜']
+    name: "Objects",
+    icon: "💡",
+    emojis: [
+      "⌚",
+      "📱",
+      "📲",
+      "💻",
+      "⌨️",
+      "🖥️",
+      "🖨",
+      "🖱️",
+      "🖲️",
+      "💽",
+      "💾",
+      "💿",
+      "📀",
+      "📼",
+      "📷",
+      "📸",
+      "📹",
+      "🎥",
+      "📽️",
+      "🎞️",
+      "📞",
+      "☎️",
+      "📟",
+      "📠",
+      "📺",
+      "📻",
+      "🎙️",
+      "🎚️",
+      "🎛️",
+      "🧭",
+      "⏱️",
+      "⏲️",
+      "⏰",
+      "🕰️",
+      "⌛",
+      "📡",
+      "🔋",
+      "🪫",
+      "🪛",
+      "🔧",
+      "🔨",
+      "⚒️",
+      "🛠️",
+      "⛏️",
+      "🪚",
+      "🔩",
+      "⚙️",
+      "🗜️",
+      "🪤",
+      "🧰",
+      "🪜",
+    ],
   },
   {
-    name: 'Nature',
-    icon: '🌿',
-    emojis: ['🌸', '💮', '🏵️', '🌹', '🥀', '🌺', '🌻', '🌼', '🌷', '🌱', '🪴', '🌲', '🌳', '🌴', '🌵', '🌾', '🌿', '☘️', '🍀', '🍁', '🍂', '🍃', '🪹', '🪺', '🍄', '🪵', '🌰', '🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐻‍❄️', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵']
+    name: "Nature",
+    icon: "🌿",
+    emojis: [
+      "🌸",
+      "💮",
+      "🏵️",
+      "🌹",
+      "🥀",
+      "🌺",
+      "🌻",
+      "🌼",
+      "🌷",
+      "🌱",
+      "🪴",
+      "🌲",
+      "🌳",
+      "🌴",
+      "🌵",
+      "🌾",
+      "🌿",
+      "☘️",
+      "🍀",
+      "🍁",
+      "🍂",
+      "🍃",
+      "🪹",
+      "🪺",
+      "🍄",
+      "🪵",
+      "🌰",
+      "🐶",
+      "🐱",
+      "🐭",
+      "🐹",
+      "🐰",
+      "🦊",
+      "🐻",
+      "🐼",
+      "🐻‍❄️",
+      "🐨",
+      "🐯",
+      "🦁",
+      "🐮",
+      "🐷",
+      "🐸",
+      "🐵",
+    ],
   },
   {
-    name: 'Symbols',
-    icon: '❤️',
-    emojis: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔', '❤️‍🔥', '❤️‍🩹', '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '💟', '☮️', '✝️', '☪️', '🕉️', '☸️', '✡️', '🔯', '🕎', '☯️', '☦️', '🛐', '⛎', '♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓', '⚛️']
+    name: "Symbols",
+    icon: "❤️",
+    emojis: [
+      "❤️",
+      "🧡",
+      "💛",
+      "💚",
+      "💙",
+      "💜",
+      "🖤",
+      "🤍",
+      "🤎",
+      "💔",
+      "❤️‍🔥",
+      "❤️‍🩹",
+      "❣️",
+      "💕",
+      "💞",
+      "💓",
+      "💗",
+      "💖",
+      "💘",
+      "💝",
+      "💟",
+      "☮️",
+      "✝️",
+      "☪️",
+      "🕉️",
+      "☸️",
+      "✡️",
+      "🔯",
+      "🕎",
+      "☯️",
+      "☦️",
+      "🛐",
+      "⛎",
+      "♈",
+      "♉",
+      "♊",
+      "♋",
+      "♌",
+      "♍",
+      "♎",
+      "♏",
+      "♐",
+      "♑",
+      "♒",
+      "♓",
+      "⚛️",
+    ],
   },
   {
-    name: 'Flags',
-    icon: '🏁',
-    emojis: ['🏁', '🚩', '🎌', '🏴', '🏳️', '🏳️‍🌈', '🏳️‍⚧️', '🏴‍☠️', '🇺🇸', '🇬🇧', '🇫🇷', '🇩🇪', '🇮🇹', '🇪🇸', '🇯🇵', '🇰🇷', '🇨🇳', '🇮🇳', '🇧🇷', '🇷🇺', '🇦🇺', '🇨🇦', '🇲🇽', '🇦🇷']
-  }
+    name: "Flags",
+    icon: "🏁",
+    emojis: [
+      "🏁",
+      "🚩",
+      "🎌",
+      "🏴",
+      "🏳️",
+      "🏳️‍🌈",
+      "🏳️‍⚧️",
+      "🏴‍☠️",
+      "🇺🇸",
+      "🇬🇧",
+      "🇫🇷",
+      "🇩🇪",
+      "🇮🇹",
+      "🇪🇸",
+      "🇯🇵",
+      "🇰🇷",
+      "🇨🇳",
+      "🇮🇳",
+      "🇧🇷",
+      "🇷🇺",
+      "🇦🇺",
+      "🇨🇦",
+      "🇲🇽",
+      "🇦🇷",
+    ],
+  },
 ];
 
 /**
@@ -166,9 +450,9 @@ export function searchEmojis(query: string): string[] {
  * Get recent emojis from localStorage
  */
 export function getRecentEmojis(): string[] {
-  if (typeof window === 'undefined') return [];
+  if (typeof window === "undefined") return [];
   try {
-    const stored = localStorage.getItem('emoji-recents');
+    const stored = localStorage.getItem("emoji-recents");
     return stored ? JSON.parse(stored) : [];
   } catch {
     return [];
@@ -179,11 +463,11 @@ export function getRecentEmojis(): string[] {
  * Add emoji to recent list
  */
 export function addRecentEmoji(emoji: string): void {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
   try {
     const recents = getRecentEmojis().filter((e) => e !== emoji);
     recents.unshift(emoji);
-    localStorage.setItem('emoji-recents', JSON.stringify(recents.slice(0, 20)));
+    localStorage.setItem("emoji-recents", JSON.stringify(recents.slice(0, 20)));
   } catch {
     // Ignore storage errors
   }

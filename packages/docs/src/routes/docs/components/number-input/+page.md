@@ -17,7 +17,7 @@ npx @intinyagroup/cli add number-input
 
 ```svelte
 <script>
-  import { NumberInput } from '@intinyagroup/ui';
+  import { NumberInput } from "@intinyagroup/ui";
 
   let value = $state(1);
 </script>
@@ -27,19 +27,19 @@ npx @intinyagroup/cli add number-input
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| value | number | 0 | Current numeric value |
-| min | number | - | Minimum allowed value |
-| max | number | - | Maximum allowed value |
-| step | number | 1 | Increment/decrement step |
-| disabled | boolean | false | Disable interaction |
-| class | string | - | Additional CSS classes |
+| Prop     | Type    | Default | Description              |
+| -------- | ------- | ------- | ------------------------ |
+| value    | number  | 0       | Current numeric value    |
+| min      | number  | -       | Minimum allowed value    |
+| max      | number  | -       | Maximum allowed value    |
+| step     | number  | 1       | Increment/decrement step |
+| disabled | boolean | false   | Disable interaction      |
+| class    | string  | -       | Additional CSS classes   |
 
 ## Events
 
-| Event | Detail | Description |
-|-------|--------|-------------|
+| Event  | Detail | Description              |
+| ------ | ------ | ------------------------ |
 | change | number | Fires when value changes |
 
 ## Notes

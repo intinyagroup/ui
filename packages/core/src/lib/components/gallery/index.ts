@@ -1,1 +1,1 @@
-export { default as GalleryPicker } from './GalleryPicker.svelte';
+export { default as GalleryPicker } from "./GalleryPicker.svelte";

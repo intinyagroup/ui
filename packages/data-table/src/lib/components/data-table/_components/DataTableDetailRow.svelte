@@ -1,6 +1,6 @@
 <script lang="ts" generics="TData">
-  import type { Snippet } from 'svelte';
-  import type { Row } from '@tanstack/table-core';
+  import type { Snippet } from "svelte";
+  import type { Row } from "@tanstack/table-core";
 
   let {
     row,

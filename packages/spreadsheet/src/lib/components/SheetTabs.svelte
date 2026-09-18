@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Plus, X, ChevronLeft, ChevronRight } from 'lucide-svelte';
-  import { Button } from '@intinyagroup/ui';
-  import { cn } from '@intinyagroup/grid-core/utils';
+  import { Plus, X, ChevronLeft, ChevronRight } from "lucide-svelte";
+  import { Button } from "@intinyagroup/ui";
+  import { cn } from "@intinyagroup/grid-core/utils";
 
   let {
     sheets,
@@ -20,7 +20,7 @@
   } = $props();
 
   let editingId = $state<string | null>(null);
-  let editValue = $state('');
+  let editValue = $state("");
 
   function startRename(id: string, currentName: string) {
     editingId = id;
@@ -35,12 +35,14 @@
   }
 
   function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter') commitRename();
-    if (e.key === 'Escape') editingId = null;
+    if (e.key === "Enter") commitRename();
+    if (e.key === "Escape") editingId = null;
   }
 </script>
 
-<div class="flex items-center gap-1 border-t border-[var(--ui-border)] bg-[var(--ui-card)] px-2 py-1.5">
+<div
+  class="flex items-center gap-1 border-t border-[var(--ui-border)] bg-[var(--ui-card)] px-2 py-1.5"
+>
   <Button variant="ghost" size="sm" class="size-7 p-0" onclick={onAddSheet}>
     <Plus class="size-3.5" />
   </Button>
@@ -63,16 +65,19 @@
           onclick={() => onSheetChange(sheet.id)}
           ondblclick={() => startRename(sheet.id, sheet.name)}
           class={cn(
-            'flex items-center gap-1 h-7 px-3 rounded-md text-xs font-medium transition-colors cursor-pointer',
+            "flex items-center gap-1 h-7 px-3 rounded-md text-xs font-medium transition-colors cursor-pointer",
             isActive
-              ? 'bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)]'
-              : 'text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]'
+              ? "bg-[var(--ui-primary)] text-[var(--ui-primary-foreground)]"
+              : "text-[var(--ui-muted-foreground)] hover:bg-[var(--ui-secondary)] hover:text-[var(--ui-foreground)]",
           )}
         >
           {sheet.name}
           {#if sheets.length > 1}
             <button
-              onclick={(e) => { e.stopPropagation(); onRemoveSheet(sheet.id); }}
+              onclick={(e) => {
+                e.stopPropagation();
+                onRemoveSheet(sheet.id);
+              }}
               class="ml-1 rounded p-0.5 hover:bg-[var(--ui-primary)]/20"
               aria-label="Remove sheet"
             >

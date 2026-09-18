@@ -1,4 +1,4 @@
-import { Clipboard } from '@capacitor/clipboard';
+import { Clipboard } from "@capacitor/clipboard";
 
 /**
  * Copy text to the clipboard. Prefers the native @capacitor/clipboard plugin,
@@ -21,17 +21,20 @@ export async function writeClipboard(text: string): Promise<void> {
   }
 
   // Legacy textarea + execCommand fallback for non-secure contexts.
-  const el = typeof document?.createElement === 'function' ? document.createElement('textarea') : null;
-  if (!el) throw new Error('Clipboard is not available in this environment');
+  const el =
+    typeof document?.createElement === "function"
+      ? document.createElement("textarea")
+      : null;
+  if (!el) throw new Error("Clipboard is not available in this environment");
   el.value = text;
-  el.setAttribute('readonly', '');
-  el.style.position = 'absolute';
-  el.style.left = '-9999px';
+  el.setAttribute("readonly", "");
+  el.style.position = "absolute";
+  el.style.left = "-9999px";
   document.body.appendChild(el);
   el.select();
-  const ok = document.execCommand?.('copy');
+  const ok = document.execCommand?.("copy");
   document.body.removeChild(el);
-  if (!ok) throw new Error('Clipboard copy failed');
+  if (!ok) throw new Error("Clipboard copy failed");
 }
 
 /**
@@ -41,7 +44,7 @@ export async function writeClipboard(text: string): Promise<void> {
 export async function readClipboard(): Promise<string> {
   try {
     const { value } = await Clipboard.read();
-    return value ?? '';
+    return value ?? "";
   } catch {
     // fall through to the web API
   }
@@ -52,5 +55,5 @@ export async function readClipboard(): Promise<string> {
   if (g.clipboard?.readText) {
     return g.clipboard.readText();
   }
-  throw new Error('Clipboard read is not available in this environment');
+  throw new Error("Clipboard read is not available in this environment");
 }

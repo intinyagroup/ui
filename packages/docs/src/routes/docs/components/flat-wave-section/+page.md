@@ -11,7 +11,7 @@ A full-width section whose top or bottom edge is a wavy SVG divider. Use it to t
 
 ```svelte
 <script>
-  import { WaveSection } from '@intinyagroup/flat';
+  import { WaveSection } from "@intinyagroup/flat";
 </script>
 
 <div class="bg-white">
@@ -29,7 +29,7 @@ A full-width section whose top or bottom edge is a wavy SVG divider. Use it to t
 
 ```svelte
 <script>
-  import { WaveSection } from '@intinyagroup/flat';
+  import { WaveSection } from "@intinyagroup/flat";
 </script>
 
 <WaveSection color="var(--flat-purple)" flip height="150px">
@@ -41,13 +41,13 @@ A full-width section whose top or bottom edge is a wavy SVG divider. Use it to t
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `color` | `string` | `'var(--flat-blue)'` | Section background color |
-| `flip` | `boolean` | `false` | Render wave at the bottom instead of the top |
-| `height` | `string` | `'150px'` | Wave height |
-| `class` | `string` | `undefined` | Additional CSS classes |
-| `children` | `Snippet` | `undefined` | Content rendered on top of the wave |
+| Prop       | Type      | Default              | Description                                  |
+| ---------- | --------- | -------------------- | -------------------------------------------- |
+| `color`    | `string`  | `'var(--flat-blue)'` | Section background color                     |
+| `flip`     | `boolean` | `false`              | Render wave at the bottom instead of the top |
+| `height`   | `string`  | `'150px'`            | Wave height                                  |
+| `class`    | `string`  | `undefined`          | Additional CSS classes                       |
+| `children` | `Snippet` | `undefined`          | Content rendered on top of the wave          |
 
 ## Install
 

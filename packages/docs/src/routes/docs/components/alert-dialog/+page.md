@@ -21,9 +21,9 @@ npx @intinyagroup/cli add alert-dialog
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogAction,
-    AlertDialogCancel
-  } from '@intinyagroup/ui';
-  import { Button } from '@intinyagroup/ui';
+    AlertDialogCancel,
+  } from "@intinyagroup/ui";
+  import { Button } from "@intinyagroup/ui";
 </script>
 
 <AlertDialog>

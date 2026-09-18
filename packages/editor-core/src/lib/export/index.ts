@@ -1,6 +1,6 @@
 // Export system for Intinya Editor
 
-import type { EditorElement } from '../state/editor.svelte.js';
+import type { EditorElement } from "../state/editor.svelte.js";
 
 // Svelte exporter
 export function exportToSvelte(elements: EditorElement[]): string {
@@ -11,18 +11,18 @@ export function exportToSvelte(elements: EditorElement[]): string {
     imports.add(`import { ${el.type} } from '@intinyagroup/ui';`);
     componentUsages.push(
       `<${el.type}\n` +
-      `  class="absolute"\n` +
-      `  style="left: ${el.x}px; top: ${el.y}px; width: ${el.width}px; height: ${el.height}px;"\n` +
-      `/>`
+        `  class="absolute"\n` +
+        `  style="left: ${el.x}px; top: ${el.y}px; width: ${el.width}px; height: ${el.height}px;"\n` +
+        `/>`,
     );
   }
 
   return `<script>
-${Array.from(imports).join('\n')}
+${Array.from(imports).join("\n")}
 </script>
 
 <div class="relative">
-${componentUsages.join('\n\n')}
+${componentUsages.join("\n\n")}
 </div>`;
 }
 
@@ -35,21 +35,21 @@ export function exportToReact(elements: EditorElement[]): string {
     imports.add(`import { ${el.type} } from '@intinyagroup/react';`);
     componentUsages.push(
       `<${el.type}\n` +
-      `  className="absolute"\n` +
-      `  style={{ left: ${el.x}, top: ${el.y}, width: ${el.width}, height: ${el.height} }}\n` +
-      `/>`
+        `  className="absolute"\n` +
+        `  style={{ left: ${el.x}, top: ${el.y}, width: ${el.width}, height: ${el.height} }}\n` +
+        `/>`,
     );
   }
 
   return `'use client';
 
 import React from 'react';
-${Array.from(imports).join('\n')}
+${Array.from(imports).join("\n")}
 
 export default function Page() {
   return (
     <div className="relative">
-${componentUsages.join('\n\n')}
+${componentUsages.join("\n\n")}
     </div>
   );
 }`;
@@ -57,11 +57,14 @@ ${componentUsages.join('\n\n')}
 
 // HTML exporter
 export function exportToHTML(elements: EditorElement[]): string {
-  const components = elements.map(el => 
-    `<div class="component ${el.type}" style="position: absolute; left: ${el.x}px; top: ${el.y}px; width: ${el.width}px; height: ${el.height}px;">\n` +
-    `  <!-- ${el.type} -->\n` +
-    `</div>`
-  ).join('\n\n');
+  const components = elements
+    .map(
+      (el) =>
+        `<div class="component ${el.type}" style="position: absolute; left: ${el.x}px; top: ${el.y}px; width: ${el.width}px; height: ${el.height}px;">\n` +
+        `  <!-- ${el.type} -->\n` +
+        `</div>`,
+    )
+    .join("\n\n");
 
   return `<!DOCTYPE html>
 <html lang="en">

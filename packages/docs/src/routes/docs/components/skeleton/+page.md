@@ -6,7 +6,7 @@ A loading placeholder that pulses to indicate content is being fetched.
 
 ```svelte
 <script>
-  import { Skeleton } from '@intinyagroup/ui';
+  import { Skeleton } from "@intinyagroup/ui";
 </script>
 
 <div class="flex items-center space-x-4">
@@ -22,7 +22,7 @@ A loading placeholder that pulses to indicate content is being fetched.
 
 ```svelte
 <script>
-  import { Skeleton } from '@intinyagroup/ui';
+  import { Skeleton } from "@intinyagroup/ui";
 </script>
 
 <div class="flex flex-col space-y-3">
@@ -38,7 +38,7 @@ A loading placeholder that pulses to indicate content is being fetched.
 
 ```svelte
 <script>
-  import { Skeleton } from '@intinyagroup/ui';
+  import { Skeleton } from "@intinyagroup/ui";
 </script>
 
 <div class="space-y-2">
@@ -54,9 +54,9 @@ A loading placeholder that pulses to indicate content is being fetched.
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `class` | `string` | — | Additional classes for sizing/styling |
+| Prop    | Type     | Default | Description                           |
+| ------- | -------- | ------- | ------------------------------------- |
+| `class` | `string` | —       | Additional classes for sizing/styling |
 
 All other props are forwarded to the underlying `<div>` element.
 

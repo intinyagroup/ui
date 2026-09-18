@@ -6,7 +6,7 @@ A small label used for status, counts, or categories.
 
 ```svelte
 <script>
-  import { Badge } from '@intinyagroup/ui';
+  import { Badge } from "@intinyagroup/ui";
 </script>
 
 <div class="flex flex-wrap gap-2">
@@ -27,11 +27,11 @@ A small label used for status, counts, or categories.
 
 ## Props
 
-| Prop | Type | Default |
-|------|------|---------|
+| Prop      | Type                                                                          | Default     |
+| --------- | ----------------------------------------------------------------------------- | ----------- |
 | `variant` | `'default' \| 'secondary' \| 'destructive' \| 'outline' \| 'ghost' \| 'link'` | `'default'` |
-| `href` | `string` | `undefined` |
-| `class` | `string` | — |
+| `href`    | `string`                                                                      | `undefined` |
+| `class`   | `string`                                                                      | —           |
 
 Renders a `<span>` by default, or an `<a>` when `href` is set.
 

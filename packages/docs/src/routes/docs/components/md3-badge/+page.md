@@ -11,7 +11,7 @@ Material Design 3 notification badge for showing status, counts, or icons — do
 
 ```svelte
 <script>
-  import { Badge } from '@intinyagroup/md3';
+  import { Badge } from "@intinyagroup/md3";
 </script>
 
 <div class="flex flex-col gap-4">
@@ -34,7 +34,8 @@ Material Design 3 notification badge for showing status, counts, or icons — do
   <div class="flex items-center gap-6">
     <div class="relative">
       <div class="size-8 rounded-full bg-[var(--ui-muted)]"></div>
-      <Badge variant="icon" class="absolute -right-1 -top-1 bg-red-500">!</Badge>
+      <Badge variant="icon" class="absolute -right-1 -top-1 bg-red-500">!</Badge
+      >
     </div>
     <span class="text-sm">Icon badge</span>
   </div>
@@ -45,7 +46,7 @@ Material Design 3 notification badge for showing status, counts, or icons — do
 
 ```svelte
 <script>
-  import { Badge } from '@intinyagroup/md3';
+  import { Badge } from "@intinyagroup/md3";
 </script>
 
 <!-- Dot (default) -->
@@ -60,10 +61,10 @@ Material Design 3 notification badge for showing status, counts, or icons — do
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'dot' \| 'number' \| 'icon'` | `'dot'` | Badge style |
-| `class` | `string` | — | Extra classes |
+| Prop      | Type                          | Default | Description   |
+| --------- | ----------------------------- | ------- | ------------- |
+| `variant` | `'dot' \| 'number' \| 'icon'` | `'dot'` | Badge style   |
+| `class`   | `string`                      | —       | Extra classes |
 
 ## Features
 

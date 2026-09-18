@@ -17,7 +17,7 @@ npx @intinyagroup/cli add resizable
 
 ```svelte
 <script>
-  import { Resizable } from '@intinyagroup/ui';
+  import { Resizable } from "@intinyagroup/ui";
 </script>
 
 <Resizable direction="horizontal">
@@ -33,20 +33,20 @@ npx @intinyagroup/cli add resizable
 
 ## Subcomponents
 
-| Component | Description |
-|-----------|-------------|
-| `Resizable` | Container with direction (`horizontal`/`vertical`) |
-| `Resizable.Panel` | Individual resizable panel |
-| `Resizable.Handle` | Draggable divider between panels |
+| Component          | Description                                        |
+| ------------------ | -------------------------------------------------- |
+| `Resizable`        | Container with direction (`horizontal`/`vertical`) |
+| `Resizable.Panel`  | Individual resizable panel                         |
+| `Resizable.Handle` | Draggable divider between panels                   |
 
 ## Panel Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| defaultSize | number | 50 | Initial size as percentage |
-| minSize | number | 10 | Minimum size percentage |
-| maxSize | number | 90 | Maximum size percentage |
-| collapsible | boolean | false | Allow panel to collapse |
+| Prop        | Type    | Default | Description                |
+| ----------- | ------- | ------- | -------------------------- |
+| defaultSize | number  | 50      | Initial size as percentage |
+| minSize     | number  | 10      | Minimum size percentage    |
+| maxSize     | number  | 90      | Maximum size percentage    |
+| collapsible | boolean | false   | Allow panel to collapse    |
 
 ## Notes
 

@@ -11,16 +11,12 @@ A trapezoid-shaped card whose top edge is narrower than its bottom edge. Clipped
 
 ```svelte
 <script>
-  import { TrapezoidCard } from '@intinyagroup/flat';
+  import { TrapezoidCard } from "@intinyagroup/flat";
 </script>
 
 <div class="flex flex-wrap gap-8">
-  <TrapezoidCard title="Launch" color="blue">
-    Coming soon
-  </TrapezoidCard>
-  <TrapezoidCard title="Featured" color="orange">
-    Editor's choice
-  </TrapezoidCard>
+  <TrapezoidCard title="Launch" color="blue">Coming soon</TrapezoidCard>
+  <TrapezoidCard title="Featured" color="orange">Editor's choice</TrapezoidCard>
 </div>
 ```
 
@@ -28,7 +24,7 @@ A trapezoid-shaped card whose top edge is narrower than its bottom edge. Clipped
 
 ```svelte
 <script>
-  import { TrapezoidCard } from '@intinyagroup/flat';
+  import { TrapezoidCard } from "@intinyagroup/flat";
 </script>
 
 <TrapezoidCard title="New" color="green">
@@ -38,12 +34,12 @@ A trapezoid-shaped card whose top edge is narrower than its bottom edge. Clipped
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | `undefined` | Card title |
-| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'` | Flat color variant |
-| `class` | `string` | `undefined` | Additional CSS classes |
-| `children` | `Snippet` | `undefined` | Card body content |
+| Prop       | Type                                                                     | Default     | Description            |
+| ---------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
+| `title`    | `string`                                                                 | `undefined` | Card title             |
+| `color`    | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'`    | Flat color variant     |
+| `class`    | `string`                                                                 | `undefined` | Additional CSS classes |
+| `children` | `Snippet`                                                                | `undefined` | Card body content      |
 
 ## Install
 

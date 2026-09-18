@@ -17,7 +17,7 @@ npx @intinyagroup/cli add scroll-area
 
 ```svelte
 <script>
-  import { ScrollArea } from '@intinyagroup/ui';
+  import { ScrollArea } from "@intinyagroup/ui";
 </script>
 
 <ScrollArea class="h-64">
@@ -31,16 +31,16 @@ npx @intinyagroup/cli add scroll-area
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| orientation | 'vertical' \| 'horizontal' \| 'both' | 'vertical' | Scroll direction |
-| scrollbarWidth | number | 8 | Scrollbar width in pixels |
-| class | string | - | Additional CSS classes |
+| Prop           | Type                                 | Default    | Description               |
+| -------------- | ------------------------------------ | ---------- | ------------------------- |
+| orientation    | 'vertical' \| 'horizontal' \| 'both' | 'vertical' | Scroll direction          |
+| scrollbarWidth | number                               | 8          | Scrollbar width in pixels |
+| class          | string                               | -          | Additional CSS classes    |
 
 ## Slots
 
-| Slot | Description |
-|------|-------------|
+| Slot    | Description        |
+| ------- | ------------------ |
 | default | Scrollable content |
 
 ## Notes

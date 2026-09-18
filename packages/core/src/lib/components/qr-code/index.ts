@@ -1,7 +1,7 @@
-import QRCode from './QRCode.svelte';
+import QRCode from "./QRCode.svelte";
 
 export {
-	QRCode,
-	//
-	QRCode as Root,
+  QRCode,
+  //
+  QRCode as Root,
 };

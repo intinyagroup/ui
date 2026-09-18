@@ -11,7 +11,7 @@ Material Design 3 switch for binary on/off states — track + thumb with ripple 
 
 ```svelte
 <script>
-  import { Switch } from '@intinyagroup/md3';
+  import { Switch } from "@intinyagroup/md3";
 </script>
 
 <div class="flex flex-col gap-3">
@@ -34,7 +34,7 @@ Material Design 3 switch for binary on/off states — track + thumb with ripple 
 
 ```svelte
 <script>
-  import { Switch } from '@intinyagroup/md3';
+  import { Switch } from "@intinyagroup/md3";
   let enabled = $state(true);
 </script>
 
@@ -43,11 +43,11 @@ Material Design 3 switch for binary on/off states — track + thumb with ripple 
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `checked` | `boolean` | `false` | Toggle state (bindable) |
-| `disabled` | `boolean` | `false` | Disable interaction |
-| `class` | `string` | — | Extra classes |
+| Prop       | Type      | Default | Description             |
+| ---------- | --------- | ------- | ----------------------- |
+| `checked`  | `boolean` | `false` | Toggle state (bindable) |
+| `disabled` | `boolean` | `false` | Disable interaction     |
+| `class`    | `string`  | —       | Extra classes           |
 
 ## Features
 

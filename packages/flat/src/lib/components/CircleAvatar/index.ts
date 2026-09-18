@@ -1,1 +1,1 @@
-export { default as CircleAvatar } from './CircleAvatar.svelte';
+export { default as CircleAvatar } from "./CircleAvatar.svelte";

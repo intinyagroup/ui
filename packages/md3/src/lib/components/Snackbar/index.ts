@@ -1,1 +1,1 @@
-export { default as Snackbar } from './Snackbar.svelte';
+export { default as Snackbar } from "./Snackbar.svelte";

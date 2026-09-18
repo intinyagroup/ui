@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { setLocale, type LocaleConfig } from './locale.svelte.js';
+  import { setLocale, type LocaleConfig } from "./locale.svelte.js";
 
   let {
     config,
-    children
+    children,
   }: {
     config: LocaleConfig;
-    children?: import('svelte').Snippet;
+    children?: import("svelte").Snippet;
   } = $props();
 
   $effect(() => {

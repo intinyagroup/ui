@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Upload, Image, Film, Music, FileText } from 'lucide-svelte';
-  import { Button } from '@intinyagroup/ui';
+  import { Upload, Image, Film, Music, FileText } from "lucide-svelte";
+  import { Button } from "@intinyagroup/ui";
 
   let {
     onSelect,
@@ -32,31 +32,47 @@
   }
 
   function getIcon(type: string) {
-    if (type.startsWith('image/')) return Image;
-    if (type.startsWith('video/')) return Film;
-    if (type.startsWith('audio/')) return Music;
+    if (type.startsWith("image/")) return Image;
+    if (type.startsWith("video/")) return Film;
+    if (type.startsWith("audio/")) return Music;
     return FileText;
   }
 </script>
 
-<div class="w-48 border-r border-[var(--ui-border)] bg-[var(--ui-card)] flex flex-col shrink-0">
+<div
+  class="w-48 border-r border-[var(--ui-border)] bg-[var(--ui-card)] flex flex-col shrink-0"
+>
   <div class="px-3 py-2 border-b border-[var(--ui-border)]">
-    <span class="text-xs font-semibold text-[var(--ui-foreground)]">Assets</span>
+    <span class="text-xs font-semibold text-[var(--ui-foreground)]">Assets</span
+    >
   </div>
 
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div
     class="m-2 p-4 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors
-      {dragging ? 'border-[var(--ui-primary)] bg-[var(--ui-primary)]/5' : 'border-[var(--ui-border)] hover:border-[var(--ui-primary)]/50'}"
-    ondragover={(e) => { e.preventDefault(); dragging = true; }}
-    ondragleave={() => dragging = false}
+      {dragging
+      ? 'border-[var(--ui-primary)] bg-[var(--ui-primary)]/5'
+      : 'border-[var(--ui-border)] hover:border-[var(--ui-primary)]/50'}"
+    ondragover={(e) => {
+      e.preventDefault();
+      dragging = true;
+    }}
+    ondragleave={() => (dragging = false)}
     ondrop={handleDrop}
-    onclick={() => document.getElementById('asset-file-input')?.click()}
+    onclick={() => document.getElementById("asset-file-input")?.click()}
   >
     <Upload class="size-5 mx-auto mb-1 text-[var(--ui-muted-foreground)]" />
-    <span class="text-[10px] text-[var(--ui-muted-foreground)]">Drop files</span>
+    <span class="text-[10px] text-[var(--ui-muted-foreground)]">Drop files</span
+    >
   </div>
-  <input id="asset-file-input" type="file" multiple accept="image/*,video/*,audio/*" class="hidden" onchange={handleFileSelect} />
+  <input
+    id="asset-file-input"
+    type="file"
+    multiple
+    accept="image/*,video/*,audio/*"
+    class="hidden"
+    onchange={handleFileSelect}
+  />
 
   <div class="flex-1 overflow-auto p-2 space-y-1">
     {#each files as file}
@@ -71,7 +87,9 @@
     {/each}
 
     {#if files.length === 0}
-      <div class="text-center py-8 text-[10px] text-[var(--ui-muted-foreground)]">
+      <div
+        class="text-center py-8 text-[10px] text-[var(--ui-muted-foreground)]"
+      >
         No assets yet
       </div>
     {/if}

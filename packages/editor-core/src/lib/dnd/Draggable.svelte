@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  import { getDndContext } from './dnd-context.svelte.js';
+  import type { Snippet } from "svelte";
+  import { getDndContext } from "./dnd-context.svelte.js";
 
   let {
     id,
     data = {},
     disabled = false,
     class: className,
-    children
+    children,
   }: {
     id: string;
     data?: Record<string, unknown>;
@@ -16,19 +16,27 @@
     children?: Snippet;
   } = $props();
 
-  const { state: dragState, startDrag, moveDrag, endDrag, cancelDrag } = getDndContext();
+  const {
+    state: dragState,
+    startDrag,
+    moveDrag,
+    endDrag,
+    cancelDrag,
+  } = getDndContext();
 
   let element: HTMLDivElement | undefined = $state();
 
   const isActive = $derived($dragState.activeId === id);
   const style = $derived(
-    isActive ? `transform: translate3d(${$dragState.offset.x}px, ${$dragState.offset.y}px, 0)` : undefined
+    isActive
+      ? `transform: translate3d(${$dragState.offset.x}px, ${$dragState.offset.y}px, 0)`
+      : undefined,
   );
 
   function onPointerDown(e: PointerEvent) {
     if (disabled || e.button !== 0) return;
     element?.setPointerCapture(e.pointerId);
-    startDrag(id, { ...data, type: 'draggable' }, e);
+    startDrag(id, { ...data, type: "draggable" }, e);
   }
 
   function onPointerMove(e: PointerEvent) {

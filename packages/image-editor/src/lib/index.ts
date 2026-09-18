@@ -1,1 +1,1 @@
-export { default as ImageEditor } from './ImageEditor.svelte';
+export { default as ImageEditor } from "./ImageEditor.svelte";

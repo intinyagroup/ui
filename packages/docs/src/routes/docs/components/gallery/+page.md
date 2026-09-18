@@ -11,10 +11,10 @@ A gallery picker that supports multiple image selection, drag-and-drop, live pre
 
 ```svelte
 <script>
-  import { GalleryPicker } from '@intinyagroup/ui';
+  import { GalleryPicker } from "@intinyagroup/ui";
 
   function handleSelect(files) {
-    console.log('Selected', files.length, 'files');
+    console.log("Selected", files.length, "files");
   }
 </script>
 
@@ -23,13 +23,13 @@ A gallery picker that supports multiple image selection, drag-and-drop, live pre
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `multiple` | `boolean` | `true` | Allow selecting more than one file |
-| `accept` | `string` | `'image/*'` | Accepted file types |
-| `maxFiles` | `number` | `10` | Maximum files when `multiple` is enabled |
-| `onSelect` | `(files: File[]) => void` | — | Called whenever the selection changes |
-| `class` | `string` | — | Additional CSS classes |
+| Prop       | Type                      | Default     | Description                              |
+| ---------- | ------------------------- | ----------- | ---------------------------------------- |
+| `multiple` | `boolean`                 | `true`      | Allow selecting more than one file       |
+| `accept`   | `string`                  | `'image/*'` | Accepted file types                      |
+| `maxFiles` | `number`                  | `10`        | Maximum files when `multiple` is enabled |
+| `onSelect` | `(files: File[]) => void` | —           | Called whenever the selection changes    |
+| `class`    | `string`                  | —           | Additional CSS classes                   |
 
 ## Features
 

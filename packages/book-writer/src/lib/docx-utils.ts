@@ -24,14 +24,18 @@ import {
   Tab,
   TabStopPosition,
   TabStopType,
-} from 'docx';
-import type { Chapter, BookMetadata, BookLayout } from '@intinyagroup/book-writer';
+} from "docx";
+import type {
+  Chapter,
+  BookMetadata,
+  BookLayout,
+} from "@intinyagroup/book-writer";
 
 /** Export book as DOCX */
 export async function exportToDocx(
   metadata: BookMetadata,
   layout: BookLayout,
-  chapters: Chapter[]
+  chapters: Chapter[],
 ): Promise<Blob> {
   const children: Paragraph[] = [];
 
@@ -42,7 +46,7 @@ export async function exportToDocx(
       heading: HeadingLevel.TITLE,
       alignment: AlignmentType.CENTER,
       spacing: { after: 400 },
-    })
+    }),
   );
 
   if (metadata.subtitle) {
@@ -52,7 +56,7 @@ export async function exportToDocx(
         heading: HeadingLevel.SUBTITLE,
         alignment: AlignmentType.CENTER,
         spacing: { after: 400 },
-      })
+      }),
     );
   }
 
@@ -61,7 +65,7 @@ export async function exportToDocx(
       text: metadata.author,
       alignment: AlignmentType.CENTER,
       spacing: { after: 400 },
-    })
+    }),
   );
 
   children.push(new Paragraph({ children: [new PageBreak()] }));
@@ -73,17 +77,15 @@ export async function exportToDocx(
         text: layout.tocTitle,
         heading: HeadingLevel.HEADING_1,
         spacing: { after: 200 },
-      })
+      }),
     );
 
     chapters.forEach((chapter, i) => {
       children.push(
         new Paragraph({
-          children: [
-            new TextRun({ text: `${i + 1}. ${chapter.title}` }),
-          ],
+          children: [new TextRun({ text: `${i + 1}. ${chapter.title}` })],
           spacing: { after: 100 },
-        })
+        }),
       );
     });
 
@@ -98,7 +100,7 @@ export async function exportToDocx(
         text: chapter.title,
         heading: HeadingLevel.HEADING_1,
         spacing: { before: 400, after: 200 },
-      })
+      }),
     );
 
     // Chapter content
@@ -115,51 +117,51 @@ export async function exportToDocx(
   const doc = new Document({
     creator: metadata.author,
     title: metadata.title,
-    description: metadata.description ?? '',
-    sections: [{
-      properties: {
-        page: {
-          size: {
-            width: getDocxPageSize(layout.pageSize).width,
-            height: getDocxPageSize(layout.pageSize).height,
-          },
-          margin: {
-            top: layout.marginTop * 56.7, // mm to twips (1 inch = 1440 twips)
-            bottom: layout.marginBottom * 56.7,
-            left: layout.marginLeft * 56.7,
-            right: layout.marginRight * 56.7,
+    description: metadata.description ?? "",
+    sections: [
+      {
+        properties: {
+          page: {
+            size: {
+              width: getDocxPageSize(layout.pageSize).width,
+              height: getDocxPageSize(layout.pageSize).height,
+            },
+            margin: {
+              top: layout.marginTop * 56.7, // mm to twips (1 inch = 1440 twips)
+              bottom: layout.marginBottom * 56.7,
+              left: layout.marginLeft * 56.7,
+              right: layout.marginRight * 56.7,
+            },
           },
         },
+        headers: {
+          default: layout.showHeaders
+            ? new Header({
+                children: [
+                  new Paragraph({
+                    text: metadata.title,
+                    alignment: AlignmentType.CENTER,
+                    style: "Header",
+                  }),
+                ],
+              })
+            : undefined,
+        },
+        footers: {
+          default: layout.showPageNumbers
+            ? new Footer({
+                children: [
+                  new Paragraph({
+                    alignment: AlignmentType.CENTER,
+                    children: [new TextRun({ children: [PageNumber.CURRENT] })],
+                  }),
+                ],
+              })
+            : undefined,
+        },
+        children,
       },
-      headers: {
-        default: layout.showHeaders
-          ? new Header({
-              children: [
-                new Paragraph({
-                  text: metadata.title,
-                  alignment: AlignmentType.CENTER,
-                  style: 'Header',
-                }),
-              ],
-            })
-          : undefined,
-      },
-      footers: {
-        default: layout.showPageNumbers
-          ? new Footer({
-              children: [
-                new Paragraph({
-                  alignment: AlignmentType.CENTER,
-                  children: [
-                    new TextRun({ children: [PageNumber.CURRENT] }),
-                  ],
-                }),
-              ],
-            })
-          : undefined,
-      },
-      children,
-    }],
+    ],
   });
 
   // Generate blob
@@ -170,7 +172,7 @@ export async function exportToDocx(
 /** Convert HTML to DOCX paragraphs */
 function htmlToDocxParagraphs(html: string): Paragraph[] {
   const paragraphs: Paragraph[] = [];
-  const tempDiv = document.createElement('div');
+  const tempDiv = document.createElement("div");
   tempDiv.innerHTML = html;
 
   const nodes = tempDiv.childNodes;
@@ -196,61 +198,63 @@ function convertNodeToParagraph(node: Node): Paragraph | null {
   const tag = el.tagName.toLowerCase();
 
   switch (tag) {
-    case 'h1':
+    case "h1":
       return new Paragraph({
         children: extractTextRuns(el),
         heading: HeadingLevel.HEADING_1,
         spacing: { before: 360, after: 120 },
       });
-    case 'h2':
+    case "h2":
       return new Paragraph({
         children: extractTextRuns(el),
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 300, after: 100 },
       });
-    case 'h3':
+    case "h3":
       return new Paragraph({
         children: extractTextRuns(el),
         heading: HeadingLevel.HEADING_3,
         spacing: { before: 240, after: 80 },
       });
-    case 'p':
+    case "p":
       return new Paragraph({
         children: extractTextRuns(el),
         spacing: { after: 120 },
       });
-    case 'blockquote':
+    case "blockquote":
       return new Paragraph({
         children: extractTextRuns(el),
         indent: { left: 720 },
         spacing: { after: 120 },
       });
-    case 'pre':
-    case 'code':
+    case "pre":
+    case "code":
       return new Paragraph({
-        children: [new TextRun({ text: el.textContent ?? '', font: 'Courier New' })],
+        children: [
+          new TextRun({ text: el.textContent ?? "", font: "Courier New" }),
+        ],
         spacing: { after: 120 },
       });
-    case 'ul':
-    case 'ol':
+    case "ul":
+    case "ol":
       return null; // Handle list items separately
-    case 'li':
+    case "li":
       return new Paragraph({
         children: extractTextRuns(el),
         bullet: { level: 0 },
         spacing: { after: 80 },
       });
-    case 'hr':
+    case "hr":
       return new Paragraph({
-        children: [new TextRun({ text: '─────────────────────────────' })],
+        children: [new TextRun({ text: "─────────────────────────────" })],
         alignment: AlignmentType.CENTER,
         spacing: { before: 200, after: 200 },
       });
-    case 'br':
+    case "br":
       return new Paragraph({ children: [] });
-    case 'table':
+    case "table":
       return null; // Tables handled separately
-    case 'img':
+    case "img":
       return null; // Images handled separately
     default:
       return new Paragraph({
@@ -271,32 +275,32 @@ function extractTextRuns(el: HTMLElement): TextRun[] {
     } else if (node.nodeType === Node.ELEMENT_NODE) {
       const childEl = node as HTMLElement;
       const tag = childEl.tagName.toLowerCase();
-      const text = childEl.textContent ?? '';
+      const text = childEl.textContent ?? "";
 
       const options: any = { text };
 
       switch (tag) {
-        case 'strong':
-        case 'b':
+        case "strong":
+        case "b":
           options.bold = true;
           break;
-        case 'em':
-        case 'i':
+        case "em":
+        case "i":
           options.italics = true;
           break;
-        case 'u':
+        case "u":
           options.underline = {};
           break;
-        case 's':
-        case 'del':
+        case "s":
+        case "del":
           options.strike = true;
           break;
-        case 'code':
-          options.font = 'Courier New';
+        case "code":
+          options.font = "Courier New";
           break;
-        case 'a':
+        case "a":
           // Links need special handling in docx
-          options.color = '2563EB';
+          options.color = "2563EB";
           break;
       }
 

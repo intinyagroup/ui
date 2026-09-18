@@ -1,1 +1,1 @@
-export { default as ZigzagDivider } from './ZigzagDivider.svelte';
+export { default as ZigzagDivider } from "./ZigzagDivider.svelte";

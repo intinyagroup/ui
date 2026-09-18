@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import type { Snippet } from 'svelte';
-  import { clsx } from 'clsx';
-  import { twMerge } from 'tailwind-merge';
+  import { onMount } from "svelte";
+  import type { Snippet } from "svelte";
+  import { clsx } from "clsx";
+  import { twMerge } from "tailwind-merge";
 
   function cn(...inputs: any[]) {
     return twMerge(clsx(inputs));
@@ -14,7 +14,7 @@
     zoom = 1,
     class: className,
     children,
-    onCanvasClick
+    onCanvasClick,
   }: {
     width?: number;
     height?: number;
@@ -59,14 +59,15 @@
     isPanning = false;
   }
 </script>
+
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
   bind:this={canvasRef}
   class={twMerge(
-    'relative overflow-hidden bg-[var(--ui-background)]',
-    isPanning && 'cursor-grabbing',
-    className
+    "relative overflow-hidden bg-[var(--ui-background)]",
+    isPanning && "cursor-grabbing",
+    className,
   )}
   onwheel={handleWheel}
   onmousedown={handleMiddleClick}

@@ -17,7 +17,7 @@ pnpm add @intinyagroup/data-table @intinyagroup/ui @intinyagroup/tokens
 
 ```svelte
 <script lang="ts">
-  import { DataTable, type ColumnDef } from '@intinyagroup/data-table';
+  import { DataTable, type ColumnDef } from "@intinyagroup/data-table";
 
   interface User {
     id: string;
@@ -27,14 +27,14 @@ pnpm add @intinyagroup/data-table @intinyagroup/ui @intinyagroup/tokens
   }
 
   const columns: ColumnDef<any, User, any>[] = [
-    { accessorKey: 'name', header: 'Name' },
-    { accessorKey: 'role', header: 'Role' },
-    { accessorKey: 'status', header: 'Status' },
+    { accessorKey: "name", header: "Name" },
+    { accessorKey: "role", header: "Role" },
+    { accessorKey: "status", header: "Status" },
   ];
 
   const data: User[] = [
-    { id: '1', name: 'Joshua', role: 'Architect', status: 'Active' },
-    { id: '2', name: 'Budi Santoso', role: 'Developer', status: 'Active' }
+    { id: "1", name: "Joshua", role: "Architect", status: "Active" },
+    { id: "2", name: "Budi Santoso", role: "Developer", status: "Active" },
   ];
 </script>
 
@@ -57,11 +57,7 @@ pnpm add @intinyagroup/data-table @intinyagroup/ui @intinyagroup/tokens
 Adds a persistent, direct filter input row right under the column headers:
 
 ```svelte
-<DataTable
-  {data}
-  {columns}
-  floatingFilter={true}
-/>
+<DataTable {data} {columns} floatingFilter={true} />
 ```
 
 ### 2. In-Place Inline Cell Editing
@@ -72,7 +68,7 @@ Allows double-clicking or pressing `Enter` to edit cells directly in the table w
 <DataTable
   {data}
   {columns}
-  editableColumns={['role', 'status']}
+  editableColumns={["role", "status"]}
   onCellEdit={({ rowId, columnId, value }) => {
     console.log(`Updated row ${rowId} column ${columnId} to:`, value);
   }}
@@ -84,11 +80,7 @@ Allows double-clicking or pressing `Enter` to edit cells directly in the table w
 Pin critical rows to the top with sticky elevation shadows:
 
 ```svelte
-<DataTable
-  {data}
-  {columns}
-  pinnedRowIds={['1']}
-/>
+<DataTable {data} {columns} pinnedRowIds={["1"]} />
 ```
 
 ### 4. Quick Filter Chips Bar
@@ -100,8 +92,8 @@ Instant clickable facet chips placed directly below the search bar:
   {data}
   {columns}
   quickFilters={[
-    { id: 'status', label: 'Active Only', value: 'Active' },
-    { id: 'role', label: 'Developers', value: 'Developer' }
+    { id: "status", label: "Active Only", value: "Active" },
+    { id: "role", label: "Developers", value: "Developer" },
   ]}
 />
 ```
@@ -111,12 +103,7 @@ Instant clickable facet chips placed directly below the search bar:
 Transforms rows into stacked cards on mobile devices (`< 640px`):
 
 ```svelte
-<DataTable
-  {data}
-  {columns}
-  mobileCardView={true}
-  expandable={true}
->
+<DataTable {data} {columns} mobileCardView={true} expandable={true}>
   {#snippet detail({ row })}
     <div class="p-3 bg-[var(--ui-secondary)]/30 rounded-lg text-xs">
       <p>Extended details for {row.name}</p>
@@ -130,12 +117,7 @@ Transforms rows into stacked cards on mobile devices (`< 640px`):
 Right-click anywhere on the table grid to copy matrix data (TSV) or export directly:
 
 ```svelte
-<DataTable
-  {data}
-  {columns}
-  contextMenu={true}
-  exportable={true}
-/>
+<DataTable {data} {columns} contextMenu={true} exportable={true} />
 ```
 
 ---

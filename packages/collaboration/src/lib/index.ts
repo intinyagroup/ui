@@ -3,9 +3,9 @@
 // ============================================
 
 // Components
-export { default as CollaborationPanel } from './components/CollaborationPanel.svelte';
-export { default as VersionHistory } from './components/VersionHistory.svelte';
-export { default as PresenceIndicator } from './components/PresenceIndicator.svelte';
+export { default as CollaborationPanel } from "./components/CollaborationPanel.svelte";
+export { default as VersionHistory } from "./components/VersionHistory.svelte";
+export { default as PresenceIndicator } from "./components/PresenceIndicator.svelte";
 
 // Stores
 export {
@@ -22,7 +22,7 @@ export {
   type Comment,
   type CommentReply,
   type CollaborationState,
-} from './stores/collaboration-store.js';
+} from "./stores/collaboration-store.js";
 
 export {
   versionHistory,
@@ -32,4 +32,4 @@ export {
   type VersionEntry,
   type VersionDiff,
   type VersionHistoryState,
-} from './stores/version-history-store.js';
+} from "./stores/version-history-store.js";

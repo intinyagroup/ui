@@ -1,1 +1,1 @@
-export { default as OctagonCard } from './OctagonCard.svelte';
+export { default as OctagonCard } from "./OctagonCard.svelte";

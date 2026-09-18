@@ -13,47 +13,53 @@ Real-world examples and patterns using Intinya UI components.
 
 ```html
 <script>
-  import { Card, Button, Badge } from '@intinyagroup/ui';
+  import { Card, Button, Badge } from "@intinyagroup/ui";
 </script>
 
 <div class="grid gap-6 md:grid-cols-3">
   <Card>
     <div class="p-6 text-center">
       <h3 class="text-lg font-semibold">Starter</h3>
-      <div class="mt-4 text-4xl font-bold">$9<span class="text-lg">/mo</span></div>
+      <div class="mt-4 text-4xl font-bold">
+        $9<span class="text-lg">/mo</span>
+      </div>
       <ul class="mt-6 space-y-2 text-sm">
         <li>✓ 1 Project</li>
         <li>✓ Basic features</li>
         <li>✓ Email support</li>
       </ul>
-      <Button class="mt-6 w-full" variant="outline">Get Started</Button>
+      <button class="mt-6 w-full" variant="outline">Get Started</button>
     </div>
   </Card>
-  
+
   <Card class="border-2 border-[var(--ui-primary)]">
     <div class="p-6 text-center">
       <Badge class="mb-2">Popular</Badge>
       <h3 class="text-lg font-semibold">Pro</h3>
-      <div class="mt-4 text-4xl font-bold">$29<span class="text-lg">/mo</span></div>
+      <div class="mt-4 text-4xl font-bold">
+        $29<span class="text-lg">/mo</span>
+      </div>
       <ul class="mt-6 space-y-2 text-sm">
         <li>✓ Unlimited projects</li>
         <li>✓ All features</li>
         <li>✓ Priority support</li>
       </ul>
-      <Button class="mt-6 w-full">Get Started</Button>
+      <button class="mt-6 w-full">Get Started</button>
     </div>
   </Card>
-  
+
   <Card>
     <div class="p-6 text-center">
       <h3 class="text-lg font-semibold">Enterprise</h3>
-      <div class="mt-4 text-4xl font-bold">$99<span class="text-lg">/mo</span></div>
+      <div class="mt-4 text-4xl font-bold">
+        $99<span class="text-lg">/mo</span>
+      </div>
       <ul class="mt-6 space-y-2 text-sm">
         <li>✓ Everything in Pro</li>
         <li>✓ Custom integrations</li>
         <li>✓ Dedicated support</li>
       </ul>
-      <Button class="mt-6 w-full" variant="outline">Contact Sales</Button>
+      <button class="mt-6 w-full" variant="outline">Contact Sales</button>
     </div>
   </Card>
 </div>
@@ -65,31 +71,36 @@ Real-world examples and patterns using Intinya UI components.
 
 ```html
 <script>
-  import { Card, CardHeader, CardContent, CardFooter } from '@intinyagroup/ui';
-  import { Button, Input, Label, Separator } from '@intinyagroup/ui';
+  import { Card, CardHeader, CardContent, CardFooter } from "@intinyagroup/ui";
+  import { Button, Input, Label, Separator } from "@intinyagroup/ui";
 </script>
 
 <Card class="mx-auto w-full max-w-md">
   <CardHeader>
     <h2 class="text-2xl font-bold">Welcome back</h2>
-    <p class="text-sm text-[var(--ui-muted-foreground)]">Sign in to your account</p>
+    <p class="text-sm text-[var(--ui-muted-foreground)]">
+      Sign in to your account
+    </p>
   </CardHeader>
   <CardContent class="space-y-4">
     <div class="space-y-2">
-      <Label for="email">Email</Label>
-      <Input id="email" type="email" placeholder="name@example.com" />
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="name@example.com" />
     </div>
     <div class="space-y-2">
-      <Label for="password">Password</Label>
-      <Input id="password" type="password" placeholder="••••••••" />
+      <label for="password">Password</label>
+      <input id="password" type="password" placeholder="••••••••" />
     </div>
-    <Button class="w-full">Sign In</Button>
+    <button class="w-full">Sign In</button>
     <Separator />
-    <Button variant="outline" class="w-full">Continue with Google</Button>
+    <button variant="outline" class="w-full">Continue with Google</button>
   </CardContent>
   <CardFooter class="justify-center">
     <p class="text-sm text-[var(--ui-muted-foreground)]">
-      Don't have an account? <a href="/signup" class="text-[var(--ui-primary)] hover:underline">Sign up</a>
+      Don't have an account?
+      <a href="/signup" class="text-[var(--ui-primary)] hover:underline"
+        >Sign up</a
+      >
     </p>
   </CardFooter>
 </Card>
@@ -101,8 +112,8 @@ Real-world examples and patterns using Intinya UI components.
 
 ```html
 <script>
-  import { Card, CardContent } from '@intinyagroup/ui';
-  import { TrendingUp, Users, DollarSign, Activity } from 'lucide-svelte';
+  import { Card, CardContent } from "@intinyagroup/ui";
+  import { TrendingUp, Users, DollarSign, Activity } from "lucide-svelte";
 </script>
 
 <div class="grid gap-4 md:grid-cols-4">
@@ -118,7 +129,7 @@ Real-world examples and patterns using Intinya UI components.
       </div>
     </CardContent>
   </Card>
-  
+
   <Card>
     <CardContent class="p-6">
       <div class="flex items-center justify-between">
@@ -131,7 +142,7 @@ Real-world examples and patterns using Intinya UI components.
       </div>
     </CardContent>
   </Card>
-  
+
   <Card>
     <CardContent class="p-6">
       <div class="flex items-center justify-between">
@@ -144,7 +155,7 @@ Real-world examples and patterns using Intinya UI components.
       </div>
     </CardContent>
   </Card>
-  
+
   <Card>
     <CardContent class="p-6">
       <div class="flex items-center justify-between">
@@ -166,50 +177,56 @@ Real-world examples and patterns using Intinya UI components.
 
 ```html
 <script>
-  import { Card, CardHeader, CardContent, CardFooter } from '@intinyagroup/ui';
-  import { Button, Input, Label, Switch, Separator } from '@intinyagroup/ui';
+  import { Card, CardHeader, CardContent, CardFooter } from "@intinyagroup/ui";
+  import { Button, Input, Label, Switch, Separator } from "@intinyagroup/ui";
 </script>
 
 <Card>
   <CardHeader>
     <h2 class="text-lg font-semibold">Settings</h2>
-    <p class="text-sm text-[var(--ui-muted-foreground)]">Manage your account settings</p>
+    <p class="text-sm text-[var(--ui-muted-foreground)]">
+      Manage your account settings
+    </p>
   </CardHeader>
   <CardContent class="space-y-6">
     <div class="grid gap-4 md:grid-cols-2">
       <div class="space-y-2">
-        <Label for="name">Name</Label>
-        <Input id="name" value="John Doe" />
+        <label for="name">Name</label>
+        <input id="name" value="John Doe" />
       </div>
       <div class="space-y-2">
-        <Label for="email">Email</Label>
-        <Input id="email" type="email" value="john@example.com" />
+        <label for="email">Email</label>
+        <input id="email" type="email" value="john@example.com" />
       </div>
     </div>
-    
+
     <Separator />
-    
+
     <div class="space-y-4">
       <h3 class="font-medium">Notifications</h3>
       <div class="flex items-center justify-between">
         <div>
           <p class="font-medium">Email notifications</p>
-          <p class="text-sm text-[var(--ui-muted-foreground)]">Receive email about your account</p>
+          <p class="text-sm text-[var(--ui-muted-foreground)]">
+            Receive email about your account
+          </p>
         </div>
         <Switch />
       </div>
       <div class="flex items-center justify-between">
         <div>
           <p class="font-medium">Marketing emails</p>
-          <p class="text-sm text-[var(--ui-muted-foreground)]">Receive tips and promotions</p>
+          <p class="text-sm text-[var(--ui-muted-foreground)]">
+            Receive tips and promotions
+          </p>
         </div>
         <Switch />
       </div>
     </div>
   </CardContent>
   <CardFooter class="flex justify-end gap-2">
-    <Button variant="outline">Cancel</Button>
-    <Button>Save changes</Button>
+    <button variant="outline">Cancel</button>
+    <button>Save changes</button>
   </CardFooter>
 </Card>
 ```
@@ -220,8 +237,8 @@ Real-world examples and patterns using Intinya UI components.
 
 ```html
 <script>
-  import { Card, CardContent } from '@intinyagroup/ui';
-  import { Zap, Shield, Globe, Code } from 'lucide-svelte';
+  import { Card, CardContent } from "@intinyagroup/ui";
+  import { Zap, Shield, Globe, Code } from "lucide-svelte";
 </script>
 
 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -229,31 +246,39 @@ Real-world examples and patterns using Intinya UI components.
     <CardContent class="p-6 text-center">
       <Zap class="mx-auto mb-4 size-12 text-[var(--ui-primary)]" />
       <h3 class="font-semibold">Fast</h3>
-      <p class="mt-2 text-sm text-[var(--ui-muted-foreground)]">Built for performance with Svelte 5</p>
+      <p class="mt-2 text-sm text-[var(--ui-muted-foreground)]">
+        Built for performance with Svelte 5
+      </p>
     </CardContent>
   </Card>
-  
+
   <Card>
     <CardContent class="p-6 text-center">
       <Shield class="mx-auto mb-4 size-12 text-[var(--ui-primary)]" />
       <h3 class="font-semibold">Secure</h3>
-      <p class="mt-2 text-sm text-[var(--ui-muted-foreground)]">Enterprise-grade security</p>
+      <p class="mt-2 text-sm text-[var(--ui-muted-foreground)]">
+        Enterprise-grade security
+      </p>
     </CardContent>
   </Card>
-  
+
   <Card>
     <CardContent class="p-6 text-center">
       <Globe class="mx-auto mb-4 size-12 text-[var(--ui-primary)]" />
       <h3 class="font-semibold">Global</h3>
-      <p class="mt-2 text-sm text-[var(--ui-muted-foreground)]">CDN-backed worldwide</p>
+      <p class="mt-2 text-sm text-[var(--ui-muted-foreground)]">
+        CDN-backed worldwide
+      </p>
     </CardContent>
   </Card>
-  
+
   <Card>
     <CardContent class="p-6 text-center">
-      <Code class="mx-auto mb-4 size-12 text-[var(--ui-primary)]" />
+      <code class="mx-auto mb-4 size-12 text-[var(--ui-primary)]" />
       <h3 class="font-semibold">Developer First</h3>
-      <p class="mt-2 text-sm text-[var(--ui-muted-foreground)]">Built for developers</p>
+      <p class="mt-2 text-sm text-[var(--ui-muted-foreground)]">
+        Built for developers
+      </p>
     </CardContent>
   </Card>
 </div>
@@ -267,14 +292,31 @@ Switch themes to see all examples change:
 
 ```html
 <script>
-  import { Button } from '@intinyagroup/ui';
+  import { Button } from "@intinyagroup/ui";
 </script>
 
 <div class="flex flex-wrap gap-2">
-  <Button onclick="document.documentElement.dataset.uiTheme='neutral'">shadcn</Button>
-  <Button onclick="document.documentElement.dataset.uiTheme='md3'" variant="secondary">MD3</Button>
-  <Button onclick="document.documentElement.dataset.uiTheme='cyberpunk'" variant="outline">Cyberpunk</Button>
-  <Button onclick="document.documentElement.dataset.uiTheme='retro'" variant="ghost">Retro</Button>
+  <button onclick="document.documentElement.dataset.uiTheme='neutral'">
+    shadcn
+  </button>
+  <button
+    onclick="document.documentElement.dataset.uiTheme='md3'"
+    variant="secondary"
+  >
+    MD3
+  </button>
+  <button
+    onclick="document.documentElement.dataset.uiTheme='cyberpunk'"
+    variant="outline"
+  >
+    Cyberpunk
+  </button>
+  <button
+    onclick="document.documentElement.dataset.uiTheme='retro'"
+    variant="ghost"
+  >
+    Retro
+  </button>
 </div>
 ```
 
@@ -284,11 +326,11 @@ Switch themes to see all examples change:
 
 ```html
 <script>
-  import { FAB, Chip, NavigationBar } from '@intinyagroup/md3';
+  import { FAB, Chip, NavigationBar } from "@intinyagroup/md3";
 </script>
 
 <!-- Floating Action Button -->
-<FAB onclick={() => alert('Clicked!')}>+</FAB>
+<FAB onclick="{()" =""> alert('Clicked!')}>+</FAB>
 
 <!-- Chips -->
 <div class="flex gap-2">
@@ -304,10 +346,10 @@ Switch themes to see all examples change:
 
 ```html
 <script>
-  import { HexagonGrid, OctagonCard, DiamondBadge } from '@intinyagroup/flat';
+  import { HexagonGrid, OctagonCard, DiamondBadge } from "@intinyagroup/flat";
 </script>
 
-<HexagonGrid columns={3}>
+<HexagonGrid columns="{3}">
   <OctagonCard color="blue" title="Feature 1" />
   <OctagonCard color="green" title="Feature 2" />
   <OctagonCard color="purple" title="Feature 3" />

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Plus, Trash2, GripVertical, FileText, Merge } from 'lucide-svelte';
-  import { Button } from '@intinyagroup/ui';
-  import { cn } from '@intinyagroup/grid-core/utils';
+  import { Plus, Trash2, GripVertical, FileText, Merge } from "lucide-svelte";
+  import { Button } from "@intinyagroup/ui";
+  import { cn } from "@intinyagroup/grid-core/utils";
 
   type MergeDocument = {
     id: string;
@@ -38,7 +38,7 @@
   }
 
   function handleDragStart(e: DragEvent, index: number) {
-    e.dataTransfer?.setData('text/plain', String(index));
+    e.dataTransfer?.setData("text/plain", String(index));
   }
 
   function handleDragOver(e: DragEvent, index: number) {
@@ -48,20 +48,22 @@
 
   function handleDrop(e: DragEvent, toIndex: number) {
     e.preventDefault();
-    const fromIndex = parseInt(e.dataTransfer?.getData('text/plain') ?? '-1');
+    const fromIndex = parseInt(e.dataTransfer?.getData("text/plain") ?? "-1");
     if (fromIndex >= 0 && fromIndex !== toIndex) {
       onReorderDocuments(fromIndex, toIndex);
     }
     dragOverIndex = -1;
   }
 
-  function triggerUpload() { fileInput?.click(); }
+  function triggerUpload() {
+    fileInput?.click();
+  }
 
   function handleFileChange(e: Event) {
     const input = e.target as HTMLInputElement;
     if (input.files?.length) {
       onAddDocuments(input.files);
-      input.value = '';
+      input.value = "";
     }
   }
 </script>
@@ -69,7 +71,9 @@
 <div class="space-y-4">
   <div class="flex items-center gap-2">
     <Merge class="size-5 text-[var(--ui-primary)]" />
-    <h3 class="text-sm font-semibold text-[var(--ui-foreground)]">Merge PDFs</h3>
+    <h3 class="text-sm font-semibold text-[var(--ui-foreground)]">
+      Merge PDFs
+    </h3>
   </div>
 
   <p class="text-xs text-[var(--ui-muted-foreground)]">
@@ -102,17 +106,25 @@
             "flex items-center gap-3 p-3 rounded-lg border transition-colors",
             dragOverIndex === index
               ? "border-[var(--ui-primary)] border-dashed bg-[var(--ui-primary)]/5"
-              : "border-[var(--ui-border)] bg-[var(--ui-card)]"
+              : "border-[var(--ui-border)] bg-[var(--ui-card)]",
           )}
         >
-          <GripVertical class="size-4 text-[var(--ui-muted-foreground)] cursor-grab shrink-0" />
+          <GripVertical
+            class="size-4 text-[var(--ui-muted-foreground)] cursor-grab shrink-0"
+          />
 
-          <div class="flex items-center justify-center size-10 rounded bg-[var(--ui-secondary)] shrink-0">
+          <div
+            class="flex items-center justify-center size-10 rounded bg-[var(--ui-secondary)] shrink-0"
+          >
             <FileText class="size-5 text-[var(--ui-muted-foreground)]" />
           </div>
 
           <div class="flex-1 min-w-0">
-            <div class="text-sm font-medium text-[var(--ui-foreground)] truncate">{doc.name}</div>
+            <div
+              class="text-sm font-medium text-[var(--ui-foreground)] truncate"
+            >
+              {doc.name}
+            </div>
             <div class="text-xs text-[var(--ui-muted-foreground)]">
               {doc.pageCount} pages · {formatSize(doc.size)}
             </div>
@@ -133,9 +145,14 @@
     </div>
 
     <!-- Summary -->
-    <div class="flex items-center justify-between p-3 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-secondary)]/20">
+    <div
+      class="flex items-center justify-between p-3 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-secondary)]/20"
+    >
       <div class="text-sm text-[var(--ui-muted-foreground)]">
-        Total: {documents.length} document(s), {documents.reduce((sum, d) => sum + d.pageCount, 0)} pages
+        Total: {documents.length} document(s), {documents.reduce(
+          (sum, d) => sum + d.pageCount,
+          0,
+        )} pages
       </div>
     </div>
 

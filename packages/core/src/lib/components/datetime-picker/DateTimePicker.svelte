@@ -1,23 +1,23 @@
 <script lang="ts">
-  import { cn } from '../../utils.js';
-  import { Input } from '../../components/input/index.js';
+  import { cn } from "../../utils.js";
+  import { Input } from "../../components/input/index.js";
 
   let {
-    value = $bindable(''),
-    type = 'datetime-local',
+    value = $bindable(""),
+    type = "datetime-local",
     disabled = false,
     class: className,
     onChange,
   }: {
     value?: string;
-    type?: 'date' | 'time' | 'datetime-local';
+    type?: "date" | "time" | "datetime-local";
     disabled?: boolean;
     class?: string;
     onChange?: (value: string) => void;
   } = $props();
 </script>
 
-<div class={cn('relative', className)}>
+<div class={cn("relative", className)}>
   <input
     {type}
     bind:value

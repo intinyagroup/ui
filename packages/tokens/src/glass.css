@@ -8,7 +8,13 @@
 @import "tw-animate-css";
 
 @theme inline {
-  --font-sans: var(--ui-font-sans, "Inter", ui-sans-serif, system-ui, sans-serif);
+  --font-sans: var(
+    --ui-font-sans,
+    "Inter",
+    ui-sans-serif,
+    system-ui,
+    sans-serif
+  );
   --font-mono: var(--ui-font-mono, "SF Mono", ui-monospace, monospace);
 
   --color-background: var(--ui-background);
@@ -45,7 +51,7 @@
   --ui-card-foreground: oklch(0.15 0.01 264);
   --ui-popover: oklch(1 0 0 / 0.8);
   --ui-popover-foreground: oklch(0.15 0.01 264);
-  --ui-primary: oklch(0.65 0.20 265);
+  --ui-primary: oklch(0.65 0.2 265);
   --ui-primary-foreground: oklch(1 0 0);
   --ui-secondary: oklch(1 0 0 / 0.4);
   --ui-secondary-foreground: oklch(0.25 0.05 265);
@@ -53,17 +59,20 @@
   --ui-muted-foreground: oklch(0.45 0.02 264);
   --ui-accent: oklch(1 0 0 / 0.5);
   --ui-accent-foreground: oklch(0.25 0.05 265);
-  --ui-destructive: oklch(0.60 0.22 27);
+  --ui-destructive: oklch(0.6 0.22 27);
   --ui-border: oklch(1 0 0 / 0.2);
   --ui-input: oklch(1 0 0 / 0.3);
-  --ui-ring: oklch(0.65 0.20 265);
+  --ui-ring: oklch(0.65 0.2 265);
   --ui-radius: 1.5rem;
 
   /* Glass shadows */
   --ui-shadow-xs: none;
-  --ui-shadow-sm: 0 4px 6px -1px oklch(0 0 0 / 0.05), 0 2px 4px -2px oklch(0 0 0 / 0.05);
-  --ui-shadow-md: 0 10px 15px -3px oklch(0 0 0 / 0.08), 0 4px 6px -4px oklch(0 0 0 / 0.05);
-  --ui-shadow-lg: 0 20px 25px -5px oklch(0 0 0 / 0.1), 0 8px 10px -6px oklch(0 0 0 / 0.05);
+  --ui-shadow-sm:
+    0 4px 6px -1px oklch(0 0 0 / 0.05), 0 2px 4px -2px oklch(0 0 0 / 0.05);
+  --ui-shadow-md:
+    0 10px 15px -3px oklch(0 0 0 / 0.08), 0 4px 6px -4px oklch(0 0 0 / 0.05);
+  --ui-shadow-lg:
+    0 20px 25px -5px oklch(0 0 0 / 0.1), 0 8px 10px -6px oklch(0 0 0 / 0.05);
   --ui-shadow-xl: 0 25px 50px -12px oklch(0 0 0 / 0.15);
 
   /* Glass-specific */
@@ -74,16 +83,16 @@
 
   --ui-success: oklch(0.65 0.18 150);
   --ui-warning: oklch(0.75 0.18 80);
-  --ui-info: oklch(0.60 0.18 260);
+  --ui-info: oklch(0.6 0.18 260);
 }
 
 /* Glass Dark Theme */
 [data-ui-theme="glass-dark"] {
   --ui-background: oklch(0.12 0.02 264);
   --ui-foreground: oklch(0.95 0.01 264);
-  --ui-card: oklch(0.20 0.01 264 / 0.6);
+  --ui-card: oklch(0.2 0.01 264 / 0.6);
   --ui-card-foreground: oklch(0.95 0.01 264);
-  --ui-popover: oklch(0.20 0.01 264 / 0.8);
+  --ui-popover: oklch(0.2 0.01 264 / 0.8);
   --ui-popover-foreground: oklch(0.95 0.01 264);
   --ui-primary: oklch(0.75 0.18 265);
   --ui-primary-foreground: oklch(0.12 0.02 264);
@@ -134,7 +143,11 @@
 body {
   font-family: var(--ui-font-sans);
   color: var(--ui-foreground);
-  background: linear-gradient(135deg, oklch(0.90 0.05 240), oklch(0.85 0.08 280));
+  background: linear-gradient(
+    135deg,
+    oklch(0.9 0.05 240),
+    oklch(0.85 0.08 280)
+  );
   min-height: 100vh;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -146,11 +159,15 @@ a {
   text-decoration: none;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font: inherit;
 }
 
-code, pre {
+code,
+pre {
   font-family: var(--ui-font-mono);
 }
 

@@ -11,7 +11,7 @@ Shows progress of an operation. Supports both linear and circular variants, with
 
 ```svelte
 <script>
-  import { ProgressIndicator } from '@intinyagroup/md3';
+  import { ProgressIndicator } from "@intinyagroup/md3";
 </script>
 
 <div class="flex flex-col gap-8">
@@ -33,7 +33,7 @@ Shows progress of an operation. Supports both linear and circular variants, with
 
 ```svelte
 <script>
-  import { ProgressIndicator } from '@intinyagroup/md3';
+  import { ProgressIndicator } from "@intinyagroup/md3";
 </script>
 
 <ProgressIndicator value={uploadProgress} />
@@ -43,11 +43,11 @@ Omit `value` for an indeterminate indicator.
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `number` | `undefined` | Progress value 0–100. Omit for indeterminate |
-| `variant` | `'linear' \| 'circular'` | `'linear'` | Progress indicator shape |
-| `class` | `string` | `undefined` | Additional CSS classes |
+| Prop      | Type                     | Default     | Description                                  |
+| --------- | ------------------------ | ----------- | -------------------------------------------- |
+| `value`   | `number`                 | `undefined` | Progress value 0–100. Omit for indeterminate |
+| `variant` | `'linear' \| 'circular'` | `'linear'`  | Progress indicator shape                     |
+| `class`   | `string`                 | `undefined` | Additional CSS classes                       |
 
 ## Accessibility
 

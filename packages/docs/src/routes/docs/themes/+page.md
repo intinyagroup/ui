@@ -9,13 +9,13 @@ Intinya UI offers multiple design directions. Swap one import to change your ent
 
 ## Available Themes
 
-| Theme | Import | Personality |
-|-------|--------|-------------|
-| **shadcn** | `@intinyagroup/tokens/base` | Clean, muted, safe — great for dashboards |
-| [**Material Design 3**](/docs/themes/md3) | `@intinyagroup/tokens/md3` | Elevated, stateful, Google-flavored |
-| [**Flat**](/docs/themes/flat) | `@intinyagroup/tokens/flat` | Bold colors, sharp corners, geometric shapes |
-| [**Glass**](/docs/themes/glass) | `@intinyagroup/tokens/glass` | Translucent, blur, depth |
-| [**Brutalist**](/docs/themes/brutalist) | `@intinyagroup/tokens/brutalist` | Raw, heavy type, no softness |
+| Theme                                     | Import                           | Personality                                  |
+| ----------------------------------------- | -------------------------------- | -------------------------------------------- |
+| **shadcn**                                | `@intinyagroup/tokens/base`      | Clean, muted, safe — great for dashboards    |
+| [**Material Design 3**](/docs/themes/md3) | `@intinyagroup/tokens/md3`       | Elevated, stateful, Google-flavored          |
+| [**Flat**](/docs/themes/flat)             | `@intinyagroup/tokens/flat`      | Bold colors, sharp corners, geometric shapes |
+| [**Glass**](/docs/themes/glass)           | `@intinyagroup/tokens/glass`     | Translucent, blur, depth                     |
+| [**Brutalist**](/docs/themes/brutalist)   | `@intinyagroup/tokens/brutalist` | Raw, heavy type, no softness                 |
 
 ## How It Works
 
@@ -24,7 +24,7 @@ Each theme redefines the same CSS custom properties with different values. Your 
 ```svelte
 <script>
   // Swap this one line to change your entire app
-  import '@intinyagroup/tokens/flat.css';
+  import "@intinyagroup/tokens/flat.css";
 </script>
 ```
 
@@ -56,8 +56,8 @@ Base components from `@intinyagroup/ui` work with ANY theme:
 
 ```svelte
 <script>
-  import '@intinyagroup/tokens/flat.css'; // flat theme
-  import { Button, Card, Input } from '@intinyagroup/ui'; // works with flat tokens
+  import "@intinyagroup/tokens/flat.css"; // flat theme
+  import { Button, Card, Input } from "@intinyagroup/ui"; // works with flat tokens
 </script>
 ```
 
@@ -65,7 +65,7 @@ Theme-specific components (MD3, Flat composites) need their own packages:
 
 ```svelte
 <script>
-  import '@intinyagroup/tokens/md3.css';
-  import { FAB, Chip, Snackbar } from '@intinyagroup/md3';
+  import "@intinyagroup/tokens/md3.css";
+  import { FAB, Chip, Snackbar } from "@intinyagroup/md3";
 </script>
 ```

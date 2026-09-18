@@ -6,7 +6,7 @@ A visual divider to separate content sections. Built on bits-ui separator primit
 
 ```svelte
 <script>
-  import { Separator } from '@intinyagroup/ui';
+  import { Separator } from "@intinyagroup/ui";
 </script>
 
 <div>
@@ -27,7 +27,7 @@ A visual divider to separate content sections. Built on bits-ui separator primit
 
 ```svelte
 <script>
-  import { Separator } from '@intinyagroup/ui';
+  import { Separator } from "@intinyagroup/ui";
 </script>
 
 <!-- Horizontal (default) -->
@@ -41,11 +41,11 @@ A visual divider to separate content sections. Built on bits-ui separator primit
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Divider direction |
-| `decorative` | `boolean` | `undefined` | When true, removes semantic role |
-| `class` | `string` | — | Additional classes |
+| Prop          | Type                         | Default        | Description                      |
+| ------------- | ---------------------------- | -------------- | -------------------------------- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Divider direction                |
+| `decorative`  | `boolean`                    | `undefined`    | When true, removes semantic role |
+| `class`       | `string`                     | —              | Additional classes               |
 
 All other props are forwarded to the underlying element.
 

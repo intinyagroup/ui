@@ -14,7 +14,10 @@ export type SelectionState = {
   anchor: { row: number; col: number } | null;
 };
 
-export function createSelectionState(initialRow = 0, initialCol = 0): SelectionState {
+export function createSelectionState(
+  initialRow = 0,
+  initialCol = 0,
+): SelectionState {
   return {
     active: { row: initialRow, col: initialCol },
     ranges: [],
@@ -36,7 +39,11 @@ export function normalizeRange(range: CellRange): CellRange {
   };
 }
 
-export function isCellInRange(row: number, col: number, range: CellRange): boolean {
+export function isCellInRange(
+  row: number,
+  col: number,
+  range: CellRange,
+): boolean {
   const normalized = normalizeRange(range);
   return (
     row >= normalized.start.row &&
@@ -46,11 +53,19 @@ export function isCellInRange(row: number, col: number, range: CellRange): boole
   );
 }
 
-export function isCellInRanges(row: number, col: number, ranges: CellRange[]): boolean {
+export function isCellInRanges(
+  row: number,
+  col: number,
+  ranges: CellRange[],
+): boolean {
   return ranges.some((range) => isCellInRange(row, col, range));
 }
 
-export function isCellActive(row: number, col: number, active: { row: number; col: number }): boolean {
+export function isCellActive(
+  row: number,
+  col: number,
+  active: { row: number; col: number },
+): boolean {
   return row === active.row && col === active.col;
 }
 
@@ -62,7 +77,9 @@ export function getRangeSize(range: CellRange): { rows: number; cols: number } {
   };
 }
 
-export function getCellsInRange(range: CellRange): { row: number; col: number }[] {
+export function getCellsInRange(
+  range: CellRange,
+): { row: number; col: number }[] {
   const normalized = normalizeRange(range);
   const cells: { row: number; col: number }[] = [];
   for (let r = normalized.start.row; r <= normalized.end.row; r++) {

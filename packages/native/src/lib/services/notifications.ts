@@ -1,8 +1,8 @@
 import {
   LocalNotifications,
-  type LocalNotificationSchema
-} from '@capacitor/local-notifications';
-import { PushNotifications } from '@capacitor/push-notifications';
+  type LocalNotificationSchema,
+} from "@capacitor/local-notifications";
+import { PushNotifications } from "@capacitor/push-notifications";
 
 export interface LocalNotifyOptions {
   title: string;
@@ -21,7 +21,7 @@ export async function localNotify(options: LocalNotifyOptions): Promise<void> {
       title: options.title,
       body: options.body,
       id: options.id ?? Date.now(),
-      schedule: options.schedule ? { at: options.schedule } : undefined
+      schedule: options.schedule ? { at: options.schedule } : undefined,
     };
     await LocalNotifications.schedule({ notifications: [notif] });
     return;
@@ -40,14 +40,15 @@ interface WebNotificationCtor {
 async function showWebNotification(options: LocalNotifyOptions): Promise<void> {
   const g = globalThis as { Notification?: unknown };
   const ctor = g.Notification as WebNotificationCtor | undefined;
-  if (!ctor) throw new Error('Notifications are not supported in this environment');
+  if (!ctor)
+    throw new Error("Notifications are not supported in this environment");
 
   let permission = ctor.permission;
-  if (permission === 'default') {
+  if (permission === "default") {
     permission = await ctor.requestPermission();
   }
-  if (permission !== 'granted') {
-    throw new Error('Notification permission denied');
+  if (permission !== "granted") {
+    throw new Error("Notification permission denied");
   }
   new ctor(options.title, { body: options.body });
 }
@@ -60,8 +61,8 @@ export async function requestPushPermission(): Promise<string> {
   try {
     await PushNotifications.requestPermissions();
     const status = await PushNotifications.checkPermissions();
-    return status.receive ?? 'prompt';
+    return status.receive ?? "prompt";
   } catch {
-    return 'prompt';
+    return "prompt";
   }
 }

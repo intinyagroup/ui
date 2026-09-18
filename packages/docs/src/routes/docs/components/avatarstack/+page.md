@@ -11,13 +11,13 @@ Renders an overlapping row of avatar images from an array of URLs. When the list
 
 ```svelte
 <script>
-  import { AvatarStack } from '@intinyagroup/ui';
+  import { AvatarStack } from "@intinyagroup/ui";
 
   const srcs = [
-    'https://github.com/shadcn.png',
-    'https://github.com/leerob.png',
-    'https://github.com/evilrabbit.png',
-    'https://github.com/vercel.png'
+    "https://github.com/shadcn.png",
+    "https://github.com/leerob.png",
+    "https://github.com/evilrabbit.png",
+    "https://github.com/vercel.png",
   ];
 </script>
 
@@ -26,12 +26,12 @@ Renders an overlapping row of avatar images from an array of URLs. When the list
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `srcs` | `string[]` | — | Array of avatar image URLs |
-| `max` | `number` | `5` | Max avatars shown before collapsing into a `+N` badge |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Avatar size |
-| `class` | `string` | — | Additional CSS classes |
+| Prop    | Type                   | Default | Description                                           |
+| ------- | ---------------------- | ------- | ----------------------------------------------------- |
+| `srcs`  | `string[]`             | —       | Array of avatar image URLs                            |
+| `max`   | `number`               | `5`     | Max avatars shown before collapsing into a `+N` badge |
+| `size`  | `'sm' \| 'md' \| 'lg'` | `'md'`  | Avatar size                                           |
+| `class` | `string`               | —       | Additional CSS classes                                |
 
 ## Features
 

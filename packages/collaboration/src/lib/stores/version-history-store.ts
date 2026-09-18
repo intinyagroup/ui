@@ -2,8 +2,8 @@
 // Version history store — snapshots, diff, restore
 // ============================================
 
-import { writable, derived, get } from 'svelte/store';
-import type { BookSettings, Chapter } from '@intinyagroup/book-writer';
+import { writable, derived, get } from "svelte/store";
+import type { BookSettings, Chapter } from "@intinyagroup/book-writer";
 
 export type VersionEntry = {
   id: string;
@@ -33,8 +33,8 @@ export type VersionHistoryState = {
   maxVersions: number;
 };
 
-const STORAGE_KEY = 'book-writer-versions';
-const AUTO_SAVE_KEY = 'book-writer-autosave';
+const STORAGE_KEY = "book-writer-versions";
+const AUTO_SAVE_KEY = "book-writer-autosave";
 
 function createVersionHistoryStore() {
   const { subscribe, update, set } = writable<VersionHistoryState>({
@@ -49,7 +49,7 @@ function createVersionHistoryStore() {
 
   // Load from localStorage on init
   function init() {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
@@ -63,7 +63,7 @@ function createVersionHistoryStore() {
 
   // Save to localStorage
   function persist() {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     try {
       const state = get({ subscribe });
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.versions));
@@ -76,8 +76,8 @@ function createVersionHistoryStore() {
   function autoSave(settings: BookSettings, createdBy: string) {
     const version: VersionEntry = {
       id: `autosave-${Date.now()}`,
-      name: 'Auto-save',
-      description: 'Automatic save',
+      name: "Auto-save",
+      description: "Automatic save",
       settings: JSON.parse(JSON.stringify(settings)), // Deep clone
       createdBy,
       createdAt: new Date().toISOString(),
@@ -86,7 +86,10 @@ function createVersionHistoryStore() {
     };
 
     update((s) => {
-      const versions = [version, ...s.versions.filter((v) => !v.autoSaved)].slice(0, s.maxVersions);
+      const versions = [
+        version,
+        ...s.versions.filter((v) => !v.autoSaved),
+      ].slice(0, s.maxVersions);
       return { ...s, versions };
     });
     persist();
@@ -97,7 +100,7 @@ function createVersionHistoryStore() {
     name: string,
     description: string,
     settings: BookSettings,
-    createdBy: string
+    createdBy: string,
   ): VersionEntry {
     const version: VersionEntry = {
       id: `v-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
@@ -136,17 +139,31 @@ function createVersionHistoryStore() {
   }
 
   // Compare two versions
-  function compareVersions(versionAId: string, versionBId: string): VersionDiff {
+  function compareVersions(
+    versionAId: string,
+    versionBId: string,
+  ): VersionDiff {
     const state = get({ subscribe });
     const versionA = state.versions.find((v) => v.id === versionAId);
     const versionB = state.versions.find((v) => v.id === versionBId);
 
     if (!versionA || !versionB) {
-      return { chaptersAdded: 0, chaptersRemoved: 0, chaptersModified: 0, wordsAdded: 0, wordsRemoved: 0, totalChanges: 0 };
+      return {
+        chaptersAdded: 0,
+        chaptersRemoved: 0,
+        chaptersModified: 0,
+        wordsAdded: 0,
+        wordsRemoved: 0,
+        totalChanges: 0,
+      };
     }
 
-    const chaptersA = new Map(versionA.settings.chapters.map((ch) => [ch.id, ch]));
-    const chaptersB = new Map(versionB.settings.chapters.map((ch) => [ch.id, ch]));
+    const chaptersA = new Map(
+      versionA.settings.chapters.map((ch) => [ch.id, ch]),
+    );
+    const chaptersB = new Map(
+      versionB.settings.chapters.map((ch) => [ch.id, ch]),
+    );
 
     let chaptersAdded = 0;
     let chaptersRemoved = 0;
@@ -160,7 +177,10 @@ function createVersionHistoryStore() {
       if (!chapterA) {
         chaptersAdded++;
         wordsAdded += getWordCount(chapterB.content);
-      } else if (chapterA.content !== chapterB.content || chapterA.title !== chapterB.title) {
+      } else if (
+        chapterA.content !== chapterB.content ||
+        chapterA.title !== chapterB.title
+      ) {
         chaptersModified++;
         const wordsA = getWordCount(chapterA.content);
         const wordsB = getWordCount(chapterB.content);
@@ -188,7 +208,10 @@ function createVersionHistoryStore() {
   }
 
   // Start auto-save
-  function startAutoSave(settingsGetter: () => BookSettings, createdBy: string) {
+  function startAutoSave(
+    settingsGetter: () => BookSettings,
+    createdBy: string,
+  ) {
     stopAutoSave();
     const state = get({ subscribe });
     autoSaveTimer = setInterval(() => {
@@ -206,8 +229,11 @@ function createVersionHistoryStore() {
   }
 
   function getWordCount(html: string): number {
-    const text = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-    return text ? text.split(' ').length : 0;
+    const text = html
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return text ? text.split(" ").length : 0;
   }
 
   function setCompareVersion(versionId: string | null) {
@@ -231,5 +257,9 @@ function createVersionHistoryStore() {
 
 export const versionHistory = createVersionHistoryStore();
 export const versions = derived(versionHistory, ($s) => $s.versions);
-export const currentVersions = derived(versionHistory, ($s) => $s.versions.filter((v) => !v.autoSaved));
-export const autoSavedVersions = derived(versionHistory, ($s) => $s.versions.filter((v) => v.autoSaved));
+export const currentVersions = derived(versionHistory, ($s) =>
+  $s.versions.filter((v) => !v.autoSaved),
+);
+export const autoSavedVersions = derived(versionHistory, ($s) =>
+  $s.versions.filter((v) => v.autoSaved),
+);

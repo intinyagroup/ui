@@ -1,1 +1,1 @@
-export { default as Rating } from './Rating.svelte';
+export { default as Rating } from "./Rating.svelte";

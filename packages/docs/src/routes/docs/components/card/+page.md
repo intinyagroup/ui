@@ -6,8 +6,15 @@ A flexible content container with header, title, description, content, and foote
 
 ```svelte
 <script>
-  import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@intinyagroup/ui';
-  import { Button } from '@intinyagroup/ui';
+  import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+    CardFooter,
+  } from "@intinyagroup/ui";
+  import { Button } from "@intinyagroup/ui";
 </script>
 
 <Card class="w-80">
@@ -40,14 +47,14 @@ A card composes five sub-components:
 
 All sub-components accept `class` and forward all other props to their underlying element.
 
-| Sub-component | Renders |
-|---------------|---------|
-| `Card` | `<div>` |
-| `CardHeader` | `<div>` |
-| `CardTitle` | `<h3>` |
-| `CardDescription` | `<p>` |
-| `CardContent` | `<div>` |
-| `CardFooter` | `<div>` |
+| Sub-component     | Renders |
+| ----------------- | ------- |
+| `Card`            | `<div>` |
+| `CardHeader`      | `<div>` |
+| `CardTitle`       | `<h3>`  |
+| `CardDescription` | `<p>`   |
+| `CardContent`     | `<div>` |
+| `CardFooter`      | `<div>` |
 
 ## Install
 

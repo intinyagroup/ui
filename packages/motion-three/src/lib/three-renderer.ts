@@ -2,15 +2,15 @@
 // Three.js renderer — frame capture for export
 // ============================================
 
-import * as THREE from 'three';
-import type { ThreeSceneConfig } from './three-types.js';
+import * as THREE from "three";
+import type { ThreeSceneConfig } from "./three-types.js";
 
 /** Render a Three.js scene to a canvas frame */
 export async function renderThreeFrame(
   canvas: HTMLCanvasElement,
   config: ThreeSceneConfig,
   frame: number,
-  fps: number
+  fps: number,
 ): Promise<void> {
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -29,28 +29,54 @@ export async function renderThreeFrame(
   // Camera
   const aspect = canvas.width / canvas.height;
   let camera: THREE.Camera;
-  if (config.camera.type === 'orthographic') {
+  if (config.camera.type === "orthographic") {
     const zoom = config.camera.zoom ?? 5;
-    camera = new THREE.OrthographicCamera(-zoom * aspect, zoom * aspect, zoom, -zoom, config.camera.near ?? 0.1, config.camera.far ?? 1000);
+    camera = new THREE.OrthographicCamera(
+      -zoom * aspect,
+      zoom * aspect,
+      zoom,
+      -zoom,
+      config.camera.near ?? 0.1,
+      config.camera.far ?? 1000,
+    );
   } else {
-    camera = new THREE.PerspectiveCamera(config.camera.fov ?? 75, aspect, config.camera.near ?? 0.1, config.camera.far ?? 1000);
+    camera = new THREE.PerspectiveCamera(
+      config.camera.fov ?? 75,
+      aspect,
+      config.camera.near ?? 0.1,
+      config.camera.far ?? 1000,
+    );
   }
-  camera.position.set(config.camera.position.x, config.camera.position.y, config.camera.position.z);
-  camera.lookAt(config.camera.lookAt.x, config.camera.lookAt.y, config.camera.lookAt.z);
+  camera.position.set(
+    config.camera.position.x,
+    config.camera.position.y,
+    config.camera.position.z,
+  );
+  camera.lookAt(
+    config.camera.lookAt.x,
+    config.camera.lookAt.y,
+    config.camera.lookAt.z,
+  );
 
   // Lights
   for (const l of config.lights) {
     let light: THREE.Light;
-    if (l.type === 'ambient') light = new THREE.AmbientLight(new THREE.Color(l.color), l.intensity);
-    else if (l.type === 'directional') {
+    if (l.type === "ambient")
+      light = new THREE.AmbientLight(new THREE.Color(l.color), l.intensity);
+    else if (l.type === "directional") {
       light = new THREE.DirectionalLight(new THREE.Color(l.color), l.intensity);
-      if (l.position) light.position.set(l.position.x, l.position.y, l.position.z);
-    }
-    else if (l.type === 'point') {
+      if (l.position)
+        light.position.set(l.position.x, l.position.y, l.position.z);
+    } else if (l.type === "point") {
       light = new THREE.PointLight(new THREE.Color(l.color), l.intensity);
-      if (l.position) light.position.set(l.position.x, l.position.y, l.position.z);
-    }
-    else if (l.type === 'hemisphere') light = new THREE.HemisphereLight(new THREE.Color(l.color), new THREE.Color('#ffffff'), l.intensity);
+      if (l.position)
+        light.position.set(l.position.x, l.position.y, l.position.z);
+    } else if (l.type === "hemisphere")
+      light = new THREE.HemisphereLight(
+        new THREE.Color(l.color),
+        new THREE.Color("#ffffff"),
+        l.intensity,
+      );
     else continue;
     scene.add(light);
   }
@@ -79,22 +105,73 @@ export async function renderThreeFrame(
   renderer.dispose();
 }
 
-function createGeometry(def: ThreeSceneConfig['objects'][0]['geometry']): THREE.BufferGeometry {
+function createGeometry(
+  def: ThreeSceneConfig["objects"][0]["geometry"],
+): THREE.BufferGeometry {
   switch (def.type) {
-    case 'box': return new THREE.BoxGeometry(def.params?.width ?? 1, def.params?.height ?? 1, def.params?.depth ?? 1);
-    case 'sphere': return new THREE.SphereGeometry(def.params?.radius ?? 1, 32, 16);
-    case 'cylinder': return new THREE.CylinderGeometry(def.params?.radiusTop ?? 1, def.params?.radiusBottom ?? 1, def.params?.height ?? 1);
-    case 'cone': return new THREE.ConeGeometry(def.params?.radius ?? 1, def.params?.height ?? 1);
-    case 'torus': return new THREE.TorusGeometry(def.params?.radius ?? 1, def.params?.tube ?? 0.3, 16, 100);
-    case 'plane': return new THREE.PlaneGeometry(def.params?.width ?? 1, def.params?.height ?? 1);
-    default: return new THREE.BoxGeometry(1, 1, 1);
+    case "box":
+      return new THREE.BoxGeometry(
+        def.params?.width ?? 1,
+        def.params?.height ?? 1,
+        def.params?.depth ?? 1,
+      );
+    case "sphere":
+      return new THREE.SphereGeometry(def.params?.radius ?? 1, 32, 16);
+    case "cylinder":
+      return new THREE.CylinderGeometry(
+        def.params?.radiusTop ?? 1,
+        def.params?.radiusBottom ?? 1,
+        def.params?.height ?? 1,
+      );
+    case "cone":
+      return new THREE.ConeGeometry(
+        def.params?.radius ?? 1,
+        def.params?.height ?? 1,
+      );
+    case "torus":
+      return new THREE.TorusGeometry(
+        def.params?.radius ?? 1,
+        def.params?.tube ?? 0.3,
+        16,
+        100,
+      );
+    case "plane":
+      return new THREE.PlaneGeometry(
+        def.params?.width ?? 1,
+        def.params?.height ?? 1,
+      );
+    default:
+      return new THREE.BoxGeometry(1, 1, 1);
   }
 }
 
-function createMaterial(def: ThreeSceneConfig['objects'][0]['material']): THREE.Material {
+function createMaterial(
+  def: ThreeSceneConfig["objects"][0]["material"],
+): THREE.Material {
   const color = new THREE.Color(def.color);
-  if (def.type === 'standard') return new THREE.MeshStandardMaterial({ color, metalness: def.metalness ?? 0, roughness: def.roughness ?? 0.5, transparent: def.transparent, opacity: def.opacity ?? 1 });
-  if (def.type === 'phong') return new THREE.MeshPhongMaterial({ color, transparent: def.transparent, opacity: def.opacity ?? 1 });
-  if (def.type === 'lambert') return new THREE.MeshLambertMaterial({ color, transparent: def.transparent, opacity: def.opacity ?? 1 });
-  return new THREE.MeshBasicMaterial({ color, transparent: def.transparent, opacity: def.opacity ?? 1 });
+  if (def.type === "standard")
+    return new THREE.MeshStandardMaterial({
+      color,
+      metalness: def.metalness ?? 0,
+      roughness: def.roughness ?? 0.5,
+      transparent: def.transparent,
+      opacity: def.opacity ?? 1,
+    });
+  if (def.type === "phong")
+    return new THREE.MeshPhongMaterial({
+      color,
+      transparent: def.transparent,
+      opacity: def.opacity ?? 1,
+    });
+  if (def.type === "lambert")
+    return new THREE.MeshLambertMaterial({
+      color,
+      transparent: def.transparent,
+      opacity: def.opacity ?? 1,
+    });
+  return new THREE.MeshBasicMaterial({
+    color,
+    transparent: def.transparent,
+    opacity: def.opacity ?? 1,
+  });
 }

@@ -11,7 +11,7 @@ A drawer that slides in from the left or right edge. Supports an optional dimmin
 
 ```svelte
 <script>
-  import { SlideMenu } from '@intinyagroup/ui';
+  import { SlideMenu } from "@intinyagroup/ui";
 
   let open = $state(false);
 </script>
@@ -29,15 +29,15 @@ A drawer that slides in from the left or right edge. Supports an optional dimmin
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `open` | `boolean` | — | Bindable visibility state |
-| `side` | `'left' \| 'right'` | `'left'` | Edge the drawer slides from |
-| `overlay` | `boolean` | `true` | Dim the page behind; tap to close |
-| `title` | `string` | — | Optional header title next to the close button |
-| `onclose` | `() => void` | — | Called when the drawer closes |
-| `class` | `string` | — | Additional CSS classes |
-| `children` | `Snippet` | — | Drawer content |
+| Prop       | Type                | Default  | Description                                    |
+| ---------- | ------------------- | -------- | ---------------------------------------------- |
+| `open`     | `boolean`           | —        | Bindable visibility state                      |
+| `side`     | `'left' \| 'right'` | `'left'` | Edge the drawer slides from                    |
+| `overlay`  | `boolean`           | `true`   | Dim the page behind; tap to close              |
+| `title`    | `string`            | —        | Optional header title next to the close button |
+| `onclose`  | `() => void`        | —        | Called when the drawer closes                  |
+| `class`    | `string`            | —        | Additional CSS classes                         |
+| `children` | `Snippet`           | —        | Drawer content                                 |
 
 ## Features
 

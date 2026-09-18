@@ -24,12 +24,18 @@ function dirSizeKB(dir) {
 console.log("Bundle Budget Report");
 console.log("─".repeat(70));
 console.log(
-  "Package".padEnd(38) + "Size (KB)".padStart(10) + "  " + "Status".padStart(10),
+  "Package".padEnd(38) +
+    "Size (KB)".padStart(10) +
+    "  " +
+    "Status".padStart(10),
 );
 console.log("─".repeat(70));
 
 for (const [pkgName, budget] of Object.entries(budgets)) {
-  const dirName = pkgName === "@intinyagroup/ui" ? "core" : pkgName.replace("@intinyagroup/", "");
+  const dirName =
+    pkgName === "@intinyagroup/ui"
+      ? "core"
+      : pkgName.replace("@intinyagroup/", "");
   const distDir = join(packagesDir, dirName, "dist");
 
   if (!readdirSync(packagesDir).includes(dirName)) {
@@ -37,7 +43,9 @@ for (const [pkgName, budget] of Object.entries(budgets)) {
   }
 
   if (!statSync(distDir, { throwIfNoEntry: false })?.isDirectory?.()) {
-    console.log(`${pkgName.padEnd(38)}${"N/A".padStart(10)}  ${"skip".padStart(10)}`);
+    console.log(
+      `${pkgName.padEnd(38)}${"N/A".padStart(10)}  ${"skip".padStart(10)}`,
+    );
     continue;
   }
 

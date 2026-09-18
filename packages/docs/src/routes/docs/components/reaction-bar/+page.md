@@ -11,12 +11,12 @@ A row of emoji reaction pills with counts. Clicking a pill selects it (highlight
 
 ```svelte
 <script>
-  import { ReactionBar } from '@intinyagroup/ui';
+  import { ReactionBar } from "@intinyagroup/ui";
 
   let reactions = [
-    { id: 'like', emoji: '👍', count: 42, label: 'Like' },
-    { id: 'love', emoji: '❤️', count: 17, label: 'Love' },
-    { id: 'laugh', emoji: '😂', count: 8, label: 'Laugh' }
+    { id: "like", emoji: "👍", count: 42, label: "Like" },
+    { id: "love", emoji: "❤️", count: 17, label: "Love" },
+    { id: "laugh", emoji: "😂", count: 8, label: "Laugh" },
   ];
   let selected = $state(null);
 
@@ -30,13 +30,13 @@ A row of emoji reaction pills with counts. Clicking a pill selects it (highlight
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `reactions` | `Reaction[]` | — | Pills to render |
-| `onReact` | `(id: string \| null) => void` | — | Called with the selected id (or `null` on deselect) |
-| `selected` | `string \| null` | — | Currently selected reaction id |
-| `allowDeselect` | `boolean` | `true` | Allow clicking the selected pill to deselect |
-| `class` | `string` | — | Additional CSS classes |
+| Prop            | Type                           | Default | Description                                         |
+| --------------- | ------------------------------ | ------- | --------------------------------------------------- |
+| `reactions`     | `Reaction[]`                   | —       | Pills to render                                     |
+| `onReact`       | `(id: string \| null) => void` | —       | Called with the selected id (or `null` on deselect) |
+| `selected`      | `string \| null`               | —       | Currently selected reaction id                      |
+| `allowDeselect` | `boolean`                      | `true`  | Allow clicking the selected pill to deselect        |
+| `class`         | `string`                       | —       | Additional CSS classes                              |
 
 ### Reaction
 

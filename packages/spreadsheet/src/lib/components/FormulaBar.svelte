@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cn } from '@intinyagroup/grid-core/utils';
+  import { cn } from "@intinyagroup/grid-core/utils";
 
   let {
     cellId,
@@ -18,10 +18,10 @@
   });
 
   function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       onValueChange(inputValue);
     }
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       inputValue = value;
     }
   }
@@ -33,8 +33,12 @@
   }
 </script>
 
-<div class="flex items-center gap-2 border-b border-[var(--ui-border)] bg-[var(--ui-card)] px-3 py-1.5">
-  <span class="text-xs font-semibold text-[var(--ui-muted-foreground)] min-w-[48px]">
+<div
+  class="flex items-center gap-2 border-b border-[var(--ui-border)] bg-[var(--ui-card)] px-3 py-1.5"
+>
+  <span
+    class="text-xs font-semibold text-[var(--ui-muted-foreground)] min-w-[48px]"
+  >
     {cellId}
   </span>
   <div class="h-4 w-px bg-[var(--ui-border)]"></div>

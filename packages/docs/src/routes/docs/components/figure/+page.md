@@ -17,7 +17,7 @@ npx @intinyagroup/cli add figure
 
 ```svelte
 <script>
-  import { Figure } from '@intinyagroup/ui';
+  import { Figure } from "@intinyagroup/ui";
 </script>
 
 <Figure caption="Figure 1: Application architecture overview">
@@ -27,17 +27,17 @@ npx @intinyagroup/cli add figure
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| caption | string | - | Figure caption text |
-| captionPosition | 'bottom' \| 'top' | 'bottom' | Caption placement |
-| class | string | - | Additional CSS classes |
+| Prop            | Type              | Default  | Description            |
+| --------------- | ----------------- | -------- | ---------------------- |
+| caption         | string            | -        | Figure caption text    |
+| captionPosition | 'bottom' \| 'top' | 'bottom' | Caption placement      |
+| class           | string            | -        | Additional CSS classes |
 
 ## Slots
 
-| Slot | Description |
-|------|-------------|
-| default | Figure content (image, diagram, etc.) |
+| Slot    | Description                                       |
+| ------- | ------------------------------------------------- |
+| default | Figure content (image, diagram, etc.)             |
 | caption | Custom caption content (overrides `caption` prop) |
 
 ## Accessibility

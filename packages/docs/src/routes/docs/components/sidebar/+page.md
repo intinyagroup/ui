@@ -24,8 +24,8 @@ npx @intinyagroup/cli add sidebar
     SidebarMenuItem,
     SidebarMenuButton,
     SidebarTrigger,
-    SidebarInset
-  } from '@intinyagroup/ui';
+    SidebarInset,
+  } from "@intinyagroup/ui";
 </script>
 
 <Sidebar>
@@ -67,8 +67,8 @@ npx @intinyagroup/cli add sidebar
 
 ## Props
 
-| Sub-component | Description |
-|---------------|-------------|
+| Sub-component       | Description                                      |
+| ------------------- | ------------------------------------------------ |
 | `SidebarMenuButton` | Accepts `isActive` for highlighting current page |
-| `SidebarTrigger` | Toggle button for sidebar visibility |
-| `SidebarInset` | Main content area that adjusts to sidebar state |
+| `SidebarTrigger`    | Toggle button for sidebar visibility             |
+| `SidebarInset`      | Main content area that adjusts to sidebar state  |

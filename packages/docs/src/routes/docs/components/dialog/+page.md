@@ -6,8 +6,17 @@ A modal overlay for focused interactions. Built on bits-ui dialog primitives.
 
 ```svelte
 <script>
-  import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@intinyagroup/ui';
-  import { Button } from '@intinyagroup/ui';
+  import {
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+    DialogFooter,
+    DialogClose,
+  } from "@intinyagroup/ui";
+  import { Button } from "@intinyagroup/ui";
 </script>
 
 <Dialog>

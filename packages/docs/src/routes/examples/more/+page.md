@@ -13,26 +13,32 @@ Advanced patterns and real-world use cases.
 
 ```html
 <script>
-  import { Card, CardContent } from '@intinyagroup/ui';
-  import { Button, Badge } from '@intinyagroup/ui';
-  import { ShoppingCart, Heart } from 'lucide-svelte';
+  import { Card, CardContent } from "@intinyagroup/ui";
+  import { Button, Badge } from "@intinyagroup/ui";
+  import { ShoppingCart, Heart } from "lucide-svelte";
 </script>
 
 <Card class="overflow-hidden">
-  <img src="/product.jpg" alt="Product" class="aspect-square w-full object-cover" />
+  <img
+    src="/product.jpg"
+    alt="Product"
+    class="aspect-square w-full object-cover"
+  />
   <CardContent class="p-4">
     <div class="flex items-start justify-between">
       <div>
         <h3 class="font-semibold">Premium Headphones</h3>
-        <p class="text-sm text-[var(--ui-muted-foreground)]">Wireless noise-canceling</p>
+        <p class="text-sm text-[var(--ui-muted-foreground)]">
+          Wireless noise-canceling
+        </p>
       </div>
       <Badge>New</Badge>
     </div>
     <div class="mt-4 flex items-center justify-between">
       <span class="text-2xl font-bold">$299</span>
       <div class="flex gap-2">
-        <Button size="icon" variant="outline"><Heart class="size-4" /></Button>
-        <Button size="icon"><ShoppingCart class="size-4" /></Button>
+        <button size="icon" variant="outline"><Heart class="size-4" /></button>
+        <button size="icon"><ShoppingCart class="size-4" /></button>
       </div>
     </div>
   </CardContent>
@@ -45,9 +51,9 @@ Advanced patterns and real-world use cases.
 
 ```html
 <script>
-  import { Card, CardHeader, CardContent } from '@intinyagroup/ui';
-  import { Button, Badge } from '@intinyagroup/ui';
-  import { Bell, Check, X } from 'lucide-svelte';
+  import { Card, CardHeader, CardContent } from "@intinyagroup/ui";
+  import { Button, Badge } from "@intinyagroup/ui";
+  import { Bell, Check, X } from "lucide-svelte";
 </script>
 
 <Card>
@@ -62,7 +68,9 @@ Advanced patterns and real-world use cases.
         <p class="text-sm font-medium">New comment on your post</p>
         <p class="text-xs text-[var(--ui-muted-foreground)]">2 minutes ago</p>
       </div>
-      <Button size="icon" variant="ghost" class="size-8"><Check class="size-4" /></Button>
+      <button size="icon" variant="ghost" class="size-8">
+        <Check class="size-4" />
+      </button>
     </div>
     <div class="flex items-start gap-3 rounded-lg border p-3">
       <Bell class="mt-0.5 size-4 text-[var(--ui-primary)]" />
@@ -70,9 +78,11 @@ Advanced patterns and real-world use cases.
         <p class="text-sm font-medium">Someone mentioned you</p>
         <p class="text-xs text-[var(--ui-muted-foreground)]">1 hour ago</p>
       </div>
-      <Button size="icon" variant="ghost" class="size-8"><Check class="size-4" /></Button>
+      <button size="icon" variant="ghost" class="size-8">
+        <Check class="size-4" />
+      </button>
     </div>
-    <Button variant="outline" class="w-full">View all</Button>
+    <button variant="outline" class="w-full">View all</button>
   </CardContent>
 </Card>
 ```
@@ -83,8 +93,8 @@ Advanced patterns and real-world use cases.
 
 ```html
 <script>
-  import { Card, CardContent } from '@intinyagroup/ui';
-  import { Button, Badge } from '@intinyagroup/ui';
+  import { Card, CardContent } from "@intinyagroup/ui";
+  import { Button, Badge } from "@intinyagroup/ui";
 </script>
 
 <Card>
@@ -93,25 +103,37 @@ Advanced patterns and real-world use cases.
     <div class="space-y-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alice" class="size-10 rounded-full" alt="Alice" />
+          <img
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alice"
+            class="size-10 rounded-full"
+            alt="Alice"
+          />
           <div>
             <p class="font-medium">Alice Johnson</p>
-            <p class="text-sm text-[var(--ui-muted-foreground)]">alice@example.com</p>
+            <p class="text-sm text-[var(--ui-muted-foreground)]">
+              alice@example.com
+            </p>
           </div>
         </div>
         <Badge>Admin</Badge>
       </div>
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bob" class="size-10 rounded-full" alt="Bob" />
+          <img
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Bob"
+            class="size-10 rounded-full"
+            alt="Bob"
+          />
           <div>
             <p class="font-medium">Bob Smith</p>
-            <p class="text-sm text-[var(--ui-muted-foreground)]">bob@example.com</p>
+            <p class="text-sm text-[var(--ui-muted-foreground)]">
+              bob@example.com
+            </p>
           </div>
         </div>
         <Badge variant="secondary">Member</Badge>
       </div>
-      <Button variant="outline" class="w-full">Add member</Button>
+      <button variant="outline" class="w-full">Add member</button>
     </div>
   </CardContent>
 </Card>
@@ -123,8 +145,8 @@ Advanced patterns and real-world use cases.
 
 ```html
 <script>
-  import { Card, CardContent } from '@intinyagroup/ui';
-  import { Badge } from '@intinyagroup/ui';
+  import { Card, CardContent } from "@intinyagroup/ui";
+  import { Badge } from "@intinyagroup/ui";
 </script>
 
 <Card>
@@ -169,8 +191,8 @@ Advanced patterns and real-world use cases.
 
 ```html
 <script>
-  import { Card, CardContent } from '@intinyagroup/ui';
-  import { Avatar } from '@intinyagroup/ui';
+  import { Card, CardContent } from "@intinyagroup/ui";
+  import { Avatar } from "@intinyagroup/ui";
 </script>
 
 <Card>
@@ -179,28 +201,45 @@ Advanced patterns and real-world use cases.
     <div class="space-y-4">
       <div class="flex gap-3">
         <Avatar class="size-8">
-          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=User1" alt="User" />
+          <img
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=User1"
+            alt="User"
+          />
         </Avatar>
         <div>
-          <p class="text-sm"><span class="font-medium">John</span> pushed a commit</p>
+          <p class="text-sm">
+            <span class="font-medium">John</span> pushed a commit
+          </p>
           <p class="text-xs text-[var(--ui-muted-foreground)]">2 minutes ago</p>
         </div>
       </div>
       <div class="flex gap-3">
         <Avatar class="size-8">
-          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=User2" alt="User" />
+          <img
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=User2"
+            alt="User"
+          />
         </Avatar>
         <div>
-          <p class="text-sm"><span class="font-medium">Sarah</span> opened a PR</p>
-          <p class="text-xs text-[var(--ui-muted-foreground)]">15 minutes ago</p>
+          <p class="text-sm">
+            <span class="font-medium">Sarah</span> opened a PR
+          </p>
+          <p class="text-xs text-[var(--ui-muted-foreground)]">
+            15 minutes ago
+          </p>
         </div>
       </div>
       <div class="flex gap-3">
         <Avatar class="size-8">
-          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=User3" alt="User" />
+          <img
+            src="https://api.dicebear.com/7.x/avataaars/svg?seed=User3"
+            alt="User"
+          />
         </Avatar>
         <div>
-          <p class="text-sm"><span class="font-medium">Mike</span> merged a PR</p>
+          <p class="text-sm">
+            <span class="font-medium">Mike</span> merged a PR
+          </p>
           <p class="text-xs text-[var(--ui-muted-foreground)]">1 hour ago</p>
         </div>
       </div>
@@ -215,9 +254,9 @@ Advanced patterns and real-world use cases.
 
 ```html
 <script>
-  import { Card, CardHeader, CardContent, CardFooter } from '@intinyagroup/ui';
-  import { Button, Badge, Separator } from '@intinyagroup/ui';
-  import { Download, Send } from 'lucide-svelte';
+  import { Card, CardHeader, CardContent, CardFooter } from "@intinyagroup/ui";
+  import { Button, Badge, Separator } from "@intinyagroup/ui";
+  import { Download, Send } from "lucide-svelte";
 </script>
 
 <Card>
@@ -243,8 +282,10 @@ Advanced patterns and real-world use cases.
     </div>
   </CardContent>
   <CardFooter class="flex gap-2">
-    <Button variant="outline" class="flex-1"><Download class="mr-2 size-4" /> Download</Button>
-    <Button class="flex-1"><Send class="mr-2 size-4" /> Send</Button>
+    <button variant="outline" class="flex-1">
+      <Download class="mr-2 size-4" /> Download
+    </button>
+    <button class="flex-1"><Send class="mr-2 size-4" /> Send</button>
   </CardFooter>
 </Card>
 ```
@@ -255,8 +296,8 @@ Advanced patterns and real-world use cases.
 
 ```html
 <script>
-  import { Card, CardContent } from '@intinyagroup/ui';
-  import { Badge } from '@intinyagroup/ui';
+  import { Card, CardContent } from "@intinyagroup/ui";
+  import { Badge } from "@intinyagroup/ui";
 </script>
 
 <div class="grid gap-4 md:grid-cols-3">
@@ -273,7 +314,7 @@ Advanced patterns and real-world use cases.
       </div>
     </CardContent>
   </Card>
-  
+
   <Card>
     <CardContent class="p-4">
       <div class="mb-2 flex items-center justify-between">
@@ -281,12 +322,16 @@ Advanced patterns and real-world use cases.
         <Badge>2</Badge>
       </div>
       <div class="space-y-2">
-        <div class="rounded-lg border border-[var(--ui-primary)] p-2 text-sm">Build dashboard</div>
-        <div class="rounded-lg border border-[var(--ui-primary)] p-2 text-sm">API integration</div>
+        <div class="rounded-lg border border-[var(--ui-primary)] p-2 text-sm">
+          Build dashboard
+        </div>
+        <div class="rounded-lg border border-[var(--ui-primary)] p-2 text-sm">
+          API integration
+        </div>
       </div>
     </CardContent>
   </Card>
-  
+
   <Card>
     <CardContent class="p-4">
       <div class="mb-2 flex items-center justify-between">
@@ -294,8 +339,16 @@ Advanced patterns and real-world use cases.
         <Badge variant="outline">5</Badge>
       </div>
       <div class="space-y-2">
-        <div class="rounded-lg border bg-[var(--ui-muted)] p-2 text-sm opacity-60">Setup project</div>
-        <div class="rounded-lg border bg-[var(--ui-muted)] p-2 text-sm opacity-60">Design system</div>
+        <div
+          class="rounded-lg border bg-[var(--ui-muted)] p-2 text-sm opacity-60"
+        >
+          Setup project
+        </div>
+        <div
+          class="rounded-lg border bg-[var(--ui-muted)] p-2 text-sm opacity-60"
+        >
+          Design system
+        </div>
       </div>
     </CardContent>
   </Card>
@@ -308,9 +361,9 @@ Advanced patterns and real-world use cases.
 
 ```html
 <script>
-  import { Card, CardContent } from '@intinyagroup/ui';
-  import { Button, Badge } from '@intinyagroup/ui';
-  import { Check, X } from 'lucide-svelte';
+  import { Card, CardContent } from "@intinyagroup/ui";
+  import { Button, Badge } from "@intinyagroup/ui";
+  import { Check, X } from "lucide-svelte";
 </script>
 
 <Card>
@@ -337,13 +390,19 @@ Advanced patterns and real-world use cases.
         </tr>
         <tr class="border-b">
           <td class="py-3">Support</td>
-          <td class="py-3 text-center"><X class="mx-auto size-4 text-red-500" /></td>
-          <td class="py-3 text-center"><Check class="mx-auto size-4 text-green-500" /></td>
+          <td class="py-3 text-center">
+            <X class="mx-auto size-4 text-red-500" />
+          </td>
+          <td class="py-3 text-center">
+            <Check class="mx-auto size-4 text-green-500" />
+          </td>
         </tr>
         <tr>
           <td class="py-3"></td>
-          <td class="py-3 text-center"><Button variant="outline" size="sm">Choose</Button></td>
-          <td class="py-3 text-center"><Button size="sm">Choose</Button></td>
+          <td class="py-3 text-center">
+            <button variant="outline" size="sm">Choose</button>
+          </td>
+          <td class="py-3 text-center"><button size="sm">Choose</button></td>
         </tr>
       </tbody>
     </table>
@@ -359,7 +418,16 @@ Sign-in form with social buttons and validation.
 
 ```html
 <script>
-  import { Button, Input, Label, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@intinyagroup/ui';
+  import {
+    Button,
+    Input,
+    Label,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+  } from "@intinyagroup/ui";
 </script>
 
 <div class="flex min-h-[50vh] items-center justify-center">
@@ -371,28 +439,33 @@ Sign-in form with social buttons and validation.
     <CardContent>
       <div class="grid gap-4">
         <div class="grid gap-2">
-          <Label for="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" />
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="m@example.com" />
         </div>
         <div class="grid gap-2">
           <div class="flex items-center justify-between">
-            <Label for="password">Password</Label>
-            <a href="#" class="text-sm text-[var(--ui-primary)] hover:underline">Forgot password?</a>
+            <label for="password">Password</label>
+            <a href="#" class="text-sm text-[var(--ui-primary)] hover:underline"
+              >Forgot password?</a
+            >
           </div>
-          <Input id="password" type="password" />
+          <input id="password" type="password" />
         </div>
-        <Button class="w-full">Sign in</Button>
+        <button class="w-full">Sign in</button>
         <div class="relative my-2">
           <div class="absolute inset-0 flex items-center">
             <span class="w-full border-t border-[var(--ui-border)]"></span>
           </div>
           <div class="relative flex justify-center text-xs">
-            <span class="bg-[var(--ui-background)] px-2 text-[var(--ui-muted-foreground)]">or continue with</span>
+            <span
+              class="bg-[var(--ui-background)] px-2 text-[var(--ui-muted-foreground)]"
+              >or continue with</span
+            >
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <Button variant="outline">GitHub</Button>
-          <Button variant="outline">Google</Button>
+          <button variant="outline">GitHub</button>
+          <button variant="outline">Google</button>
         </div>
       </div>
     </CardContent>
@@ -408,24 +481,36 @@ Sticky header with search, notifications, and user menu.
 
 ```html
 <script>
-  import { Button, Input, Avatar, AvatarFallback, Badge } from '@intinyagroup/ui';
-  import { Bell, Search } from '@lucide/svelte';
+  import {
+    Button,
+    Input,
+    Avatar,
+    AvatarFallback,
+    Badge,
+  } from "@intinyagroup/ui";
+  import { Bell, Search } from "@lucide/svelte";
 </script>
 
-<div class="flex items-center justify-between border-b border-[var(--ui-border)] px-6 py-4">
+<div
+  class="flex items-center justify-between border-b border-[var(--ui-border)] px-6 py-4"
+>
   <div>
     <h2 class="text-lg font-semibold">Overview</h2>
-    <p class="text-sm text-[var(--ui-muted-foreground)]">Welcome back, Joshua</p>
+    <p class="text-sm text-[var(--ui-muted-foreground)]">
+      Welcome back, Joshua
+    </p>
   </div>
   <div class="flex items-center gap-3">
     <div class="relative">
-      <Search class="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-[var(--ui-muted-foreground)]" />
-      <Input placeholder="Search…" class="pl-8 w-56" />
+      <search
+        class="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-[var(--ui-muted-foreground)]"
+      />
+      <input placeholder="Search…" class="pl-8 w-56" />
     </div>
-    <Button variant="outline" size="icon" class="relative">
+    <button variant="outline" size="icon" class="relative">
       <Bell class="size-4" />
       <Badge class="absolute -right-1 -top-1 size-4 p-0 text-[10px]">3</Badge>
-    </Button>
+    </button>
     <Avatar class="size-8">
       <AvatarFallback>AJ</AvatarFallback>
     </Avatar>
@@ -441,7 +526,15 @@ Settings with sidebar categories and toggle rows.
 
 ```html
 <script>
-  import { Card, CardContent, CardHeader, CardTitle, Button, Switch, Label } from '@intinyagroup/ui';
+  import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    Button,
+    Switch,
+    Label,
+  } from "@intinyagroup/ui";
 </script>
 
 <Card class="w-full max-w-lg">
@@ -452,27 +545,33 @@ Settings with sidebar categories and toggle rows.
     <div class="flex items-center justify-between py-3">
       <div>
         <p class="text-sm font-medium">Email notifications</p>
-        <p class="text-xs text-[var(--ui-muted-foreground)]">Updates about your account</p>
+        <p class="text-xs text-[var(--ui-muted-foreground)]">
+          Updates about your account
+        </p>
       </div>
       <Switch checked />
     </div>
     <div class="flex items-center justify-between py-3">
       <div>
         <p class="text-sm font-medium">Product updates</p>
-        <p class="text-xs text-[var(--ui-muted-foreground)]">New features and improvements</p>
+        <p class="text-xs text-[var(--ui-muted-foreground)]">
+          New features and improvements
+        </p>
       </div>
       <Switch />
     </div>
     <div class="flex items-center justify-between py-3">
       <div>
         <p class="text-sm font-medium">Weekly digest</p>
-        <p class="text-xs text-[var(--ui-muted-foreground)]">A summary of your activity</p>
+        <p class="text-xs text-[var(--ui-muted-foreground)]">
+          A summary of your activity
+        </p>
       </div>
       <Switch checked />
     </div>
     <div class="flex justify-end gap-2 pt-4">
-      <Button variant="outline">Cancel</Button>
-      <Button>Save changes</Button>
+      <button variant="outline">Cancel</button>
+      <button>Save changes</button>
     </div>
   </CardContent>
 </Card>
@@ -486,8 +585,14 @@ Stat cards with trends and sparkline-style badges.
 
 ```html
 <script>
-  import { Card, CardContent } from '@intinyagroup/ui';
-  import { TrendingUp, TrendingDown, Users, DollarSign, Activity } from '@lucide/svelte';
+  import { Card, CardContent } from "@intinyagroup/ui";
+  import {
+    TrendingUp,
+    TrendingDown,
+    Users,
+    DollarSign,
+    Activity,
+  } from "@lucide/svelte";
 </script>
 
 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -530,7 +635,9 @@ Stat cards with trends and sparkline-style badges.
   <Card>
     <CardContent class="p-6">
       <div class="flex items-center justify-between">
-        <span class="text-sm text-[var(--ui-muted-foreground)]">Bounce rate</span>
+        <span class="text-sm text-[var(--ui-muted-foreground)]"
+          >Bounce rate</span
+        >
         <TrendingDown class="size-4 text-red-500" />
       </div>
       <p class="mt-2 text-2xl font-bold">41.2%</p>

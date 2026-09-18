@@ -40,23 +40,23 @@
 :root,
 [data-ui-theme="brutalist"] {
   --ui-background: oklch(0.98 0 0);
-  --ui-foreground: oklch(0.10 0 0);
+  --ui-foreground: oklch(0.1 0 0);
   --ui-card: oklch(1 0 0);
-  --ui-card-foreground: oklch(0.10 0 0);
+  --ui-card-foreground: oklch(0.1 0 0);
   --ui-popover: oklch(1 0 0);
-  --ui-popover-foreground: oklch(0.10 0 0);
-  --ui-primary: oklch(0.10 0 0);
+  --ui-popover-foreground: oklch(0.1 0 0);
+  --ui-primary: oklch(0.1 0 0);
   --ui-primary-foreground: oklch(0.98 0 0);
   --ui-secondary: oklch(0.95 0 0);
-  --ui-secondary-foreground: oklch(0.10 0 0);
+  --ui-secondary-foreground: oklch(0.1 0 0);
   --ui-muted: oklch(0.92 0 0);
   --ui-muted-foreground: oklch(0.45 0 0);
-  --ui-accent: oklch(0.10 0 0);
+  --ui-accent: oklch(0.1 0 0);
   --ui-accent-foreground: oklch(0.98 0 0);
   --ui-destructive: oklch(0.55 0.25 27);
-  --ui-border: oklch(0.10 0 0);
-  --ui-input: oklch(0.10 0 0);
-  --ui-ring: oklch(0.10 0 0);
+  --ui-border: oklch(0.1 0 0);
+  --ui-input: oklch(0.1 0 0);
+  --ui-ring: oklch(0.1 0 0);
   --ui-radius: 0px;
 
   /* No shadows — brutalist means raw */
@@ -71,27 +71,27 @@
   --brutalist-yellow: #eab308;
   --brutalist-blue: #2563eb;
 
-  --ui-success: oklch(0.55 0.20 150);
+  --ui-success: oklch(0.55 0.2 150);
   --ui-warning: oklch(0.75 0.18 80);
-  --ui-info: oklch(0.55 0.20 260);
+  --ui-info: oklch(0.55 0.2 260);
 }
 
 /* Brutalist Dark Theme */
 [data-ui-theme="brutalist-dark"] {
-  --ui-background: oklch(0.10 0 0);
+  --ui-background: oklch(0.1 0 0);
   --ui-foreground: oklch(0.95 0 0);
   --ui-card: oklch(0.15 0 0);
   --ui-card-foreground: oklch(0.95 0 0);
   --ui-popover: oklch(0.15 0 0);
   --ui-popover-foreground: oklch(0.95 0 0);
   --ui-primary: oklch(0.95 0 0);
-  --ui-primary-foreground: oklch(0.10 0 0);
+  --ui-primary-foreground: oklch(0.1 0 0);
   --ui-secondary: oklch(0.25 0 0);
   --ui-secondary-foreground: oklch(0.95 0 0);
-  --ui-muted: oklch(0.20 0 0);
-  --ui-muted-foreground: oklch(0.60 0 0);
+  --ui-muted: oklch(0.2 0 0);
+  --ui-muted-foreground: oklch(0.6 0 0);
   --ui-accent: oklch(0.95 0 0);
-  --ui-accent-foreground: oklch(0.10 0 0);
+  --ui-accent-foreground: oklch(0.1 0 0);
   --ui-destructive: oklch(0.65 0.25 27);
   --ui-border: oklch(0.95 0 0);
   --ui-input: oklch(0.95 0 0);
@@ -143,7 +143,10 @@ a {
   letter-spacing: 0.05em;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font: inherit;
   border: 2px solid var(--ui-border);
   background: var(--ui-background);
@@ -162,6 +165,7 @@ button:hover {
   color: var(--ui-background);
 }
 
-code, pre {
+code,
+pre {
   font-family: var(--ui-font-mono);
 }

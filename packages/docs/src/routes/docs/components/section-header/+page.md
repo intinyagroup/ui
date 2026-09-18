@@ -17,10 +17,13 @@ npx @intinyagroup/cli add section-header
 
 ```svelte
 <script>
-  import { SectionHeader, Button } from '@intinyagroup/ui';
+  import { SectionHeader, Button } from "@intinyagroup/ui";
 </script>
 
-<SectionHeader title="Recent Activity" description="Your latest project updates.">
+<SectionHeader
+  title="Recent Activity"
+  description="Your latest project updates."
+>
   <Button variant="outline" size="sm">View All</Button>
   <Button size="sm">New Activity</Button>
 </SectionHeader>
@@ -28,18 +31,18 @@ npx @intinyagroup/cli add section-header
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| title | string | - | Section title |
-| description | string | - | Supporting description text |
-| class | string | - | Additional CSS classes |
+| Prop        | Type   | Default | Description                 |
+| ----------- | ------ | ------- | --------------------------- |
+| title       | string | -       | Section title               |
+| description | string | -       | Supporting description text |
+| class       | string | -       | Additional CSS classes      |
 
 ## Slots
 
-| Slot | Description |
-|------|-------------|
-| default | Action buttons aligned to the right |
-| description | Custom description content |
+| Slot        | Description                         |
+| ----------- | ----------------------------------- |
+| default     | Action buttons aligned to the right |
+| description | Custom description content          |
 
 ## Notes
 

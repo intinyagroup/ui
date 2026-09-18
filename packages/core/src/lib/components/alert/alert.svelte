@@ -1,52 +1,53 @@
 <script lang="ts" module>
-	import { type VariantProps, tv } from "tailwind-variants";
+  import { type VariantProps, tv } from "tailwind-variants";
 
-	export const alertVariants = tv({
-		base: "grid gap-0.5 rounded-lg border px-2.5 py-2 text-left text-sm has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4 group/alert relative w-full",
-		variants: {
-			variant: {
-				default: "bg-card text-card-foreground",
-				destructive: "bg-card text-destructive *:data-[slot=alert-description]:text-destructive/90 *:[svg]:text-current",
-			},
-		},
-		defaultVariants: {
-			variant: "default",
-		},
-	});
+  export const alertVariants = tv({
+    base: "grid gap-0.5 rounded-lg border px-2.5 py-2 text-left text-sm has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4 group/alert relative w-full",
+    variants: {
+      variant: {
+        default: "bg-card text-card-foreground",
+        destructive:
+          "bg-card text-destructive *:data-[slot=alert-description]:text-destructive/90 *:[svg]:text-current",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  });
 
-	export type AlertVariant = VariantProps<typeof alertVariants>["variant"];
+  export type AlertVariant = VariantProps<typeof alertVariants>["variant"];
 </script>
 
 <script lang="ts">
-	import { setContext } from "svelte";
-	import { cn, type WithElementRef } from "$lib/utils.js";
-	import type { HTMLAttributes } from "svelte/elements";
+  import { setContext } from "svelte";
+  import { cn, type WithElementRef } from "$lib/utils.js";
+  import type { HTMLAttributes } from "svelte/elements";
 
-	let {
-		ref = $bindable(null),
-		class: className,
-		variant = "default",
-		children,
-		...restProps
-	}: WithElementRef<HTMLAttributes<HTMLDivElement>> & {
-		variant?: AlertVariant;
-	} = $props();
+  let {
+    ref = $bindable(null),
+    class: className,
+    variant = "default",
+    children,
+    ...restProps
+  }: WithElementRef<HTMLAttributes<HTMLDivElement>> & {
+    variant?: AlertVariant;
+  } = $props();
 
-	const id = $props.id();
-	const titleId = `alert-title-${id}`;
-	const descriptionId = `alert-desc-${id}`;
+  const id = $props.id();
+  const titleId = `alert-title-${id}`;
+  const descriptionId = `alert-desc-${id}`;
 
-	setContext("alert", { titleId, descriptionId });
+  setContext("alert", { titleId, descriptionId });
 </script>
 
 <div
-	bind:this={ref}
-	data-slot="alert"
-	role="alert"
-	aria-labelledby={titleId}
-	aria-describedby={descriptionId}
-	class={cn(alertVariants({ variant }), className)}
-	{...restProps}
+  bind:this={ref}
+  data-slot="alert"
+  role="alert"
+  aria-labelledby={titleId}
+  aria-describedby={descriptionId}
+  class={cn(alertVariants({ variant }), className)}
+  {...restProps}
 >
-	{@render children?.()}
+  {@render children?.()}
 </div>

@@ -17,26 +17,30 @@ pnpm add @intinyagroup/calendar @intinyagroup/ui @intinyagroup/tokens
 
 ```svelte
 <script lang="ts">
-  import { EventCalendar, type CalendarEvent, type CalendarView } from '@intinyagroup/calendar';
+  import {
+    EventCalendar,
+    type CalendarEvent,
+    type CalendarView,
+  } from "@intinyagroup/calendar";
 
-  let currentView = $state<CalendarView>('week');
+  let currentView = $state<CalendarView>("week");
   let currentDate = $state(new Date());
 
   let events = $state<CalendarEvent[]>([
     {
-      id: '1',
-      title: 'Sprint Planning',
+      id: "1",
+      title: "Sprint Planning",
       start: new Date(2026, 8, 7, 9, 30),
       end: new Date(2026, 8, 7, 11, 0),
-      color: '#2563eb'
+      color: "#2563eb",
     },
     {
-      id: '2',
-      title: 'Design Review',
+      id: "2",
+      title: "Design Review",
       start: new Date(2026, 8, 7, 14, 0),
       end: new Date(2026, 8, 7, 15, 30),
-      color: '#7c3aed'
-    }
+      color: "#7c3aed",
+    },
   ]);
 </script>
 
@@ -45,7 +49,7 @@ pnpm add @intinyagroup/calendar @intinyagroup/ui @intinyagroup/tokens
     bind:events
     bind:view={currentView}
     bind:currentDate
-    onEventClick={(ev) => console.log('Event clicked:', ev)}
+    onEventClick={(ev) => console.log("Event clicked:", ev)}
   />
 </div>
 ```
@@ -84,7 +88,7 @@ Clicking any day or time slot automatically opens a quick creation popover with 
   bind:events
   enableEventModal={true}
   onAddEvent={(newEvent) => {
-    console.log('New event created:', newEvent);
+    console.log("New event created:", newEvent);
   }}
 />
 ```
@@ -93,15 +97,15 @@ Clicking any day or time slot automatically opens a quick creation popover with 
 
 ## Props Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `events` | `CalendarEvent[]` | `[]` | Reactive array of events (bindable) |
-| `view` | `'month' \| 'week' \| 'day'` | `'month'` | Active calendar view mode (bindable) |
-| `currentDate` | `Date` | `new Date()` | Currently viewed date anchor (bindable) |
-| `timeZone` | `string` | browser timezone | IANA timezone identifier (`'Asia/Jakarta'`, `'UTC'`, `'Asia/Tokyo'`) |
-| `locale` | `string` | `'en-US'` | Locale string for day and month names |
-| `firstDayOfWeek` | `number` | `0` | Week start day index (`0` = Sunday, `1` = Monday) |
-| `enableEventModal` | `boolean` | `true` | Open built-in event creation modal on slot click |
-| `onEventClick` | `(event: CalendarEvent) => void` | — | Callback fired when an event pill is clicked |
-| `onDateClick` | `(date: Date) => void` | — | Callback fired when a day cell is clicked |
-| `onAddEvent` | `(event: CalendarEvent) => void` | — | Callback fired when an event is saved via modal |
+| Prop               | Type                             | Default          | Description                                                          |
+| ------------------ | -------------------------------- | ---------------- | -------------------------------------------------------------------- |
+| `events`           | `CalendarEvent[]`                | `[]`             | Reactive array of events (bindable)                                  |
+| `view`             | `'month' \| 'week' \| 'day'`     | `'month'`        | Active calendar view mode (bindable)                                 |
+| `currentDate`      | `Date`                           | `new Date()`     | Currently viewed date anchor (bindable)                              |
+| `timeZone`         | `string`                         | browser timezone | IANA timezone identifier (`'Asia/Jakarta'`, `'UTC'`, `'Asia/Tokyo'`) |
+| `locale`           | `string`                         | `'en-US'`        | Locale string for day and month names                                |
+| `firstDayOfWeek`   | `number`                         | `0`              | Week start day index (`0` = Sunday, `1` = Monday)                    |
+| `enableEventModal` | `boolean`                        | `true`           | Open built-in event creation modal on slot click                     |
+| `onEventClick`     | `(event: CalendarEvent) => void` | —                | Callback fired when an event pill is clicked                         |
+| `onDateClick`      | `(date: Date) => void`           | —                | Callback fired when a day cell is clicked                            |
+| `onAddEvent`       | `(event: CalendarEvent) => void` | —                | Callback fired when an event is saved via modal                      |

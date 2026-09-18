@@ -11,7 +11,7 @@ A generic layout container. Renders as any element via the `as` prop and applies
 
 ```svelte
 <script>
-  import { Box } from '@intinyagroup/ui';
+  import { Box } from "@intinyagroup/ui";
 </script>
 
 <Box as="section" padding={4}>
@@ -25,12 +25,12 @@ A generic layout container. Renders as any element via the `as` prop and applies
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `as` | `keyof HTMLElementTagNameMap` | `'div'` | Element to render |
-| `padding` | `number` | `0` | Padding from the token scale (`0`–`16`) |
-| `class` | `string` | — | Additional CSS classes |
-| `children` | `Snippet` | — | Box content |
+| Prop       | Type                          | Default | Description                             |
+| ---------- | ----------------------------- | ------- | --------------------------------------- |
+| `as`       | `keyof HTMLElementTagNameMap` | `'div'` | Element to render                       |
+| `padding`  | `number`                      | `0`     | Padding from the token scale (`0`–`16`) |
+| `class`    | `string`                      | —       | Additional CSS classes                  |
+| `children` | `Snippet`                     | —       | Box content                             |
 
 Plus all standard HTML attributes, forwarded to the rendered element.
 

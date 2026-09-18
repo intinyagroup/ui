@@ -1,5 +1,5 @@
-import type { ZodType } from 'zod';
-import type { ValidationRule } from './validate.js';
+import type { ZodType } from "zod";
+import type { ValidationRule } from "./validate.js";
 
 /**
  * Zod adapter — converts a Zod schema into Intinya ValidationRule objects.
@@ -35,9 +35,9 @@ export function zodRules<T>(schema: ZodType<T>): ValidationRule[] {
         if (issues.length > 0) {
           return issues[0].message;
         }
-        return 'Invalid value';
-      }
-    }
+        return "Invalid value";
+      },
+    },
   ];
 }
 
@@ -61,10 +61,13 @@ export function zodRules<T>(schema: ZodType<T>): ValidationRule[] {
  * ```
  */
 export function createZodValidator<T extends Record<string, unknown>>(
-  schema: ZodType<T>
+  schema: ZodType<T>,
 ) {
   return {
-    validate(values: T): { valid: boolean; errors: Partial<Record<keyof T, string>> } {
+    validate(values: T): {
+      valid: boolean;
+      errors: Partial<Record<keyof T, string>>;
+    } {
       const result = schema.safeParse(values);
       if (result.success) return { valid: true, errors: {} };
 
@@ -81,13 +84,14 @@ export function createZodValidator<T extends Record<string, unknown>>(
 
     validateField<K extends keyof T>(field: K, value: T[K]): string | null {
       // Get the shape from ZodObject
-      const shape = (schema as unknown as { shape?: Record<string, ZodType> }).shape;
+      const shape = (schema as unknown as { shape?: Record<string, ZodType> })
+        .shape;
       const fieldSchema = shape?.[field as string];
       if (!fieldSchema) return null;
 
       const result = fieldSchema.safeParse(value);
       if (result.success) return null;
-      return result.error.issues[0]?.message ?? 'Invalid value';
-    }
+      return result.error.issues[0]?.message ?? "Invalid value";
+    },
   };
 }

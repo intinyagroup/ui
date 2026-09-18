@@ -2,16 +2,16 @@
 // EPUB export — create EPUB books with images
 // ============================================
 
-import Epub from 'epubjs';
-import type { Chapter, BookMetadata, BookLayout } from './book-model.js';
-import { htmlToMarkdown, markdownToHtml } from './markdown-utils.js';
-import { extractImageUrls } from './image-utils.js';
+import Epub from "epubjs";
+import type { Chapter, BookMetadata, BookLayout } from "./book-model.js";
+import { htmlToMarkdown, markdownToHtml } from "./markdown-utils.js";
+import { extractImageUrls } from "./image-utils.js";
 
 /** Generate EPUB from book data with embedded images */
 export async function exportToEpub(
   metadata: BookMetadata,
   layout: BookLayout,
-  chapters: Chapter[]
+  chapters: Chapter[],
 ): Promise<Blob> {
   const book = Epub.init({});
 
@@ -19,9 +19,9 @@ export async function exportToEpub(
   book.setMetadata({
     title: metadata.title,
     author: metadata.author,
-    description: metadata.description ?? '',
-    publisher: metadata.publisher ?? '',
-    lang: metadata.language ?? 'en',
+    description: metadata.description ?? "",
+    publisher: metadata.publisher ?? "",
+    lang: metadata.language ?? "en",
   });
 
   // Embed cover image if URL provided
@@ -31,7 +31,9 @@ export async function exportToEpub(
       if (coverResponse.ok) {
         const coverBlob = await coverResponse.blob();
         const coverArrayBuffer = await coverBlob.arrayBuffer();
-        book.addCoverImage('cover.jpg', coverArrayBuffer, { mediaType: 'image/jpeg' });
+        book.addCoverImage("cover.jpg", coverArrayBuffer, {
+          mediaType: "image/jpeg",
+        });
       }
     } catch {
       // Skip if cover image fails
@@ -50,8 +52,8 @@ export async function exportToEpub(
         if (response.ok) {
           const blob = await response.blob();
           const arrayBuffer = await blob.arrayBuffer();
-          const mediaType = blob.type || 'image/png';
-          const extension = mediaType.split('/')[1] || 'png';
+          const mediaType = blob.type || "image/png";
+          const extension = mediaType.split("/")[1] || "png";
           const fileName = `images/${imageCache.size}.${extension}`;
           book.addImage(url, fileName, arrayBuffer, { mediaType });
           imageCache.set(url, fileName);
@@ -65,13 +67,19 @@ export async function exportToEpub(
   // Cover page
   if (layout.showCoverPage) {
     const coverHtml = generateCoverHtml(metadata, layout);
-    book.addSection('cover.xhtml', coverHtml, { spine: 'cover', properties: { nav: { label: 'Cover' } } });
+    book.addSection("cover.xhtml", coverHtml, {
+      spine: "cover",
+      properties: { nav: { label: "Cover" } },
+    });
   }
 
   // Table of contents
   if (layout.generateTOC) {
     const tocHtml = generateTocHtml(metadata, chapters);
-    book.addSection('toc.xhtml', tocHtml, { spine: 'toc', properties: { nav: { label: 'Table of Contents' } } });
+    book.addSection("toc.xhtml", tocHtml, {
+      spine: "toc",
+      properties: { nav: { label: "Table of Contents" } },
+    });
   }
 
   // Chapters with image references updated
@@ -84,19 +92,15 @@ export async function exportToEpub(
       chapterHtml = chapterHtml.replaceAll(originalUrl, embeddedPath);
     }
 
-    book.addSection(
-      `chapter-${i + 1}.xhtml`,
-      chapterHtml,
-      {
-        spine: `chapter-${i + 1}`,
-        properties: { nav: { label: chapter.title } }
-      }
-    );
+    book.addSection(`chapter-${i + 1}.xhtml`, chapterHtml, {
+      spine: `chapter-${i + 1}`,
+      properties: { nav: { label: chapter.title } },
+    });
   }
 
   // Generate EPUB blob
   const arrayBuffer = await book.archive.generateZip();
-  return new Blob([arrayBuffer], { type: 'application/epub+zip' });
+  return new Blob([arrayBuffer], { type: "application/epub+zip" });
 }
 
 function generateCoverHtml(metadata: BookMetadata, layout: BookLayout): string {
@@ -117,7 +121,7 @@ function generateCoverHtml(metadata: BookMetadata, layout: BookLayout): string {
 <body>
   <div class="cover">
     <h1>${escapeXml(layout.coverTitle || metadata.title)}</h1>
-    ${layout.coverSubtitle || metadata.subtitle ? `<h2>${escapeXml(layout.coverSubtitle || metadata.subtitle!)}</h2>` : ''}
+    ${layout.coverSubtitle || metadata.subtitle ? `<h2>${escapeXml(layout.coverSubtitle || metadata.subtitle!)}</h2>` : ""}
     <div class="divider"></div>
     <div class="author">${escapeXml(metadata.author)}</div>
   </div>
@@ -127,8 +131,11 @@ function generateCoverHtml(metadata: BookMetadata, layout: BookLayout): string {
 
 function generateTocHtml(metadata: BookMetadata, chapters: Chapter[]): string {
   const items = chapters
-    .map((ch, i) => `<li><a href="chapter-${i + 1}.xhtml">${escapeXml(ch.title)}</a></li>`)
-    .join('\n            ');
+    .map(
+      (ch, i) =>
+        `<li><a href="chapter-${i + 1}.xhtml">${escapeXml(ch.title)}</a></li>`,
+    )
+    .join("\n            ");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
@@ -157,17 +164,17 @@ function generateTocHtml(metadata: BookMetadata, chapters: Chapter[]): string {
 
 function generateChapterHtml(chapter: Chapter, layout: BookLayout): string {
   // Convert rich text content to XHTML
-  let content = chapter.content || '';
+  let content = chapter.content || "";
 
   // Ensure proper XHTML
   content = content
-    .replace(/<br\s*\/?>/g, '<br />')
-    .replace(/<hr\s*\/?>/g, '<hr />')
-    .replace(/<img([^>]*)>/g, '<img$1 />')
+    .replace(/<br\s*\/?>/g, "<br />")
+    .replace(/<hr\s*\/?>/g, "<hr />")
+    .replace(/<img([^>]*)>/g, "<img$1 />")
     .replace(/<([^>]+)>/g, (match) => {
       // Self-close void elements
       if (/^<(br|hr|img|input|meta|link)/i.test(match)) {
-        if (!match.endsWith('/>')) return match.slice(0, -1) + ' />';
+        if (!match.endsWith("/>")) return match.slice(0, -1) + " />";
       }
       return match;
     });
@@ -261,16 +268,16 @@ function generateChapterHtml(chapter: Chapter, layout: BookLayout): string {
 </head>
 <body>
   <h1>${escapeXml(chapter.title)}</h1>
-  ${content || '<p><em>This chapter is empty.</em></p>'}
+  ${content || "<p><em>This chapter is empty.</em></p>"}
 </body>
 </html>`;
 }
 
 function escapeXml(text: string): string {
   return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }

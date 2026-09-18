@@ -1,18 +1,22 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  import { getDndContext } from './dnd-context.svelte.js';
+  import type { Snippet } from "svelte";
+  import { getDndContext } from "./dnd-context.svelte.js";
 
   let {
     id,
     class: className,
-    children
+    children,
   }: {
     id: string;
     class?: string;
     children?: Snippet;
   } = $props();
 
-  const { state: dragState, registerDroppable, unregisterDroppable } = getDndContext();
+  const {
+    state: dragState,
+    registerDroppable,
+    unregisterDroppable,
+  } = getDndContext();
 
   let element: HTMLDivElement | undefined = $state();
 

@@ -76,6 +76,7 @@ We have 230+ tests. Keep them passing.
 ## CI
 
 GitHub Actions runs on every PR/push:
+
 - Build all core packages
 - Run tests
 - Build docs
@@ -90,6 +91,7 @@ Uses **staged publishing** (approve on npmjs.com):
 ```
 
 New packages (never published) need `npm publish` + 2FA:
+
 ```bash
 cd packages/<name> && npm publish --tag alpha
 ```

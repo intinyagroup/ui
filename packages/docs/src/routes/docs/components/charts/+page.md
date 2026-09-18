@@ -6,14 +6,14 @@ A generic, dark-mode-aware chart component built on [Chart.js](https://www.chart
 
 ```svelte
 <script>
-  import { Chart } from '@intinyagroup/charts';
+  import { Chart } from "@intinyagroup/charts";
 </script>
 
 <Chart
   type="line"
   data={{
-    labels: ['Jan', 'Feb', 'Mar'],
-    datasets: [{ label: 'Revenue', data: [120, 260, 410] }]
+    labels: ["Jan", "Feb", "Mar"],
+    datasets: [{ label: "Revenue", data: [120, 260, 410] }],
   }}
 />
 ```
@@ -40,15 +40,15 @@ A generic, dark-mode-aware chart component built on [Chart.js](https://www.chart
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `type` | `ChartType` | `'bar'` | Chart.js chart type (`bar`, `line`, `pie`, `doughnut`, `radar`, …) |
-| `data` | `ChartData` | — | Chart datasets and labels (required) |
-| `options` | `ChartOptions` | — | Chart.js options, merged over sensible defaults |
-| `height` | `number` | `300` | Container height in pixels |
-| `width` | `number` | — | Container width in pixels (defaults to 100%) |
-| `class` | `string` | — | Additional classes |
-| `onRef` | `(chart: ChartJS) => void` | — | Called with the underlying Chart.js instance |
+| Prop      | Type                       | Default | Description                                                        |
+| --------- | -------------------------- | ------- | ------------------------------------------------------------------ |
+| `type`    | `ChartType`                | `'bar'` | Chart.js chart type (`bar`, `line`, `pie`, `doughnut`, `radar`, …) |
+| `data`    | `ChartData`                | —       | Chart datasets and labels (required)                               |
+| `options` | `ChartOptions`             | —       | Chart.js options, merged over sensible defaults                    |
+| `height`  | `number`                   | `300`   | Container height in pixels                                         |
+| `width`   | `number`                   | —       | Container width in pixels (defaults to 100%)                       |
+| `class`   | `string`                   | —       | Additional classes                                                 |
+| `onRef`   | `(chart: ChartJS) => void` | —       | Called with the underlying Chart.js instance                       |
 
 ## Convenience exports
 

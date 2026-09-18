@@ -26,12 +26,12 @@ A floating action button that expands into a vertical speed dial of action items
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `items` | `{ label: string; icon?: Snippet; action: () => void }[]` | — | Speed dial items |
-| `position` | `'bottom-right' \| 'bottom-left'` | `'bottom-right'` | Corner the FAB sits in |
-| `label` | `string` | `'Actions'` | Accessible name for the speed-dial group |
-| `class` | `string` | — | Additional CSS classes |
+| Prop       | Type                                                      | Default          | Description                              |
+| ---------- | --------------------------------------------------------- | ---------------- | ---------------------------------------- |
+| `items`    | `{ label: string; icon?: Snippet; action: () => void }[]` | —                | Speed dial items                         |
+| `position` | `'bottom-right' \| 'bottom-left'`                         | `'bottom-right'` | Corner the FAB sits in                   |
+| `label`    | `string`                                                  | `'Actions'`      | Accessible name for the speed-dial group |
+| `class`    | `string`                                                  | —                | Additional CSS classes                   |
 
 ## Features
 

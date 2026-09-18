@@ -1,7 +1,7 @@
-import Barcode from './Barcode.svelte';
+import Barcode from "./Barcode.svelte";
 
 export {
-	Barcode,
-	//
-	Barcode as Root,
+  Barcode,
+  //
+  Barcode as Root,
 };

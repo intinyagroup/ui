@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
 
   let {
     value,
@@ -22,11 +22,11 @@
   });
 
   function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       onCommit(editValue);
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       onCancel();
-    } else if (e.key === 'Tab') {
+    } else if (e.key === "Tab") {
       onCommit(editValue);
     }
   }

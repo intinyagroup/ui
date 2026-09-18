@@ -1,6 +1,6 @@
-import { writable } from 'svelte/store';
+import { writable } from "svelte/store";
 
-export type ToastType = 'default' | 'success' | 'error' | 'warning' | 'info';
+export type ToastType = "default" | "success" | "error" | "warning" | "info";
 
 export type Toast = {
   id: string;
@@ -19,7 +19,7 @@ let toastCount = 0;
 function createToastStore() {
   const { subscribe, update } = writable<Toast[]>([]);
 
-  function add(toast: Omit<Toast, 'id'>) {
+  function add(toast: Omit<Toast, "id">) {
     const id = `toast-${++toastCount}`;
     const duration = toast.duration ?? 5000;
 
@@ -39,19 +39,19 @@ function createToastStore() {
   }
 
   function success(title: string, description?: string) {
-    return add({ title, description, type: 'success' });
+    return add({ title, description, type: "success" });
   }
 
   function error(title: string, description?: string) {
-    return add({ title, description, type: 'error', duration: 8000 });
+    return add({ title, description, type: "error", duration: 8000 });
   }
 
   function warning(title: string, description?: string) {
-    return add({ title, description, type: 'warning' });
+    return add({ title, description, type: "warning" });
   }
 
   function info(title: string, description?: string) {
-    return add({ title, description, type: 'info' });
+    return add({ title, description, type: "info" });
   }
 
   function dismiss(id: string) {

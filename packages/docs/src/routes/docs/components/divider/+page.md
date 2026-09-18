@@ -17,7 +17,7 @@ npx @intinyagroup/cli add divider
 
 ```svelte
 <script>
-  import { Divider } from '@intinyagroup/ui';
+  import { Divider } from "@intinyagroup/ui";
 </script>
 
 <p>Content above</p>
@@ -29,10 +29,10 @@ npx @intinyagroup/cli add divider
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| orientation | 'horizontal' \| 'vertical' | 'horizontal' | Divider direction |
-| class | string | - | Additional CSS classes |
+| Prop        | Type                       | Default      | Description            |
+| ----------- | -------------------------- | ------------ | ---------------------- |
+| orientation | 'horizontal' \| 'vertical' | 'horizontal' | Divider direction      |
+| class       | string                     | -            | Additional CSS classes |
 
 ## Notes
 

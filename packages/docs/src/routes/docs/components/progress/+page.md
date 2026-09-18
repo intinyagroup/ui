@@ -12,7 +12,7 @@ npx @intinyagroup/cli add progress
 
 ```svelte
 <script>
-  import { Progress } from '@intinyagroup/ui';
+  import { Progress } from "@intinyagroup/ui";
 </script>
 
 <Progress value={33} max={100} />
@@ -20,10 +20,10 @@ npx @intinyagroup/cli add progress
 
 ## Props
 
-| Prop | Type | Default |
-|------|------|---------|
-| `value` | `number` | `0` |
-| `max` | `number` | `100` |
-| `class` | `string` | — |
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `value` | `number` | `0`     |
+| `max`   | `number` | `100`   |
+| `class` | `string` | —       |
 
 The progress bar is a styled native `<progress>` element with design token colors and smooth transitions.

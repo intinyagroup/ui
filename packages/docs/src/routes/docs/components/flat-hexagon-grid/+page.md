@@ -11,7 +11,7 @@ A honeycomb layout container. Every direct child is clipped into a hexagon shape
 
 ```svelte
 <script>
-  import { HexagonGrid } from '@intinyagroup/flat';
+  import { HexagonGrid } from "@intinyagroup/flat";
 </script>
 
 <HexagonGrid columns={3}>
@@ -28,7 +28,7 @@ A honeycomb layout container. Every direct child is clipped into a hexagon shape
 
 ```svelte
 <script>
-  import { HexagonGrid } from '@intinyagroup/flat';
+  import { HexagonGrid } from "@intinyagroup/flat";
 </script>
 
 <HexagonGrid columns={4} gap="1.5rem">
@@ -40,12 +40,12 @@ A honeycomb layout container. Every direct child is clipped into a hexagon shape
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `columns` | `2 \| 3 \| 4` | `3` | Number of hexagon columns |
-| `gap` | `string` | `'1rem'` | Gap between hexagons (any CSS length) |
-| `class` | `string` | `undefined` | Additional CSS classes |
-| `children` | `Snippet` | `undefined` | Hexagon cells (direct children are clipped) |
+| Prop       | Type          | Default     | Description                                 |
+| ---------- | ------------- | ----------- | ------------------------------------------- |
+| `columns`  | `2 \| 3 \| 4` | `3`         | Number of hexagon columns                   |
+| `gap`      | `string`      | `'1rem'`    | Gap between hexagons (any CSS length)       |
+| `class`    | `string`      | `undefined` | Additional CSS classes                      |
+| `children` | `Snippet`     | `undefined` | Hexagon cells (direct children are clipped) |
 
 ## Install
 

@@ -1,1 +1,1 @@
-export { default as SlideMenu } from './SlideMenu.svelte';
+export { default as SlideMenu } from "./SlideMenu.svelte";

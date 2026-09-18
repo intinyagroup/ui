@@ -2,9 +2,9 @@
 // Cross-reference utilities — link chapters, pages, figures
 // ============================================
 
-import type { Chapter } from './book-model.js';
+import type { Chapter } from "./book-model.js";
 
-export type CrossRefType = 'chapter' | 'page' | 'figure' | 'table' | 'footnote';
+export type CrossRefType = "chapter" | "page" | "figure" | "table" | "footnote";
 
 export type CrossRef = {
   id: string;
@@ -22,7 +22,7 @@ export type CrossRef = {
 export function resolveCrossRef(
   ref: string,
   chapters: Chapter[],
-  pageNumbers?: Map<string, number>
+  pageNumbers?: Map<string, number>,
 ): string {
   const match = ref.match(/\{ref:(\w+):(.+?)\}/);
   if (!match) return ref;
@@ -30,25 +30,27 @@ export function resolveCrossRef(
   const [, type, targetId] = match;
 
   switch (type) {
-    case 'ch': {
-      const index = chapters.findIndex((ch) => ch.id === targetId || ch.title === targetId);
+    case "ch": {
+      const index = chapters.findIndex(
+        (ch) => ch.id === targetId || ch.title === targetId,
+      );
       if (index >= 0) return `Chapter ${index + 1}`;
       // Try by number
       const num = parseInt(targetId);
       if (!isNaN(num) && chapters[num - 1]) return `Chapter ${num}`;
       return `[Chapter ${targetId}]`;
     }
-    case 'pg': {
+    case "pg": {
       const num = parseInt(targetId);
       return `page ${num}`;
     }
-    case 'fig': {
+    case "fig": {
       return `Figure ${targetId}`;
     }
-    case 'tbl': {
+    case "tbl": {
       return `Table ${targetId}`;
     }
-    case 'fn': {
+    case "fn": {
       return `[${targetId}]`;
     }
     default:
@@ -63,7 +65,7 @@ export function insertCrossRef(
   content: string,
   type: CrossRefType,
   targetId: string,
-  label?: string
+  label?: string,
 ): string {
   const ref = `{ref:${type}:${targetId}}`;
   const displayLabel = label ?? resolveCrossRef(ref, []);
@@ -76,7 +78,8 @@ export function insertCrossRef(
  */
 export function extractCrossRefs(html: string): CrossRef[] {
   const refs: CrossRef[] = [];
-  const regex = /<span[^>]*class="cross-ref"[^>]*data-ref-type="(\w+)"[^>]*data-ref-target="([^"]*)"[^>]*>(.*?)<\/span>/gi;
+  const regex =
+    /<span[^>]*class="cross-ref"[^>]*data-ref-type="(\w+)"[^>]*data-ref-target="([^"]*)"[^>]*>(.*?)<\/span>/gi;
   let match;
 
   while ((match = regex.exec(html)) !== null) {
@@ -100,7 +103,7 @@ export function renderCrossRefs(html: string, chapters: Chapter[]): string {
     /<span[^>]*class="cross-ref"[^>]*data-ref-type="(\w+)"[^>]*data-ref-target="([^"]*)"[^>]*>(.*?)<\/span>/gi,
     (_, type, targetId, label) => {
       return label || resolveCrossRef(`{ref:${type}:${targetId}}`, chapters);
-    }
+    },
   );
 }
 
@@ -114,20 +117,22 @@ export function generateChapterAnchor(chapter: Chapter, index: number): string {
 /**
  * Build a cross-reference dialog options list
  */
-export function getCrossRefOptions(chapters: Chapter[]): { value: string; label: string; type: CrossRefType }[] {
+export function getCrossRefOptions(
+  chapters: Chapter[],
+): { value: string; label: string; type: CrossRefType }[] {
   const options: { value: string; label: string; type: CrossRefType }[] = [];
 
   chapters.forEach((ch, i) => {
     options.push({
       value: `chapter:${ch.id}`,
       label: `Chapter ${i + 1}: ${ch.title}`,
-      type: 'chapter',
+      type: "chapter",
     });
   });
 
   // Add common page numbers
   for (const pg of [1, 5, 10, 20, 50, 100]) {
-    options.push({ value: `page:${pg}`, label: `Page ${pg}`, type: 'page' });
+    options.push({ value: `page:${pg}`, label: `Page ${pg}`, type: "page" });
   }
 
   return options;

@@ -1,7 +1,7 @@
-import SplitView from './SplitView.svelte';
+import SplitView from "./SplitView.svelte";
 
 export {
-	SplitView,
-	//
-	SplitView as Root,
+  SplitView,
+  //
+  SplitView as Root,
 };

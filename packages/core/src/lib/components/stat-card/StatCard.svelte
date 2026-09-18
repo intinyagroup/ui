@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { cn } from '../../utils.js';
-  import { TrendingUp, TrendingDown, Minus } from 'lucide-svelte';
-  import type { Snippet } from 'svelte';
+  import { cn } from "../../utils.js";
+  import { TrendingUp, TrendingDown, Minus } from "lucide-svelte";
+  import type { Snippet } from "svelte";
 
   let {
-    label = '',
-    value = '',
+    label = "",
+    value = "",
     change = 0,
-    changeLabel = '',
+    changeLabel = "",
     icon,
     class: className,
   }: {
@@ -19,10 +19,21 @@
     class?: string;
   } = $props();
 
-  const changeColor = $derived(change > 0 ? 'text-[var(--ui-success)]' : change < 0 ? 'text-[var(--ui-destructive)]' : 'text-[var(--ui-muted-foreground)]');
+  const changeColor = $derived(
+    change > 0
+      ? "text-[var(--ui-success)]"
+      : change < 0
+        ? "text-[var(--ui-destructive)]"
+        : "text-[var(--ui-muted-foreground)]",
+  );
 </script>
 
-<div class={cn('p-4 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)]', className)}>
+<div
+  class={cn(
+    "p-4 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)]",
+    className,
+  )}
+>
   <div class="flex items-start justify-between mb-2">
     <span class="text-sm text-[var(--ui-muted-foreground)]">{label}</span>
     {#if icon}
@@ -32,7 +43,7 @@
   </div>
   <div class="text-2xl font-bold text-[var(--ui-foreground)] mb-1">{value}</div>
   {#if change !== 0}
-    <div class={cn('flex items-center gap-1 text-xs', changeColor)}>
+    <div class={cn("flex items-center gap-1 text-xs", changeColor)}>
       {#if change > 0}
         <TrendingUp class="size-3" />
       {:else if change < 0}
@@ -40,7 +51,7 @@
       {:else}
         <Minus class="size-3" />
       {/if}
-      <span>{change > 0 ? '+' : ''}{change}%</span>
+      <span>{change > 0 ? "+" : ""}{change}%</span>
       {#if changeLabel}
         <span class="text-[var(--ui-muted-foreground)]">{changeLabel}</span>
       {/if}

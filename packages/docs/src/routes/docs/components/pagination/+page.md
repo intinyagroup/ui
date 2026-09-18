@@ -19,8 +19,8 @@ npx @intinyagroup/cli add pagination
     PaginationLink,
     PaginationPrevious,
     PaginationNext,
-    PaginationEllipsis
-  } from '@intinyagroup/ui';
+    PaginationEllipsis,
+  } from "@intinyagroup/ui";
 </script>
 
 <Pagination>
@@ -62,8 +62,8 @@ npx @intinyagroup/cli add pagination
 
 ## Props
 
-| Sub-component | Description |
-|---------------|-------------|
-| `PaginationLink` | Accepts `href` and `isActive` for current page |
-| `PaginationPrevious` | Previous page link |
-| `PaginationNext` | Next page link |
+| Sub-component        | Description                                    |
+| -------------------- | ---------------------------------------------- |
+| `PaginationLink`     | Accepts `href` and `isActive` for current page |
+| `PaginationPrevious` | Previous page link                             |
+| `PaginationNext`     | Next page link                                 |

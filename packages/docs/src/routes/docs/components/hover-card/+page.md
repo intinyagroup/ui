@@ -12,13 +12,15 @@ npx @intinyagroup/cli add hover-card
 
 ```svelte
 <script>
-  import { HoverCard, HoverCardContent, HoverCardTrigger } from '@intinyagroup/ui';
+  import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+  } from "@intinyagroup/ui";
 </script>
 
 <HoverCard>
-  <HoverCardTrigger href="https://github.com">
-    @github
-  </HoverCardTrigger>
+  <HoverCardTrigger href="https://github.com">@github</HoverCardTrigger>
   <HoverCardContent class="w-80">
     <div class="flex justify-between space-x-4">
       <div>
@@ -40,8 +42,8 @@ npx @intinyagroup/cli add hover-card
 
 ## Props
 
-| Sub-component | Description |
-|---------------|-------------|
-| `HoverCard` | Root — accepts `openDelay` and `closeDelay` (ms) |
+| Sub-component      | Description                                                            |
+| ------------------ | ---------------------------------------------------------------------- |
+| `HoverCard`        | Root — accepts `openDelay` and `closeDelay` (ms)                       |
 | `HoverCardContent` | Accepts `align` (`'start' \| 'center' \| 'end'`), `sideOffset`, `side` |
-| `HoverCardTrigger` | The trigger element |
+| `HoverCardTrigger` | The trigger element                                                    |

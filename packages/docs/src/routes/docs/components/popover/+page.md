@@ -6,17 +6,21 @@ A floating panel triggered by a button click. Built on bits-ui popover primitive
 
 ```svelte
 <script>
-  import { Popover, PopoverTrigger, PopoverContent } from '@intinyagroup/ui';
-  import { Button } from '@intinyagroup/ui';
+  import { Popover, PopoverTrigger, PopoverContent } from "@intinyagroup/ui";
+  import { Button } from "@intinyagroup/ui";
 </script>
 
 <Popover>
-  <PopoverTrigger><Button variant="outline">Open popover</Button></PopoverTrigger>
+  <PopoverTrigger
+    ><Button variant="outline">Open popover</Button></PopoverTrigger
+  >
   <PopoverContent class="w-80">
     <div class="grid gap-4">
       <div class="space-y-2">
         <h4 class="font-medium leading-none">Dimensions</h4>
-        <p class="text-sm text-muted-foreground">Set the dimensions for the layer.</p>
+        <p class="text-sm text-muted-foreground">
+          Set the dimensions for the layer.
+        </p>
       </div>
     </div>
   </PopoverContent>
@@ -27,10 +31,10 @@ A floating panel triggered by a button click. Built on bits-ui popover primitive
 
 ```svelte
 <script>
-  import { Popover, PopoverTrigger, PopoverContent } from '@intinyagroup/ui';
-  import { Button } from '@intinyagroup/ui';
-  import { Input } from '@intinyagroup/ui';
-  import { Label } from '@intinyagroup/ui';
+  import { Popover, PopoverTrigger, PopoverContent } from "@intinyagroup/ui";
+  import { Button } from "@intinyagroup/ui";
+  import { Input } from "@intinyagroup/ui";
+  import { Label } from "@intinyagroup/ui";
 </script>
 
 <Popover>
@@ -66,17 +70,17 @@ A floating panel triggered by a button click. Built on bits-ui popover primitive
 
 ### Popover
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
+| Prop   | Type      | Default | Description           |
+| ------ | --------- | ------- | --------------------- |
 | `open` | `boolean` | `false` | Open state (bindable) |
 
 ### PopoverContent
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `sideOffset` | `number` | `4` | Distance from trigger (px) |
-| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment relative to trigger |
-| `class` | `string` | — | Additional classes |
+| Prop         | Type                           | Default    | Description                   |
+| ------------ | ------------------------------ | ---------- | ----------------------------- |
+| `sideOffset` | `number`                       | `4`        | Distance from trigger (px)    |
+| `align`      | `'start' \| 'center' \| 'end'` | `'center'` | Alignment relative to trigger |
+| `class`      | `string`                       | —          | Additional classes            |
 
 ## Accessibility
 

@@ -11,7 +11,7 @@ A mobile-style modal panel that slides in from the bottom and presents a list of
 
 ```svelte
 <script>
-  import { ActionSheet, ActionSheetItem } from '@intinyagroup/ui';
+  import { ActionSheet, ActionSheetItem } from "@intinyagroup/ui";
 
   let open = $state(false);
 </script>
@@ -19,9 +19,13 @@ A mobile-style modal panel that slides in from the bottom and presents a list of
 <button onclick={() => (open = true)}>Open Sheet</button>
 
 <ActionSheet bind:open title="Choose an action">
-  <ActionSheetItem label="Copy Link" onselect={() => console.log('copied')} />
+  <ActionSheetItem label="Copy Link" onselect={() => console.log("copied")} />
   <ActionSheetItem label="Share" />
-  <ActionSheetItem label="Delete" destructive onselect={() => console.log('deleted')} />
+  <ActionSheetItem
+    label="Delete"
+    destructive
+    onselect={() => console.log("deleted")}
+  />
 </ActionSheet>
 ```
 
@@ -29,27 +33,27 @@ A mobile-style modal panel that slides in from the bottom and presents a list of
 
 ### ActionSheet
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `open` | `boolean` | — | Bindable visibility state |
-| `title` | `string` | — | Optional header title |
-| `cancelLabel` | `string` | `'Cancel'` | Label for the cancel button |
-| `showCancel` | `boolean` | `true` | Show the cancel button |
-| `onclose` | `() => void` | — | Called when the sheet closes |
-| `class` | `string` | — | Additional CSS classes |
-| `children` | `Snippet` | — | Sheet content / items |
+| Prop          | Type         | Default    | Description                  |
+| ------------- | ------------ | ---------- | ---------------------------- |
+| `open`        | `boolean`    | —          | Bindable visibility state    |
+| `title`       | `string`     | —          | Optional header title        |
+| `cancelLabel` | `string`     | `'Cancel'` | Label for the cancel button  |
+| `showCancel`  | `boolean`    | `true`     | Show the cancel button       |
+| `onclose`     | `() => void` | —          | Called when the sheet closes |
+| `class`       | `string`     | —          | Additional CSS classes       |
+| `children`    | `Snippet`    | —          | Sheet content / items        |
 
 ### ActionSheetItem
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | — | Item text |
-| `destructive` | `boolean` | `false` | Styles the item with the destructive color |
-| `icon` | `Snippet` | — | Optional leading icon |
-| `onselect` | `() => void` | — | Called when the item is selected |
-| `onclick` | `(e: MouseEvent) => void` | — | Native click handler |
-| `disabled` | `boolean` | `false` | Disables the item |
-| `class` | `string` | — | Additional CSS classes |
+| Prop          | Type                      | Default | Description                                |
+| ------------- | ------------------------- | ------- | ------------------------------------------ |
+| `label`       | `string`                  | —       | Item text                                  |
+| `destructive` | `boolean`                 | `false` | Styles the item with the destructive color |
+| `icon`        | `Snippet`                 | —       | Optional leading icon                      |
+| `onselect`    | `() => void`              | —       | Called when the item is selected           |
+| `onclick`     | `(e: MouseEvent) => void` | —       | Native click handler                       |
+| `disabled`    | `boolean`                 | `false` | Disables the item                          |
+| `class`       | `string`                  | —       | Additional CSS classes                     |
 
 ## Features
 

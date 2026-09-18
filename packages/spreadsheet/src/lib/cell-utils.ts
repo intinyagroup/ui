@@ -4,7 +4,7 @@
 
 /** Convert column index (0-based) to letter label: 0→A, 1→B, ..., 25→Z, 26→AA */
 export function colIndexToLabel(index: number): string {
-  let label = '';
+  let label = "";
   let i = index;
   while (i >= 0) {
     label = String.fromCharCode(65 + (i % 26)) + label;

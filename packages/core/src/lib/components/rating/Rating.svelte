@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { cn } from '../../utils.js';
-  import { Star } from 'lucide-svelte';
+  import { cn } from "../../utils.js";
+  import { Star } from "lucide-svelte";
 
   let {
     value = $bindable(0),
     max = 5,
-    size = 'md',
+    size = "md",
     readonly = false,
     disabled = false,
     class: className,
@@ -13,7 +13,7 @@
   }: {
     value?: number;
     max?: number;
-    size?: 'sm' | 'md' | 'lg';
+    size?: "sm" | "md" | "lg";
     readonly?: boolean;
     disabled?: boolean;
     class?: string;
@@ -24,9 +24,9 @@
   let containerRef = $state<HTMLDivElement | null>(null);
 
   const sizeMap = {
-    sm: 'size-4',
-    md: 'size-5',
-    lg: 'size-7',
+    sm: "size-4",
+    md: "size-5",
+    lg: "size-7",
   } as const;
 
   function clampValue(v: number): number {
@@ -51,29 +51,29 @@
     if (readonly || disabled) return;
 
     switch (event.key) {
-      case 'ArrowRight':
-      case 'ArrowUp': {
+      case "ArrowRight":
+      case "ArrowUp": {
         event.preventDefault();
         const next = Math.min(max, clampValue(value + 0.5));
         value = next;
         onchange?.(next);
         break;
       }
-      case 'ArrowLeft':
-      case 'ArrowDown': {
+      case "ArrowLeft":
+      case "ArrowDown": {
         event.preventDefault();
         const prev = Math.max(0, clampValue(value - 0.5));
         value = prev;
         onchange?.(prev);
         break;
       }
-      case 'Home': {
+      case "Home": {
         event.preventDefault();
         value = 0;
         onchange?.(0);
         break;
       }
-      case 'End': {
+      case "End": {
         event.preventDefault();
         value = max;
         onchange?.(max);
@@ -95,9 +95,9 @@
   aria-disabled={disabled}
   tabindex={disabled ? -1 : 0}
   class={cn(
-    'inline-flex items-center gap-0.5 outline-none',
-    disabled && 'pointer-events-none opacity-50',
-    className
+    "inline-flex items-center gap-0.5 outline-none",
+    disabled && "pointer-events-none opacity-50",
+    className,
   )}
   onkeydown={handleKeydown}
 >
@@ -109,27 +109,28 @@
       type="button"
       role="radio"
       aria-checked={value === star}
-      aria-label={`${star} star${star > 1 ? 's' : ''}`}
+      aria-label={`${star} star${star > 1 ? "s" : ""}`}
       {disabled}
       aria-disabled={disabled || readonly || undefined}
       tabindex={-1}
       class={cn(
-        'relative cursor-pointer rounded-sm outline-none transition-transform',
-        'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1',
-        readonly && 'cursor-default',
-        disabled && 'cursor-not-allowed',
-        !disabled && !readonly && 'hover:scale-110'
+        "relative cursor-pointer rounded-sm outline-none transition-transform",
+        "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+        readonly && "cursor-default",
+        disabled && "cursor-not-allowed",
+        !disabled && !readonly && "hover:scale-110",
       )}
       onclick={(e) => handleClick(star, e)}
-      onmouseenter={() => { if (!readonly && !disabled) hoverValue = star; }}
-      onmouseleave={() => { hoverValue = 0; }}
+      onmouseenter={() => {
+        if (!readonly && !disabled) hoverValue = star;
+      }}
+      onmouseleave={() => {
+        hoverValue = 0;
+      }}
     >
       <!-- Empty star (background) -->
       <Star
-        class={cn(
-          sizeMap[size],
-          'text-muted-foreground/30 transition-colors'
-        )}
+        class={cn(sizeMap[size], "text-muted-foreground/30 transition-colors")}
         fill="currentColor"
         strokeWidth={0}
       />
@@ -138,7 +139,7 @@
       <Star
         class={cn(
           sizeMap[size],
-          'absolute inset-0 text-yellow-400 transition-colors'
+          "absolute inset-0 text-yellow-400 transition-colors",
         )}
         style="clip-path: inset(0 {(1 - fillLevel) * 100}% 0 0);"
         fill="currentColor"

@@ -32,29 +32,29 @@ In your root layout:
 
 ```svelte
 <script>
-  import '@intinyagroup/tokens/base.css';
+  import "@intinyagroup/tokens/base.css";
 </script>
 ```
 
 Or choose a theme:
 
 ```css
-@import '@intinyagroup/tokens/md3.css';
-@import '@intinyagroup/tokens/flat.css';
-@import '@intinyagroup/tokens/cyberpunk.css';
+@import "@intinyagroup/tokens/md3.css";
+@import "@intinyagroup/tokens/flat.css";
+@import "@intinyagroup/tokens/cyberpunk.css";
 ```
 
 Set a theme on your root element:
 
 ```html
-<html data-ui-theme="neutral">
+<html data-ui-theme="neutral"></html>
 ```
 
 ## Use a component
 
 ```svelte
 <script>
-  import { Button, Card } from '@intinyagroup/ui';
+  import { Button, Card } from "@intinyagroup/ui";
 </script>
 
 <Card>
@@ -67,17 +67,17 @@ Set a theme on your root element:
 
 ```svelte
 <script>
-  import { FAB, Chip, Snackbar } from '@intinyagroup/md3';
+  import { FAB, Chip, Snackbar } from "@intinyagroup/md3";
 </script>
 
-<FAB onclick={() => alert('Clicked!')}>+</FAB>
+<FAB onclick={() => alert("Clicked!")}>+</FAB>
 ```
 
 ## Flat geometric components
 
 ```svelte
 <script>
-  import { HexagonGrid, OctagonCard, DiamondBadge } from '@intinyagroup/flat';
+  import { HexagonGrid, OctagonCard, DiamondBadge } from "@intinyagroup/flat";
 </script>
 
 <HexagonGrid columns={3}>
@@ -91,7 +91,12 @@ Touch-optimized, safe-area aware, no hover-dependent features:
 
 ```svelte
 <script>
-  import { TabBar, PullToRefresh, ListView, ActionSheet } from '@intinyagroup/ui';
+  import {
+    TabBar,
+    PullToRefresh,
+    ListView,
+    ActionSheet,
+  } from "@intinyagroup/ui";
 </script>
 
 <TabBar bind:value={tab}>
@@ -103,10 +108,10 @@ Touch-optimized, safe-area aware, no hover-dependent features:
 ## Native device features
 
 ```ts
-import { getDeviceInfo, takePhoto, localNotify } from '@intinyagroup/native';
+import { getDeviceInfo, takePhoto, localNotify } from "@intinyagroup/native";
 
 const info = await getDeviceInfo();
-await localNotify('Hello', 'Body text');
+await localNotify("Hello", "Body text");
 ```
 
 ## CLI commands

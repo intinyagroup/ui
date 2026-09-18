@@ -18,8 +18,8 @@ npx @intinyagroup/cli add breadcrumb
     BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbPage,
-    BreadcrumbSeparator
-  } from '@intinyagroup/ui';
+    BreadcrumbSeparator,
+  } from "@intinyagroup/ui";
 </script>
 
 <Breadcrumb>
@@ -51,9 +51,9 @@ npx @intinyagroup/cli add breadcrumb
 
 ## Props
 
-| Sub-component | Description |
-|---------------|-------------|
-| `Breadcrumb` | Root — sets `aria-label="breadcrumb"` |
-| `BreadcrumbLink` | Accepts `href` for navigation |
-| `BreadcrumbPage` | Current page, `aria-current="page"` |
+| Sub-component         | Description                              |
+| --------------------- | ---------------------------------------- |
+| `Breadcrumb`          | Root — sets `aria-label="breadcrumb"`    |
+| `BreadcrumbLink`      | Accepts `href` for navigation            |
+| `BreadcrumbPage`      | Current page, `aria-current="page"`      |
 | `BreadcrumbSeparator` | Renders `/` by default, accepts children |

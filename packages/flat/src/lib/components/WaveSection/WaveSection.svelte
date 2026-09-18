@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  import { cn } from '$lib/utils';
+  import type { Snippet } from "svelte";
+  import { cn } from "$lib/utils";
 
   let {
-    color = 'var(--flat-blue)',
+    color = "var(--flat-blue)",
     flip = false,
-    height = '150px',
+    height = "150px",
     children,
     class: className,
   }: {
@@ -18,7 +18,11 @@
 </script>
 
 <section
-  class={cn('relative w-full overflow-hidden', flip && 'flex flex-col justify-end', className)}
+  class={cn(
+    "relative w-full overflow-hidden",
+    flip && "flex flex-col justify-end",
+    className,
+  )}
   style:background-color={color}
 >
   {#if flip}

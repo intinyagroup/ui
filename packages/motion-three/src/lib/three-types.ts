@@ -2,11 +2,11 @@
 // Three.js scene model — serializable 3D scene
 // ============================================
 
-import * as THREE from 'three';
+import * as THREE from "three";
 
 export type ThreeSceneConfig = {
   camera: {
-    type: 'perspective' | 'orthographic';
+    type: "perspective" | "orthographic";
     position: { x: number; y: number; z: number };
     lookAt: { x: number; y: number; z: number };
     fov?: number;
@@ -22,7 +22,7 @@ export type ThreeSceneConfig = {
 
 export type ThreeLight = {
   id: string;
-  type: 'ambient' | 'directional' | 'point' | 'spot' | 'hemisphere';
+  type: "ambient" | "directional" | "point" | "spot" | "hemisphere";
   color: string;
   intensity: number;
   position?: { x: number; y: number; z: number };
@@ -32,7 +32,7 @@ export type ThreeLight = {
 
 export type ThreeObject = {
   id: string;
-  type: 'mesh' | 'line' | 'points' | 'group';
+  type: "mesh" | "line" | "points" | "group";
   geometry: ThreeGeometry;
   material: ThreeMaterial;
   position: { x: number; y: number; z: number };
@@ -43,12 +43,12 @@ export type ThreeObject = {
 };
 
 export type ThreeGeometry = {
-  type: 'box' | 'sphere' | 'cylinder' | 'cone' | 'torus' | 'plane' | 'custom';
+  type: "box" | "sphere" | "cylinder" | "cone" | "torus" | "plane" | "custom";
   params?: Record<string, number>;
 };
 
 export type ThreeMaterial = {
-  type: 'standard' | 'phong' | 'basic' | 'lambert';
+  type: "standard" | "phong" | "basic" | "lambert";
   color: string;
   metalness?: number;
   roughness?: number;
@@ -62,7 +62,7 @@ export type ThreeMaterial = {
 export function createThreeSceneConfig(): ThreeSceneConfig {
   return {
     camera: {
-      type: 'perspective',
+      type: "perspective",
       position: { x: 5, y: 5, z: 5 },
       lookAt: { x: 0, y: 0, z: 0 },
       fov: 75,
@@ -71,15 +71,15 @@ export function createThreeSceneConfig(): ThreeSceneConfig {
     },
     lights: [
       {
-        id: 'ambient-1',
-        type: 'ambient',
-        color: '#ffffff',
+        id: "ambient-1",
+        type: "ambient",
+        color: "#ffffff",
         intensity: 0.5,
       },
       {
-        id: 'directional-1',
-        type: 'directional',
-        color: '#ffffff',
+        id: "directional-1",
+        type: "directional",
+        color: "#ffffff",
         intensity: 1,
         position: { x: 5, y: 10, z: 7 },
         castShadow: true,
@@ -87,16 +87,21 @@ export function createThreeSceneConfig(): ThreeSceneConfig {
     ],
     objects: [
       {
-        id: 'box-1',
-        type: 'mesh',
-        geometry: { type: 'box', params: { width: 1, height: 1, depth: 1 } },
-        material: { type: 'standard', color: '#3b82f6', metalness: 0.1, roughness: 0.5 },
+        id: "box-1",
+        type: "mesh",
+        geometry: { type: "box", params: { width: 1, height: 1, depth: 1 } },
+        material: {
+          type: "standard",
+          color: "#3b82f6",
+          metalness: 0.1,
+          roughness: 0.5,
+        },
         position: { x: 0, y: 0, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 },
-        name: 'Cube',
+        name: "Cube",
       },
     ],
-    background: '#1a1a2e',
+    background: "#1a1a2e",
   };
 }

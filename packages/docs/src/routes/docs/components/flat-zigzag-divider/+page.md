@@ -11,7 +11,7 @@ A full-width zigzag divider rendered as an SVG polygon. Use it to separate secti
 
 ```svelte
 <script>
-  import { ZigzagDivider } from '@intinyagroup/flat';
+  import { ZigzagDivider } from "@intinyagroup/flat";
 </script>
 
 <div class="bg-white">
@@ -24,7 +24,7 @@ A full-width zigzag divider rendered as an SVG polygon. Use it to separate secti
 
 ```svelte
 <script>
-  import { ZigzagDivider } from '@intinyagroup/flat';
+  import { ZigzagDivider } from "@intinyagroup/flat";
 </script>
 
 <ZigzagDivider color="teal" height="24px" />
@@ -32,11 +32,11 @@ A full-width zigzag divider rendered as an SVG polygon. Use it to separate secti
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'` | Divider color |
-| `height` | `string` | `'24px'` | Divider height |
-| `class` | `string` | `undefined` | Additional CSS classes |
+| Prop     | Type                                                                     | Default     | Description            |
+| -------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
+| `color`  | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'`    | Divider color          |
+| `height` | `string`                                                                 | `'24px'`    | Divider height         |
+| `class`  | `string`                                                                 | `undefined` | Additional CSS classes |
 
 ## Install
 

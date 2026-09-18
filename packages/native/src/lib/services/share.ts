@@ -1,4 +1,4 @@
-import { Share } from '@capacitor/share';
+import { Share } from "@capacitor/share";
 
 export interface ShareOptions {
   title?: string;
@@ -16,14 +16,16 @@ export async function shareContent(options: ShareOptions): Promise<boolean> {
       title: options.title,
       text: options.text,
       url: options.url,
-      files: options.files
+      files: options.files,
     });
     return true;
   } catch {
     // user cancelled or plugin unavailable — fall through
   }
 
-  const w = globalThis as { navigator?: Navigator & { share?: (o: ShareOptions) => Promise<void> } };
+  const w = globalThis as {
+    navigator?: Navigator & { share?: (o: ShareOptions) => Promise<void> };
+  };
   if (w.navigator?.share) {
     try {
       await w.navigator.share(options);
@@ -33,5 +35,5 @@ export async function shareContent(options: ShareOptions): Promise<boolean> {
     }
   }
 
-  throw new Error('Sharing is not supported in this environment');
+  throw new Error("Sharing is not supported in this environment");
 }

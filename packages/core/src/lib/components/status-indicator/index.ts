@@ -1,1 +1,1 @@
-export { default as StatusIndicator } from './StatusIndicator.svelte';
+export { default as StatusIndicator } from "./StatusIndicator.svelte";

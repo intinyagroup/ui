@@ -1,1 +1,1 @@
-export { default as ClipboardButton } from './ClipboardButton.svelte';
+export { default as ClipboardButton } from "./ClipboardButton.svelte";

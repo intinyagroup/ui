@@ -1,1 +1,1 @@
-export { default as EllipseBadge } from './EllipseBadge.svelte';
+export { default as EllipseBadge } from "./EllipseBadge.svelte";

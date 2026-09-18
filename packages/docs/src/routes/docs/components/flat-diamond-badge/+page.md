@@ -11,7 +11,7 @@ A diamond-shaped badge for tags, statuses, and labels. Clipped with `polygon(50%
 
 ```svelte
 <script>
-  import { DiamondBadge } from '@intinyagroup/flat';
+  import { DiamondBadge } from "@intinyagroup/flat";
 </script>
 
 <div class="flex items-center gap-4">
@@ -25,7 +25,7 @@ A diamond-shaped badge for tags, statuses, and labels. Clipped with `polygon(50%
 
 ```svelte
 <script>
-  import { DiamondBadge } from '@intinyagroup/flat';
+  import { DiamondBadge } from "@intinyagroup/flat";
 </script>
 
 <DiamondBadge label="PRO" color="orange" size="md" />
@@ -33,12 +33,12 @@ A diamond-shaped badge for tags, statuses, and labels. Clipped with `polygon(50%
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | — | Badge text |
-| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'red'` | Flat color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Badge size |
-| `class` | `string` | `undefined` | Additional CSS classes |
+| Prop    | Type                                                                     | Default     | Description            |
+| ------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
+| `label` | `string`                                                                 | —           | Badge text             |
+| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'red'`     | Flat color variant     |
+| `size`  | `'sm' \| 'md' \| 'lg'`                                                   | `'md'`      | Badge size             |
+| `class` | `string`                                                                 | `undefined` | Additional CSS classes |
 
 ## Install
 

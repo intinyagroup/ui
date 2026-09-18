@@ -8,12 +8,12 @@ export interface MotionData {
 }
 
 type MotionEventCtor = typeof DeviceMotionEvent & {
-  requestPermission?: () => Promise<'granted' | 'denied'>;
+  requestPermission?: () => Promise<"granted" | "denied">;
 };
 
 type MotionHandler = (data: MotionData) => void;
 
-let motionPermission: 'granted' | 'prompt' | 'denied' = 'prompt';
+let motionPermission: "granted" | "prompt" | "denied" = "prompt";
 
 function motionCtor(): MotionEventCtor | undefined {
   const g = globalThis as { DeviceMotionEvent?: unknown };
@@ -26,16 +26,16 @@ function motionCtor(): MotionEventCtor | undefined {
  */
 export async function requestMotionPermission(): Promise<boolean> {
   const ctor = motionCtor();
-  if (ctor && typeof ctor.requestPermission === 'function') {
+  if (ctor && typeof ctor.requestPermission === "function") {
     try {
       motionPermission = await ctor.requestPermission();
-      return motionPermission === 'granted';
+      return motionPermission === "granted";
     } catch {
-      motionPermission = 'denied';
+      motionPermission = "denied";
       return false;
     }
   }
-  motionPermission = 'granted';
+  motionPermission = "granted";
   return true;
 }
 
@@ -46,12 +46,12 @@ function handleMotionEvent(event: DeviceMotionEvent, cb: MotionHandler): void {
     accelerationIncludingGravity: {
       x: accel?.x ?? 0,
       y: accel?.y ?? 0,
-      z: accel?.z ?? 0
+      z: accel?.z ?? 0,
     },
     rotationRate: rot
       ? { alpha: rot.alpha ?? 0, beta: rot.beta ?? 0, gamma: rot.gamma ?? 0 }
       : undefined,
-    timestamp: event.timeStamp ?? Date.now()
+    timestamp: event.timeStamp ?? Date.now(),
   });
 }
 
@@ -62,8 +62,8 @@ function handleMotionEvent(event: DeviceMotionEvent, cb: MotionHandler): void {
  */
 export function watchMotion(cb: MotionHandler): () => void {
   const listener = (event: DeviceMotionEvent) => handleMotionEvent(event, cb);
-  window.addEventListener('devicemotion', listener);
-  return () => window.removeEventListener('devicemotion', listener);
+  window.addEventListener("devicemotion", listener);
+  return () => window.removeEventListener("devicemotion", listener);
 }
 
 export interface AccelerationData {
@@ -76,14 +76,16 @@ export interface AccelerationData {
  * Watch raw acceleration (gravity removed) via DeviceMotionEvent.
  * Returns an unsubscribe function.
  */
-export function watchAcceleration(cb: (data: AccelerationData) => void): () => void {
+export function watchAcceleration(
+  cb: (data: AccelerationData) => void,
+): () => void {
   const listener = (event: DeviceMotionEvent) => {
     const a = event.acceleration;
     cb({
       acceleration: { x: a?.x ?? 0, y: a?.y ?? 0, z: a?.z ?? 0 },
-      timestamp: event.timeStamp ?? Date.now()
+      timestamp: event.timeStamp ?? Date.now(),
     });
   };
-  window.addEventListener('devicemotion', listener);
-  return () => window.removeEventListener('devicemotion', listener);
+  window.addEventListener("devicemotion", listener);
+  return () => window.removeEventListener("devicemotion", listener);
 }

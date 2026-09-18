@@ -4,7 +4,6 @@
 [![Docs](https://img.shields.io/badge/docs-ui.intinya.id-7c3aed?style=flat-square&labelColor=1a1a1a)](https://ui.intinya.id)
 [![License MIT](https://img.shields.io/npm/l/@intinyagroup/flat?style=flat-square&color=7c3aed)](https://github.com/intinyagroup/ui/blob/main/LICENSE)
 
-
 Flat color geometric components with clip-path shapes for Intinya UI — BlobCard, HexagonGrid, DiamondBadge, WaveSection, PentagonStat, StarCard, TriangleAlert, CircleAvatar.
 
 ## Install
@@ -17,7 +16,7 @@ npm install @intinyagroup/flat
 
 ```svelte
 <script>
-  import { HexagonGrid, BlobCard, PentagonStat } from '@intinyagroup/flat';
+  import { HexagonGrid, BlobCard, PentagonStat } from "@intinyagroup/flat";
 </script>
 
 <HexagonGrid>

@@ -1,9 +1,15 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import { ChevronLeft, ChevronRight, X, Maximize, Minimize } from 'lucide-svelte';
-  import { Button } from '@intinyagroup/ui';
-  import type { Slide, PresentationTheme } from '../slide-model.js';
-  import { cn } from '@intinyagroup/grid-core/utils';
+  import { onMount, onDestroy } from "svelte";
+  import {
+    ChevronLeft,
+    ChevronRight,
+    X,
+    Maximize,
+    Minimize,
+  } from "lucide-svelte";
+  import { Button } from "@intinyagroup/ui";
+  import type { Slide, PresentationTheme } from "../slide-model.js";
+  import { cn } from "@intinyagroup/grid-core/utils";
 
   let {
     slides,
@@ -23,8 +29,10 @@
   let controlsTimer: ReturnType<typeof setTimeout> | null = null;
 
   const visibleSlides = $derived(slides.filter((s) => !s.isHidden));
-  const [w, h] = aspectRatio.split(':').map(Number);
-  const displayWidth = $state(typeof window !== 'undefined' ? window.innerWidth : 1920);
+  const [w, h] = aspectRatio.split(":").map(Number);
+  const displayWidth = $state(
+    typeof window !== "undefined" ? window.innerWidth : 1920,
+  );
   const displayHeight = $derived(Math.round(displayWidth * (h / w)));
 
   function nextSlide() {
@@ -41,21 +49,21 @@
 
   function handleKeydown(e: KeyboardEvent) {
     switch (e.key) {
-      case 'ArrowRight':
-      case 'ArrowDown':
-      case ' ':
+      case "ArrowRight":
+      case "ArrowDown":
+      case " ":
         e.preventDefault();
         nextSlide();
         break;
-      case 'ArrowLeft':
-      case 'ArrowUp':
+      case "ArrowLeft":
+      case "ArrowUp":
         e.preventDefault();
         prevSlide();
         break;
-      case 'Escape':
+      case "Escape":
         onClose();
         break;
-      case 'f':
+      case "f":
         toggleFullscreen();
         break;
     }
@@ -80,22 +88,27 @@
   }
 
   onMount(() => {
-    window.addEventListener('keydown', handleKeydown);
+    window.addEventListener("keydown", handleKeydown);
     resetControlsTimer();
   });
 
   onDestroy(() => {
-    window.removeEventListener('keydown', handleKeydown);
+    window.removeEventListener("keydown", handleKeydown);
     if (controlsTimer) clearTimeout(controlsTimer);
   });
 
   function getTransitionClass(transition: string): string {
     switch (transition) {
-      case 'fade': return 'animate-fade';
-      case 'slide-left': return 'animate-slide-left';
-      case 'slide-right': return 'animate-slide-right';
-      case 'zoom': return 'animate-zoom';
-      default: return '';
+      case "fade":
+        return "animate-fade";
+      case "slide-left":
+        return "animate-slide-left";
+      case "slide-right":
+        return "animate-slide-right";
+      case "zoom":
+        return "animate-zoom";
+      default:
+        return "";
     }
   }
 </script>
@@ -117,7 +130,8 @@
 
       <div
         class="w-full h-full {getTransitionClass(slide.transition)}"
-        style="animation-duration: {slideDuration}ms; background-color: {slide.background || theme.background};"
+        style="animation-duration: {slideDuration}ms; background-color: {slide.background ||
+          theme.background};"
       >
         {#each slide.elements as element (element.id)}
           {#if element.visible !== false}
@@ -130,17 +144,20 @@
                 height: {element.height}%;
                 transform: rotate({element.rotation}deg);
                 opacity: {element.style?.opacity ?? 1};
-                background-color: {element.style?.backgroundColor || 'transparent'};
+                background-color: {element.style?.backgroundColor ||
+                'transparent'};
                 border-radius: {element.style?.borderRadius || 0}px;
-                border: {element.style?.borderWidth || 0}px solid {element.style?.borderColor || 'transparent'};
+                border: {element.style?.borderWidth || 0}px solid {element.style
+                ?.borderColor || 'transparent'};
               "
             >
-              {#if element.type === 'text'}
+              {#if element.type === "text"}
                 <div
                   class="w-full h-full flex items-center overflow-hidden"
                   style="
                     font-size: {element.style?.fontSize ?? 16}px;
-                    font-family: {element.style?.fontFamily ?? theme.fontFamily};
+                    font-family: {element.style?.fontFamily ??
+                    theme.fontFamily};
                     font-weight: {element.style?.fontWeight ?? 'normal'};
                     text-align: {element.style?.textAlign ?? 'left'};
                     color: {element.style?.color ?? theme.textColor};
@@ -150,10 +167,15 @@
                 >
                   {element.content}
                 </div>
-              {:else if element.type === 'image' && element.content}
-                <img src={element.content} alt="" class="w-full h-full object-cover rounded" />
-              {:else if element.type === 'code'}
-                <pre class="w-full h-full p-3 bg-[#1e1e1e] text-[#d4d4d4] rounded text-xs overflow-auto font-mono">{element.content}</pre>
+              {:else if element.type === "image" && element.content}
+                <img
+                  src={element.content}
+                  alt=""
+                  class="w-full h-full object-cover rounded"
+                />
+              {:else if element.type === "code"}
+                <pre
+                  class="w-full h-full p-3 bg-[#1e1e1e] text-[#d4d4d4] rounded text-xs overflow-auto font-mono">{element.content}</pre>
               {/if}
             </div>
           {/if}
@@ -164,7 +186,9 @@
 
   <!-- Controls overlay -->
   {#if showControls}
-    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 transition-opacity">
+    <div
+      class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 transition-opacity"
+    >
       <div class="flex items-center justify-between max-w-4xl mx-auto">
         <div class="text-white text-sm">
           {currentSlide + 1} / {visibleSlides.length}
@@ -209,7 +233,9 @@
       </div>
 
       <!-- Progress bar -->
-      <div class="mt-4 h-1 bg-white/20 rounded-full overflow-hidden max-w-4xl mx-auto">
+      <div
+        class="mt-4 h-1 bg-white/20 rounded-full overflow-hidden max-w-4xl mx-auto"
+      >
         <div
           class="h-full bg-[var(--ui-primary)] transition-all duration-300"
           style="width: {((currentSlide + 1) / visibleSlides.length) * 100}%"
@@ -217,19 +243,23 @@
       </div>
 
       <!-- Slide thumbnails -->
-      <div class="mt-4 flex justify-center gap-2 overflow-x-auto max-w-4xl mx-auto">
+      <div
+        class="mt-4 flex justify-center gap-2 overflow-x-auto max-w-4xl mx-auto"
+      >
         {#each visibleSlides as slide, i}
           <button
-            onclick={() => currentSlide = i}
+            onclick={() => (currentSlide = i)}
             class={cn(
               "w-16 h-10 rounded border-2 flex-shrink-0 transition-all cursor-pointer overflow-hidden",
               i === currentSlide
                 ? "border-[var(--ui-primary)] shadow-md"
-                : "border-white/20 hover:border-white/50"
+                : "border-white/20 hover:border-white/50",
             )}
           >
             <div class="w-full h-full bg-white p-0.5 text-[5px] leading-tight">
-              {#each slide.elements.filter((e) => e.type === 'text').slice(0, 2) as el}
+              {#each slide.elements
+                .filter((e) => e.type === "text")
+                .slice(0, 2) as el}
                 <div class="truncate">{el.content.slice(0, 15)}</div>
               {/each}
             </div>
@@ -242,23 +272,53 @@
 
 <style>
   @keyframes fade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
   @keyframes slide-left {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
   @keyframes slide-right {
-    from { transform: translateX(-100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
   @keyframes zoom {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
-  .animate-fade { animation: fade 0.5s ease-out; }
-  .animate-slide-left { animation: slide-left 0.5s ease-out; }
-  .animate-slide-right { animation: slide-right 0.5s ease-out; }
-  .animate-zoom { animation: zoom 0.5s ease-out; }
+  .animate-fade {
+    animation: fade 0.5s ease-out;
+  }
+  .animate-slide-left {
+    animation: slide-left 0.5s ease-out;
+  }
+  .animate-slide-right {
+    animation: slide-right 0.5s ease-out;
+  }
+  .animate-zoom {
+    animation: zoom 0.5s ease-out;
+  }
 </style>

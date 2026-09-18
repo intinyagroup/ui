@@ -1,1 +1,1 @@
-export { default as StarCard } from './StarCard.svelte';
+export { default as StarCard } from "./StarCard.svelte";

@@ -3,15 +3,15 @@
 // ============================================
 
 // Main component
-export { default as BookWriter } from './components/BookWriter.svelte';
+export { default as BookWriter } from "./components/BookWriter.svelte";
 
 // Sub-components
-export { default as BookSidebar } from './components/BookSidebar.svelte';
-export { default as ChapterEditor } from './components/ChapterEditor.svelte';
-export { default as BookPreview } from './components/BookPreview.svelte';
-export { default as BookSettings } from './components/BookSettings.svelte';
-export { default as ExportDialog } from './components/ExportDialog.svelte';
-export { default as ImageUploader } from './components/ImageUploader.svelte';
+export { default as BookSidebar } from "./components/BookSidebar.svelte";
+export { default as ChapterEditor } from "./components/ChapterEditor.svelte";
+export { default as BookPreview } from "./components/BookPreview.svelte";
+export { default as BookSettings } from "./components/BookSettings.svelte";
+export { default as ExportDialog } from "./components/ExportDialog.svelte";
+export { default as ImageUploader } from "./components/ImageUploader.svelte";
 
 // Data model & utilities
 export {
@@ -30,7 +30,7 @@ export {
   type BookLayout,
   type BookSettings,
   type PageOrientation,
-} from './book-model.js';
+} from "./book-model.js";
 
 // Pagination engine
 export {
@@ -38,7 +38,7 @@ export {
   paginateContentEstimate,
   type PaginatedPage,
   type PaginationResult,
-} from './pagination-engine.js';
+} from "./pagination-engine.js";
 
 // Markdown utilities
 export {
@@ -47,10 +47,10 @@ export {
   exportToMarkdown,
   downloadAsFile,
   downloadBlob,
-} from './markdown-utils.js';
+} from "./markdown-utils.js";
 
 // EPUB utilities
-export { exportToEpub } from './epub-utils.js';
+export { exportToEpub } from "./epub-utils.js";
 
 // Footnote utilities
 export {
@@ -60,7 +60,7 @@ export {
   renderFootnotesSection,
   getNextFootnoteNumber,
   type Footnote,
-} from './footnote-utils.js';
+} from "./footnote-utils.js";
 
 // Image utilities
 export {
@@ -69,7 +69,7 @@ export {
   resizeImage,
   dataUrlToBytes,
   extractImageUrls,
-} from './image-utils.js';
+} from "./image-utils.js";
 
 // Cross-reference utilities
 export {
@@ -81,7 +81,7 @@ export {
   getCrossRefOptions,
   type CrossRef,
   type CrossRefType,
-} from './crossref-utils.js';
+} from "./crossref-utils.js";
 
 // Math utilities
 export {
@@ -92,4 +92,4 @@ export {
   processInlineMath,
   processDisplayMath,
   mathTemplates,
-} from './math-utils.js';
+} from "./math-utils.js";

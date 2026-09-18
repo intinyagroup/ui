@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { cn } from '../utils.js';
+import * as React from "react";
+import { cn } from "../utils.js";
 
 export interface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
-  orientation?: 'horizontal' | 'vertical';
+  orientation?: "horizontal" | "vertical";
   decorative?: boolean;
 }
 
@@ -10,24 +10,24 @@ export const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(
   (
     {
       className,
-      orientation = 'horizontal',
+      orientation = "horizontal",
       decorative = true,
-      role = decorative ? 'none' : 'separator',
+      role = decorative ? "none" : "separator",
       ...props
     },
-    ref
+    ref,
   ) => (
     <div
       ref={ref}
       role={role}
-      aria-orientation={role === 'separator' ? orientation : undefined}
+      aria-orientation={role === "separator" ? orientation : undefined}
       className={cn(
-        'shrink-0 bg-[var(--ui-border)]',
-        orientation === 'horizontal' ? 'h-[1px] w-full' : 'h-full w-[1px]',
-        className
+        "shrink-0 bg-[var(--ui-border)]",
+        orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
+        className,
       )}
       {...props}
     />
-  )
+  ),
 );
-Separator.displayName = 'Separator';
+Separator.displayName = "Separator";

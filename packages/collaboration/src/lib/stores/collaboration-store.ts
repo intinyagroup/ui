@@ -2,8 +2,8 @@
 // Collaboration store — WebSocket, presence, changes
 // ============================================
 
-import { writable, derived, get } from 'svelte/store';
-import type { BookSettings, Chapter } from '@intinyagroup/book-writer';
+import { writable, derived, get } from "svelte/store";
+import type { BookSettings, Chapter } from "@intinyagroup/book-writer";
 
 // Types
 export type User = {
@@ -25,7 +25,7 @@ export type Change = {
   id: string;
   userId: string;
   chapterId: string;
-  type: 'insert' | 'delete' | 'replace';
+  type: "insert" | "delete" | "replace";
   position: number;
   content: string;
   timestamp: string;
@@ -71,14 +71,22 @@ export type CollaborationState = {
 
 // User colors for avatars
 const userColors = [
-  '#3b82f6', '#ef4444', '#22c55e', '#f59e0b', '#8b5cf6',
-  '#ec4899', '#06b6d4', '#f97316', '#14b8a6', '#6366f1',
+  "#3b82f6",
+  "#ef4444",
+  "#22c55e",
+  "#f59e0b",
+  "#8b5cf6",
+  "#ec4899",
+  "#06b6d4",
+  "#f97316",
+  "#14b8a6",
+  "#6366f1",
 ];
 
 // Default state
 const defaultState: CollaborationState = {
   connected: false,
-  roomId: '',
+  roomId: "",
   users: [],
   cursors: [],
   comments: [],
@@ -93,7 +101,7 @@ function createCollaborationStore() {
   let ws: WebSocket | null = null;
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   let userId = `user-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-  let userName = 'Anonymous';
+  let userName = "Anonymous";
   let userColor = userColors[Math.floor(Math.random() * userColors.length)];
 
   function connect(roomId: string, name: string, serverUrl: string) {
@@ -106,7 +114,7 @@ function createCollaborationStore() {
       ws.onopen = () => {
         update((s) => ({ ...s, connected: true }));
         sendMessage({
-          type: 'join',
+          type: "join",
           userId,
           userName,
           userColor,
@@ -118,7 +126,7 @@ function createCollaborationStore() {
           const message = JSON.parse(event.data);
           handleMessage(message);
         } catch (err) {
-          console.error('Failed to parse message:', err);
+          console.error("Failed to parse message:", err);
         }
       };
 
@@ -131,10 +139,10 @@ function createCollaborationStore() {
       };
 
       ws.onerror = (err) => {
-        console.error('WebSocket error:', err);
+        console.error("WebSocket error:", err);
       };
     } catch (err) {
-      console.error('Failed to connect:', err);
+      console.error("Failed to connect:", err);
     }
   }
 
@@ -158,19 +166,22 @@ function createCollaborationStore() {
 
   function handleMessage(message: any) {
     switch (message.type) {
-      case 'user-joined':
+      case "user-joined":
         update((s) => ({
           ...s,
-          users: [...s.users.filter((u) => u.id !== message.userId), {
-            id: message.userId,
-            name: message.userName,
-            color: message.userColor,
-            lastSeen: new Date().toISOString(),
-          }],
+          users: [
+            ...s.users.filter((u) => u.id !== message.userId),
+            {
+              id: message.userId,
+              name: message.userName,
+              color: message.userColor,
+              lastSeen: new Date().toISOString(),
+            },
+          ],
         }));
         break;
 
-      case 'user-left':
+      case "user-left":
         update((s) => ({
           ...s,
           users: s.users.filter((u) => u.id !== message.userId),
@@ -178,7 +189,7 @@ function createCollaborationStore() {
         }));
         break;
 
-      case 'cursor-update':
+      case "cursor-update":
         update((s) => ({
           ...s,
           cursors: [
@@ -193,45 +204,45 @@ function createCollaborationStore() {
         }));
         break;
 
-      case 'change':
+      case "change":
         update((s) => ({
           ...s,
           pendingChanges: [...s.pendingChanges, message.change],
         }));
         break;
 
-      case 'comment':
+      case "comment":
         update((s) => ({
           ...s,
           comments: [...s.comments, message.comment],
         }));
         break;
 
-      case 'comment-reply':
+      case "comment-reply":
         update((s) => ({
           ...s,
           comments: s.comments.map((c) =>
             c.id === message.commentId
               ? { ...c, replies: [...c.replies, message.reply] }
-              : c
+              : c,
           ),
         }));
         break;
 
-      case 'version-snapshot':
+      case "version-snapshot":
         update((s) => ({
           ...s,
           versions: [message.snapshot, ...s.versions],
         }));
         break;
 
-      case 'presence':
+      case "presence":
         update((s) => ({
           ...s,
           users: s.users.map((u) =>
             u.id === message.userId
               ? { ...u, lastSeen: new Date().toISOString() }
-              : u
+              : u,
           ),
         }));
         break;
@@ -241,7 +252,7 @@ function createCollaborationStore() {
   // Actions
   function updateCursor(chapterId: string, offset: number, length: number) {
     sendMessage({
-      type: 'cursor',
+      type: "cursor",
       userId,
       chapterId,
       offset,
@@ -249,14 +260,16 @@ function createCollaborationStore() {
     });
   }
 
-  function broadcastChange(change: Omit<Change, 'id' | 'userId' | 'timestamp'>) {
+  function broadcastChange(
+    change: Omit<Change, "id" | "userId" | "timestamp">,
+  ) {
     const fullChange: Change = {
       ...change,
       id: `change-${Date.now()}`,
       userId,
       timestamp: new Date().toISOString(),
     };
-    sendMessage({ type: 'change', change: fullChange });
+    sendMessage({ type: "change", change: fullChange });
     update((s) => ({
       ...s,
       pendingChanges: [...s.pendingChanges, fullChange],
@@ -274,7 +287,7 @@ function createCollaborationStore() {
       createdAt: new Date().toISOString(),
       replies: [],
     };
-    sendMessage({ type: 'comment', comment });
+    sendMessage({ type: "comment", comment });
     update((s) => ({ ...s, comments: [...s.comments, comment] }));
   }
 
@@ -285,11 +298,11 @@ function createCollaborationStore() {
       content,
       createdAt: new Date().toISOString(),
     };
-    sendMessage({ type: 'comment-reply', commentId, reply });
+    sendMessage({ type: "comment-reply", commentId, reply });
     update((s) => ({
       ...s,
       comments: s.comments.map((c) =>
-        c.id === commentId ? { ...c, replies: [...c.replies, reply] } : c
+        c.id === commentId ? { ...c, replies: [...c.replies, reply] } : c,
       ),
     }));
   }
@@ -298,7 +311,7 @@ function createCollaborationStore() {
     update((s) => ({
       ...s,
       comments: s.comments.map((c) =>
-        c.id === commentId ? { ...c, resolved: true } : c
+        c.id === commentId ? { ...c, resolved: true } : c,
       ),
     }));
   }
@@ -310,7 +323,11 @@ function createCollaborationStore() {
     }));
   }
 
-  function createVersionSnapshot(name: string, description: string, settings: BookSettings) {
+  function createVersionSnapshot(
+    name: string,
+    description: string,
+    settings: BookSettings,
+  ) {
     const snapshot: VersionSnapshot = {
       id: `v-${Date.now()}`,
       name,
@@ -320,12 +337,12 @@ function createCollaborationStore() {
       createdAt: new Date().toISOString(),
       size: JSON.stringify(settings).length,
     };
-    sendMessage({ type: 'version-snapshot', snapshot });
+    sendMessage({ type: "version-snapshot", snapshot });
     update((s) => ({ ...s, versions: [snapshot, ...s.versions] }));
   }
 
   function sendPresence() {
-    sendMessage({ type: 'presence', userId });
+    sendMessage({ type: "presence", userId });
   }
 
   // Periodic presence
@@ -355,8 +372,12 @@ function createCollaborationStore() {
     createVersionSnapshot,
     startPresence,
     stopPresence,
-    get userId() { return userId; },
-    get userName() { return userName; },
+    get userId() {
+      return userId;
+    },
+    get userName() {
+      return userName;
+    },
   };
 }
 

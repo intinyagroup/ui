@@ -1,2 +1,2 @@
-export { default as HexagonGrid } from './HexagonGrid.svelte';
-export { hexagonGridVariants } from './HexagonGrid.svelte';
+export { default as HexagonGrid } from "./HexagonGrid.svelte";
+export { hexagonGridVariants } from "./HexagonGrid.svelte";

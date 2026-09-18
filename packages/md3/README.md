@@ -4,7 +4,6 @@
 [![Docs](https://img.shields.io/badge/docs-ui.intinya.id-7c3aed?style=flat-square&labelColor=1a1a1a)](https://ui.intinya.id)
 [![License MIT](https://img.shields.io/npm/l/@intinyagroup/md3?style=flat-square&color=7c3aed)](https://github.com/intinyagroup/ui/blob/main/LICENSE)
 
-
 Material Design 3 components for Intinya UI — FAB, Chip, Snackbar, BottomSheet, TopAppBar, NavigationRail, NavigationBar, SearchBar, Ripple, Badge, and more. Self-contained components styled by the MD3 token theme.
 
 ## Install
@@ -17,7 +16,7 @@ npm install @intinyagroup/md3
 
 ```svelte
 <script>
-  import { FAB, Chip, Snackbar } from '@intinyagroup/md3';
+  import { FAB, Chip, Snackbar } from "@intinyagroup/md3";
 </script>
 
 <FAB variant="tertiary">+</FAB>

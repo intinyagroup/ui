@@ -1,4 +1,10 @@
-import type { ColumnPinningState, ColumnVisibilityState, ColumnOrderState, SortingState, ColumnSizingState } from '@tanstack/table-core';
+import type {
+  ColumnPinningState,
+  ColumnVisibilityState,
+  ColumnOrderState,
+  SortingState,
+  ColumnSizingState,
+} from "@tanstack/table-core";
 
 export type PersistedTableSettings = {
   columnVisibility: ColumnVisibilityState;
@@ -6,14 +12,16 @@ export type PersistedTableSettings = {
   columnOrder: ColumnOrderState;
   columnSizing: ColumnSizingState;
   sorting: SortingState;
-  density: 'compact' | 'spacious';
+  density: "compact" | "spacious";
   pageSize: number;
 };
 
-const STORAGE_PREFIX = 'uitable:';
+const STORAGE_PREFIX = "uitable:";
 
-export function getTableSettings(tableId: string): Partial<PersistedTableSettings> | null {
-  if (typeof window === 'undefined') return null;
+export function getTableSettings(
+  tableId: string,
+): Partial<PersistedTableSettings> | null {
+  if (typeof window === "undefined") return null;
   try {
     const raw = localStorage.getItem(`${STORAGE_PREFIX}${tableId}`);
     return raw ? JSON.parse(raw) : null;
@@ -22,8 +30,11 @@ export function getTableSettings(tableId: string): Partial<PersistedTableSetting
   }
 }
 
-export function saveTableSettings(tableId: string, settings: Partial<PersistedTableSettings>): void {
-  if (typeof window === 'undefined') return;
+export function saveTableSettings(
+  tableId: string,
+  settings: Partial<PersistedTableSettings>,
+): void {
+  if (typeof window === "undefined") return;
   try {
     const existing = getTableSettings(tableId) ?? {};
     const merged = { ...existing, ...settings };
@@ -34,7 +45,7 @@ export function saveTableSettings(tableId: string, settings: Partial<PersistedTa
 }
 
 export function clearTableSettings(tableId: string): void {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
   try {
     localStorage.removeItem(`${STORAGE_PREFIX}${tableId}`);
   } catch {

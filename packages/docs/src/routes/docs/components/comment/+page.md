@@ -11,20 +11,23 @@ A comment thread with an inline composer. Comments render with avatar, author, t
 
 ```svelte
 <script>
-  import { CommentSection } from '@intinyagroup/ui';
+  import { CommentSection } from "@intinyagroup/ui";
 
   let comments = $state([
-    { id: 1, author: 'Ada', text: 'First!', time: '2m', likes: 3 },
-    { id: 2, author: 'Grace', text: 'Nice work.', time: '1h', likes: 1 }
+    { id: 1, author: "Ada", text: "First!", time: "2m", likes: 3 },
+    { id: 2, author: "Grace", text: "Nice work.", time: "1h", likes: 1 },
   ]);
 
   function addComment(text) {
-    comments = [...comments, { id: Date.now(), author: 'You', text, time: 'now' }];
+    comments = [
+      ...comments,
+      { id: Date.now(), author: "You", text, time: "now" },
+    ];
   }
 
   function likeComment(id) {
     comments = comments.map((c) =>
-      c.id === id ? { ...c, likes: (c.likes ?? 0) + 1 } : c
+      c.id === id ? { ...c, likes: (c.likes ?? 0) + 1 } : c,
     );
   }
 
@@ -44,17 +47,17 @@ A comment thread with an inline composer. Comments render with avatar, author, t
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `comments` | `CommentItem[]` | — | List of comments to render |
-| `onAddComment` | `(text: string) => void` | — | Called with the composer text when submitted |
-| `onLike` | `(id: string \| number) => void` | — | Called when a comment is liked |
-| `onDelete` | `(id: string \| number) => void` | — | Called when a comment is deleted |
-| `currentUser` | `string` | — | Author name used to show delete controls |
-| `placeholder` | `string` | `'Add a comment…'` | Composer placeholder |
-| `class` | `string` | — | Additional CSS classes |
-| `commentClass` | `string` | — | Additional CSS classes per comment |
-| `children` | `Snippet` | — | Extra content below the thread |
+| Prop           | Type                             | Default            | Description                                  |
+| -------------- | -------------------------------- | ------------------ | -------------------------------------------- |
+| `comments`     | `CommentItem[]`                  | —                  | List of comments to render                   |
+| `onAddComment` | `(text: string) => void`         | —                  | Called with the composer text when submitted |
+| `onLike`       | `(id: string \| number) => void` | —                  | Called when a comment is liked               |
+| `onDelete`     | `(id: string \| number) => void` | —                  | Called when a comment is deleted             |
+| `currentUser`  | `string`                         | —                  | Author name used to show delete controls     |
+| `placeholder`  | `string`                         | `'Add a comment…'` | Composer placeholder                         |
+| `class`        | `string`                         | —                  | Additional CSS classes                       |
+| `commentClass` | `string`                         | —                  | Additional CSS classes per comment           |
+| `children`     | `Snippet`                        | —                  | Extra content below the thread               |
 
 ### CommentItem
 

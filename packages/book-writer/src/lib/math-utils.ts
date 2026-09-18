@@ -7,7 +7,7 @@
  * Falls back to plain text if KaTeX is not loaded
  */
 export function renderMath(latex: string, displayMode = false): string {
-  if (typeof window === 'undefined') return latex;
+  if (typeof window === "undefined") return latex;
 
   // Check if KaTeX is available
   const katex = (window as any).katex;
@@ -32,24 +32,24 @@ export function renderMath(latex: string, displayMode = false): string {
  * Load KaTeX CSS and JS dynamically
  */
 export function loadKaTeX() {
-  if (typeof document === 'undefined') return;
-  if (document.getElementById('katex-css')) return;
+  if (typeof document === "undefined") return;
+  if (document.getElementById("katex-css")) return;
 
   // CSS
-  const link = document.createElement('link');
-  link.id = 'katex-css';
-  link.rel = 'stylesheet';
-  link.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
+  const link = document.createElement("link");
+  link.id = "katex-css";
+  link.rel = "stylesheet";
+  link.href = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
   document.head.appendChild(link);
 
   // JS
-  const script = document.createElement('script');
-  script.id = 'katex-js';
-  script.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';
+  const script = document.createElement("script");
+  script.id = "katex-js";
+  script.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
   script.onload = () => {
     // Render any placeholders
-    document.querySelectorAll('.math-placeholder').forEach((el) => {
-      const latex = el.textContent || '';
+    document.querySelectorAll(".math-placeholder").forEach((el) => {
+      const latex = el.textContent || "";
       const rendered = renderMath(latex, false);
       el.outerHTML = rendered;
     });
@@ -67,7 +67,10 @@ export function hasMath(content: string): boolean {
 /**
  * Extract math expressions from content
  */
-export function extractMath(content: string): { inline: string[]; display: string[] } {
+export function extractMath(content: string): {
+  inline: string[];
+  display: string[];
+} {
   const inline = content.match(/\$[^$]+\$/g) ?? [];
   const display = content.match(/\$\$[\s\S]+\$\$/g) ?? [];
   return {
@@ -99,14 +102,17 @@ export function processDisplayMath(html: string): string {
  * Common LaTeX templates
  */
 export const mathTemplates = [
-  { label: 'Fraction', latex: '\\frac{a}{b}' },
-  { label: 'Square root', latex: '\\sqrt{x}' },
-  { label: 'Sum', latex: '\\sum_{i=1}^{n} x_i' },
-  { label: 'Integral', latex: '\\int_{a}^{b} f(x) \\, dx' },
-  { label: 'Matrix', latex: '\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}' },
-  { label: 'Limit', latex: '\\lim_{x \\to \\infty} f(x)' },
-  { label: 'Derivative', latex: '\\frac{d}{dx} f(x)' },
-  { label: 'Greek letters', latex: '\\alpha \\beta \\gamma \\delta \\epsilon' },
-  { label: 'Subscript', latex: 'x_{i}' },
-  { label: 'Superscript', latex: 'x^{n}' },
+  { label: "Fraction", latex: "\\frac{a}{b}" },
+  { label: "Square root", latex: "\\sqrt{x}" },
+  { label: "Sum", latex: "\\sum_{i=1}^{n} x_i" },
+  { label: "Integral", latex: "\\int_{a}^{b} f(x) \\, dx" },
+  {
+    label: "Matrix",
+    latex: "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}",
+  },
+  { label: "Limit", latex: "\\lim_{x \\to \\infty} f(x)" },
+  { label: "Derivative", latex: "\\frac{d}{dx} f(x)" },
+  { label: "Greek letters", latex: "\\alpha \\beta \\gamma \\delta \\epsilon" },
+  { label: "Subscript", latex: "x_{i}" },
+  { label: "Superscript", latex: "x^{n}" },
 ];

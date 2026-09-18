@@ -19,38 +19,62 @@ pnpm add @intinyagroup/notion-database @intinyagroup/ui @intinyagroup/tokens
 
 ```svelte
 <script lang="ts">
-  import { NotionDatabase, type DatabaseProperty } from '@intinyagroup/notion-database';
+  import {
+    NotionDatabase,
+    type DatabaseProperty,
+  } from "@intinyagroup/notion-database";
 
   interface Project {
     id: string;
     title: string;
-    status: 'To Do' | 'In Progress' | 'Done';
-    priority: 'Low' | 'Medium' | 'High';
+    status: "To Do" | "In Progress" | "Done";
+    priority: "Low" | "Medium" | "High";
     date: string;
     owner: string;
   }
 
   const properties: DatabaseProperty[] = [
-    { key: 'title', label: 'Project Name', type: 'title' },
+    { key: "title", label: "Project Name", type: "title" },
     {
-      key: 'status',
-      label: 'Status',
-      type: 'status',
+      key: "status",
+      label: "Status",
+      type: "status",
       options: [
-        { value: 'To Do', label: 'To Do', color: '#64748b' },
-        { value: 'In Progress', label: 'In Progress', color: '#2563eb' },
-        { value: 'Done', label: 'Done', color: '#059669' }
-      ]
+        { value: "To Do", label: "To Do", color: "#64748b" },
+        { value: "In Progress", label: "In Progress", color: "#2563eb" },
+        { value: "Done", label: "Done", color: "#059669" },
+      ],
     },
-    { key: 'priority', label: 'Priority', type: 'select' },
-    { key: 'date', label: 'Due Date', type: 'date' },
-    { key: 'owner', label: 'Lead', type: 'text' }
+    { key: "priority", label: "Priority", type: "select" },
+    { key: "date", label: "Due Date", type: "date" },
+    { key: "owner", label: "Lead", type: "text" },
   ];
 
   let items = $state<Project[]>([
-    { id: '1', title: 'Q3 Mobile App Launch', status: 'In Progress', priority: 'High', date: '2026-09-15', owner: 'Joshua' },
-    { id: '2', title: 'Design System Migration', status: 'Done', priority: 'Medium', date: '2026-09-02', owner: 'Budi' },
-    { id: '3', title: 'Postgres Scale Tuning', status: 'To Do', priority: 'High', date: '2026-09-28', owner: 'Alex' }
+    {
+      id: "1",
+      title: "Q3 Mobile App Launch",
+      status: "In Progress",
+      priority: "High",
+      date: "2026-09-15",
+      owner: "Joshua",
+    },
+    {
+      id: "2",
+      title: "Design System Migration",
+      status: "Done",
+      priority: "Medium",
+      date: "2026-09-02",
+      owner: "Budi",
+    },
+    {
+      id: "3",
+      title: "Postgres Scale Tuning",
+      status: "To Do",
+      priority: "High",
+      date: "2026-09-28",
+      owner: "Alex",
+    },
   ]);
 </script>
 
@@ -60,6 +84,6 @@ pnpm add @intinyagroup/notion-database @intinyagroup/ui @intinyagroup/tokens
   {items}
   {properties}
   activeView="table"
-  onItemClick={(item) => console.log('Open item:', item)}
+  onItemClick={(item) => console.log("Open item:", item)}
 />
 ```

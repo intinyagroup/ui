@@ -1,1 +1,1 @@
-export { default as LogoCloud } from './LogoCloud.svelte';
+export { default as LogoCloud } from "./LogoCloud.svelte";

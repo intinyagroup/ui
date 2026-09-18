@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { cn } from '../../utils.js';
-  import { type Snippet } from 'svelte';
-  import type { HTMLAttributes } from 'svelte/elements';
+  import { cn } from "../../utils.js";
+  import { type Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
   let {
     class: className,
@@ -13,6 +13,6 @@
   } & HTMLAttributes<HTMLElement> = $props();
 </script>
 
-<figure class={cn('flex flex-col items-center', className)} {...restProps}>
+<figure class={cn("flex flex-col items-center", className)} {...restProps}>
   {@render children?.()}
 </figure>

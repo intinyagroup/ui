@@ -1,1 +1,1 @@
-export { default as EditableLabel } from './EditableLabel.svelte';
+export { default as EditableLabel } from "./EditableLabel.svelte";

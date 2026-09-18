@@ -1,1 +1,1 @@
-export { default as ParallelogramCard } from './ParallelogramCard.svelte';
+export { default as ParallelogramCard } from "./ParallelogramCard.svelte";

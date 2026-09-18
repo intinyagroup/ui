@@ -1,19 +1,19 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  import { setDndContext, type DragCallbacks } from './dnd-context.svelte.js';
+  import type { Snippet } from "svelte";
+  import { setDndContext, type DragCallbacks } from "./dnd-context.svelte.js";
 
   let {
     children,
     onDragStart,
     onDragMove,
     onDragEnd,
-    onDragCancel
+    onDragCancel,
   }: {
     children?: Snippet;
-    onDragStart?: DragCallbacks['onDragStart'];
-    onDragMove?: DragCallbacks['onDragMove'];
-    onDragEnd?: DragCallbacks['onDragEnd'];
-    onDragCancel?: DragCallbacks['onDragCancel'];
+    onDragStart?: DragCallbacks["onDragStart"];
+    onDragMove?: DragCallbacks["onDragMove"];
+    onDragEnd?: DragCallbacks["onDragEnd"];
+    onDragCancel?: DragCallbacks["onDragCancel"];
   } = $props();
 
   const callbacks = {
@@ -28,7 +28,7 @@
     },
     get onDragCancel() {
       return onDragCancel;
-    }
+    },
   };
 
   setDndContext(callbacks);

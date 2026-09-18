@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { ChevronRight, ChevronDown, BookOpen } from 'lucide-svelte';
-  import { cn } from '@intinyagroup/grid-core/utils';
-  import type { Bookmark } from '../pdf-core.js';
+  import { ChevronRight, ChevronDown, BookOpen } from "lucide-svelte";
+  import { cn } from "@intinyagroup/grid-core/utils";
+  import type { Bookmark } from "../pdf-core.js";
 
   let {
     bookmarks = [],
@@ -32,10 +32,10 @@
     expanded = new Set(expanded);
   });
 
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
 </script>
 
-<div class={cn('p-2', className)}>
+<div class={cn("p-2", className)}>
   {#if bookmarks.length === 0}
     <div class="text-center py-8 text-sm text-[var(--ui-muted-foreground)]">
       <BookOpen class="size-8 mx-auto mb-2 opacity-40" />
@@ -63,8 +63,12 @@
             <span class="w-5"></span>
           {/if}
 
-          <span class="truncate text-[var(--ui-foreground)]">{bookmark.title}</span>
-          <span class="ml-auto text-[10px] text-[var(--ui-muted-foreground)] shrink-0">
+          <span class="truncate text-[var(--ui-foreground)]"
+            >{bookmark.title}</span
+          >
+          <span
+            class="ml-auto text-[10px] text-[var(--ui-muted-foreground)] shrink-0"
+          >
             {bookmark.pageNumber}
           </span>
         </button>
@@ -76,8 +80,12 @@
                 onclick={() => onNavigate(child.pageNumber)}
                 class="flex items-center gap-1.5 w-full px-2 py-1 rounded-md text-xs text-left hover:bg-[var(--ui-secondary)] transition-colors cursor-pointer"
               >
-                <span class="truncate text-[var(--ui-muted-foreground)]">{child.title}</span>
-                <span class="ml-auto text-[10px] text-[var(--ui-muted-foreground)]/60 shrink-0">
+                <span class="truncate text-[var(--ui-muted-foreground)]"
+                  >{child.title}</span
+                >
+                <span
+                  class="ml-auto text-[10px] text-[var(--ui-muted-foreground)]/60 shrink-0"
+                >
                   {child.pageNumber}
                 </span>
               </button>

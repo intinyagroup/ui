@@ -19,18 +19,19 @@ npx @intinyagroup/cli add validate
 
 ```html
 <script>
-  import { FormInput, FormGroup, validators } from '@intinyagroup/ui';
-  
-  let email = $state('');
+  import { FormInput, FormGroup, validators } from "@intinyagroup/ui";
+
+  let email = $state("");
   let emailError = $state(null);
 </script>
 
 <FormGroup legend="Contact">
   <FormInput
     label="Email"
-    rules={[validators.required(), validators.email()]}
-    bind:value={email}
-    bind:error={emailError}
+    rules="{[validators.required(),"
+    validators.email()]}
+    bind:value="{email}"
+    bind:error="{emailError}"
   />
 </FormGroup>
 ```
@@ -39,16 +40,16 @@ npx @intinyagroup/cli add validate
 
 ```html
 <script>
-  import { z } from 'zod';
-  import { createZodValidator, FormInput, zodRules } from '@intinyagroup/ui';
+  import { z } from "zod";
+  import { createZodValidator, FormInput, zodRules } from "@intinyagroup/ui";
 
   const schema = z.object({
-    email: z.string().email('Email tidak valid'),
-    password: z.string().min(8, 'Minimal 8 karakter')
+    email: z.string().email("Email tidak valid"),
+    password: z.string().min(8, "Minimal 8 karakter"),
   });
 
   const validator = createZodValidator(schema);
-  
+
   function onSubmit() {
     const result = validator.validate(form);
     if (!result.valid) {
@@ -57,39 +58,39 @@ npx @intinyagroup/cli add validate
   }
 </script>
 
-<FormInput label="Email" rules={zodRules(schema.shape.email)} />
+<FormInput label="Email" rules="{zodRules(schema.shape.email)}" />
 ```
 
 ## Components
 
-| Component | Description |
-|-----------|-------------|
-| `FormInput` | Validated input wrapper |
-| `FormSelect` | Validated select wrapper |
-| `FormTextarea` | Validated textarea wrapper |
-| `FormGroup` | Fieldset with legend |
-| `ValidationMessage` | Error display |
+| Component           | Description                |
+| ------------------- | -------------------------- |
+| `FormInput`         | Validated input wrapper    |
+| `FormSelect`        | Validated select wrapper   |
+| `FormTextarea`      | Validated textarea wrapper |
+| `FormGroup`         | Fieldset with legend       |
+| `ValidationMessage` | Error display              |
 
 ## Validators
 
-| Validator | Description |
-|-----------|-------------|
-| `required()` | Field must not be empty |
-| `minLength(n)` | Min characters |
-| `maxLength(n)` | Max characters |
-| `email()` | Valid email format |
-| `url()` | Valid URL |
-| `pattern(regex)` | Custom regex |
-| `min(n)` | Min number |
-| `max(n)` | Max number |
-| `phone()` | Valid phone format |
-| `numeric()` | Must be a number |
+| Validator        | Description             |
+| ---------------- | ----------------------- |
+| `required()`     | Field must not be empty |
+| `minLength(n)`   | Min characters          |
+| `maxLength(n)`   | Max characters          |
+| `email()`        | Valid email format      |
+| `url()`          | Valid URL               |
+| `pattern(regex)` | Custom regex            |
+| `min(n)`         | Min number              |
+| `max(n)`         | Max number              |
+| `phone()`        | Valid phone format      |
+| `numeric()`      | Must be a number        |
 
 ## Zod API
 
-| Function | Description |
-|----------|-------------|
-| `zodRules(schema)` | Convert Zod schema to rules |
+| Function                     | Description                    |
+| ---------------------------- | ------------------------------ |
+| `zodRules(schema)`           | Convert Zod schema to rules    |
 | `createZodValidator(schema)` | Full validator from Zod schema |
 
 ## Features

@@ -1,1 +1,1 @@
-export { default as Aside } from './Aside.svelte';
+export { default as Aside } from "./Aside.svelte";

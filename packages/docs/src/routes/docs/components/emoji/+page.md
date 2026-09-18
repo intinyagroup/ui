@@ -17,28 +17,27 @@ npx @intinyagroup/cli add emoji
 
 ```svelte
 <script>
-  import { Emoji } from '@intinyagroup/ui';
+  import { Emoji } from "@intinyagroup/ui";
 
-  let selected = $state('👍');
+  let selected = $state("👍");
 </script>
 
-<Emoji bind:value={selected} />
-<p>Selected: {selected}</p>
+<Emoji bind:value={selected} /><p>Selected: {selected}</p>
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| value | string | - | Currently selected emoji |
-| showPreview | boolean | true | Show emoji preview on hover |
-| showSkinTones | boolean | true | Show skin tone selector |
-| class | string | - | Additional CSS classes |
+| Prop          | Type    | Default | Description                 |
+| ------------- | ------- | ------- | --------------------------- |
+| value         | string  | -       | Currently selected emoji    |
+| showPreview   | boolean | true    | Show emoji preview on hover |
+| showSkinTones | boolean | true    | Show skin tone selector     |
+| class         | string  | -       | Additional CSS classes      |
 
 ## Events
 
-| Event | Detail | Description |
-|-------|--------|-------------|
+| Event  | Detail | Description                   |
+| ------ | ------ | ----------------------------- |
 | select | string | Fires when an emoji is picked |
 
 ## Notes

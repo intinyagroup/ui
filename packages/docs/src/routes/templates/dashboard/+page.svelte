@@ -9,65 +9,108 @@
     TrendingUp,
     Clock,
     Plus,
-    CheckCircle2
-  } from 'lucide-svelte';
-  import { Button, Card, Badge, StatCard } from '@intinyagroup/ui';
-  import { DataTable, type ColumnDef } from '@intinyagroup/data-table';
-  import { EventCalendar, type CalendarEvent } from '@intinyagroup/calendar';
-  import { NotionDatabase, type DatabaseProperty } from '@intinyagroup/notion-database';
+    CheckCircle2,
+  } from "lucide-svelte";
+  import { Button, Card, Badge, StatCard } from "@intinyagroup/ui";
+  import { DataTable, type ColumnDef } from "@intinyagroup/data-table";
+  import { EventCalendar, type CalendarEvent } from "@intinyagroup/calendar";
+  import {
+    NotionDatabase,
+    type DatabaseProperty,
+  } from "@intinyagroup/notion-database";
 
   interface ProjectTask {
     id: string;
     title: string;
-    status: 'To Do' | 'In Progress' | 'Done';
-    priority: 'Low' | 'Medium' | 'High';
+    status: "To Do" | "In Progress" | "Done";
+    priority: "Low" | "Medium" | "High";
     date: string;
     owner: string;
     budget: string;
   }
 
   const properties: DatabaseProperty[] = [
-    { key: 'title', label: 'Feature / Task', type: 'title' },
+    { key: "title", label: "Feature / Task", type: "title" },
     {
-      key: 'status',
-      label: 'Status',
-      type: 'status',
+      key: "status",
+      label: "Status",
+      type: "status",
       options: [
-        { value: 'To Do', label: 'To Do', color: '#64748b' },
-        { value: 'In Progress', label: 'In Progress', color: '#2563eb' },
-        { value: 'Done', label: 'Done', color: '#059669' }
-      ]
+        { value: "To Do", label: "To Do", color: "#64748b" },
+        { value: "In Progress", label: "In Progress", color: "#2563eb" },
+        { value: "Done", label: "Done", color: "#059669" },
+      ],
     },
-    { key: 'priority', label: 'Priority', type: 'select' },
-    { key: 'date', label: 'Target Date', type: 'date' },
-    { key: 'owner', label: 'Owner', type: 'text' },
-    { key: 'budget', label: 'Budget', type: 'number' }
+    { key: "priority", label: "Priority", type: "select" },
+    { key: "date", label: "Target Date", type: "date" },
+    { key: "owner", label: "Owner", type: "text" },
+    { key: "budget", label: "Budget", type: "number" },
   ];
 
   let roadmapItems = $state<ProjectTask[]>([
-    { id: '1', title: 'Q3 Mobile App Launch', status: 'In Progress', priority: 'High', date: '2026-09-15', owner: 'Joshua', budget: 'Rp 45.000.000' },
-    { id: '2', title: 'Design System Migration to Ark UI', status: 'Done', priority: 'Medium', date: '2026-09-02', owner: 'Budi Santoso', budget: 'Rp 15.000.000' },
-    { id: '3', title: 'Postgres Vector Tuning', status: 'To Do', priority: 'High', date: '2026-09-28', owner: 'Alex Wong', budget: 'Rp 20.000.000' },
-    { id: '4', title: 'Auth0 to Supabase Cutover', status: 'In Progress', priority: 'High', date: '2026-09-12', owner: 'Dewi Lestari', budget: 'Rp 30.000.000' },
-    { id: '5', title: 'Dark Theme Color Calibration', status: 'Done', priority: 'Low', date: '2026-09-01', owner: 'Siti Rahma', budget: 'Rp 8.000.000' }
+    {
+      id: "1",
+      title: "Q3 Mobile App Launch",
+      status: "In Progress",
+      priority: "High",
+      date: "2026-09-15",
+      owner: "Joshua",
+      budget: "Rp 45.000.000",
+    },
+    {
+      id: "2",
+      title: "Design System Migration to Ark UI",
+      status: "Done",
+      priority: "Medium",
+      date: "2026-09-02",
+      owner: "Budi Santoso",
+      budget: "Rp 15.000.000",
+    },
+    {
+      id: "3",
+      title: "Postgres Vector Tuning",
+      status: "To Do",
+      priority: "High",
+      date: "2026-09-28",
+      owner: "Alex Wong",
+      budget: "Rp 20.000.000",
+    },
+    {
+      id: "4",
+      title: "Auth0 to Supabase Cutover",
+      status: "In Progress",
+      priority: "High",
+      date: "2026-09-12",
+      owner: "Dewi Lestari",
+      budget: "Rp 30.000.000",
+    },
+    {
+      id: "5",
+      title: "Dark Theme Color Calibration",
+      status: "Done",
+      priority: "Low",
+      date: "2026-09-01",
+      owner: "Siti Rahma",
+      budget: "Rp 8.000.000",
+    },
   ]);
 
   const now = new Date();
   let calendarEvents = $state<CalendarEvent[]>([
     {
-      id: 'e1',
-      title: 'Sprint Planning & Grooming',
+      id: "e1",
+      title: "Sprint Planning & Grooming",
       start: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 30),
       end: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 11, 0),
-      color: '#2563eb'
+      color: "#2563eb",
     },
     {
-      id: 'e2',
-      title: 'Design Critique & UI Audit',
+      id: "e2",
+      title: "Design Critique & UI Audit",
       start: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 0),
       end: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 30),
-      color: '#7c3aed'
-    }
+      color: "#7c3aed",
+    },
   ]);
 </script>
 
@@ -75,13 +118,20 @@
   <title>Enterprise Project Management Showcase — Intinya UI</title>
 </svelte:head>
 
-<div class="min-h-screen bg-[var(--ui-background)] text-[var(--ui-foreground)] p-6 space-y-8 max-w-7xl mx-auto">
+<div
+  class="min-h-screen bg-[var(--ui-background)] text-[var(--ui-foreground)] p-6 space-y-8 max-w-7xl mx-auto"
+>
   <!-- Top Welcome Header -->
-  <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[var(--ui-border)]">
+  <div
+    class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[var(--ui-border)]"
+  >
     <div>
-      <h1 class="text-2xl font-black tracking-tight">Enterprise Engineering Hub</h1>
+      <h1 class="text-2xl font-black tracking-tight">
+        Enterprise Engineering Hub
+      </h1>
       <p class="text-sm text-[var(--ui-muted-foreground)] mt-1">
-        Demonstrasi integrasi multi-komponen: NotionDatabase, EventCalendar, dan DataTable dalam satu dashboard.
+        Demonstrasi integrasi multi-komponen: NotionDatabase, EventCalendar, dan
+        DataTable dalam satu dashboard.
       </p>
     </div>
 

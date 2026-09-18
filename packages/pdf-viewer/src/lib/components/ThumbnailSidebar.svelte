@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { cn } from '@intinyagroup/grid-core/utils';
-  import type { PDFDocumentProxy } from 'pdfjs-dist';
-  import * as pdfjsLib from 'pdfjs-dist';
+  import { onMount } from "svelte";
+  import { cn } from "@intinyagroup/grid-core/utils";
+  import type { PDFDocumentProxy } from "pdfjs-dist";
+  import * as pdfjsLib from "pdfjs-dist";
 
   let {
     pdf,
@@ -28,13 +28,13 @@
       try {
         const page = await pdf.getPage(i);
         const viewport = page.getViewport({ scale: 0.2 });
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         canvas.width = viewport.width;
         canvas.height = viewport.height;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         if (ctx) {
           await page.render({ canvasContext: ctx, viewport }).promise;
-          thumbnails.set(i, canvas.toDataURL('image/jpeg', 0.5));
+          thumbnails.set(i, canvas.toDataURL("image/jpeg", 0.5));
           thumbnails = new Map(thumbnails);
         }
       } catch {
@@ -52,7 +52,7 @@
   function scrollToCurrentPage() {
     if (!containerEl) return;
     const el = containerEl.querySelector(`[data-page="${currentPage}"]`);
-    el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
   $effect(() => {
@@ -74,10 +74,10 @@
       <button
         onclick={() => onPageSelect(pageNum)}
         class={cn(
-          'w-full rounded-lg border-2 transition-all cursor-pointer overflow-hidden',
+          "w-full rounded-lg border-2 transition-all cursor-pointer overflow-hidden",
           isActive
-            ? 'border-[var(--ui-primary)] shadow-md'
-            : 'border-transparent hover:border-[var(--ui-border)]'
+            ? "border-[var(--ui-primary)] shadow-md"
+            : "border-transparent hover:border-[var(--ui-border)]",
         )}
       >
         {#if thumbnail}
@@ -90,10 +90,14 @@
         {:else}
           <div class="w-full h-24 bg-[var(--ui-secondary)] animate-pulse"></div>
         {/if}
-        <div class={cn(
-          'py-1 text-center text-[10px] font-medium',
-          isActive ? 'text-[var(--ui-primary)] bg-[var(--ui-primary)]/5' : 'text-[var(--ui-muted-foreground)]'
-        )}>
+        <div
+          class={cn(
+            "py-1 text-center text-[10px] font-medium",
+            isActive
+              ? "text-[var(--ui-primary)] bg-[var(--ui-primary)]/5"
+              : "text-[var(--ui-muted-foreground)]",
+          )}
+        >
           {pageNum}
         </div>
       </button>

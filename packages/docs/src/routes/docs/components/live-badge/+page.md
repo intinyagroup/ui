@@ -11,7 +11,7 @@ A pulsing "LIVE" badge for streams and real-time sessions, with an optional view
 
 ```svelte
 <script>
-  import { LiveBadge } from '@intinyagroup/ui';
+  import { LiveBadge } from "@intinyagroup/ui";
 </script>
 
 <LiveBadge viewers={1284} />
@@ -21,12 +21,12 @@ A pulsing "LIVE" badge for streams and real-time sessions, with an optional view
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `viewers` | `number` | — | Viewer count shown next to the badge |
-| `label` | `string` | `'LIVE'` | Badge text |
-| `pulsing` | `boolean` | `true` | Animate the ping ring |
-| `class` | `string` | — | Additional CSS classes |
+| Prop      | Type      | Default  | Description                          |
+| --------- | --------- | -------- | ------------------------------------ |
+| `viewers` | `number`  | —        | Viewer count shown next to the badge |
+| `label`   | `string`  | `'LIVE'` | Badge text                           |
+| `pulsing` | `boolean` | `true`   | Animate the ping ring                |
+| `class`   | `string`  | —        | Additional CSS classes               |
 
 ## Features
 

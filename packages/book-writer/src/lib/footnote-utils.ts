@@ -15,14 +15,15 @@ export type Footnote = {
  */
 export function extractFootnotes(html: string): Footnote[] {
   const footnotes: Footnote[] = [];
-  const contentRegex = /<div[^>]*data-footnote-content="(\d+)"[^>]*>(.*?)<\/div>/gi;
+  const contentRegex =
+    /<div[^>]*data-footnote-content="(\d+)"[^>]*>(.*?)<\/div>/gi;
   let match;
 
   while ((match = contentRegex.exec(html)) !== null) {
     footnotes.push({
       id: `fn-${match[1]}`,
       number: parseInt(match[1]),
-      content: match[2].replace(/<[^>]*>/g, ''),
+      content: match[2].replace(/<[^>]*>/g, ""),
     });
   }
 
@@ -40,7 +41,11 @@ export function insertFootnoteMarker(html: string, number: number): string {
 /**
  * Add footnote definition to content
  */
-export function addFootnoteDefinition(html: string, number: number, content: string): string {
+export function addFootnoteDefinition(
+  html: string,
+  number: number,
+  content: string,
+): string {
   const definition = `<div data-footnote-content="${number}" class="footnote-definition text-sm text-[var(--ui-muted-foreground)] border-t border-[var(--ui-border)] pt-2 mt-4">[${number}] ${content}</div>`;
   return html + definition;
 }
@@ -49,11 +54,14 @@ export function addFootnoteDefinition(html: string, number: number, content: str
  * Render footnotes section for export
  */
 export function renderFootnotesSection(footnotes: Footnote[]): string {
-  if (footnotes.length === 0) return '';
+  if (footnotes.length === 0) return "";
 
   const items = footnotes
-    .map((fn) => `<div class="footnote"><sup>${fn.number}</sup> ${fn.content}</div>`)
-    .join('\n');
+    .map(
+      (fn) =>
+        `<div class="footnote"><sup>${fn.number}</sup> ${fn.content}</div>`,
+    )
+    .join("\n");
 
   return `<div class="footnotes-section" style="margin-top: 2em; padding-top: 1em; border-top: 1px solid #ccc; font-size: 0.9em;">
     <h3>Notes</h3>
@@ -67,6 +75,6 @@ export function renderFootnotesSection(footnotes: Footnote[]): string {
 export function getNextFootnoteNumber(html: string): number {
   const markers = html.match(/data-footnote="(\d+)"/g) ?? [];
   if (markers.length === 0) return 1;
-  const numbers = markers.map((m) => parseInt(m.match(/\d+/)?.[0] ?? '0'));
+  const numbers = markers.map((m) => parseInt(m.match(/\d+/)?.[0] ?? "0"));
   return Math.max(...numbers) + 1;
 }

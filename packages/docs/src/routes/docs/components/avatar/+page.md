@@ -6,7 +6,7 @@ A circular user image with fallback, status badge, and group support. Built on b
 
 ```svelte
 <script>
-  import { Avatar, AvatarImage, AvatarFallback } from '@intinyagroup/ui';
+  import { Avatar, AvatarImage, AvatarFallback } from "@intinyagroup/ui";
 </script>
 
 <Avatar>
@@ -19,7 +19,7 @@ A circular user image with fallback, status badge, and group support. Built on b
 
 ```svelte
 <script>
-  import { Avatar, AvatarImage, AvatarFallback } from '@intinyagroup/ui';
+  import { Avatar, AvatarImage, AvatarFallback } from "@intinyagroup/ui";
 </script>
 
 <div class="flex items-center gap-4">
@@ -42,7 +42,12 @@ A circular user image with fallback, status badge, and group support. Built on b
 
 ```svelte
 <script>
-  import { Avatar, AvatarImage, AvatarFallback, AvatarGroup } from '@intinyagroup/ui';
+  import {
+    Avatar,
+    AvatarImage,
+    AvatarFallback,
+    AvatarGroup,
+  } from "@intinyagroup/ui";
 </script>
 
 <AvatarGroup>
@@ -65,7 +70,12 @@ A circular user image with fallback, status badge, and group support. Built on b
 
 ```svelte
 <script>
-  import { Avatar, AvatarImage, AvatarFallback, AvatarBadge } from '@intinyagroup/ui';
+  import {
+    Avatar,
+    AvatarImage,
+    AvatarFallback,
+    AvatarBadge,
+  } from "@intinyagroup/ui";
 </script>
 
 <Avatar>
@@ -87,11 +97,11 @@ A circular user image with fallback, status badge, and group support. Built on b
 
 ### Avatar
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `size` | `'sm' \| 'default' \| 'lg'` | `'default'` | Avatar size |
-| `loadingStatus` | `string` | `'loading'` | Bindable loading status |
-| `class` | `string` | — | Additional classes |
+| Prop            | Type                        | Default     | Description             |
+| --------------- | --------------------------- | ----------- | ----------------------- |
+| `size`          | `'sm' \| 'default' \| 'lg'` | `'default'` | Avatar size             |
+| `loadingStatus` | `string`                    | `'loading'` | Bindable loading status |
+| `class`         | `string`                    | —           | Additional classes      |
 
 ### AvatarImage
 

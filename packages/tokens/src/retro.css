@@ -42,72 +42,72 @@
 ::root,
 [data-ui-theme="retro"] {
   --ui-background: oklch(0.95 0.02 80);
-  --ui-foreground: oklch(0.20 0.03 50);
+  --ui-foreground: oklch(0.2 0.03 50);
   --ui-card: oklch(0.97 0.01 80);
-  --ui-card-foreground: oklch(0.20 0.03 50);
+  --ui-card-foreground: oklch(0.2 0.03 50);
   --ui-popover: oklch(0.97 0.01 80);
-  --ui-popover-foreground: oklch(0.20 0.03 50);
-  --ui-primary: oklch(0.60 0.15 25);
+  --ui-popover-foreground: oklch(0.2 0.03 50);
+  --ui-primary: oklch(0.6 0.15 25);
   --ui-primary-foreground: oklch(0.97 0.01 80);
-  --ui-secondary: oklch(0.90 0.03 60);
-  --ui-secondary-foreground: oklch(0.30 0.04 50);
-  --ui-muted: oklch(0.90 0.03 60);
-  --ui-muted-foreground: oklch(0.50 0.03 60);
+  --ui-secondary: oklch(0.9 0.03 60);
+  --ui-secondary-foreground: oklch(0.3 0.04 50);
+  --ui-muted: oklch(0.9 0.03 60);
+  --ui-muted-foreground: oklch(0.5 0.03 60);
   --ui-accent: oklch(0.55 0.14 90);
   --ui-accent-foreground: oklch(0.97 0.01 80);
-  --ui-destructive: oklch(0.50 0.18 15);
+  --ui-destructive: oklch(0.5 0.18 15);
   --ui-border: oklch(0.75 0.03 60);
   --ui-input: oklch(0.75 0.03 60);
-  --ui-ring: oklch(0.60 0.15 25);
+  --ui-ring: oklch(0.6 0.15 25);
   --ui-radius: 0px;
 
   /* Retro shadows — subtle warm tones */
-  --ui-shadow-xs: 0 1px 2px oklch(0.70 0.02 60 / 0.3);
-  --ui-shadow-sm: 0 1px 3px oklch(0.70 0.02 60 / 0.35);
-  --ui-shadow-md: 0 4px 6px oklch(0.70 0.02 60 / 0.3);
-  --ui-shadow-lg: 0 10px 15px oklch(0.70 0.02 60 / 0.25);
-  --ui-shadow-xl: 0 20px 25px oklch(0.70 0.02 60 / 0.2);
+  --ui-shadow-xs: 0 1px 2px oklch(0.7 0.02 60 / 0.3);
+  --ui-shadow-sm: 0 1px 3px oklch(0.7 0.02 60 / 0.35);
+  --ui-shadow-md: 0 4px 6px oklch(0.7 0.02 60 / 0.3);
+  --ui-shadow-lg: 0 10px 15px oklch(0.7 0.02 60 / 0.25);
+  --ui-shadow-xl: 0 20px 25px oklch(0.7 0.02 60 / 0.2);
 
   /* Sepia-toned accent palette */
   --retro-sepia-brown: oklch(0.45 0.08 50);
-  --retro-olive: oklch(0.55 0.10 100);
-  --retro-rust: oklch(0.50 0.14 35);
-  --retro-gold: oklch(0.70 0.12 80);
+  --retro-olive: oklch(0.55 0.1 100);
+  --retro-rust: oklch(0.5 0.14 35);
+  --retro-gold: oklch(0.7 0.12 80);
 
   --ui-success: oklch(0.55 0.14 100);
-  --ui-warning: oklch(0.70 0.12 80);
-  --ui-info: oklch(0.50 0.10 240);
+  --ui-warning: oklch(0.7 0.12 80);
+  --ui-info: oklch(0.5 0.1 240);
 }
 
 /* Retro Dark Theme */
 [data-ui-theme="retro-dark"] {
   --ui-background: oklch(0.25 0.02 50);
-  --ui-foreground: oklch(0.90 0.02 60);
+  --ui-foreground: oklch(0.9 0.02 60);
   --ui-card: oklch(0.28 0.02 50);
-  --ui-card-foreground: oklch(0.90 0.02 60);
+  --ui-card-foreground: oklch(0.9 0.02 60);
   --ui-popover: oklch(0.28 0.02 50);
-  --ui-popover-foreground: oklch(0.90 0.02 60);
-  --ui-primary: oklch(0.70 0.16 25);
+  --ui-popover-foreground: oklch(0.9 0.02 60);
+  --ui-primary: oklch(0.7 0.16 25);
   --ui-primary-foreground: oklch(0.15 0.02 50);
   --ui-secondary: oklch(0.35 0.03 50);
-  --ui-secondary-foreground: oklch(0.90 0.02 60);
-  --ui-muted: oklch(0.30 0.02 50);
-  --ui-muted-foreground: oklch(0.60 0.03 60);
+  --ui-secondary-foreground: oklch(0.9 0.02 60);
+  --ui-muted: oklch(0.3 0.02 50);
+  --ui-muted-foreground: oklch(0.6 0.03 60);
   --ui-accent: oklch(0.65 0.14 90);
   --ui-accent-foreground: oklch(0.15 0.02 50);
-  --ui-destructive: oklch(0.60 0.20 15);
-  --ui-border: oklch(0.40 0.03 50);
-  --ui-input: oklch(0.40 0.03 50);
-  --ui-ring: oklch(0.70 0.16 25);
+  --ui-destructive: oklch(0.6 0.2 15);
+  --ui-border: oklch(0.4 0.03 50);
+  --ui-input: oklch(0.4 0.03 50);
+  --ui-ring: oklch(0.7 0.16 25);
 
-  --retro-sepia-brown: oklch(0.60 0.10 50);
+  --retro-sepia-brown: oklch(0.6 0.1 50);
   --retro-olive: oklch(0.65 0.12 100);
-  --retro-rust: oklch(0.60 0.16 35);
-  --retro-gold: oklch(0.80 0.12 80);
+  --retro-rust: oklch(0.6 0.16 35);
+  --retro-gold: oklch(0.8 0.12 80);
 
   --ui-success: oklch(0.65 0.14 100);
-  --ui-warning: oklch(0.80 0.12 80);
-  --ui-info: oklch(0.60 0.12 240);
+  --ui-warning: oklch(0.8 0.12 80);
+  --ui-info: oklch(0.6 0.12 240);
 }
 
 /* Spacing scale */
@@ -151,10 +151,14 @@ a {
   text-decoration: none;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font: inherit;
 }
 
-code, pre {
+code,
+pre {
   font-family: var(--ui-font-mono);
 }

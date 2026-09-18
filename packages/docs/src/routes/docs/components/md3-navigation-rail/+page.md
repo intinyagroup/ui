@@ -11,15 +11,15 @@ A vertical navigation component for tablet and desktop layouts. Displays navigat
 
 ```svelte
 <script>
-  import { NavigationRail } from '@intinyagroup/md3';
+  import { NavigationRail } from "@intinyagroup/md3";
 </script>
 
 <div class="h-96">
   <NavigationRail
     items={[
-      { label: 'Home', active: true },
-      { label: 'Search' },
-      { label: 'Favorites' }
+      { label: "Home", active: true },
+      { label: "Search" },
+      { label: "Favorites" },
     ]}
   />
 </div>
@@ -29,12 +29,10 @@ A vertical navigation component for tablet and desktop layouts. Displays navigat
 
 ```svelte
 <script>
-  import { NavigationRail } from '@intinyagroup/md3';
+  import { NavigationRail } from "@intinyagroup/md3";
 </script>
 
-<NavigationRail
-  items={navItems}
->
+<NavigationRail items={navItems}>
   {#snippet fab()}
     <FAB variant="tertiary" size="small" />
   {/snippet}
@@ -47,18 +45,18 @@ Each item requires a `label` string and an `icon` snippet. Set `active: true` on
 
 ### NavigationRail
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `items` | `NavigationItem[]` | `[]` | Array of navigation items |
-| `fab` | `Snippet` | `undefined` | Optional FAB rendered at the top |
-| `class` | `string` | `undefined` | Additional CSS classes |
+| Prop    | Type               | Default     | Description                      |
+| ------- | ------------------ | ----------- | -------------------------------- |
+| `items` | `NavigationItem[]` | `[]`        | Array of navigation items        |
+| `fab`   | `Snippet`          | `undefined` | Optional FAB rendered at the top |
+| `class` | `string`           | `undefined` | Additional CSS classes           |
 
 ### NavigationItem
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `label` | `string` | Item label text |
-| `icon` | `Snippet` | Icon snippet |
+| Property | Type      | Description                           |
+| -------- | --------- | ------------------------------------- |
+| `label`  | `string`  | Item label text                       |
+| `icon`   | `Snippet` | Icon snippet                          |
 | `active` | `boolean` | Whether this item is currently active |
 
 ## Install

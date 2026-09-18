@@ -11,7 +11,7 @@ A pentagon-shaped statistic display for key metrics. Uses `clip-path: polygon(50
 
 ```svelte
 <script>
-  import { PentagonStat } from '@intinyagroup/flat';
+  import { PentagonStat } from "@intinyagroup/flat";
 </script>
 
 <div class="flex flex-wrap items-center gap-8">
@@ -25,7 +25,7 @@ A pentagon-shaped statistic display for key metrics. Uses `clip-path: polygon(50
 
 ```svelte
 <script>
-  import { PentagonStat } from '@intinyagroup/flat';
+  import { PentagonStat } from "@intinyagroup/flat";
 </script>
 
 <PentagonStat value="1.2M" label="Downloads" color="orange" size="md" />
@@ -33,13 +33,13 @@ A pentagon-shaped statistic display for key metrics. Uses `clip-path: polygon(50
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | — | Metric value text |
-| `label` | `string` | — | Metric label |
-| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'` | Flat color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Stat size |
-| `class` | `string` | `undefined` | Additional CSS classes |
+| Prop    | Type                                                                     | Default     | Description            |
+| ------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
+| `value` | `string`                                                                 | —           | Metric value text      |
+| `label` | `string`                                                                 | —           | Metric label           |
+| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'`    | Flat color variant     |
+| `size`  | `'sm' \| 'md' \| 'lg'`                                                   | `'md'`      | Stat size              |
+| `class` | `string`                                                                 | `undefined` | Additional CSS classes |
 
 ## Install
 

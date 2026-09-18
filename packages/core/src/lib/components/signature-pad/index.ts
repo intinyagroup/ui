@@ -1,1 +1,1 @@
-export { default as SignaturePad } from './SignaturePad.svelte';
+export { default as SignaturePad } from "./SignaturePad.svelte";

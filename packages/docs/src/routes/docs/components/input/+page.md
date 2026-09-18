@@ -6,8 +6,8 @@ A text field for user input.
 
 ```svelte
 <script>
-  import { Input } from '@intinyagroup/ui';
-  import { Label } from '@intinyagroup/ui';
+  import { Input } from "@intinyagroup/ui";
+  import { Label } from "@intinyagroup/ui";
 </script>
 
 <div class="flex w-72 flex-col gap-2">
@@ -24,13 +24,13 @@ A text field for user input.
 
 ## Props
 
-| Prop | Type | Default |
-|------|------|---------|
-| `type` | `string` | `'text'` |
-| `placeholder` | `string` | — |
-| `value` | `string` | `''` |
-| `disabled` | `boolean` | `false` |
-| `class` | `string` | — |
+| Prop          | Type      | Default  |
+| ------------- | --------- | -------- |
+| `type`        | `string`  | `'text'` |
+| `placeholder` | `string`  | —        |
+| `value`       | `string`  | `''`     |
+| `disabled`    | `boolean` | `false`  |
+| `class`       | `string`  | —        |
 
 All other props forward to the `<input>` element.
 

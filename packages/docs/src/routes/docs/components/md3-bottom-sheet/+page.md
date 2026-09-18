@@ -11,7 +11,7 @@ A modal surface that slides up from the bottom of the screen, typically used on 
 
 ```svelte
 <script>
-  import { BottomSheet } from '@intinyagroup/md3';
+  import { BottomSheet } from "@intinyagroup/md3";
 
   let open = $state(false);
 </script>
@@ -44,7 +44,7 @@ A modal surface that slides up from the bottom of the screen, typically used on 
 
 ```svelte
 <script>
-  import { BottomSheet } from '@intinyagroup/md3';
+  import { BottomSheet } from "@intinyagroup/md3";
 
   let open = $state(false);
 </script>
@@ -56,13 +56,13 @@ A modal surface that slides up from the bottom of the screen, typically used on 
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `open` | `boolean` (bindable) | `false` | Controls visibility |
-| `variant` | `'standard' \| 'expanding'` | `'standard'` | Max height behavior |
-| `title` | `string` | `undefined` | Optional title displayed above content |
-| `children` | `Snippet` | `undefined` | Panel content |
-| `class` | `string` | `undefined` | Additional CSS classes for the panel |
+| Prop       | Type                        | Default      | Description                            |
+| ---------- | --------------------------- | ------------ | -------------------------------------- |
+| `open`     | `boolean` (bindable)        | `false`      | Controls visibility                    |
+| `variant`  | `'standard' \| 'expanding'` | `'standard'` | Max height behavior                    |
+| `title`    | `string`                    | `undefined`  | Optional title displayed above content |
+| `children` | `Snippet`                   | `undefined`  | Panel content                          |
+| `class`    | `string`                    | `undefined`  | Additional CSS classes for the panel   |
 
 ## Install
 

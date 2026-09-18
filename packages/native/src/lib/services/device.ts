@@ -1,4 +1,4 @@
-import { Device } from '@capacitor/device';
+import { Device } from "@capacitor/device";
 
 export interface DeviceInfo {
   /** 'android' | 'ios' | 'web' | 'electron' | ... */
@@ -17,7 +17,7 @@ export interface DeviceInfo {
  * Safe to call in any context; returns false on the web.
  */
 export function isCapacitorAvailable(): boolean {
-  return typeof globalThis !== 'undefined' && 'Capacitor' in globalThis;
+  return typeof globalThis !== "undefined" && "Capacitor" in globalThis;
 }
 
 /**
@@ -25,17 +25,20 @@ export function isCapacitorAvailable(): boolean {
  * @capacitor/device sets on the web. Returns null when nothing is available.
  */
 async function resolveWebDeviceInfo(): Promise<DeviceInfo | null> {
-  const nav = (globalThis as typeof window & { navigator?: Navigator }).navigator;
+  const nav = (globalThis as typeof window & { navigator?: Navigator })
+    .navigator;
   if (!nav) return null;
-  const ua = nav.userAgent ?? '';
-  const osVersion = /(?:iPhone OS|Android)\s([\d_.]+)/i.exec(ua)?.[1]?.replace(/_/g, '.') ?? 'unknown';
-  const model = /\(([^)]+)\)/.exec(ua)?.[1] ?? 'web';
+  const ua = nav.userAgent ?? "";
+  const osVersion =
+    /(?:iPhone OS|Android)\s([\d_.]+)/i.exec(ua)?.[1]?.replace(/_/g, ".") ??
+    "unknown";
+  const model = /\(([^)]+)\)/.exec(ua)?.[1] ?? "web";
   return {
-    platform: 'web',
+    platform: "web",
     model,
     osVersion,
     isNative: false,
-    isWeb: true
+    isWeb: true,
   };
 }
 
@@ -46,22 +49,24 @@ async function resolveWebDeviceInfo(): Promise<DeviceInfo | null> {
 export async function getDeviceInfo(): Promise<DeviceInfo> {
   try {
     const info = await Device.getInfo();
-    const platform = (info.platform ?? 'web') as DeviceInfo['platform'];
+    const platform = (info.platform ?? "web") as DeviceInfo["platform"];
     return {
       platform,
-      model: info.model || 'unknown',
-      osVersion: info.osVersion ?? 'unknown',
-      isNative: platform !== 'web',
-      isWeb: platform === 'web'
+      model: info.model || "unknown",
+      osVersion: info.osVersion ?? "unknown",
+      isNative: platform !== "web",
+      isWeb: platform === "web",
     };
   } catch {
-    return (await resolveWebDeviceInfo()) ?? {
-      platform: 'web',
-      model: 'web',
-      osVersion: 'unknown',
-      isNative: false,
-      isWeb: true
-    };
+    return (
+      (await resolveWebDeviceInfo()) ?? {
+        platform: "web",
+        model: "web",
+        osVersion: "unknown",
+        isNative: false,
+        isWeb: true,
+      }
+    );
   }
 }
 
@@ -70,19 +75,19 @@ export async function getDeviceInfo(): Promise<DeviceInfo> {
  * Native: 'ios' | 'android' | 'web'. Non-native shells fall back to the
  * browser userAgent platform.
  */
-export async function getPlatform(): Promise<'ios' | 'android' | 'web'> {
+export async function getPlatform(): Promise<"ios" | "android" | "web"> {
   const info = await getDeviceInfo();
   const g = globalThis as { navigator?: Navigator };
   const nav = g.navigator;
-  if (info.platform === 'ios') return 'ios';
-  if (info.platform === 'android') return 'android';
-  if (info.platform === 'web') {
+  if (info.platform === "ios") return "ios";
+  if (info.platform === "android") return "android";
+  if (info.platform === "web") {
     const nav = (globalThis as any).navigator as Navigator | undefined;
-    const ua = nav?.userAgent ?? '';
-    if (/iPad|iPhone|iPod/.test(ua)) return 'ios';
-    if (/Android/.test(ua)) return 'android';
+    const ua = nav?.userAgent ?? "";
+    if (/iPad|iPhone|iPod/.test(ua)) return "ios";
+    if (/Android/.test(ua)) return "android";
   }
-  return 'web';
+  return "web";
 }
 
 /**
@@ -101,5 +106,5 @@ export async function getLocale(): Promise<string> {
 
 function getWebLocale(): string {
   const nav = globalThis as unknown as { navigator?: Navigator };
-  return nav.navigator?.language ?? 'en-US';
+  return nav.navigator?.language ?? "en-US";
 }

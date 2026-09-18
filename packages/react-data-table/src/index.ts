@@ -1,4 +1,4 @@
-export * from './DataTable.js';
+export * from "./DataTable.js";
 export {
   createCoreTableModel,
   resolvePagination,
@@ -11,13 +11,13 @@ export {
   getTableSettings,
   saveTableSettings,
   clearTableSettings,
-} from '@intinyagroup/grid-core';
+} from "@intinyagroup/grid-core";
 export type {
   CoreTableState,
   ServerSideConfig as GridCoreServerSideConfig,
   DataTableMeta,
   FocusedCell,
-} from '@intinyagroup/grid-core';
+} from "@intinyagroup/grid-core";
 export type {
   ColumnDef,
   ColumnFiltersState,
@@ -28,4 +28,4 @@ export type {
   ColumnOrderState,
   ExpandedState,
   GroupingState,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";

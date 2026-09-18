@@ -1,5 +1,5 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect } from "@sveltejs/kit";
 
 export const load = () => {
-	redirect(308, '/docs/getting-started');
+  redirect(308, "/docs/getting-started");
 };

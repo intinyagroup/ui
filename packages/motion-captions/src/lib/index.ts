@@ -1,1 +1,14 @@
-export { createCaptionTrack, createCaptionStyle, createCaptionLine, getCaptionStyles, renderCaptionHTML, parseSRT, exportToSRT, type CaptionTrack, type CaptionLine, type CaptionWord, type CaptionStyle, type CaptionAnimation } from './captions.js';
+export {
+  createCaptionTrack,
+  createCaptionStyle,
+  createCaptionLine,
+  getCaptionStyles,
+  renderCaptionHTML,
+  parseSRT,
+  exportToSRT,
+  type CaptionTrack,
+  type CaptionLine,
+  type CaptionWord,
+  type CaptionStyle,
+  type CaptionAnimation,
+} from "./captions.js";

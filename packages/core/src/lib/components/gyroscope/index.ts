@@ -1,1 +1,1 @@
-export { default as Gyroscope } from './Gyroscope.svelte';
+export { default as Gyroscope } from "./Gyroscope.svelte";

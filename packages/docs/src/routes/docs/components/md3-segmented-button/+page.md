@@ -11,9 +11,9 @@ A group of buttons in a pill container used to display available options and hel
 
 ```svelte
 <script>
-  import { SegmentedButton, SegmentedButtonItem } from '@intinyagroup/md3';
+  import { SegmentedButton, SegmentedButtonItem } from "@intinyagroup/md3";
 
-  let selected = $state('day');
+  let selected = $state("day");
 </script>
 
 <SegmentedButton bind:value={selected}>
@@ -29,9 +29,9 @@ Set `multiple` to allow toggling several options at once:
 
 ```svelte
 <script>
-  import { SegmentedButton, SegmentedButtonItem } from '@intinyagroup/md3';
+  import { SegmentedButton, SegmentedButtonItem } from "@intinyagroup/md3";
 
-  let selected = $state(['bold', 'italic']);
+  let selected = $state(["bold", "italic"]);
 </script>
 
 <SegmentedButton multiple bind:value={selected}>
@@ -45,21 +45,21 @@ Set `multiple` to allow toggling several options at once:
 
 ### SegmentedButton
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string \| string[]` (bindable) | `[]` | Selected value(s); array when `multiple` |
-| `multiple` | `boolean` | `false` | Enables multi-selection |
-| `class` | `string` | `undefined` | Additional CSS classes |
-| `children` | `Snippet` | `undefined` | SegmentedButtonItem children |
+| Prop       | Type                            | Default     | Description                              |
+| ---------- | ------------------------------- | ----------- | ---------------------------------------- |
+| `value`    | `string \| string[]` (bindable) | `[]`        | Selected value(s); array when `multiple` |
+| `multiple` | `boolean`                       | `false`     | Enables multi-selection                  |
+| `class`    | `string`                        | `undefined` | Additional CSS classes                   |
+| `children` | `Snippet`                       | `undefined` | SegmentedButtonItem children             |
 
 ### SegmentedButtonItem
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | — | Unique value for this segment |
-| `label` | `string` | — | Segment label text |
-| `icon` | `Snippet` | `undefined` | Optional icon shown when unselected |
-| `class` | `string` | `undefined` | Additional CSS classes |
+| Prop    | Type      | Default     | Description                         |
+| ------- | --------- | ----------- | ----------------------------------- |
+| `value` | `string`  | —           | Unique value for this segment       |
+| `label` | `string`  | —           | Segment label text                  |
+| `icon`  | `Snippet` | `undefined` | Optional icon shown when unselected |
+| `class` | `string`  | `undefined` | Additional CSS classes              |
 
 ## Install
 

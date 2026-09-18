@@ -1,4 +1,4 @@
-import Mention from './Mention.svelte';
+import Mention from "./Mention.svelte";
 
 export { Mention };
 

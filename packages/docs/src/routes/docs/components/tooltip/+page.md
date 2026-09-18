@@ -6,8 +6,13 @@ A small popup that appears on hover or focus to show additional information. Bui
 
 ```svelte
 <script>
-  import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@intinyagroup/ui';
-  import { Button } from '@intinyagroup/ui';
+  import {
+    Tooltip,
+    TooltipTrigger,
+    TooltipContent,
+    TooltipProvider,
+  } from "@intinyagroup/ui";
+  import { Button } from "@intinyagroup/ui";
 </script>
 
 <TooltipProvider>
@@ -26,8 +31,13 @@ A small popup that appears on hover or focus to show additional information. Bui
 
 ```svelte
 <script>
-  import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@intinyagroup/ui';
-  import { Button } from '@intinyagroup/ui';
+  import {
+    Tooltip,
+    TooltipTrigger,
+    TooltipContent,
+    TooltipProvider,
+  } from "@intinyagroup/ui";
+  import { Button } from "@intinyagroup/ui";
 </script>
 
 <TooltipProvider>
@@ -67,9 +77,14 @@ A small popup that appears on hover or focus to show additional information. Bui
 
 ```svelte
 <script>
-  import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@intinyagroup/ui';
-  import { Button } from '@intinyagroup/ui';
-  import { Kbd } from '@intinyagroup/ui';
+  import {
+    Tooltip,
+    TooltipTrigger,
+    TooltipContent,
+    TooltipProvider,
+  } from "@intinyagroup/ui";
+  import { Button } from "@intinyagroup/ui";
+  import { Kbd } from "@intinyagroup/ui";
 </script>
 
 <TooltipProvider>
@@ -95,18 +110,18 @@ A small popup that appears on hover or focus to show additional information. Bui
 
 ### TooltipProvider
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `delayDuration` | `number` | `700` | Delay before showing (ms) |
-| `skipDelayDuration` | `number` | `300` | Delay to skip when moving between tooltips |
+| Prop                | Type     | Default | Description                                |
+| ------------------- | -------- | ------- | ------------------------------------------ |
+| `delayDuration`     | `number` | `700`   | Delay before showing (ms)                  |
+| `skipDelayDuration` | `number` | `300`   | Delay to skip when moving between tooltips |
 
 ### TooltipContent
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Popup position |
-| `sideOffset` | `number` | `0` | Distance from trigger (px) |
-| `class` | `string` | — | Additional classes |
+| Prop         | Type                                     | Default | Description                |
+| ------------ | ---------------------------------------- | ------- | -------------------------- |
+| `side`       | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Popup position             |
+| `sideOffset` | `number`                                 | `0`     | Distance from trigger (px) |
+| `class`      | `string`                                 | —       | Additional classes         |
 
 ## Accessibility
 

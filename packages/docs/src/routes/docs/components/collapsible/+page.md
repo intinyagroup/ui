@@ -12,8 +12,12 @@ npx @intinyagroup/cli add collapsible
 
 ```svelte
 <script>
-  import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@intinyagroup/ui';
-  import { Button } from '@intinyagroup/ui';
+  import {
+    Collapsible,
+    CollapsibleTrigger,
+    CollapsibleContent,
+  } from "@intinyagroup/ui";
+  import { Button } from "@intinyagroup/ui";
 </script>
 
 <Collapsible>
@@ -36,8 +40,8 @@ npx @intinyagroup/cli add collapsible
 
 ## Props
 
-| Sub-component | Description |
-|---------------|-------------|
-| `Collapsible` | Root — accepts `open` (bindable) and `disabled` |
-| `CollapsibleTrigger` | Toggle button |
-| `CollapsibleContent` | Content panel with enter/exit animation |
+| Sub-component        | Description                                     |
+| -------------------- | ----------------------------------------------- |
+| `Collapsible`        | Root — accepts `open` (bindable) and `disabled` |
+| `CollapsibleTrigger` | Toggle button                                   |
+| `CollapsibleContent` | Content panel with enter/exit animation         |

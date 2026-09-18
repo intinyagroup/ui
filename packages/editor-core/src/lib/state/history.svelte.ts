@@ -1,4 +1,4 @@
-import { editor, type EditorState } from './editor.svelte.js';
+import { editor, type EditorState } from "./editor.svelte.js";
 
 const MAX_HISTORY = 100;
 
@@ -30,7 +30,7 @@ export function undo() {
   currentIndex--;
   const state = history[currentIndex];
   editor.reset();
-  state.elements.forEach(el => editor.addElement(el));
+  state.elements.forEach((el) => editor.addElement(el));
   isUndoing = false;
 }
 
@@ -41,7 +41,7 @@ export function redo() {
   currentIndex++;
   const state = history[currentIndex];
   editor.reset();
-  state.elements.forEach(el => editor.addElement(el));
+  state.elements.forEach((el) => editor.addElement(el));
   isUndoing = false;
 }
 

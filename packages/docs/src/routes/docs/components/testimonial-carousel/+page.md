@@ -17,20 +17,20 @@ npx @intinyagroup/cli add testimonial-carousel
 
 ```svelte
 <script>
-  import { TestimonialCarousel } from '@intinyagroup/ui';
+  import { TestimonialCarousel } from "@intinyagroup/ui";
 
   const testimonials = [
     {
-      quote: 'Intinya UI transformed our design system.',
-      author: 'Jane Smith',
-      role: 'CTO at Acme',
-      avatar: '/avatars/jane.jpg',
+      quote: "Intinya UI transformed our design system.",
+      author: "Jane Smith",
+      role: "CTO at Acme",
+      avatar: "/avatars/jane.jpg",
     },
     {
-      quote: 'Best component library we have used.',
-      author: 'Bob Johnson',
-      role: 'Lead Dev at Startup',
-      avatar: '/avatars/bob.jpg',
+      quote: "Best component library we have used.",
+      author: "Bob Johnson",
+      role: "Lead Dev at Startup",
+      avatar: "/avatars/bob.jpg",
     },
   ];
 </script>
@@ -40,23 +40,23 @@ npx @intinyagroup/cli add testimonial-carousel
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| testimonials | Testimonial[] | [] | Array of testimonial objects |
-| autoPlay | boolean | true | Auto-rotate between testimonials |
-| interval | number | 5000 | Auto-play interval in ms |
-| showDots | boolean | true | Show dot navigation indicators |
-| showArrows | boolean | true | Show prev/next arrow buttons |
-| class | string | - | Additional CSS classes |
+| Prop         | Type          | Default | Description                      |
+| ------------ | ------------- | ------- | -------------------------------- |
+| testimonials | Testimonial[] | []      | Array of testimonial objects     |
+| autoPlay     | boolean       | true    | Auto-rotate between testimonials |
+| interval     | number        | 5000    | Auto-play interval in ms         |
+| showDots     | boolean       | true    | Show dot navigation indicators   |
+| showArrows   | boolean       | true    | Show prev/next arrow buttons     |
+| class        | string        | -       | Additional CSS classes           |
 
 ## Testimonial Properties
 
-| Property | Type | Description |
-|----------|------|-------------|
-| quote | string | Testimonial text |
-| author | string | Author name |
-| role | string | Author title/company |
-| avatar | string | Author avatar image URL |
+| Property | Type   | Description             |
+| -------- | ------ | ----------------------- |
+| quote    | string | Testimonial text        |
+| author   | string | Author name             |
+| role     | string | Author title/company    |
+| avatar   | string | Author avatar image URL |
 
 ## Notes
 

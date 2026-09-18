@@ -12,26 +12,26 @@ npx @intinyagroup/cli add tree-view
 
 ```svelte
 <script>
-  import { TreeView, TreeNode } from '@intinyagroup/ui';
-  import type { TreeViewNode } from '@intinyagroup/ui';
+  import { TreeView, TreeNode } from "@intinyagroup/ui";
+  import type { TreeViewNode } from "@intinyagroup/ui";
 
   const nodes: TreeViewNode[] = [
     {
-      id: '1',
-      label: 'Documents',
+      id: "1",
+      label: "Documents",
       children: [
-        { id: '1-1', label: 'report.pdf' },
-        { id: '1-2', label: 'notes.txt' },
-      ]
+        { id: "1-1", label: "report.pdf" },
+        { id: "1-2", label: "notes.txt" },
+      ],
     },
     {
-      id: '2',
-      label: 'Pictures',
+      id: "2",
+      label: "Pictures",
       children: [
-        { id: '2-1', label: 'vacation.jpg' },
-        { id: '2-2', label: 'family.png' },
-      ]
-    }
+        { id: "2-1", label: "vacation.jpg" },
+        { id: "2-2", label: "family.png" },
+      ],
+    },
   ];
 </script>
 
@@ -45,10 +45,10 @@ npx @intinyagroup/cli add tree-view
 
 ## Props
 
-| Sub-component | Description |
-|---------------|-------------|
-| `TreeView` | Root — accepts `nodes` array of `TreeViewNode` objects |
-| `TreeNode` | Individual node — renders label and manages expand/collapse state |
+| Sub-component | Description                                                       |
+| ------------- | ----------------------------------------------------------------- |
+| `TreeView`    | Root — accepts `nodes` array of `TreeViewNode` objects            |
+| `TreeNode`    | Individual node — renders label and manages expand/collapse state |
 
 ### TreeViewNode Type
 

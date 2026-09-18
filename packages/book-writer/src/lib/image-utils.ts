@@ -3,7 +3,9 @@
 // ============================================
 
 /** Fetch image as Uint8Array for pdf-lib embedding */
-export async function fetchImageAsBytes(url: string): Promise<Uint8Array | null> {
+export async function fetchImageAsBytes(
+  url: string,
+): Promise<Uint8Array | null> {
   try {
     const response = await fetch(url);
     if (!response.ok) return null;
@@ -15,16 +17,17 @@ export async function fetchImageAsBytes(url: string): Promise<Uint8Array | null>
 }
 
 /** Get image type from URL or data URL */
-export function getImageType(url: string): 'png' | 'jpg' | 'svg' | 'gif' {
-  if (url.startsWith('data:image/png')) return 'png';
-  if (url.startsWith('data:image/jpeg') || url.startsWith('data:image/jpg')) return 'jpg';
-  if (url.startsWith('data:image/svg')) return 'svg';
-  if (url.startsWith('data:image/gif')) return 'gif';
-  if (url.endsWith('.png')) return 'png';
-  if (url.endsWith('.jpg') || url.endsWith('.jpeg')) return 'jpg';
-  if (url.endsWith('.svg')) return 'svg';
-  if (url.endsWith('.gif')) return 'gif';
-  return 'png';
+export function getImageType(url: string): "png" | "jpg" | "svg" | "gif" {
+  if (url.startsWith("data:image/png")) return "png";
+  if (url.startsWith("data:image/jpeg") || url.startsWith("data:image/jpg"))
+    return "jpg";
+  if (url.startsWith("data:image/svg")) return "svg";
+  if (url.startsWith("data:image/gif")) return "gif";
+  if (url.endsWith(".png")) return "png";
+  if (url.endsWith(".jpg") || url.endsWith(".jpeg")) return "jpg";
+  if (url.endsWith(".svg")) return "svg";
+  if (url.endsWith(".gif")) return "gif";
+  return "png";
 }
 
 /** Resize image to fit within bounds (for PDF embedding) */
@@ -32,7 +35,7 @@ export function resizeImage(
   imageData: Uint8Array,
   maxWidth: number,
   maxHeight: number,
-  format: 'png' | 'jpg' = 'png'
+  format: "png" | "jpg" = "png",
 ): Promise<Uint8Array> {
   return new Promise((resolve) => {
     const blob = new Blob([imageData]);
@@ -53,10 +56,10 @@ export function resizeImage(
         height = maxHeight;
       }
 
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       canvas.width = width;
       canvas.height = height;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       if (ctx) {
         ctx.drawImage(img, 0, 0, width, height);
         canvas.toBlob(
@@ -67,8 +70,8 @@ export function resizeImage(
               resolve(imageData);
             }
           },
-          format === 'jpg' ? 'image/jpeg' : 'image/png',
-          0.92
+          format === "jpg" ? "image/jpeg" : "image/png",
+          0.92,
         );
       } else {
         resolve(imageData);
@@ -88,7 +91,7 @@ export function resizeImage(
 
 /** Convert data URL to Uint8Array */
 export function dataUrlToBytes(dataUrl: string): Uint8Array {
-  const base64 = dataUrl.split(',')[1];
+  const base64 = dataUrl.split(",")[1];
   const binary = atob(base64);
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) {

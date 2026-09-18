@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { cn } from '../../utils.js';
-  import { type Snippet } from 'svelte';
-  import type { HTMLAttributes } from 'svelte/elements';
+  import { cn } from "../../utils.js";
+  import { type Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
   let {
     class: className,
@@ -13,6 +13,12 @@
   } & HTMLAttributes<HTMLElement> = $props();
 </script>
 
-<summary class={cn('cursor-pointer font-medium text-[var(--ui-foreground)] [&::-webkit-details-marker]:hidden', className)} {...restProps}>
+<summary
+  class={cn(
+    "cursor-pointer font-medium text-[var(--ui-foreground)] [&::-webkit-details-marker]:hidden",
+    className,
+  )}
+  {...restProps}
+>
   {@render children?.()}
 </summary>

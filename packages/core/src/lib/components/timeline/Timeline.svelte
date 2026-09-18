@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  import { cn } from '../../utils.js';
-  import { setContext } from 'svelte';
+  import type { Snippet } from "svelte";
+  import { cn } from "../../utils.js";
+  import { setContext } from "svelte";
 
   let {
     alternating = false,
@@ -13,24 +13,19 @@
     children: Snippet;
   } = $props();
 
-  setContext('timeline', {
+  setContext("timeline", {
     get alternating() {
       return alternating;
-    }
+    },
   });
 </script>
 
-<div
-  class={cn('relative', className)}
-  role="list"
->
+<div class={cn("relative", className)} role="list">
   <!-- Connecting vertical line -->
   <div
     class={cn(
-      'absolute top-0 bottom-0 w-px bg-[var(--ui-border)]',
-      alternating
-        ? 'left-1/2 -translate-x-1/2'
-        : 'left-[19px]'
+      "absolute top-0 bottom-0 w-px bg-[var(--ui-border)]",
+      alternating ? "left-1/2 -translate-x-1/2" : "left-[19px]",
     )}
     aria-hidden="true"
   ></div>

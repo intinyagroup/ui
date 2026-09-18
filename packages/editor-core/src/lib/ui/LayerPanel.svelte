@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { editor, selectedElements } from '../state/index.js';
+  import { editor, selectedElements } from "../state/index.js";
 
   $: elements = [...$editor.elements].sort((a, b) => b.zIndex - a.zIndex);
 </script>

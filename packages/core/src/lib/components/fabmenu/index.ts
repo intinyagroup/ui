@@ -1,1 +1,1 @@
-export { default as FabMenu } from './FabMenu.svelte';
+export { default as FabMenu } from "./FabMenu.svelte";

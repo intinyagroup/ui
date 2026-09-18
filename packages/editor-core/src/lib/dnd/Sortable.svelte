@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  import { getDndContext } from './dnd-context.svelte.js';
+  import type { Snippet } from "svelte";
+  import { getDndContext } from "./dnd-context.svelte.js";
 
   let {
     id,
     index,
     class: className,
     onReorder,
-    children
+    children,
   }: {
     id: string;
     index: number;
@@ -26,7 +26,7 @@
     unregisterDroppable,
     registerSortableIndex,
     unregisterSortableIndex,
-    getSortableIndex
+    getSortableIndex,
   } = getDndContext();
 
   let element: HTMLDivElement | undefined = $state();
@@ -48,7 +48,7 @@
   const shift = $derived.by(() => {
     if (isActive || $dragState.overId !== id || !element) return 0;
     const fromIndex = $dragState.data.index;
-    const gap = typeof fromIndex === 'number' ? fromIndex - index : 0;
+    const gap = typeof fromIndex === "number" ? fromIndex - index : 0;
     return gap > 0 ? -element.offsetHeight : element.offsetHeight;
   });
 
@@ -61,7 +61,7 @@
   function onPointerDown(e: PointerEvent) {
     if (e.button !== 0) return;
     element?.setPointerCapture(e.pointerId);
-    startDrag(id, { index, type: 'sortable' }, e);
+    startDrag(id, { index, type: "sortable" }, e);
   }
 
   function onPointerMove(e: PointerEvent) {
@@ -77,7 +77,11 @@
     endDrag();
     const fromIndex = data.index;
     const toIndex = overId ? getSortableIndex(overId) : undefined;
-    if (typeof fromIndex === 'number' && typeof toIndex === 'number' && fromIndex !== toIndex) {
+    if (
+      typeof fromIndex === "number" &&
+      typeof toIndex === "number" &&
+      fromIndex !== toIndex
+    ) {
       onReorder?.(fromIndex, toIndex);
     }
   }

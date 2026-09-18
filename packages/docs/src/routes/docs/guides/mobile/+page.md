@@ -9,20 +9,21 @@ Intinya UI includes mobile components designed for touch-first interfaces. Combi
 
 ## Mobile Component Set
 
-| Component | Purpose |
-|-----------|---------|
-| `TabBar` | Bottom navigation with badge support |
-| `PullToRefresh` | Refresh gesture |
-| `ListView` | Virtualized scrollable list |
-| `ListItem` | Touch list row |
-| `ActionSheet` | Bottom action picker |
-| `FabMenu` | Floating action menu |
-| `SlideMenu` | Drawer navigation |
-| `SegmentedControl` | Toggle group |
-| `MobileToast` | Bottom notification |
-| `AvatarStack` | Avatar group |
+| Component          | Purpose                              |
+| ------------------ | ------------------------------------ |
+| `TabBar`           | Bottom navigation with badge support |
+| `PullToRefresh`    | Refresh gesture                      |
+| `ListView`         | Virtualized scrollable list          |
+| `ListItem`         | Touch list row                       |
+| `ActionSheet`      | Bottom action picker                 |
+| `FabMenu`          | Floating action menu                 |
+| `SlideMenu`        | Drawer navigation                    |
+| `SegmentedControl` | Toggle group                         |
+| `MobileToast`      | Bottom notification                  |
+| `AvatarStack`      | Avatar group                         |
 
 All mobile components are:
+
 - **Touch-optimized** — 44px+ targets, no hover-dependent features
 - **Safe-area aware** — respects notches via `env(safe-area-inset-*)`
 - **Tree-shakeable** — import only what you use
@@ -31,11 +32,19 @@ All mobile components are:
 
 ```svelte
 <script>
-  import { TabBar, TabBarItem, ListView, ListItem, PullToRefresh } from '@intinyagroup/ui';
-  import { Home, ShoppingBag, User } from 'lucide-svelte';
+  import {
+    TabBar,
+    TabBarItem,
+    ListView,
+    ListItem,
+    PullToRefresh,
+  } from "@intinyagroup/ui";
+  import { Home, ShoppingBag, User } from "lucide-svelte";
 
-  let tab = $state('home');
-  let items = $state([...Array(50)].map((_, i) => ({ id: i, title: `Item ${i}` })));
+  let tab = $state("home");
+  let items = $state(
+    [...Array(50)].map((_, i) => ({ id: i, title: `Item ${i}` })),
+  );
   let refreshing = $state(false);
 
   async function onRefresh() {
@@ -48,7 +57,7 @@ All mobile components are:
 
 <div class="flex h-dvh flex-col">
   <PullToRefresh {refreshing} onrefresh={onRefresh}>
-    <ListView items={items} let:item>
+    <ListView {items} let:item>
       <ListItem {item} />
     </ListView>
   </PullToRefresh>
@@ -65,9 +74,11 @@ All mobile components are:
 
 1. Install a manifest + service worker (SvelteKit `@svelte-kit/pwa` or `vite-plugin-pwa`)
 2. Add theme-color meta:
+
 ```html
 <meta name="theme-color" content="#7c3aed" />
 ```
+
 3. Add to home screen — the app works offline via cache
 
 ## Capacitor Setup
@@ -80,10 +91,10 @@ npx cap add ios
 ```
 
 ```ts
-import { takePhoto, localNotify } from '@intinyagroup/native';
+import { takePhoto, localNotify } from "@intinyagroup/native";
 
 const photo = await takePhoto(); // web: file input, native: camera
-await localNotify('Welcome', 'Your app is ready');
+await localNotify("Welcome", "Your app is ready");
 ```
 
 `@intinyagroup/native` detects the platform and falls back to web APIs when not running in Capacitor.

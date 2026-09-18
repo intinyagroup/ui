@@ -1,4 +1,4 @@
-import '../src/lib/tokens/base.css';
+import "../src/lib/tokens/base.css";
 
 /** @type {import('storybook').Preview} */
 const preview = {
@@ -6,26 +6,26 @@ const preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/i
-      }
+        date: /Date$/i,
+      },
     },
     themes: {
-      default: 'neutral',
+      default: "neutral",
       list: [
-        { name: 'neutral', class: '', color: '#ffffff' },
-        { name: 'warm', class: '', color: '#f6f1e8' },
-        { name: 'dark', class: 'dark', color: '#1a1a1a' }
-      ]
-    }
+        { name: "neutral", class: "", color: "#ffffff" },
+        { name: "warm", class: "", color: "#f6f1e8" },
+        { name: "dark", class: "dark", color: "#1a1a1a" },
+      ],
+    },
   },
   decorators: [
     (story, context) => {
-      const theme = context.globals.theme || 'neutral';
+      const theme = context.globals.theme || "neutral";
       return {
-        template: `<div data-ui-theme="${theme}">${story()}</div>`
+        template: `<div data-ui-theme="${theme}">${story()}</div>`,
       };
-    }
-  ]
+    },
+  ],
 };
 
 export default preview;

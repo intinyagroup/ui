@@ -1,7 +1,7 @@
-import { getContext, setContext } from 'svelte';
-import { writable, type Writable } from 'svelte/store';
+import { getContext, setContext } from "svelte";
+import { writable, type Writable } from "svelte/store";
 
-const DND_KEY = Symbol('intinya-dnd');
+const DND_KEY = Symbol("intinya-dnd");
 
 export type DragState = {
   activeId: string | null;
@@ -22,7 +22,11 @@ export type DragCallbacks = {
 export type DndContextValue = {
   state: Writable<DragState>;
   callbacks: DragCallbacks;
-  startDrag: (id: string, data: Record<string, unknown>, e: PointerEvent) => void;
+  startDrag: (
+    id: string,
+    data: Record<string, unknown>,
+    e: PointerEvent,
+  ) => void;
   moveDrag: (e: PointerEvent) => void;
   endDrag: () => void;
   cancelDrag: () => void;
@@ -37,7 +41,13 @@ export type DndContextValue = {
 const EMPTY_OFFSET = { x: 0, y: 0 };
 
 function initialDragState(): DragState {
-  return { activeId: null, overId: null, offset: { ...EMPTY_OFFSET }, startRect: null, data: {} };
+  return {
+    activeId: null,
+    overId: null,
+    offset: { ...EMPTY_OFFSET },
+    startRect: null,
+    data: {},
+  };
 }
 
 export function setDndContext(callbacks: DragCallbacks = {}): DndContextValue {
@@ -58,14 +68,23 @@ export function setDndContext(callbacks: DragCallbacks = {}): DndContextValue {
   function hitTest(x: number, y: number): string | null {
     for (const [id, el] of droppables) {
       const rect = el.getBoundingClientRect();
-      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+      if (
+        x >= rect.left &&
+        x <= rect.right &&
+        y >= rect.top &&
+        y <= rect.bottom
+      ) {
         return id;
       }
     }
     return null;
   }
 
-  function startDrag(id: string, data: Record<string, unknown>, e: PointerEvent): void {
+  function startDrag(
+    id: string,
+    data: Record<string, unknown>,
+    e: PointerEvent,
+  ): void {
     if (startPointer) return; // already dragging
     startPointer = { x: e.clientX, y: e.clientY };
 
@@ -77,7 +96,7 @@ export function setDndContext(callbacks: DragCallbacks = {}): DndContextValue {
       overId: hitTest(e.clientX, e.clientY),
       offset: { ...EMPTY_OFFSET },
       startRect: rect ? { left: rect.left, top: rect.top } : null,
-      data
+      data,
     });
     callbacks.onDragStart?.(current);
   }
@@ -87,7 +106,7 @@ export function setDndContext(callbacks: DragCallbacks = {}): DndContextValue {
     publish({
       ...current,
       offset: { x: e.clientX - startPointer.x, y: e.clientY - startPointer.y },
-      overId: hitTest(e.clientX, e.clientY)
+      overId: hitTest(e.clientX, e.clientY),
     });
     callbacks.onDragMove?.(current);
   }
@@ -120,7 +139,7 @@ export function setDndContext(callbacks: DragCallbacks = {}): DndContextValue {
     unregisterDroppable: (id) => droppables.delete(id),
     registerSortableIndex: (id, index) => sortableIndexes.set(id, index),
     unregisterSortableIndex: (id) => sortableIndexes.delete(id),
-    getSortableIndex: (id) => sortableIndexes.get(id)
+    getSortableIndex: (id) => sortableIndexes.get(id),
   };
 
   setContext(DND_KEY, value);
@@ -131,7 +150,7 @@ export function getDndContext(): DndContextValue {
   const ctx = getContext<DndContextValue>(DND_KEY);
   if (!ctx) {
     throw new Error(
-      'getDndContext() called outside of <DndContext>. Wrap draggables/droppables in a DndContext provider.'
+      "getDndContext() called outside of <DndContext>. Wrap draggables/droppables in a DndContext provider.",
     );
   }
   return ctx;

@@ -3,12 +3,16 @@ export interface GridSnapOptions {
   enabled: boolean;
 }
 
-export function snapToGrid(x: number, y: number, options: GridSnapOptions): { x: number; y: number } {
+export function snapToGrid(
+  x: number,
+  y: number,
+  options: GridSnapOptions,
+): { x: number; y: number } {
   if (!options.enabled) return { x, y };
 
   return {
     x: Math.round(x / options.size) * options.size,
-    y: Math.round(y / options.size) * options.size
+    y: Math.round(y / options.size) * options.size,
   };
 }
 
@@ -16,7 +20,7 @@ export function snapToElements(
   x: number,
   y: number,
   elements: { x: number; y: number; width: number; height: number }[],
-  threshold: number = 5
+  threshold: number = 5,
 ): { x: number; y: number } {
   let snappedX = x;
   let snappedY = y;

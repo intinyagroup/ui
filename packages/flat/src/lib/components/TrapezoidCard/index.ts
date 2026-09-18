@@ -1,1 +1,1 @@
-export { default as TrapezoidCard } from './TrapezoidCard.svelte';
+export { default as TrapezoidCard } from "./TrapezoidCard.svelte";

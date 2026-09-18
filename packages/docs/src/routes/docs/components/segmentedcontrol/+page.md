@@ -11,14 +11,14 @@ A pill-style control for switching between a small set of options. The active pi
 
 ```svelte
 <script>
-  import { SegmentedControl } from '@intinyagroup/ui';
+  import { SegmentedControl } from "@intinyagroup/ui";
 
   let options = [
-    { value: 'day', label: 'Day' },
-    { value: 'week', label: 'Week' },
-    { value: 'month', label: 'Month' }
+    { value: "day", label: "Day" },
+    { value: "week", label: "Week" },
+    { value: "month", label: "Month" },
   ];
-  let value = $state('week');
+  let value = $state("week");
 </script>
 
 <SegmentedControl bind:value {options} />
@@ -26,11 +26,11 @@ A pill-style control for switching between a small set of options. The active pi
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string \| number` | — | Bindable selected option value |
-| `options` | `{ value: string \| number; label: string }[]` | — | Options to render |
-| `class` | `string` | — | Additional CSS classes |
+| Prop      | Type                                           | Default | Description                    |
+| --------- | ---------------------------------------------- | ------- | ------------------------------ |
+| `value`   | `string \| number`                             | —       | Bindable selected option value |
+| `options` | `{ value: string \| number; label: string }[]` | —       | Options to render              |
+| `class`   | `string`                                       | —       | Additional CSS classes         |
 
 ## Features
 

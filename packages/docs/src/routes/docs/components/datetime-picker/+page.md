@@ -17,7 +17,7 @@ npx @intinyagroup/cli add datetime-picker
 
 ```svelte
 <script>
-  import { DatetimePicker } from '@intinyagroup/ui';
+  import { DatetimePicker } from "@intinyagroup/ui";
 
   let selected = $state(new Date());
 </script>
@@ -28,21 +28,21 @@ npx @intinyagroup/cli add datetime-picker
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| value | Date | - | Selected date/time |
-| showTime | boolean | true | Show time picker |
-| showSeconds | boolean | false | Show seconds selector |
-| min | Date | - | Minimum selectable date |
-| max | Date | - | Maximum selectable date |
-| disabled | boolean | false | Disable interaction |
-| class | string | - | Additional CSS classes |
+| Prop        | Type    | Default | Description             |
+| ----------- | ------- | ------- | ----------------------- |
+| value       | Date    | -       | Selected date/time      |
+| showTime    | boolean | true    | Show time picker        |
+| showSeconds | boolean | false   | Show seconds selector   |
+| min         | Date    | -       | Minimum selectable date |
+| max         | Date    | -       | Maximum selectable date |
+| disabled    | boolean | false   | Disable interaction     |
+| class       | string  | -       | Additional CSS classes  |
 
 ## Events
 
-| Event | Detail | Description |
-|-------|--------|-------------|
-| change | Date | Fires when date/time changes |
+| Event  | Detail | Description                  |
+| ------ | ------ | ---------------------------- |
+| change | Date   | Fires when date/time changes |
 
 ## Notes
 

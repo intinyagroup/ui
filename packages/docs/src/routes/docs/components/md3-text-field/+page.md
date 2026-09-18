@@ -11,7 +11,7 @@ A Material Design 3 text input with a floating label, support text, and error st
 
 ```svelte
 <script>
-  import { TextField } from '@intinyagroup/md3';
+  import { TextField } from "@intinyagroup/md3";
 </script>
 
 <div class="flex flex-col gap-6">
@@ -30,9 +30,9 @@ A Material Design 3 text input with a floating label, support text, and error st
 
 ```svelte
 <script>
-  import { TextField } from '@intinyagroup/md3';
+  import { TextField } from "@intinyagroup/md3";
 
-  let name = $state('');
+  let name = $state("");
 </script>
 
 <TextField
@@ -45,18 +45,18 @@ A Material Design 3 text input with a floating label, support text, and error st
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` (bindable) | `''` | Input value |
-| `label` | `string` | `''` | Floating label text |
-| `placeholder` | `string` | `''` | Placeholder text |
-| `variant` | `'filled' \| 'outlined'` | `'filled'` | Text field style |
-| `error` | `string` | `undefined` | Error message (shows error state) |
-| `disabled` | `boolean` | `false` | Disables the input |
-| `class` | `string` | `undefined` | Additional CSS classes |
-| `id` | `string` | `undefined` | Input id (auto-generated from label otherwise) |
-| `type` | `string` | `'text'` | Input type |
-| `helperText` | `string` | `undefined` | Supporting text below the field |
+| Prop          | Type                     | Default     | Description                                    |
+| ------------- | ------------------------ | ----------- | ---------------------------------------------- |
+| `value`       | `string` (bindable)      | `''`        | Input value                                    |
+| `label`       | `string`                 | `''`        | Floating label text                            |
+| `placeholder` | `string`                 | `''`        | Placeholder text                               |
+| `variant`     | `'filled' \| 'outlined'` | `'filled'`  | Text field style                               |
+| `error`       | `string`                 | `undefined` | Error message (shows error state)              |
+| `disabled`    | `boolean`                | `false`     | Disables the input                             |
+| `class`       | `string`                 | `undefined` | Additional CSS classes                         |
+| `id`          | `string`                 | `undefined` | Input id (auto-generated from label otherwise) |
+| `type`        | `string`                 | `'text'`    | Input type                                     |
+| `helperText`  | `string`                 | `undefined` | Supporting text below the field                |
 
 All other props are forwarded to the underlying `<input>` element.
 

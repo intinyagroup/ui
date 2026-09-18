@@ -11,9 +11,9 @@ A Material Design 3 radio button for single-choice selection. Pairs with `RadioG
 
 ```svelte
 <script>
-  import { Radio, RadioGroup } from '@intinyagroup/md3';
+  import { Radio, RadioGroup } from "@intinyagroup/md3";
 
-  let selected = $state('option-1');
+  let selected = $state("option-1");
 </script>
 
 <RadioGroup bind:value={selected} name="example">
@@ -29,7 +29,7 @@ A `Radio` can also be used without a group, with its own bindable `checked` stat
 
 ```svelte
 <script>
-  import { Radio } from '@intinyagroup/md3';
+  import { Radio } from "@intinyagroup/md3";
 
   let checked = $state(false);
 </script>
@@ -41,23 +41,23 @@ A `Radio` can also be used without a group, with its own bindable `checked` stat
 
 ### RadioGroup
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` (bindable) | `''` | Currently selected value |
-| `name` | `string` | `''` | Shared form name for child radios |
-| `disabled` | `boolean` | `false` | Disables the whole group |
-| `class` | `string` | `undefined` | Additional CSS classes |
-| `children` | `Snippet` | `undefined` | Radio children |
+| Prop       | Type                | Default     | Description                       |
+| ---------- | ------------------- | ----------- | --------------------------------- |
+| `value`    | `string` (bindable) | `''`        | Currently selected value          |
+| `name`     | `string`            | `''`        | Shared form name for child radios |
+| `disabled` | `boolean`           | `false`     | Disables the whole group          |
+| `class`    | `string`            | `undefined` | Additional CSS classes            |
+| `children` | `Snippet`           | `undefined` | Radio children                    |
 
 ### Radio
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | `''` | Value submitted when selected |
-| `checked` | `boolean` (bindable) | `false` | Selection state (when standalone) |
-| `disabled` | `boolean` | `false` | Disables the radio |
-| `class` | `string` | `undefined` | Additional CSS classes |
-| `children` | `Snippet` | `undefined` | Label content |
+| Prop       | Type                 | Default     | Description                       |
+| ---------- | -------------------- | ----------- | --------------------------------- |
+| `value`    | `string`             | `''`        | Value submitted when selected     |
+| `checked`  | `boolean` (bindable) | `false`     | Selection state (when standalone) |
+| `disabled` | `boolean`            | `false`     | Disables the radio                |
+| `class`    | `string`             | `undefined` | Additional CSS classes            |
+| `children` | `Snippet`            | `undefined` | Label content                     |
 
 ## Accessibility
 

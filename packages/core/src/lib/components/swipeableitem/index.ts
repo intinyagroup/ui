@@ -1,1 +1,1 @@
-export { default as SwipeableItem } from './SwipeableItem.svelte';
+export { default as SwipeableItem } from "./SwipeableItem.svelte";

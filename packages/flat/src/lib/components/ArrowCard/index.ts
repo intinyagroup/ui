@@ -1,1 +1,1 @@
-export { default as ArrowCard } from './ArrowCard.svelte';
+export { default as ArrowCard } from "./ArrowCard.svelte";

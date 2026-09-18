@@ -108,6 +108,7 @@ Imports of `cn()` use `$lib/utils.js` (197 files) over relative `../../utils.js`
 Categories are a hard-coded kebab-case name → category map inside the generator. A new component whose directory name isn't listed silently becomes `uncategorized`; add it to the map.
 
 Two install models are supported (ADR-003):
+
 - `--mode copy` (default) — copies files into the consumer's project, rewriting `$lib` imports to their aliases.
 - `--mode npm` — adds `@intinyagroup/ui` to their `package.json` and prints import snippets.
 
@@ -186,8 +187,8 @@ These are planning documents and drift from the code — several were written wh
 
 The visual editor is a separate proprietary repo (`intinya-digital-asia/editor`), as is the `intinya-admin` template.
 
-
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:6cd5cc61 -->
+
 ## Beads Issue Tracker
 
 This project uses **bd (beads)** for issue tracking. Run `bd prime` to see full workflow context and commands.
@@ -237,7 +238,9 @@ This protocol applies when ending a Beads implementation workflow. It is subordi
 5. **Hand off** - Summarize changes, validation, issue status, and any blocked sync/commit/push step
 
 **Critical rules:**
+
 - Explicit user or orchestrator instructions override this Beads block.
 - Do not commit or push without clear authority from the active profile or the current user request.
 - If a required sync or push is blocked, stop and report the exact command and error.
+
 <!-- END BEADS INTEGRATION -->

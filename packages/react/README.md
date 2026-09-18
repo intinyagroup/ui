@@ -3,6 +3,7 @@
 React component library for IntinyaGroup, powered by Ark UI (Zag.js state machine) and `@intinyagroup/tokens`.
 
 ## Features
+
 - **Headless Power**: Built on `@ark-ui/react` for keyboard navigation, focus trap, and ARIA 1.2 compliance.
 - **Shared Tokens**: Consumes `@intinyagroup/tokens` (CSS variables) for consistent theming across React & Svelte.
 - **Tailwind Ready**: Styled with standard utility classes and `tailwind-variants`.
@@ -18,9 +19,9 @@ npm install @intinyagroup/react @intinyagroup/tokens
 ## Quick Start
 
 ```tsx
-import React from 'react';
-import { Button, Dialog, Card } from '@intinyagroup/react';
-import '@intinyagroup/tokens/base.css'; // or cyberpunk.css, brutalist.css, etc.
+import React from "react";
+import { Button, Dialog, Card } from "@intinyagroup/react";
+import "@intinyagroup/tokens/base.css"; // or cyberpunk.css, brutalist.css, etc.
 
 export function App() {
   return (
@@ -35,10 +36,13 @@ export function App() {
             <Dialog.Content>
               <Dialog.Title>Hello from React</Dialog.Title>
               <Dialog.Description>
-                This component uses Ark UI state machines and shared IntinyaGroup tokens!
+                This component uses Ark UI state machines and shared
+                IntinyaGroup tokens!
               </Dialog.Description>
               <Dialog.CloseTrigger asChild>
-                <Button variant="outline" size="sm">Close</Button>
+                <Button variant="outline" size="sm">
+                  Close
+                </Button>
               </Dialog.CloseTrigger>
             </Dialog.Content>
           </Dialog.Positioner>

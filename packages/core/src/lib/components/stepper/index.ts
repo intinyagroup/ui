@@ -1,1 +1,1 @@
-export { default as Stepper } from './Stepper.svelte';
+export { default as Stepper } from "./Stepper.svelte";

@@ -1,15 +1,28 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { initPdfWorker, pdfjsLib, type Annotation, type AnnotationTool, type FormField, type Bookmark, type SearchResult, type SearchState, type PageOperation, type ViewMode, type ZoomMode, defaultStamps } from '../pdf-core.js';
-  import type { PDFDocumentProxy } from 'pdfjs-dist';
-  import PDFToolbar from './PDFToolbar.svelte';
-  import PDFPage from './PDFPage.svelte';
-  import AnnotationSidebar from './AnnotationSidebar.svelte';
-  import BookmarkTree from './BookmarkTree.svelte';
-  import ThumbnailSidebar from './ThumbnailSidebar.svelte';
-  import FormFieldRenderer from './FormFieldRenderer.svelte';
-  import SearchPanel from './SearchPanel.svelte';
-  import PageManipulationPanel from './PageManipulationPanel.svelte';
+  import { onMount } from "svelte";
+  import {
+    initPdfWorker,
+    pdfjsLib,
+    type Annotation,
+    type AnnotationTool,
+    type FormField,
+    type Bookmark,
+    type SearchResult,
+    type SearchState,
+    type PageOperation,
+    type ViewMode,
+    type ZoomMode,
+    defaultStamps,
+  } from "../pdf-core.js";
+  import type { PDFDocumentProxy } from "pdfjs-dist";
+  import PDFToolbar from "./PDFToolbar.svelte";
+  import PDFPage from "./PDFPage.svelte";
+  import AnnotationSidebar from "./AnnotationSidebar.svelte";
+  import BookmarkTree from "./BookmarkTree.svelte";
+  import ThumbnailSidebar from "./ThumbnailSidebar.svelte";
+  import FormFieldRenderer from "./FormFieldRenderer.svelte";
+  import SearchPanel from "./SearchPanel.svelte";
+  import PageManipulationPanel from "./PageManipulationPanel.svelte";
 
   let {
     src,
@@ -35,16 +48,16 @@
   let totalPages = $state(0);
   let scale = $state(1.5);
   let rotation = $state(0);
-  let viewMode = $state<ViewMode>('continuous');
-  let zoomMode = $state<ZoomMode>('custom');
+  let viewMode = $state<ViewMode>("continuous");
+  let zoomMode = $state<ZoomMode>("custom");
   let loading = $state(true);
-  let error = $state('');
+  let error = $state("");
 
   // Tools & annotations
-  let tool = $state<AnnotationTool>('select');
+  let tool = $state<AnnotationTool>("select");
   let annotations = $state<Annotation[]>([]);
   let selectedAnnotationId = $state<string | undefined>();
-  let selectedAnnotationColor = $state('#ffeb3b');
+  let selectedAnnotationColor = $state("#ffeb3b");
   let selectedPages = $state<Set<number>>(new Set());
 
   // Form fields
@@ -54,13 +67,15 @@
   let bookmarks = $state<Bookmark[]>([]);
 
   // Sidebar state
-  let sidebarMode = $state<'thumbnails' | 'bookmarks' | 'annotations' | 'pages'>('thumbnails');
+  let sidebarMode = $state<
+    "thumbnails" | "bookmarks" | "annotations" | "pages"
+  >("thumbnails");
   let showSidebar = $state(true);
   let showSearch = $state(false);
 
   // Search
   let searchState = $state<SearchState>({
-    query: '',
+    query: "",
     results: [],
     currentResult: 0,
     totalResults: 0,
@@ -79,10 +94,10 @@
 
   async function loadDocument(source: string | ArrayBuffer) {
     loading = true;
-    error = '';
+    error = "";
     try {
       const loadingTask = pdfjsLib.getDocument(
-        typeof source === 'string' ? source : { data: source }
+        typeof source === "string" ? source : { data: source },
       );
       pdf = await loadingTask.promise;
       totalPages = pdf.numPages;
@@ -103,37 +118,68 @@
 
       onLoad?.({
         pageCount: totalPages,
-        title: 'Document',
+        title: "Document",
       });
     } catch (err) {
-      error = err instanceof Error ? err.message : 'Failed to load PDF';
+      error = err instanceof Error ? err.message : "Failed to load PDF";
     } finally {
       loading = false;
     }
   }
 
   // Navigation
-  function prevPage() { if (currentPage > 1) currentPage--; }
-  function nextPage() { if (currentPage < totalPages) currentPage++; }
-  function goToPage(page: number) { currentPage = Math.max(1, Math.min(page, totalPages)); }
-  function zoomIn() { scale = Math.min(scale + 0.25, 5); zoomMode = 'custom'; }
-  function zoomOut() { scale = Math.max(scale - 0.25, 0.25); zoomMode = 'custom'; }
-  function zoomReset() { scale = 1.5; zoomMode = 'custom'; }
-  function zoomFitWidth() { zoomMode = 'fit-width'; }
-  function zoomFitHeight() { zoomMode = 'fit-height'; }
-  function zoomFitPage() { zoomMode = 'fit-page'; }
-  function zoomActualSize() { scale = 1; zoomMode = 'actual-size'; }
-  function rotate() { rotation = (rotation + 90) % 360; }
+  function prevPage() {
+    if (currentPage > 1) currentPage--;
+  }
+  function nextPage() {
+    if (currentPage < totalPages) currentPage++;
+  }
+  function goToPage(page: number) {
+    currentPage = Math.max(1, Math.min(page, totalPages));
+  }
+  function zoomIn() {
+    scale = Math.min(scale + 0.25, 5);
+    zoomMode = "custom";
+  }
+  function zoomOut() {
+    scale = Math.max(scale - 0.25, 0.25);
+    zoomMode = "custom";
+  }
+  function zoomReset() {
+    scale = 1.5;
+    zoomMode = "custom";
+  }
+  function zoomFitWidth() {
+    zoomMode = "fit-width";
+  }
+  function zoomFitHeight() {
+    zoomMode = "fit-height";
+  }
+  function zoomFitPage() {
+    zoomMode = "fit-page";
+  }
+  function zoomActualSize() {
+    scale = 1;
+    zoomMode = "actual-size";
+  }
+  function rotate() {
+    rotation = (rotation + 90) % 360;
+  }
 
   // Annotations
-  function handleTextSelect(text: string, rects: { x: number; y: number; width: number; height: number }[]) {
-    if (['highlight', 'underline', 'strikethrough', 'squiggly'].includes(tool)) {
+  function handleTextSelect(
+    text: string,
+    rects: { x: number; y: number; width: number; height: number }[],
+  ) {
+    if (
+      ["highlight", "underline", "strikethrough", "squiggly"].includes(tool)
+    ) {
       const annotation: Annotation = {
         id: `ann-${Date.now()}`,
         pageNumber: currentPage,
         type: tool as any,
         color: selectedAnnotationColor,
-        opacity: tool === 'highlight' ? 0.4 : 1,
+        opacity: tool === "highlight" ? 0.4 : 1,
         strokeWidth: 2,
         rects,
         createdAt: new Date().toISOString(),
@@ -144,7 +190,9 @@
     }
   }
 
-  function handleAnnotationCreate(newAnnotation: Omit<Annotation, 'id' | 'createdAt' | 'updatedAt'>) {
+  function handleAnnotationCreate(
+    newAnnotation: Omit<Annotation, "id" | "createdAt" | "updatedAt">,
+  ) {
     const annotation: Annotation = {
       ...newAnnotation,
       id: `ann-${Date.now()}`,
@@ -173,7 +221,7 @@
   // Form fields
   function handleFormFieldChange(fieldId: string, value: string | boolean) {
     formFields = formFields.map((f) =>
-      f.id === fieldId ? { ...f, value: String(value) } : f
+      f.id === fieldId ? { ...f, value: String(value) } : f,
     );
     onFormFieldChange?.(fieldId, value);
   }
@@ -181,12 +229,15 @@
   // Page selection
   function togglePageSelection(page: number) {
     const next = new Set(selectedPages);
-    if (next.has(page)) next.delete(page); else next.add(page);
+    if (next.has(page)) next.delete(page);
+    else next.add(page);
     selectedPages = next;
   }
 
   function selectAllPages() {
-    selectedPages = new Set(Array.from({ length: totalPages }, (_, i) => i + 1));
+    selectedPages = new Set(
+      Array.from({ length: totalPages }, (_, i) => i + 1),
+    );
   }
 
   function deselectAllPages() {
@@ -198,11 +249,19 @@
   }
 
   // Search
-  function handleSearch(query: string, options: { caseSensitive: boolean; wholeWord: boolean; regex: boolean }) {
+  function handleSearch(
+    query: string,
+    options: { caseSensitive: boolean; wholeWord: boolean; regex: boolean },
+  ) {
     searchState = { ...searchState, query, ...options };
     // PDF.js text search would be implemented here
     // For now, mock results
-    searchState = { ...searchState, totalResults: 0, results: [], currentResult: 0 };
+    searchState = {
+      ...searchState,
+      totalResults: 0,
+      results: [],
+      currentResult: 0,
+    };
   }
 
   function handleSearchResultClick(result: SearchResult) {
@@ -211,31 +270,36 @@
 
   // Export
   function handleDownload() {
-    onExport?.('download', { format: 'pdf' });
+    onExport?.("download", { format: "pdf" });
   }
 
   function handlePrint() {
-    onExport?.('print', {});
+    onExport?.("print", {});
   }
 
-  function toggleSidebar() { showSidebar = !showSidebar; }
+  function toggleSidebar() {
+    showSidebar = !showSidebar;
+  }
 
   function handleWatermarkAdd(wm: any) {
     // Add watermark to all pages
-    const newAnnotations: Annotation[] = Array.from({ length: totalPages }, (_, i) => ({
-      id: `wm-${Date.now()}-${i}`,
-      pageNumber: i + 1,
-      type: 'text',
-      color: wm.color,
-      opacity: wm.opacity,
-      strokeWidth: 0,
-      x: 100,
-      y: 400,
-      text: wm.text,
-      fontSize: wm.fontSize ?? 48,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    }));
+    const newAnnotations: Annotation[] = Array.from(
+      { length: totalPages },
+      (_, i) => ({
+        id: `wm-${Date.now()}-${i}`,
+        pageNumber: i + 1,
+        type: "text",
+        color: wm.color,
+        opacity: wm.opacity,
+        strokeWidth: 0,
+        x: 100,
+        y: 400,
+        text: wm.text,
+        fontSize: wm.fontSize ?? 48,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }),
+    );
     annotations = [...annotations, ...newAnnotations];
     onAnnotationChange?.(annotations);
   }
@@ -260,15 +324,19 @@
     onZoomFitPage={zoomFitPage}
     onZoomActual={zoomActualSize}
     onRotate={rotate}
-    onToolChange={(t) => tool = t}
-    onToolColor={(c) => selectedAnnotationColor = c}
-    onSearch={() => showSearch = !showSearch}
+    onToolChange={(t) => (tool = t)}
+    onToolColor={(c) => (selectedAnnotationColor = c)}
+    onSearch={() => (showSearch = !showSearch)}
     onDownload={handleDownload}
     onPrint={handlePrint}
     onAnnotationDelete={deleteSelectedAnnotation}
     onToggleSidebar={toggleSidebar}
-    onSidebarMode={(m) => { sidebarMode = m; showSidebar = true; }}
-    onTogglePageManipulation={() => showPageManipulation = !showPageManipulation}
+    onSidebarMode={(m) => {
+      sidebarMode = m;
+      showSidebar = true;
+    }}
+    onTogglePageManipulation={() =>
+      (showPageManipulation = !showPageManipulation)}
   />
 
   <!-- Content -->
@@ -278,22 +346,31 @@
       {pdf}
       {currentPage}
       onPageSelect={goToPage}
-      showThumbnails={showSidebar && sidebarMode === 'thumbnails'}
+      showThumbnails={showSidebar && sidebarMode === "thumbnails"}
     />
 
     <!-- Main PDF view -->
-    <div class="flex-1 overflow-auto flex flex-col items-center gap-4 p-4 relative">
+    <div
+      class="flex-1 overflow-auto flex flex-col items-center gap-4 p-4 relative"
+    >
       {#if loading}
-        <div class="flex items-center justify-center h-64 text-sm text-[var(--ui-muted-foreground)]">
+        <div
+          class="flex items-center justify-center h-64 text-sm text-[var(--ui-muted-foreground)]"
+        >
           Loading PDF...
         </div>
       {:else if error}
-        <div class="flex items-center justify-center h-64 text-sm text-[var(--ui-destructive)]">
+        <div
+          class="flex items-center justify-center h-64 text-sm text-[var(--ui-destructive)]"
+        >
           {error}
         </div>
       {:else if pdf}
         {#each Array.from({ length: totalPages }, (_, i) => i + 1) as pageNum (pageNum)}
-          <div class="relative shadow-lg" style="transform: rotate({rotation}deg);">
+          <div
+            class="relative shadow-lg"
+            style="transform: rotate({rotation}deg);"
+          >
             <PDFPage
               {pdf}
               pageNumber={pageNum}
@@ -311,29 +388,38 @@
 
     <!-- Right sidebar -->
     {#if showSidebar}
-      {#if sidebarMode === 'annotations'}
+      {#if sidebarMode === "annotations"}
         <AnnotationSidebar
           {annotations}
           {currentPage}
           {selectedAnnotationId}
           showSidebar={true}
-          onSelectAnnotation={(a) => { selectedAnnotationId = a.id; currentPage = a.pageNumber; }}
+          onSelectAnnotation={(a) => {
+            selectedAnnotationId = a.id;
+            currentPage = a.pageNumber;
+          }}
           onDeleteAnnotation={deleteAnnotation}
           onCommentAdd={(id, text) => {
             annotations = annotations.map((a) =>
-              a.id === id ? { ...a, text, updatedAt: new Date().toISOString() } : a
+              a.id === id
+                ? { ...a, text, updatedAt: new Date().toISOString() }
+                : a,
             );
           }}
         />
-      {:else if sidebarMode === 'bookmarks'}
-        <div class="w-72 border-l border-[var(--ui-border)] bg-[var(--ui-card)]">
+      {:else if sidebarMode === "bookmarks"}
+        <div
+          class="w-72 border-l border-[var(--ui-border)] bg-[var(--ui-card)]"
+        >
           <div class="px-3 py-2.5 border-b border-[var(--ui-border)]">
             <h3 class="text-sm font-semibold">Bookmarks</h3>
           </div>
           <BookmarkTree {bookmarks} onNavigate={goToPage} />
         </div>
-      {:else if sidebarMode === 'pages' && showPageManipulation}
-        <div class="w-72 border-l border-[var(--ui-border)] bg-[var(--ui-card)] flex flex-col">
+      {:else if sidebarMode === "pages" && showPageManipulation}
+        <div
+          class="w-72 border-l border-[var(--ui-border)] bg-[var(--ui-card)] flex flex-col"
+        >
           <div class="px-3 py-2.5 border-b border-[var(--ui-border)]">
             <h3 class="text-sm font-semibold">Page Management</h3>
           </div>
@@ -356,7 +442,7 @@
         onSearch={handleSearch}
         onResultClick={handleSearchResultClick}
         onHighlightAll={(h) => {}}
-        onClose={() => showSearch = false}
+        onClose={() => (showSearch = false)}
       />
     {/if}
   </div>

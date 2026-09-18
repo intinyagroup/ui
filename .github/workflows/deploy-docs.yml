@@ -4,21 +4,21 @@ on:
   push:
     branches: [main]
     paths:
-      - 'packages/docs/**'
-      - 'packages/tokens/**'
-      - 'packages/core/**'
-      - 'packages/md3/**'
-      - 'packages/flat/**'
-      - 'packages/calendar/**'
-      - 'packages/charts/**'
-      - 'packages/data-table/**'
-      - 'packages/grid-core/**'
-      - 'packages/kanban/**'
-      - 'packages/notion-database/**'
-      - 'packages/rich-text/**'
-      - 'packages/spreadsheet/**'
-      - 'packages/file-manager/**'
-      - 'packages/storybook/**'
+      - "packages/docs/**"
+      - "packages/tokens/**"
+      - "packages/core/**"
+      - "packages/md3/**"
+      - "packages/flat/**"
+      - "packages/calendar/**"
+      - "packages/charts/**"
+      - "packages/data-table/**"
+      - "packages/grid-core/**"
+      - "packages/kanban/**"
+      - "packages/notion-database/**"
+      - "packages/rich-text/**"
+      - "packages/spreadsheet/**"
+      - "packages/file-manager/**"
+      - "packages/storybook/**"
   workflow_dispatch:
 
 jobs:

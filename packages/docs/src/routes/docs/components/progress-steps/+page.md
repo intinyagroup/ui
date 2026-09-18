@@ -11,13 +11,13 @@ A multi-step progress indicator. Completed steps show a check and are clickable 
 
 ```svelte
 <script>
-  import { ProgressSteps } from '@intinyagroup/ui';
+  import { ProgressSteps } from "@intinyagroup/ui";
 
   let steps = [
-    { label: 'Cart' },
-    { label: 'Shipping' },
-    { label: 'Payment' },
-    { label: 'Confirm' }
+    { label: "Cart" },
+    { label: "Shipping" },
+    { label: "Payment" },
+    { label: "Confirm" },
   ];
   let current = $state(1);
   let completed = $state(0);
@@ -28,12 +28,12 @@ A multi-step progress indicator. Completed steps show a check and are clickable 
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `steps` | `Step[]` | — | Step labels (`{ label, icon? }`) |
-| `current` | `number` | — | Bindable active step index (0-based) |
-| `completed` | `number` | — | Highest completed index; enables jumping to it and earlier |
-| `class` | `string` | — | Additional CSS classes |
+| Prop        | Type     | Default | Description                                                |
+| ----------- | -------- | ------- | ---------------------------------------------------------- |
+| `steps`     | `Step[]` | —       | Step labels (`{ label, icon? }`)                           |
+| `current`   | `number` | —       | Bindable active step index (0-based)                       |
+| `completed` | `number` | —       | Highest completed index; enables jumping to it and earlier |
+| `class`     | `string` | —       | Additional CSS classes                                     |
 
 ### Step
 

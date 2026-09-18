@@ -17,7 +17,7 @@ npx @intinyagroup/cli add section
 
 ```svelte
 <script>
-  import { Section } from '@intinyagroup/ui';
+  import { Section } from "@intinyagroup/ui";
 </script>
 
 <Section title="Features">
@@ -27,15 +27,15 @@ npx @intinyagroup/cli add section
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| title | string | - | Section heading text |
-| class | string | - | Additional CSS classes |
+| Prop  | Type   | Default | Description            |
+| ----- | ------ | ------- | ---------------------- |
+| title | string | -       | Section heading text   |
+| class | string | -       | Additional CSS classes |
 
 ## Slots
 
-| Slot | Description |
-|------|-------------|
+| Slot    | Description     |
+| ------- | --------------- |
 | default | Section content |
 
 ## Accessibility

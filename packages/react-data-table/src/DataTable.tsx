@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   useTable,
   flexRender,
@@ -18,7 +18,7 @@ import {
   type ColumnFiltersState,
   type PaginationState,
   type OnChangeFn,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
 const reactFeatures = tableFeatures({
   columnFilteringFeature,
@@ -40,9 +40,9 @@ import {
   DropdownMenuPositioner,
   DropdownMenuContent,
   DropdownMenuItem,
-  cn
-} from '@intinyagroup/react';
-import { Portal } from '@ark-ui/react/portal';
+  cn,
+} from "@intinyagroup/react";
+import { Portal } from "@ark-ui/react/portal";
 import {
   ChevronLeft,
   ChevronRight,
@@ -54,14 +54,17 @@ import {
   Download,
   FileSpreadsheet,
   FileText,
-} from 'lucide-react';
+} from "lucide-react";
 
 export interface ServerSideConfig {
   rowCount: number;
   pageIndex?: number;
   pageSize?: number;
   sorting?: SortingState;
-  onPaginationChange?: (pagination: { pageIndex: number; pageSize: number }) => void;
+  onPaginationChange?: (pagination: {
+    pageIndex: number;
+    pageSize: number;
+  }) => void;
   onSortingChange?: (sorting: { id: string; desc: boolean }[]) => void;
   onSearchChange?: (search: string) => void;
 }
@@ -79,7 +82,7 @@ export interface DataTableProps<TData extends RowData, TValue> {
   emptyMessage?: string;
   className?: string;
   serverSide?: ServerSideConfig;
-  onExport?: (format: 'csv' | 'xlsx', data: TData[]) => void;
+  onExport?: (format: "csv" | "xlsx", data: TData[]) => void;
 }
 
 export function DataTable<TData extends RowData, TValue>({
@@ -87,33 +90,42 @@ export function DataTable<TData extends RowData, TValue>({
   data,
   title,
   searchKey,
-  searchPlaceholder = 'Search...',
+  searchPlaceholder = "Search...",
   debounceMs = 300,
   loading = false,
   exportable = true,
   enableMultiSort = true,
-  emptyMessage = 'No rows found.',
+  emptyMessage = "No rows found.",
   className,
   serverSide,
-  onExport
+  onExport,
 }: DataTableProps<TData, TValue>) {
   // Client-side fallback state
   const [clientSorting, setClientSorting] = React.useState<SortingState>([]);
-  const [clientPagination, setClientPagination] = React.useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10
-  });
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [searchValue, setSearchValue] = React.useState('');
+  const [clientPagination, setClientPagination] =
+    React.useState<PaginationState>({
+      pageIndex: 0,
+      pageSize: 10,
+    });
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [searchValue, setSearchValue] = React.useState("");
 
   const isServerSide = !!serverSide;
 
   // Sorting state resolution
-  const sorting = isServerSide && serverSide.sorting ? serverSide.sorting : clientSorting;
+  const sorting =
+    isServerSide && serverSide.sorting ? serverSide.sorting : clientSorting;
   const handleSortingChange: OnChangeFn<SortingState> = (updaterOrValue) => {
-    const next = typeof updaterOrValue === 'function' ? updaterOrValue(sorting) : updaterOrValue;
+    const next =
+      typeof updaterOrValue === "function"
+        ? updaterOrValue(sorting)
+        : updaterOrValue;
     if (isServerSide) {
-      serverSide.onSortingChange?.(next.map((s) => ({ id: s.id, desc: s.desc })));
+      serverSide.onSortingChange?.(
+        next.map((s) => ({ id: s.id, desc: s.desc })),
+      );
     } else {
       setClientSorting(next);
     }
@@ -123,14 +135,22 @@ export function DataTable<TData extends RowData, TValue>({
   const pagination: PaginationState = isServerSide
     ? {
         pageIndex: serverSide.pageIndex ?? 0,
-        pageSize: serverSide.pageSize ?? 10
+        pageSize: serverSide.pageSize ?? 10,
       }
     : clientPagination;
 
-  const handlePaginationChange: OnChangeFn<PaginationState> = (updaterOrValue) => {
-    const next = typeof updaterOrValue === 'function' ? updaterOrValue(pagination) : updaterOrValue;
+  const handlePaginationChange: OnChangeFn<PaginationState> = (
+    updaterOrValue,
+  ) => {
+    const next =
+      typeof updaterOrValue === "function"
+        ? updaterOrValue(pagination)
+        : updaterOrValue;
     if (isServerSide) {
-      serverSide.onPaginationChange?.({ pageIndex: next.pageIndex, pageSize: next.pageSize });
+      serverSide.onPaginationChange?.({
+        pageIndex: next.pageIndex,
+        pageSize: next.pageSize,
+      });
     } else {
       setClientPagination(next);
     }
@@ -157,32 +177,39 @@ export function DataTable<TData extends RowData, TValue>({
 
     const activeHeaders = table
       .getAllLeafColumns()
-      .filter((col) => col.getIsVisible() && typeof col.columnDef.header === 'string');
+      .filter(
+        (col) => col.getIsVisible() && typeof col.columnDef.header === "string",
+      );
 
-    const headerRow = activeHeaders.map((col) => `"${col.columnDef.header}"`).join(',');
+    const headerRow = activeHeaders
+      .map((col) => `"${col.columnDef.header}"`)
+      .join(",");
     const dataRows = rows.map((row) =>
       activeHeaders
         .map((col) => {
           const value = row.getValue(col.id);
-          return `"${value !== undefined && value !== null ? String(value).replaceAll('"', '""') : ''}"`;
+          return `"${value !== undefined && value !== null ? String(value).replaceAll('"', '""') : ""}"`;
         })
-        .join(',')
+        .join(","),
     );
 
-    const csvContent = [headerRow, ...dataRows].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const csvContent = [headerRow, ...dataRows].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
     link.setAttribute(
-      'download',
-      `${title?.toLowerCase().replaceAll(' ', '_') || 'export'}.csv`
+      "download",
+      `${title?.toLowerCase().replaceAll(" ", "_") || "export"}.csv`,
     );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-    onExport?.('csv', rows.map((r) => r.original));
+    onExport?.(
+      "csv",
+      rows.map((r) => r.original),
+    );
   }, [table, title, onExport]);
 
   const exportToExcel = React.useCallback(() => {
@@ -191,26 +218,28 @@ export function DataTable<TData extends RowData, TValue>({
 
     const activeHeaders = table
       .getAllLeafColumns()
-      .filter((col) => col.getIsVisible() && typeof col.columnDef.header === 'string');
+      .filter(
+        (col) => col.getIsVisible() && typeof col.columnDef.header === "string",
+      );
 
     const headerCells = activeHeaders
       .map(
         (col) =>
-          `<th style="font-weight:bold;background:#f0f0f0;padding:6px 8px;border:1px solid #ccc;">${col.columnDef.header}</th>`
+          `<th style="font-weight:bold;background:#f0f0f0;padding:6px 8px;border:1px solid #ccc;">${col.columnDef.header}</th>`,
       )
-      .join('');
+      .join("");
 
     const dataRows = rows
       .map((row) => {
         const cells = activeHeaders
           .map((col) => {
             const value = row.getValue(col.id);
-            return `<td style="padding:6px 8px;border:1px solid #ccc;">${value !== undefined && value !== null ? String(value) : ''}</td>`;
+            return `<td style="padding:6px 8px;border:1px solid #ccc;">${value !== undefined && value !== null ? String(value) : ""}</td>`;
           })
-          .join('');
+          .join("");
         return `<tr>${cells}</tr>`;
       })
-      .join('');
+      .join("");
 
     const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
       <head><meta charset="UTF-8"></head>
@@ -219,23 +248,26 @@ export function DataTable<TData extends RowData, TValue>({
         <tbody>${dataRows}</tbody>
       </table></body></html>`;
 
-    const blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+    const blob = new Blob([html], { type: "application/vnd.ms-excel" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
     link.setAttribute(
-      'download',
-      `${title?.toLowerCase().replaceAll(' ', '_') || 'export'}.xls`
+      "download",
+      `${title?.toLowerCase().replaceAll(" ", "_") || "export"}.xls`,
     );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-    onExport?.('xlsx', rows.map((r) => r.original));
+    onExport?.(
+      "xlsx",
+      rows.map((r) => r.original),
+    );
   }, [table, title, onExport]);
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn("space-y-4", className)}>
       {(searchKey || exportable) && (
         <div className="flex items-center justify-between py-2 gap-4">
           {searchKey ? (
@@ -245,10 +277,12 @@ export function DataTable<TData extends RowData, TValue>({
               onChange={(event) => setSearchValue(event.target.value)}
               className="max-w-sm"
             />
-          ) : <div />}
+          ) : (
+            <div />
+          )}
 
           {exportable && (
-            <DropdownMenuRoot positioning={{ placement: 'bottom-end' }}>
+            <DropdownMenuRoot positioning={{ placement: "bottom-end" }}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="gap-2">
                   <Download className="size-3.5" /> Export
@@ -257,10 +291,18 @@ export function DataTable<TData extends RowData, TValue>({
               <Portal>
                 <DropdownMenuPositioner>
                   <DropdownMenuContent className="w-40">
-                    <DropdownMenuItem value="csv" onClick={exportToCSV} className="gap-2 cursor-pointer">
+                    <DropdownMenuItem
+                      value="csv"
+                      onClick={exportToCSV}
+                      className="gap-2 cursor-pointer"
+                    >
                       <FileText className="size-4" /> CSV
                     </DropdownMenuItem>
-                    <DropdownMenuItem value="xlsx" onClick={exportToExcel} className="gap-2 cursor-pointer">
+                    <DropdownMenuItem
+                      value="xlsx"
+                      onClick={exportToExcel}
+                      className="gap-2 cursor-pointer"
+                    >
                       <FileSpreadsheet className="size-4" /> Excel (.xls)
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -275,7 +317,10 @@ export function DataTable<TData extends RowData, TValue>({
         <table className="w-full caption-bottom text-sm">
           <thead className="[&_tr]:border-b border-[var(--ui-border)] bg-[var(--ui-muted)]/50">
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b border-[var(--ui-border)] transition-colors">
+              <tr
+                key={headerGroup.id}
+                className="border-b border-[var(--ui-border)] transition-colors"
+              >
                 {headerGroup.headers.map((header) => {
                   const canSort = header.column.getCanSort();
                   const sortDirection = header.column.getIsSorted();
@@ -291,17 +336,23 @@ export function DataTable<TData extends RowData, TValue>({
                           onClick={header.column.getToggleSortingHandler()}
                           className="inline-flex items-center gap-1.5 font-medium hover:text-[var(--ui-foreground)] cursor-pointer select-none transition-colors"
                         >
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                          {sortDirection === 'asc' ? (
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                          {sortDirection === "asc" ? (
                             <ArrowUp className="size-3.5 text-[var(--ui-primary)]" />
-                          ) : sortDirection === 'desc' ? (
+                          ) : sortDirection === "desc" ? (
                             <ArrowDown className="size-3.5 text-[var(--ui-primary)]" />
                           ) : (
                             <ArrowUpDown className="size-3.5 opacity-40 hover:opacity-100" />
                           )}
                         </button>
                       ) : (
-                        flexRender(header.column.columnDef.header, header.getContext())
+                        flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )
                       )}
                     </th>
                   );
@@ -312,7 +363,10 @@ export function DataTable<TData extends RowData, TValue>({
           <tbody className="[&_tr:last-child]:border-0 divide-y divide-[var(--ui-border)]">
             {loading ? (
               Array.from({ length: 5 }).map((_, idx) => (
-                <tr key={`skeleton-${idx}`} className="border-b border-[var(--ui-border)]">
+                <tr
+                  key={`skeleton-${idx}`}
+                  className="border-b border-[var(--ui-border)]"
+                >
                   {columns.map((_, colIdx) => (
                     <td key={`col-${colIdx}`} className="p-4 align-middle">
                       <Skeleton className="h-5 w-full max-w-[140px]" />
@@ -328,14 +382,20 @@ export function DataTable<TData extends RowData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id} className="p-4 align-middle">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </td>
                   ))}
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={columns.length} className="h-24 text-center text-[var(--ui-muted-foreground)]">
+                <td
+                  colSpan={columns.length}
+                  className="h-24 text-center text-[var(--ui-muted-foreground)]"
+                >
                   {emptyMessage}
                 </td>
               </tr>
@@ -370,7 +430,8 @@ export function DataTable<TData extends RowData, TValue>({
             <ChevronLeft className="size-4" />
           </Button>
           <span className="text-sm font-medium px-2">
-            Page {table.state.pagination.pageIndex + 1} of {table.getPageCount() || 1}
+            Page {table.state.pagination.pageIndex + 1} of{" "}
+            {table.getPageCount() || 1}
           </span>
           <Button
             variant="outline"

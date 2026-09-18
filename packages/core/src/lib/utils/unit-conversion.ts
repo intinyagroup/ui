@@ -12,12 +12,12 @@ const DPI = {
 // Conversion factors to pixels (at CSS 96dpi)
 const TO_PX: Record<string, number> = {
   px: 1,
-  pt: 96 / 72,          // 1pt = 1.333px
-  mm: 96 / 25.4,        // 1mm = 3.7795px
-  cm: 96 / 2.54,        // 1cm = 37.795px
-  inch: 96,             // 1in = 96px
-  em: 16,               // 1em = 16px (base)
-  rem: 16,              // 1rem = 16px (root)
+  pt: 96 / 72, // 1pt = 1.333px
+  mm: 96 / 25.4, // 1mm = 3.7795px
+  cm: 96 / 2.54, // 1cm = 37.795px
+  inch: 96, // 1in = 96px
+  em: 16, // 1em = 16px (base)
+  rem: 16, // 1rem = 16px (root)
 } as const;
 
 /**
@@ -43,16 +43,36 @@ export function convertUnit(value: number, from: string, to: string): number {
 }
 
 // Convenience functions
-export function mmToPx(mm: number): number { return convertUnit(mm, 'mm', 'px'); }
-export function pxToMm(px: number): number { return convertUnit(px, 'px', 'mm'); }
-export function cmToPx(cm: number): number { return convertUnit(cm, 'cm', 'px'); }
-export function pxToCm(px: number): number { return convertUnit(px, 'px', 'cm'); }
-export function inchToPx(inch: number): number { return convertUnit(inch, 'inch', 'px'); }
-export function pxToInch(px: number): number { return convertUnit(px, 'px', 'inch'); }
-export function ptToPx(pt: number): number { return convertUnit(pt, 'pt', 'px'); }
-export function pxToPt(px: number): number { return convertUnit(px, 'px', 'pt'); }
-export function emToPx(em: number, fontSize: number = 16): number { return em * fontSize; }
-export function pxToEm(px: number, fontSize: number = 16): number { return px / fontSize; }
+export function mmToPx(mm: number): number {
+  return convertUnit(mm, "mm", "px");
+}
+export function pxToMm(px: number): number {
+  return convertUnit(px, "px", "mm");
+}
+export function cmToPx(cm: number): number {
+  return convertUnit(cm, "cm", "px");
+}
+export function pxToCm(px: number): number {
+  return convertUnit(px, "px", "cm");
+}
+export function inchToPx(inch: number): number {
+  return convertUnit(inch, "inch", "px");
+}
+export function pxToInch(px: number): number {
+  return convertUnit(px, "px", "inch");
+}
+export function ptToPx(pt: number): number {
+  return convertUnit(pt, "pt", "px");
+}
+export function pxToPt(px: number): number {
+  return convertUnit(px, "px", "pt");
+}
+export function emToPx(em: number, fontSize: number = 16): number {
+  return em * fontSize;
+}
+export function pxToEm(px: number, fontSize: number = 16): number {
+  return px / fontSize;
+}
 
 /**
  * Format a value with unit
@@ -64,10 +84,13 @@ export function formatUnit(value: number, unit: string, decimals = 2): string {
 /**
  * Parse a CSS value string (e.g., "16px", "2.5cm", "12pt")
  */
-export function parseCssValue(value: string): { value: number; unit: string } | null {
+export function parseCssValue(
+  value: string,
+): { value: number; unit: string } | null {
   const match = value.match(/^([\d.]+)\s*(px|pt|mm|cm|inch|in|em|rem)$/i);
   if (!match) return null;
-  const unit = match[2].toLowerCase() === 'in' ? 'inch' : match[2].toLowerCase();
+  const unit =
+    match[2].toLowerCase() === "in" ? "inch" : match[2].toLowerCase();
   return { value: parseFloat(match[1]), unit };
 }
 
@@ -76,8 +99,8 @@ export function parseCssValue(value: string): { value: number; unit: string } | 
  */
 export function getPageDimensions(
   pageSize: string,
-  orientation: 'portrait' | 'landscape' = 'portrait',
-  unit: string = 'mm'
+  orientation: "portrait" | "landscape" = "portrait",
+  unit: string = "mm",
 ): { width: number; height: number } {
   // Import from book-model to avoid circular dependency
   const pageSizes: Record<string, { width: number; height: number }> = {
@@ -96,13 +119,13 @@ export function getPageDimensions(
   let width = base.width;
   let height = base.height;
 
-  if (orientation === 'landscape') {
+  if (orientation === "landscape") {
     [width, height] = [height, width];
   }
 
-  if (unit !== 'mm') {
-    width = convertUnit(width, 'mm', unit);
-    height = convertUnit(height, 'mm', unit);
+  if (unit !== "mm") {
+    width = convertUnit(width, "mm", unit);
+    height = convertUnit(height, "mm", unit);
   }
 
   return { width, height };
@@ -112,11 +135,15 @@ export function getPageDimensions(
  * CSS unit options for UI dropdowns
  */
 export const cssUnits = [
-  { value: 'px', label: 'px (Pixels)', description: 'Screen pixels' },
-  { value: 'pt', label: 'pt (Points)', description: 'Print points (1/72 inch)' },
-  { value: 'mm', label: 'mm (Millimeters)', description: 'Metric' },
-  { value: 'cm', label: 'cm (Centimeters)', description: 'Metric' },
-  { value: 'inch', label: 'in (Inches)', description: 'Imperial' },
-  { value: 'em', label: 'em', description: 'Relative to font size' },
-  { value: 'rem', label: 'rem', description: 'Relative to root font size' },
+  { value: "px", label: "px (Pixels)", description: "Screen pixels" },
+  {
+    value: "pt",
+    label: "pt (Points)",
+    description: "Print points (1/72 inch)",
+  },
+  { value: "mm", label: "mm (Millimeters)", description: "Metric" },
+  { value: "cm", label: "cm (Centimeters)", description: "Metric" },
+  { value: "inch", label: "in (Inches)", description: "Imperial" },
+  { value: "em", label: "em", description: "Relative to font size" },
+  { value: "rem", label: "rem", description: "Relative to root font size" },
 ] as const;

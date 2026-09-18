@@ -11,7 +11,7 @@ A plus/cross-shaped badge for special tags. Clipped with a 12-point polygon that
 
 ```svelte
 <script>
-  import { CrossBadge } from '@intinyagroup/flat';
+  import { CrossBadge } from "@intinyagroup/flat";
 </script>
 
 <div class="flex items-center gap-6">
@@ -25,7 +25,7 @@ A plus/cross-shaped badge for special tags. Clipped with a 12-point polygon that
 
 ```svelte
 <script>
-  import { CrossBadge } from '@intinyagroup/flat';
+  import { CrossBadge } from "@intinyagroup/flat";
 </script>
 
 <CrossBadge label="HOT" color="orange" size="md" />
@@ -33,12 +33,12 @@ A plus/cross-shaped badge for special tags. Clipped with a 12-point polygon that
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | — | Badge text |
-| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'red'` | Flat color variant |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Badge size |
-| `class` | `string` | `undefined` | Additional CSS classes |
+| Prop    | Type                                                                     | Default     | Description            |
+| ------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
+| `label` | `string`                                                                 | —           | Badge text             |
+| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'red'`     | Flat color variant     |
+| `size`  | `'sm' \| 'md' \| 'lg'`                                                   | `'md'`      | Badge size             |
+| `class` | `string`                                                                 | `undefined` | Additional CSS classes |
 
 ## Install
 

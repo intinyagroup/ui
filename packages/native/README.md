@@ -4,7 +4,6 @@
 [![Docs](https://img.shields.io/badge/docs-ui.intinya.id-7c3aed?style=flat-square&labelColor=1a1a1a)](https://ui.intinya.id)
 [![License MIT](https://img.shields.io/npm/l/@intinyagroup/native?style=flat-square&color=7c3aed)](https://github.com/intinyagroup/ui/blob/main/LICENSE)
 
-
 Capacitor plugin wrappers and web fallbacks for native device capabilities. Every service tries the native [Capacitor](https://capacitorjs.com) plugin first and gracefully falls back to a Web API when running in a plain browser, so the same code path works on iOS, Android, and the web.
 
 ## Install
@@ -54,8 +53,8 @@ import {
   shareContent,
   setPreference,
   getPreference,
-  haptic
-} from '@intinyagroup/native';
+  haptic,
+} from "@intinyagroup/native";
 ```
 
 ### Device
@@ -71,7 +70,7 @@ const locale = await getLocale();
 ### Camera
 
 ```ts
-const photo = await takePhoto('camera'); // 'camera' | 'gallery'
+const photo = await takePhoto("camera"); // 'camera' | 'gallery'
 // { path, dataUrl, format }
 ```
 
@@ -80,13 +79,17 @@ const photo = await takePhoto('camera'); // 'camera' | 'gallery'
 ```ts
 await requestPushPermission();
 
-await localNotify({ title: 'Hello', body: 'From Intinya', schedule: new Date(Date.now() + 5000) });
+await localNotify({
+  title: "Hello",
+  body: "From Intinya",
+  schedule: new Date(Date.now() + 5000),
+});
 ```
 
 ### Clipboard
 
 ```ts
-await writeClipboard('text to copy');
+await writeClipboard("text to copy");
 const text = await readClipboard();
 ```
 
@@ -109,36 +112,40 @@ const stopAccel = watchAcceleration(({ acceleration }) => {
 ### Share
 
 ```ts
-await shareContent({ title: 'Intinya', text: 'Share this', url: 'https://intinya.digital' });
+await shareContent({
+  title: "Intinya",
+  text: "Share this",
+  url: "https://intinya.digital",
+});
 ```
 
 ### Preferences
 
 ```ts
-await setPreference('theme', 'dark');
-const theme = await getPreference('theme'); // 'dark'
-await setJSONPreference('settings', { theme: 'dark' });
-await removePreference('theme');
+await setPreference("theme", "dark");
+const theme = await getPreference("theme"); // 'dark'
+await setJSONPreference("settings", { theme: "dark" });
+await removePreference("theme");
 ```
 
 ### Haptics
 
 ```ts
-await haptic('light'); // 'light' | 'heavy' | 'success' | 'vibrate'
+await haptic("light"); // 'light' | 'heavy' | 'success' | 'vibrate'
 ```
 
 ## Web fallbacks
 
-| Service | Native plugin | Web fallback |
-| --- | --- | --- |
-| Device | `@capacitor/device` | userAgent parse |
-| Camera | `@capacitor/camera` | `<input type="file">` picker |
-| Notifications | `@capacitor/local-notifications` | `Notification` API |
-| Clipboard | `@capacitor/clipboard` | `navigator.clipboard` / `execCommand` |
-| Motion | `DeviceMotionEvent` API | same (browser) — no native plugin |
-| Share | `@capacitor/share` | `navigator.share` |
-| Preferences | `@capacitor/preferences` | none (native only) |
-| Haptics | `@capacitor/haptics` | `navigator.vibrate` |
+| Service       | Native plugin                    | Web fallback                          |
+| ------------- | -------------------------------- | ------------------------------------- |
+| Device        | `@capacitor/device`              | userAgent parse                       |
+| Camera        | `@capacitor/camera`              | `<input type="file">` picker          |
+| Notifications | `@capacitor/local-notifications` | `Notification` API                    |
+| Clipboard     | `@capacitor/clipboard`           | `navigator.clipboard` / `execCommand` |
+| Motion        | `DeviceMotionEvent` API          | same (browser) — no native plugin     |
+| Share         | `@capacitor/share`               | `navigator.share`                     |
+| Preferences   | `@capacitor/preferences`         | none (native only)                    |
+| Haptics       | `@capacitor/haptics`             | `navigator.vibrate`                   |
 
 ## Development
 

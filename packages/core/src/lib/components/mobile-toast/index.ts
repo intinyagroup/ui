@@ -1,1 +1,1 @@
-export { default as MobileToast } from './MobileToast.svelte';
+export { default as MobileToast } from "./MobileToast.svelte";

@@ -17,7 +17,7 @@ npx @intinyagroup/cli add main
 
 ```svelte
 <script>
-  import { Main } from '@intinyagroup/ui';
+  import { Main } from "@intinyagroup/ui";
 </script>
 
 <Main>
@@ -28,14 +28,14 @@ npx @intinyagroup/cli add main
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| class | string | - | Additional CSS classes |
+| Prop  | Type   | Default | Description            |
+| ----- | ------ | ------- | ---------------------- |
+| class | string | -       | Additional CSS classes |
 
 ## Slots
 
-| Slot | Description |
-|------|-------------|
+| Slot    | Description          |
+| ------- | -------------------- |
 | default | Primary page content |
 
 ## Accessibility

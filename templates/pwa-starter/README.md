@@ -75,3 +75,4 @@ capacitor.config.json
 svelte.config.js    adapter-static (fallback index.html for SPA routing)
 vite.config.ts      SvelteKit + Tailwind v4 plugins
 package.json
+```

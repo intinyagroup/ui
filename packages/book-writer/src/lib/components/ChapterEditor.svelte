@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { Pencil, Image, Hash, Link, Sigma } from 'lucide-svelte';
-  import { RichTextEditor } from '@intinyagroup/rich-text';
-  import { Button } from '@intinyagroup/ui';
-  import type { Chapter } from '../book-model.js';
-  import { getNextFootnoteNumber } from '../footnote-utils.js';
-  import { insertCrossRef, type CrossRefType } from '../crossref-utils.js';
-  import ImageUploader from './ImageUploader.svelte';
-  import CrossRefDialog from './CrossRefDialog.svelte';
-  import MathEditor from './MathEditor.svelte';
+  import { Pencil, Image, Hash, Link, Sigma } from "lucide-svelte";
+  import { RichTextEditor } from "@intinyagroup/rich-text";
+  import { Button } from "@intinyagroup/ui";
+  import type { Chapter } from "../book-model.js";
+  import { getNextFootnoteNumber } from "../footnote-utils.js";
+  import { insertCrossRef, type CrossRefType } from "../crossref-utils.js";
+  import ImageUploader from "./ImageUploader.svelte";
+  import CrossRefDialog from "./CrossRefDialog.svelte";
+  import MathEditor from "./MathEditor.svelte";
 
   let {
     chapter,
@@ -27,7 +27,7 @@
   let showFootnoteDialog = $state(false);
   let showCrossRefDialog = $state(false);
   let showMathEditor = $state(false);
-  let footnoteContent = $state('');
+  let footnoteContent = $state("");
 
   $effect(() => {
     titleValue = chapter.title;
@@ -40,10 +40,16 @@
     }
   }
 
-  function handleImageInsert(image: { src: string; alt: string; width: string; align: string; caption?: string }) {
+  function handleImageInsert(image: {
+    src: string;
+    alt: string;
+    width: string;
+    align: string;
+    caption?: string;
+  }) {
     const captionHtml = image.caption
       ? `<div class="image-caption">${image.caption}</div>`
-      : '';
+      : "";
     const imgHtml = `<div class="image-container align-${image.align}"><img src="${image.src}" alt="${image.alt}" style="width: ${image.width};" />${captionHtml}</div>`;
     onContentChange(chapter.content + imgHtml);
     showImageUploader = false;
@@ -54,13 +60,13 @@
     const marker = `<sup data-footnote="${num}" class="footnote-marker">[${num}]</sup>`;
     const definition = `<div data-footnote-content="${num}" class="footnote-definition">[${num}] ${footnoteContent}</div>`;
     onContentChange(chapter.content + marker + definition);
-    footnoteContent = '';
+    footnoteContent = "";
     showFootnoteDialog = false;
   }
 
   function handleCrossRefInsert(type: string, targetId: string, label: string) {
     const marker = `<span class="cross-ref" data-ref-type="${type}" data-ref-target="${targetId}" style="color: var(--ui-primary); cursor: pointer;">${label}</span>`;
-    onContentChange(chapter.content + ' ' + marker);
+    onContentChange(chapter.content + " " + marker);
     showCrossRefDialog = false;
   }
 
@@ -68,18 +74,18 @@
     const mathHtml = displayMode
       ? `<div class="math-display" data-latex="${latex}" data-display="true">$${latex}$</div>`
       : `<span class="math-inline" data-latex="${latex}">$${latex}$</span>`;
-    onContentChange(chapter.content + ' ' + mathHtml);
+    onContentChange(chapter.content + " " + mathHtml);
     showMathEditor = false;
   }
 
   function handleKeyDown(e: KeyboardEvent) {
     // Ctrl+Shift+F for footnote
-    if (e.ctrlKey && e.shiftKey && e.key === 'F') {
+    if (e.ctrlKey && e.shiftKey && e.key === "F") {
       e.preventDefault();
       showFootnoteDialog = true;
     }
     // Ctrl+Shift+R for cross-reference
-    if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+    if (e.ctrlKey && e.shiftKey && e.key === "R") {
       e.preventDefault();
       showCrossRefDialog = true;
     }
@@ -97,31 +103,53 @@
           type="text"
           bind:value={titleValue}
           onblur={commitTitle}
-          onkeydown={(e) => e.key === 'Enter' && commitTitle()}
+          onkeydown={(e) => e.key === "Enter" && commitTitle()}
           class="flex-1 text-2xl font-bold text-[var(--ui-foreground)] bg-transparent border-none outline-none"
           autofocus
         />
       {:else}
         <button
-          onclick={() => editingTitle = true}
+          onclick={() => (editingTitle = true)}
           class="group flex items-center gap-2 text-2xl font-bold text-[var(--ui-foreground)] hover:text-[var(--ui-primary)] cursor-pointer"
         >
           {chapter.title}
-          <Pencil class="size-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <Pencil
+            class="size-4 opacity-0 group-hover:opacity-100 transition-opacity"
+          />
         </button>
       {/if}
 
       <div class="flex items-center gap-2">
-        <Button variant="outline" size="sm" onclick={() => showImageUploader = true} class="h-8 text-xs">
+        <Button
+          variant="outline"
+          size="sm"
+          onclick={() => (showImageUploader = true)}
+          class="h-8 text-xs"
+        >
           <Image class="size-3.5 mr-1" /> Image
         </Button>
-        <Button variant="outline" size="sm" onclick={() => showFootnoteDialog = true} class="h-8 text-xs">
+        <Button
+          variant="outline"
+          size="sm"
+          onclick={() => (showFootnoteDialog = true)}
+          class="h-8 text-xs"
+        >
           <Hash class="size-3.5 mr-1" /> Footnote
         </Button>
-        <Button variant="outline" size="sm" onclick={() => showCrossRefDialog = true} class="h-8 text-xs">
+        <Button
+          variant="outline"
+          size="sm"
+          onclick={() => (showCrossRefDialog = true)}
+          class="h-8 text-xs"
+        >
           <Link class="size-3.5 mr-1" /> Reference
         </Button>
-        <Button variant="outline" size="sm" onclick={() => showMathEditor = true} class="h-8 text-xs">
+        <Button
+          variant="outline"
+          size="sm"
+          onclick={() => (showMathEditor = true)}
+          class="h-8 text-xs"
+        >
           <Sigma class="size-3.5 mr-1" /> Math
         </Button>
       </div>
@@ -145,7 +173,7 @@
 {#if showImageUploader}
   <ImageUploader
     onInsert={handleImageInsert}
-    onClose={() => showImageUploader = false}
+    onClose={() => (showImageUploader = false)}
   />
 {/if}
 
@@ -154,7 +182,7 @@
   <CrossRefDialog
     chapters={allChapters}
     onInsert={handleCrossRefInsert}
-    onClose={() => showCrossRefDialog = false}
+    onClose={() => (showCrossRefDialog = false)}
   />
 {/if}
 
@@ -162,7 +190,7 @@
 {#if showMathEditor}
   <MathEditor
     onInsert={handleMathInsert}
-    onClose={() => showMathEditor = false}
+    onClose={() => (showMathEditor = false)}
   />
 {/if}
 
@@ -172,7 +200,8 @@
     <div class="bg-[var(--ui-card)] rounded-xl p-6 w-96 shadow-xl">
       <h3 class="text-lg font-semibold mb-4">Add Footnote</h3>
       <p class="text-sm text-[var(--ui-muted-foreground)] mb-3">
-        A footnote marker [{getNextFootnoteNumber(chapter.content)}] will be added at the end of your content.
+        A footnote marker [{getNextFootnoteNumber(chapter.content)}] will be
+        added at the end of your content.
       </p>
       <textarea
         bind:value={footnoteContent}
@@ -180,8 +209,16 @@
         class="w-full h-24 px-3 py-2 rounded-lg border border-[var(--ui-input)] text-sm resize-none"
       ></textarea>
       <div class="flex justify-end gap-2 mt-4">
-        <Button variant="outline" size="sm" onclick={() => showFootnoteDialog = false}>Cancel</Button>
-        <Button size="sm" onclick={handleAddFootnote} disabled={!footnoteContent.trim()}>Add</Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onclick={() => (showFootnoteDialog = false)}>Cancel</Button
+        >
+        <Button
+          size="sm"
+          onclick={handleAddFootnote}
+          disabled={!footnoteContent.trim()}>Add</Button
+        >
       </div>
     </div>
   </div>

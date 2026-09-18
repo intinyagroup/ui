@@ -24,4 +24,4 @@ export {
   type AudioTrack,
   type SequenceStyle,
   type EasingFunction,
-} from './core.js';
+} from "./core.js";

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { AlertTriangle, Eye, EyeOff, Trash2 } from 'lucide-svelte';
-  import { Button } from '@intinyagroup/ui';
-  import { cn } from '@intinyagroup/grid-core/utils';
-  import type { Annotation } from '../pdf-core.js';
+  import { AlertTriangle, Eye, EyeOff, Trash2 } from "lucide-svelte";
+  import { Button } from "@intinyagroup/ui";
+  import { cn } from "@intinyagroup/grid-core/utils";
+  import type { Annotation } from "../pdf-core.js";
 
   let {
     annotations,
@@ -14,20 +14,31 @@
   }: {
     annotations: Annotation[];
     currentPage: number;
-    onRedact: (rect: { x: number; y: number; width: number; height: number }, pageNumber: number) => void;
+    onRedact: (
+      rect: { x: number; y: number; width: number; height: number },
+      pageNumber: number,
+    ) => void;
     onRemoveRedaction: (id: string) => void;
     onApplyRedactions: () => void;
-    appliedRedactions: { pageNumber: number; rects: { x: number; y: number; width: number; height: number }[] }[];
+    appliedRedactions: {
+      pageNumber: number;
+      rects: { x: number; y: number; width: number; height: number }[];
+    }[];
   } = $props();
 
   let isDrawing = $state(false);
   let startX = $state(0);
   let startY = $state(0);
-  let currentRect = $state<{ x: number; y: number; width: number; height: number } | null>(null);
+  let currentRect = $state<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  } | null>(null);
   let showRedacted = $state(true);
 
   const redactionAnnotations = $derived(
-    annotations.filter((a) => a.type === 'redaction')
+    annotations.filter((a) => a.type === "redaction"),
   );
 
   function handleMouseDown(e: MouseEvent, scale: number) {
@@ -77,16 +88,25 @@
   </div>
 
   <p class="text-xs text-[var(--ui-muted-foreground)]">
-    Draw rectangles over content to redact. Redactions cannot be undone once applied.
+    Draw rectangles over content to redact. Redactions cannot be undone once
+    applied.
   </p>
 
   <div class="grid grid-cols-2 gap-3 text-center">
-    <div class="p-3 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-secondary)]/30">
-      <div class="text-lg font-bold text-[var(--ui-foreground)]">{getRedactionCount()}</div>
+    <div
+      class="p-3 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-secondary)]/30"
+    >
+      <div class="text-lg font-bold text-[var(--ui-foreground)]">
+        {getRedactionCount()}
+      </div>
       <div class="text-[10px] text-[var(--ui-muted-foreground)]">Pending</div>
     </div>
-    <div class="p-3 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-secondary)]/30">
-      <div class="text-lg font-bold text-[var(--ui-destructive)]">{getAppliedCount()}</div>
+    <div
+      class="p-3 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-secondary)]/30"
+    >
+      <div class="text-lg font-bold text-[var(--ui-destructive)]">
+        {getAppliedCount()}
+      </div>
       <div class="text-[10px] text-[var(--ui-muted-foreground)]">Applied</div>
     </div>
   </div>
@@ -94,11 +114,18 @@
   <!-- Redaction list -->
   {#if redactionAnnotations.length > 0}
     <div class="space-y-1">
-      <span class="text-xs text-[var(--ui-muted-foreground)]">Pending redactions:</span>
+      <span class="text-xs text-[var(--ui-muted-foreground)]"
+        >Pending redactions:</span
+      >
       {#each redactionAnnotations as ann (ann.id)}
-        <div class="flex items-center justify-between px-2 py-1.5 rounded bg-[var(--ui-secondary)]/50 text-sm">
+        <div
+          class="flex items-center justify-between px-2 py-1.5 rounded bg-[var(--ui-secondary)]/50 text-sm"
+        >
           <span>Page {ann.pageNumber}</span>
-          <button onclick={() => onRemoveRedaction(ann.id)} class="text-[var(--ui-destructive)] cursor-pointer">
+          <button
+            onclick={() => onRemoveRedaction(ann.id)}
+            class="text-[var(--ui-destructive)] cursor-pointer"
+          >
             <Trash2 class="size-3.5" />
           </button>
         </div>
@@ -120,7 +147,7 @@
     variant="outline"
     size="sm"
     class="w-full"
-    onclick={() => showRedacted = !showRedacted}
+    onclick={() => (showRedacted = !showRedacted)}
   >
     {#if showRedacted}
       <EyeOff class="size-4 mr-2" /> Hide Redactions

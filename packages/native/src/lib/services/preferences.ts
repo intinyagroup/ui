@@ -1,4 +1,4 @@
-import { Preferences } from '@capacitor/preferences';
+import { Preferences } from "@capacitor/preferences";
 
 /**
  * Get a stored preference value.
@@ -40,7 +40,10 @@ export async function clearPreferences(): Promise<void> {
 /**
  * Convenience wrapper that parses/stores JSON with no throw.
  */
-export async function getJSONPreference<T>(key: string, fallback: T): Promise<T> {
+export async function getJSONPreference<T>(
+  key: string,
+  fallback: T,
+): Promise<T> {
   const raw = await getPreference(key);
   if (raw === null) return fallback;
   try {
@@ -50,6 +53,9 @@ export async function getJSONPreference<T>(key: string, fallback: T): Promise<T>
   }
 }
 
-export async function setJSONPreference<T>(key: string, value: T): Promise<void> {
+export async function setJSONPreference<T>(
+  key: string,
+  value: T,
+): Promise<void> {
   await setPreference(key, JSON.stringify(value));
 }

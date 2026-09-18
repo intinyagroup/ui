@@ -1,2 +1,2 @@
-export { default as CommentSection } from './CommentSection.svelte';
-export type { CommentItem } from './CommentSection.svelte';
+export { default as CommentSection } from "./CommentSection.svelte";
+export type { CommentItem } from "./CommentSection.svelte";

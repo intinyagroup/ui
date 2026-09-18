@@ -11,9 +11,9 @@ A Material Design 3 time picker dialog with an analog clock face, AM/PM toggle, 
 
 ```svelte
 <script>
-  import { TimePicker } from '@intinyagroup/md3';
+  import { TimePicker } from "@intinyagroup/md3";
 
-  let time = $state('14:30');
+  let time = $state("14:30");
 </script>
 
 <TimePicker bind:value={time} />
@@ -23,15 +23,15 @@ A Material Design 3 time picker dialog with an analog clock face, AM/PM toggle, 
 
 ```svelte
 <script>
-  import { TimePicker } from '@intinyagroup/md3';
+  import { TimePicker } from "@intinyagroup/md3";
 
-  let time = $state('09:00');
+  let time = $state("09:00");
 </script>
 
 <TimePicker
   bind:value={time}
   format="12h"
-  onchange={(t) => console.log('New time:', t)}
+  onchange={(t) => console.log("New time:", t)}
 />
 ```
 
@@ -44,12 +44,12 @@ A Material Design 3 time picker dialog with an analog clock face, AM/PM toggle, 
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` (bindable) | `'12:00'` | Time value in `HH:MM` format |
-| `format` | `'12h' \| '24h'` | `'24h'` | Time format |
-| `onchange` | `(time: string) => void` | `undefined` | Callback when value changes |
-| `class` | `string` | `undefined` | Additional CSS classes |
+| Prop       | Type                     | Default     | Description                  |
+| ---------- | ------------------------ | ----------- | ---------------------------- |
+| `value`    | `string` (bindable)      | `'12:00'`   | Time value in `HH:MM` format |
+| `format`   | `'12h' \| '24h'`         | `'24h'`     | Time format                  |
+| `onchange` | `(time: string) => void` | `undefined` | Callback when value changes  |
+| `class`    | `string`                 | `undefined` | Additional CSS classes       |
 
 ## Install
 

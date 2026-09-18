@@ -1,1 +1,1 @@
-export { default as TestimonialCarousel } from './TestimonialCarousel.svelte';
+export { default as TestimonialCarousel } from "./TestimonialCarousel.svelte";

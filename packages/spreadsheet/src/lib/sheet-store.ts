@@ -2,9 +2,17 @@
 // Sheet store — multi-sheet state management
 // ============================================
 
-import { writable, derived, get } from 'svelte/store';
-import { createCellMap, type CellMap, type CellValue, type CellStyle } from './cell-model.js';
-import { createSelectionState, type SelectionState } from './selection-store.js';
+import { writable, derived, get } from "svelte/store";
+import {
+  createCellMap,
+  type CellMap,
+  type CellValue,
+  type CellStyle,
+} from "./cell-model.js";
+import {
+  createSelectionState,
+  type SelectionState,
+} from "./selection-store.js";
 
 export type Sheet = {
   id: string;
@@ -68,22 +76,31 @@ export function addSheet(state: WorkbookState, name?: string): WorkbookState {
   };
 }
 
-export function removeSheet(state: WorkbookState, sheetId: string): WorkbookState {
+export function removeSheet(
+  state: WorkbookState,
+  sheetId: string,
+): WorkbookState {
   if (state.sheets.length <= 1) return state;
   const filtered = state.sheets.filter((s) => s.id !== sheetId);
-  const nextActiveId = state.activeSheetId === sheetId
-    ? filtered[0].id
-    : state.activeSheetId;
+  const nextActiveId =
+    state.activeSheetId === sheetId ? filtered[0].id : state.activeSheetId;
   return { sheets: filtered, activeSheetId: nextActiveId };
 }
 
-export function renameSheet(state: WorkbookState, sheetId: string, name: string): WorkbookState {
+export function renameSheet(
+  state: WorkbookState,
+  sheetId: string,
+  name: string,
+): WorkbookState {
   return {
     ...state,
-    sheets: state.sheets.map((s) => s.id === sheetId ? { ...s, name } : s),
+    sheets: state.sheets.map((s) => (s.id === sheetId ? { ...s, name } : s)),
   };
 }
 
-export function setActiveSheet(state: WorkbookState, sheetId: string): WorkbookState {
+export function setActiveSheet(
+  state: WorkbookState,
+  sheetId: string,
+): WorkbookState {
   return { ...state, activeSheetId: sheetId };
 }

@@ -1,1 +1,1 @@
-export { default as AvatarGroup } from './AvatarGroup.svelte';
+export { default as AvatarGroup } from "./AvatarGroup.svelte";

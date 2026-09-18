@@ -1,1 +1,1 @@
-export { default as PentagonStat } from './PentagonStat.svelte';
+export { default as PentagonStat } from "./PentagonStat.svelte";

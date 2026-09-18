@@ -37,24 +37,24 @@ A mobile settings-style list. `ListView` renders an optional rounded, bordered c
 
 ### ListView
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `inset` | `boolean` | `true` | Group the list in a rounded, bordered card |
-| `class` | `string` | — | Additional CSS classes |
-| `children` | `Snippet` | — | List items |
+| Prop       | Type      | Default | Description                                |
+| ---------- | --------- | ------- | ------------------------------------------ |
+| `inset`    | `boolean` | `true`  | Group the list in a rounded, bordered card |
+| `class`    | `string`  | —       | Additional CSS classes                     |
+| `children` | `Snippet` | —       | List items                                 |
 
 ### ListItem
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | — | Row title |
-| `description` | `string` | — | Optional secondary text |
-| `leading` | `Snippet` | — | Icon/content rendered on the left |
-| `trailing` | `Snippet` | — | Content rendered on the right |
-| `chevron` | `boolean` | `false` | Show a chevron navigation hint |
-| `onclick` | `(e: MouseEvent) => void` | — | Renders the row as a button when set |
-| `disabled` | `boolean` | `false` | Disables the row button |
-| `class` | `string` | — | Additional CSS classes |
+| Prop          | Type                      | Default | Description                          |
+| ------------- | ------------------------- | ------- | ------------------------------------ |
+| `title`       | `string`                  | —       | Row title                            |
+| `description` | `string`                  | —       | Optional secondary text              |
+| `leading`     | `Snippet`                 | —       | Icon/content rendered on the left    |
+| `trailing`    | `Snippet`                 | —       | Content rendered on the right        |
+| `chevron`     | `boolean`                 | `false` | Show a chevron navigation hint       |
+| `onclick`     | `(e: MouseEvent) => void` | —       | Renders the row as a button when set |
+| `disabled`    | `boolean`                 | `false` | Disables the row button              |
+| `class`       | `string`                  | —       | Additional CSS classes               |
 
 ## Features
 

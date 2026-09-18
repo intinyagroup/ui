@@ -1,1 +1,1 @@
-export { default as CameraCapture } from './CameraCapture.svelte';
+export { default as CameraCapture } from "./CameraCapture.svelte";

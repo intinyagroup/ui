@@ -22,7 +22,7 @@ export type Sequence = {
   name: string;
   from: number; // frame offset
   durationInFrames: number;
-  type: 'video' | 'audio' | 'image' | 'text' | 'shape' | 'component';
+  type: "video" | "audio" | "image" | "text" | "shape" | "component";
   props: Record<string, any>;
   style: SequenceStyle;
   effects: Effect[];
@@ -39,18 +39,35 @@ export type SequenceStyle = {
   scale?: number;
   opacity?: number;
   borderRadius?: number;
-  overflow?: 'visible' | 'hidden' | 'scroll';
+  overflow?: "visible" | "hidden" | "scroll";
 };
 
 // ----- Effects -----
 export type EffectType =
-  | 'blur' | 'brightness' | 'contrast' | 'saturate'
-  | 'hue-rotate' | 'sepia' | 'invert' | 'grayscale'
-  | 'drop-shadow' | 'glow' | 'vignette'
-  | 'zoom-in' | 'zoom-out' | 'pan-left' | 'pan-right' | 'pan-up' | 'pan-down'
-  | 'rotate' | 'shake' | 'bounce' | 'pulse'
-  | 'fade-in' | 'fade-out'
-  | 'custom';
+  | "blur"
+  | "brightness"
+  | "contrast"
+  | "saturate"
+  | "hue-rotate"
+  | "sepia"
+  | "invert"
+  | "grayscale"
+  | "drop-shadow"
+  | "glow"
+  | "vignette"
+  | "zoom-in"
+  | "zoom-out"
+  | "pan-left"
+  | "pan-right"
+  | "pan-up"
+  | "pan-down"
+  | "rotate"
+  | "shake"
+  | "bounce"
+  | "pulse"
+  | "fade-in"
+  | "fade-out"
+  | "custom";
 
 export type Effect = {
   id: string;
@@ -62,19 +79,43 @@ export type Effect = {
 };
 
 export type EasingFunction =
-  | 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out'
-  | 'cubic-bezier' | 'bounce' | 'elastic' | 'spring'
-  | 'back-in' | 'back-out';
+  | "linear"
+  | "ease-in"
+  | "ease-out"
+  | "ease-in-out"
+  | "cubic-bezier"
+  | "bounce"
+  | "elastic"
+  | "spring"
+  | "back-in"
+  | "back-out";
 
 // ----- Transitions -----
 export type TransitionType =
-  | 'none' | 'fade' | 'cross-fade'
-  | 'slide-left' | 'slide-right' | 'slide-up' | 'slide-down'
-  | 'wipe-left' | 'wipe-right' | 'wipe-up' | 'wipe-down'
-  | 'dissolve' | 'blur' | 'zoom' | 'rotate'
-  | 'push-left' | 'push-right' | 'push-up' | 'push-down'
-  | 'cover-left' | 'cover-right' | 'cover-up' | 'cover-down'
-  | 'custom';
+  | "none"
+  | "fade"
+  | "cross-fade"
+  | "slide-left"
+  | "slide-right"
+  | "slide-up"
+  | "slide-down"
+  | "wipe-left"
+  | "wipe-right"
+  | "wipe-up"
+  | "wipe-down"
+  | "dissolve"
+  | "blur"
+  | "zoom"
+  | "rotate"
+  | "push-left"
+  | "push-right"
+  | "push-up"
+  | "push-down"
+  | "cover-left"
+  | "cover-right"
+  | "cover-up"
+  | "cover-down"
+  | "custom";
 
 export type Transition = {
   type: TransitionType;
@@ -91,8 +132,8 @@ export type Keyframe = {
 
 export type AnimatedProperty = {
   keyframes: Keyframe[];
-  extrapolateLeft?: 'clamp' | 'extend';
-  extrapolateRight?: 'clamp' | 'extend';
+  extrapolateLeft?: "clamp" | "extend";
+  extrapolateRight?: "clamp" | "extend";
 };
 
 export type AnimatedProps = {
@@ -123,7 +164,7 @@ export type AudioTrack = {
 export type Track = {
   id: string;
   name: string;
-  type: 'video' | 'audio' | 'text' | 'effect';
+  type: "video" | "audio" | "text" | "effect";
   muted: boolean;
   locked: boolean;
   visible: boolean;
@@ -133,10 +174,10 @@ export type Track = {
 // ----- Easing functions -----
 export const easings: Record<EasingFunction, (t: number) => number> = {
   linear: (t) => t,
-  'ease-in': (t) => t * t,
-  'ease-out': (t) => t * (2 - t),
-  'ease-in-out': (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
-  'cubic-bezier': (t) => t * t * (3 - 2 * t), // Simple cubic
+  "ease-in": (t) => t * t,
+  "ease-out": (t) => t * (2 - t),
+  "ease-in-out": (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t),
+  "cubic-bezier": (t) => t * t * (3 - 2 * t), // Simple cubic
   bounce: (t) => {
     if (t < 1 / 2.75) return 7.5625 * t * t;
     if (t < 2 / 2.75) return 7.5625 * (t -= 1.5 / 2.75) * t + 0.75;
@@ -150,8 +191,8 @@ export const easings: Record<EasingFunction, (t: number) => number> = {
   spring: (t) => {
     return 1 - Math.exp(-6 * t) * Math.cos(6 * t);
   },
-  'back-in': (t) => t * t * (2.70158 * t - 1.70158),
-  'back-out': (t) => 1 + (--t) * t * (2.70158 * t + 1.70158),
+  "back-in": (t) => t * t * (2.70158 * t - 1.70158),
+  "back-out": (t) => 1 + --t * t * (2.70158 * t + 1.70158),
 };
 
 // ----- Interpolation -----
@@ -159,7 +200,7 @@ export function interpolate(
   inputRange: [number, number],
   outputRange: [number, number],
   frame: number,
-  easing: EasingFunction = 'linear'
+  easing: EasingFunction = "linear",
 ): number {
   const [inMin, inMax] = inputRange;
   const [outMin, outMax] = outputRange;
@@ -168,7 +209,10 @@ export function interpolate(
   return outMin + (outMax - outMin) * eased;
 }
 
-export function interpolateKeyframes(keyframes: Keyframe[], frame: number): number {
+export function interpolateKeyframes(
+  keyframes: Keyframe[],
+  frame: number,
+): number {
   if (keyframes.length === 0) return 0;
   if (keyframes.length === 1) return keyframes[0].value as number;
 
@@ -176,7 +220,8 @@ export function interpolateKeyframes(keyframes: Keyframe[], frame: number): numb
   if (frame <= keyframes[0].frame) return keyframes[0].value as number;
 
   // After last keyframe
-  if (frame >= keyframes[keyframes.length - 1].frame) return keyframes[keyframes.length - 1].value as number;
+  if (frame >= keyframes[keyframes.length - 1].frame)
+    return keyframes[keyframes.length - 1].value as number;
 
   // Find surrounding keyframes
   for (let i = 0; i < keyframes.length - 1; i++) {
@@ -185,7 +230,7 @@ export function interpolateKeyframes(keyframes: Keyframe[], frame: number): numb
         [keyframes[i].frame, keyframes[i + 1].frame],
         [keyframes[i].value as number, keyframes[i + 1].value as number],
         frame,
-        keyframes[i + 1].easing ?? 'linear'
+        keyframes[i + 1].easing ?? "linear",
       );
     }
   }
@@ -194,16 +239,18 @@ export function interpolateKeyframes(keyframes: Keyframe[], frame: number): numb
 }
 
 // ----- Factory functions -----
-export function createComposition(overrides: Partial<Composition> = {}): Composition {
+export function createComposition(
+  overrides: Partial<Composition> = {},
+): Composition {
   return {
     id: `comp-${Date.now()}`,
-    name: 'Untitled Composition',
+    name: "Untitled Composition",
     width: 1920,
     height: 1080,
     fps: 30,
     durationInFrames: 300, // 10 seconds at 30fps
     durationMs: 10000,
-    background: '#000000',
+    background: "#000000",
     sequences: [],
     ...overrides,
   };
@@ -212,10 +259,10 @@ export function createComposition(overrides: Partial<Composition> = {}): Composi
 export function createSequence(overrides: Partial<Sequence> = {}): Sequence {
   return {
     id: `seq-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-    name: 'Sequence',
+    name: "Sequence",
     from: 0,
     durationInFrames: 90,
-    type: 'text',
+    type: "text",
     props: {},
     style: {},
     effects: [],
@@ -226,8 +273,8 @@ export function createSequence(overrides: Partial<Sequence> = {}): Sequence {
 export function createTrack(overrides: Partial<Track> = {}): Track {
   return {
     id: `track-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-    name: 'Track',
-    type: 'video',
+    name: "Track",
+    type: "video",
     muted: false,
     locked: false,
     visible: true,
@@ -236,7 +283,10 @@ export function createTrack(overrides: Partial<Track> = {}): Track {
   };
 }
 
-export function createEffect(type: EffectType, params: Record<string, number | string> = {}): Effect {
+export function createEffect(
+  type: EffectType,
+  params: Record<string, number | string> = {},
+): Effect {
   return {
     id: `fx-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
     type,
@@ -244,6 +294,9 @@ export function createEffect(type: EffectType, params: Record<string, number | s
   };
 }
 
-export function createTransition(type: TransitionType, durationInFrames: number = 30): Transition {
+export function createTransition(
+  type: TransitionType,
+  durationInFrames: number = 30,
+): Transition {
   return { type, durationInFrames };
 }

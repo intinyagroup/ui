@@ -11,23 +11,27 @@ A button that copies a string to the clipboard using the async Clipboard API, wi
 
 ```svelte
 <script>
-  import { ClipboardButton } from '@intinyagroup/ui';
+  import { ClipboardButton } from "@intinyagroup/ui";
 </script>
 
 <ClipboardButton text="npm install @intinyagroup/ui" />
 
-<ClipboardButton text="secret-token-123" label="Copy token" copiedLabel="Copied!" />
+<ClipboardButton
+  text="secret-token-123"
+  label="Copy token"
+  copiedLabel="Copied!"
+/>
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `text` | `string` | — | Text to copy to the clipboard |
-| `label` | `string` | `'Copy'` | Label when not copied |
-| `copiedLabel` | `string` | `'Copied!'` | Label after a successful copy |
-| `onCopied` | `() => void` | — | Called after a successful copy |
-| `class` | `string` | — | Additional CSS classes |
+| Prop          | Type         | Default     | Description                    |
+| ------------- | ------------ | ----------- | ------------------------------ |
+| `text`        | `string`     | —           | Text to copy to the clipboard  |
+| `label`       | `string`     | `'Copy'`    | Label when not copied          |
+| `copiedLabel` | `string`     | `'Copied!'` | Label after a successful copy  |
+| `onCopied`    | `() => void` | —           | Called after a successful copy |
+| `class`       | `string`     | —           | Additional CSS classes         |
 
 ## Features
 

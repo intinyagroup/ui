@@ -12,10 +12,10 @@ npx @intinyagroup/cli add radio-group
 
 ```svelte
 <script>
-  import { RadioGroup, RadioGroupItem } from '@intinyagroup/ui';
-  import { Label } from '@intinyagroup/ui';
+  import { RadioGroup, RadioGroupItem } from "@intinyagroup/ui";
+  import { Label } from "@intinyagroup/ui";
 
-  let selected = $state('comfortable');
+  let selected = $state("comfortable");
 </script>
 
 <RadioGroup bind:value={selected}>
@@ -36,7 +36,7 @@ npx @intinyagroup/cli add radio-group
 
 ## Props
 
-| Sub-component | Description |
-|---------------|-------------|
-| `RadioGroup` | Root — accepts `value` (bindable), `orientation`, `name`, `disabled` |
-| `RadioGroupItem` | Individual radio button — requires `value`, optionally `id` |
+| Sub-component    | Description                                                          |
+| ---------------- | -------------------------------------------------------------------- |
+| `RadioGroup`     | Root — accepts `value` (bindable), `orientation`, `name`, `disabled` |
+| `RadioGroupItem` | Individual radio button — requires `value`, optionally `id`          |

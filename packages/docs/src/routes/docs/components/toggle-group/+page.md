@@ -12,10 +12,10 @@ npx @intinyagroup/cli add toggle-group
 
 ```svelte
 <script>
-  import { ToggleGroup, ToggleGroupItem } from '@intinyagroup/ui';
-  import AlignLeft from 'lucide-svelte/icons/align-left';
-  import AlignCenter from 'lucide-svelte/icons/align-center';
-  import AlignRight from 'lucide-svelte/icons/align-right';
+  import { ToggleGroup, ToggleGroupItem } from "@intinyagroup/ui";
+  import AlignLeft from "lucide-svelte/icons/align-left";
+  import AlignCenter from "lucide-svelte/icons/align-center";
+  import AlignRight from "lucide-svelte/icons/align-right";
 </script>
 
 <ToggleGroup type="single" defaultValue="center" aria-label="Text alignment">
@@ -33,12 +33,12 @@ npx @intinyagroup/cli add toggle-group
 
 ## Props
 
-| Sub-component | Prop | Type | Default |
-|---------------|------|------|---------|
-| `ToggleGroup` | `type` | `'single' \| 'multiple'` | `'single'` |
-| `ToggleGroup` | `value` | `string \| string[]` | — |
-| `ToggleGroup` | `defaultValue` | `string \| string[]` | — |
-| `ToggleGroup` | `disabled` | `boolean` | `false` |
-| `ToggleGroupItem` | `value` | `string` | required |
-| `ToggleGroupItem` | `variant` | `'default' \| 'outline'` | `'default'` |
-| `ToggleGroupItem` | `size` | `'default' \| 'sm' \| 'lg'` | `'default'` |
+| Sub-component     | Prop           | Type                        | Default     |
+| ----------------- | -------------- | --------------------------- | ----------- |
+| `ToggleGroup`     | `type`         | `'single' \| 'multiple'`    | `'single'`  |
+| `ToggleGroup`     | `value`        | `string \| string[]`        | —           |
+| `ToggleGroup`     | `defaultValue` | `string \| string[]`        | —           |
+| `ToggleGroup`     | `disabled`     | `boolean`                   | `false`     |
+| `ToggleGroupItem` | `value`        | `string`                    | required    |
+| `ToggleGroupItem` | `variant`      | `'default' \| 'outline'`    | `'default'` |
+| `ToggleGroupItem` | `size`         | `'default' \| 'sm' \| 'lg'` | `'default'` |
