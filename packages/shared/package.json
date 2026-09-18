@@ -1,0 +1,8 @@
+{
+  "name": "@intinyagroup/vitest-preset",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./vitest-preset.ts",
+  "types": "./vitest-preset.ts"
+}

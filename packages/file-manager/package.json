@@ -34,7 +34,8 @@
     "jsdom": "^30.0.1",
     "svelte": "^5.55.2",
     "typescript": "^6.0.2",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.0",
+    "@intinyagroup/vitest-preset": "workspace:*"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"

@@ -1,14 +1,3 @@
-import { defineConfig } from 'vitest/config';
-import path from 'path';
+import { createPackageConfig } from "@intinyagroup/vitest-preset";
 
-export default defineConfig({
-  test: {
-    include: ['src/**/*.test.ts'],
-    globals: true,
-  },
-  resolve: {
-    alias: {
-      $lib: path.resolve(import.meta.dirname, './src/lib'),
-    }
-  }
-});
+export default createPackageConfig(import.meta.dirname, { svelte: false });

@@ -32,7 +32,8 @@
     "@sveltejs/package": "^2.5.8",
     "svelte": "^5.55.2",
     "typescript": "^6.0.2",
-    "@sveltejs/vite-plugin-svelte": "^5.1.1"
+    "@sveltejs/vite-plugin-svelte": "^5.1.1",
+    "@intinyagroup/vitest-preset": "workspace:*"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"
