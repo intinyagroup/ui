@@ -13,10 +13,11 @@
   const drawerState = getContext<{
     get open(): boolean;
     set open(v: boolean);
+    get dismissible(): boolean;
   }>("drawer-state");
 
   function handleClick() {
-    drawerState.open = false;
+    if (drawerState.dismissible) drawerState.open = false;
   }
 </script>
 
@@ -32,8 +33,5 @@
       className,
     )}
     onclick={handleClick}
-    onkeydown={(e) => {
-      if (e.key === "Escape") drawerState.open = false;
-    }}
   ></div>
 {/if}

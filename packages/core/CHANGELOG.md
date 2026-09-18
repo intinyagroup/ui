@@ -1,5 +1,11 @@
 # @intinyagroup/ui
 
+## 0.2.6
+
+### Patch Changes
+
+- Add generic sidebar sections, badge tones, shortcut metadata, controlled expansion, recursive filtering, and overlay dismissal controls.
+
 ## 0.2.5
 
 ### Patch Changes

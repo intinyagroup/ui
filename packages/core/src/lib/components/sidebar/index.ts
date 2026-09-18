@@ -11,7 +11,10 @@ import MenuButton from "./SidebarMenuButton.svelte";
 import Trigger from "./SidebarTrigger.svelte";
 import Inset from "./SidebarInset.svelte";
 import Nav from "./SidebarNav.svelte";
-import type { SidebarNavItemData } from "./SidebarNavItem.svelte";
+import type {
+  SidebarNavBadgeTone,
+  SidebarNavItemData,
+} from "./SidebarNavItem.svelte";
 export {
   Root,
   Header,
@@ -39,6 +42,6 @@ export {
   MenuButton as SidebarMenuButton,
   Trigger as SidebarTrigger,
   Inset as SidebarInset,
+  Nav as SidebarNav,
 };
-export { Nav as SidebarNav };
-export type { SidebarNavItemData };
+export type { SidebarNavBadgeTone, SidebarNavItemData };

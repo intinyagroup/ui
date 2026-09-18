@@ -1,5 +1,11 @@
 # @intinyagroup/tokens
 
+## 0.2.2
+
+### Patch Changes
+
+- Refine semantic overlay and elevated-surface tokens for theme-aware modal and drawer styling.
+
 ## 0.2.1
 
 ### Patch Changes

@@ -13,12 +13,23 @@
     children,
     showCloseButton = true,
     overlayClass,
+    size = "md",
     ...restProps
   }: ComponentProps<typeof ArkDialog.Content> & {
     children?: Snippet;
     showCloseButton?: boolean;
     overlayClass?: string;
+    /** Width preset for dialog content. Custom classes still override this preset. */
+    size?: "sm" | "md" | "lg" | "xl" | "full";
   } = $props();
+
+  const sizeClasses = {
+    sm: "max-w-sm",
+    md: "max-w-lg sm:max-w-sm",
+    lg: "max-w-2xl",
+    xl: "max-w-4xl",
+    full: "max-w-[calc(100%-2rem)]",
+  } as const;
 </script>
 
 <Portal>
@@ -30,7 +41,8 @@
       bind:ref
       data-slot="dialog-content"
       class={cn(
-        "relative z-50 grid w-full max-w-lg gap-4 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-background)] p-6 shadow-lg duration-200 text-sm text-[var(--ui-foreground)] outline-none sm:max-w-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+        "relative z-50 grid w-full gap-4 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-background)] p-6 shadow-lg duration-200 text-sm text-[var(--ui-foreground)] outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+        sizeClasses[size],
         className,
       )}
       {...restProps}

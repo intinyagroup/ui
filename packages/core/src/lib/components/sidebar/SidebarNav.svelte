@@ -139,7 +139,7 @@
     class="min-h-0 flex-1 space-y-1 overflow-y-auto px-2.5 py-3 [scrollbar-gutter:stable]"
     aria-label={title}
   >
-    {#each visibleItems as item (item.id)}
+    {#each visibleItems as item, itemIndex (item.id)}
       <SidebarNavItem
         {item}
         {collapsed}
@@ -148,6 +148,8 @@
         onToggle={toggleExpanded}
         {onNavigate}
         {filterItem}
+        showSection={itemIndex === 0 ||
+          item.section !== visibleItems[itemIndex - 1]?.section}
       />
     {/each}
   </nav>

@@ -72,4 +72,67 @@ describe("SidebarNav", () => {
     expect(screen.getByText("Profile")).toBeInTheDocument();
     expect(screen.queryByText("Billing")).not.toBeInTheDocument();
   });
+
+  it("supports controlled expansion and reports expanded ids", async () => {
+    const onExpandedChange = vi.fn();
+    render(SidebarNav, {
+      items: sampleItems,
+      expanded: [],
+      onExpandedChange,
+    });
+
+    expect(screen.queryByText("Profile")).not.toBeInTheDocument();
+    await fireEvent.click(screen.getByText("Settings"));
+
+    expect(onExpandedChange).toHaveBeenCalledWith(["settings"]);
+    expect(screen.getByText("Profile")).toBeInTheDocument();
+  });
+
+  it("keeps filtered parents when a descendant passes filterItem", () => {
+    render(SidebarNav, {
+      items: [
+        {
+          id: "parent",
+          label: "Parent",
+          children: [{ id: "allowed", label: "Allowed" }],
+        },
+      ],
+      defaultExpanded: ["parent"],
+      filterItem: (item) => item.id === "allowed",
+    });
+
+    expect(screen.getByText("Parent")).toBeInTheDocument();
+    expect(screen.getByText("Allowed")).toBeInTheDocument();
+  });
+
+  it("provides accessible labels for collapsed items", () => {
+    render(SidebarNav, {
+      items: [{ id: "search", label: "Search", shortcut: "⌘K" }],
+      collapsed: true,
+    });
+
+    const item = screen.getByRole("button", { name: "Search — ⌘K" });
+    expect(item).toHaveAttribute("title", "Search — ⌘K");
+  });
+
+  it("renders generic sections and item metadata", () => {
+    render(SidebarNav, {
+      items: [
+        {
+          id: "reports",
+          label: "Reports",
+          section: "Workspace",
+          badge: 3,
+          badgeTone: "info",
+          shortcut: "G R",
+          external: true,
+        },
+      ],
+    });
+
+    expect(screen.getByText("Workspace")).toBeInTheDocument();
+    expect(screen.getByText("3")).toBeInTheDocument();
+    expect(screen.getByText("G R")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Reports/ })).toBeInTheDocument();
+  });
 });

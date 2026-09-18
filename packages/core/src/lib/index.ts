@@ -315,6 +315,7 @@ export {
   SidebarTrigger,
   SidebarInset,
   SidebarNav,
+  type SidebarNavBadgeTone,
   type SidebarNavItemData,
 } from "./components/sidebar/index.js";
 // QR Code
