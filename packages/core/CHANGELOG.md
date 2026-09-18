@@ -1,5 +1,11 @@
 # @intinyagroup/ui
 
+## 0.2.9
+
+### Minor Changes
+
+- Add InputMask, Toolbar/AppBar, Message, ListBox, and DropdownTree components with focused accessibility behavior tests.
+
 ## 0.2.8
 
 ### Patch Changes

@@ -6,6 +6,11 @@
 export { Badge } from "./components/badge/index.js";
 export { Button } from "./components/button/index.js";
 export { Input } from "./components/input/index.js";
+export {
+  InputMask,
+  type InputMaskProps,
+  type InputMaskToken,
+} from "./components/input-mask/index.js";
 export { Textarea } from "./components/textarea/index.js";
 export { Label } from "./components/label/index.js";
 export { Separator } from "./components/separator/index.js";
@@ -225,6 +230,15 @@ export {
   type SearchSelectOption,
   SearchSelect as MultiSelect,
 } from "./components/search-select/index.js";
+export {
+  ListBox,
+  type ListBoxOption,
+  type ListBoxGroup,
+} from "./components/listbox/index.js";
+export {
+  DropdownTree,
+  type DropdownTreeNode,
+} from "./components/dropdown-tree/index.js";
 
 // Feedback
 export {
@@ -241,6 +255,12 @@ export {
   AlertDescription,
 } from "./components/alert/index.js";
 export { Toast, toasts } from "./components/toast/index.js";
+export {
+  Message,
+  type MessageAction,
+  type MessageProps,
+  type MessageTone,
+} from "./components/message/index.js";
 
 // Wizard / Multi-step
 export { Stepper } from "./components/stepper/index.js";
@@ -434,6 +454,29 @@ export {
 export { default as EmojiPicker } from "./components/emoji/EmojiPicker.svelte";
 // Calendar
 export { Calendar } from "./components/calendar/index.js";
+
+// Toolbar & AppBar
+export {
+  Toolbar,
+  ToolbarRoot,
+  ToolbarGroup,
+  ToolbarItem,
+  ToolbarSeparator,
+  ToolbarOverflow,
+  createToolbarOverflow,
+  useToolbarOverflow,
+  type ToolbarOverflowOptions,
+} from "./components/toolbar/index.js";
+export {
+  AppBar,
+  AppBarRoot,
+  AppBarSection,
+  AppBarTitle,
+  AppBarAction,
+  type AppBarPosition,
+  type AppBarVariant,
+  type AppBarSectionAlign,
+} from "./components/app-bar/index.js";
 
 // Types
 export type { ComponentVariant, ComponentSize } from "./types.js";
