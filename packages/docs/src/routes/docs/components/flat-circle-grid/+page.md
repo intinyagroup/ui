@@ -11,7 +11,7 @@ Renders a configurable number of flat colored circles in a wrapping row. Useful 
 
 ```svelte
 <script>
-  import { CircleGrid } from "@intinyagroup/flat";
+  import { CircleGrid } from '@intinyagroup/flat';
 </script>
 
 <CircleGrid count={8} color="blue" size="md" />
@@ -21,7 +21,7 @@ Renders a configurable number of flat colored circles in a wrapping row. Useful 
 
 ```svelte
 <script>
-  import { CircleGrid } from "@intinyagroup/flat";
+  import { CircleGrid } from '@intinyagroup/flat';
 </script>
 
 <CircleGrid count={12} color="purple" size="sm" />
@@ -29,12 +29,12 @@ Renders a configurable number of flat colored circles in a wrapping row. Useful 
 
 ## Props
 
-| Prop    | Type                                                                     | Default     | Description            |
-| ------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
-| `count` | `number`                                                                 | `6`         | Number of circles      |
-| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'`    | Circle color           |
-| `size`  | `'sm' \| 'md' \| 'lg'`                                                   | `'md'`      | Circle size            |
-| `class` | `string`                                                                 | `undefined` | Additional CSS classes |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `count` | `number` | `6` | Number of circles |
+| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'` | Circle color |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Circle size |
+| `class` | `string` | `undefined` | Additional CSS classes |
 
 ## Install
 

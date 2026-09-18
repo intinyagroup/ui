@@ -17,19 +17,19 @@ pnpm add @intinyagroup/tokens
 
 ```svelte
 <script>
-  import "@intinyagroup/tokens/brutalist.css";
+  import '@intinyagroup/tokens/brutalist.css';
 </script>
 ```
 
 ## Token Differences
 
-| Token           | shadcn       | Brutalist       |
-| --------------- | ------------ | --------------- |
-| `--ui-radius`   | 0.625rem     | 0px             |
-| `--ui-shadow-*` | subtle       | none            |
-| `--ui-border`   | oklch subtle | oklch black 2px |
-| Font            | Inter        | Space Mono      |
-| Letter-spacing  | normal       | -0.02em         |
+| Token | shadcn | Brutalist |
+|-------|--------|-----------|
+| `--ui-radius` | 0.625rem | 0px |
+| `--ui-shadow-*` | subtle | none |
+| `--ui-border` | oklch subtle | oklch black 2px |
+| Font | Inter | Space Mono |
+| Letter-spacing | normal | -0.02em |
 
 ## Brutalist Accent Colors
 
@@ -69,8 +69,8 @@ a {
 
 ```svelte
 <script>
-  import "@intinyagroup/tokens/brutalist.css";
-  import { Button, Card, Input } from "@intinyagroup/ui";
+  import '@intinyagroup/tokens/brutalist.css';
+  import { Button, Card, Input } from '@intinyagroup/ui';
 </script>
 
 <Card class="p-6 border-2 border-black">
@@ -91,7 +91,7 @@ a {
 
 ```css
 [data-ui-theme="brutalist-dark"] {
-  --ui-background: oklch(0.1 0 0);
+  --ui-background: oklch(0.10 0 0);
   --ui-foreground: oklch(0.95 0 0);
   --ui-border: oklch(0.95 0 0);
 }

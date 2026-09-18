@@ -17,7 +17,7 @@ npx @intinyagroup/cli add logo-cloud
 
 ```svelte
 <script>
-  import { LogoCloud } from "@intinyagroup/ui";
+  import { LogoCloud } from '@intinyagroup/ui';
 </script>
 
 <LogoCloud>
@@ -30,16 +30,16 @@ npx @intinyagroup/cli add logo-cloud
 
 ## Props
 
-| Prop      | Type    | Default | Description                     |
-| --------- | ------- | ------- | ------------------------------- |
-| columns   | number  | 4       | Number of grid columns          |
-| grayscale | boolean | true    | Apply grayscale filter to logos |
-| class     | string  | -       | Additional CSS classes          |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| columns | number | 4 | Number of grid columns |
+| grayscale | boolean | true | Apply grayscale filter to logos |
+| class | string | - | Additional CSS classes |
 
 ## Slots
 
-| Slot    | Description               |
-| ------- | ------------------------- |
+| Slot | Description |
+|------|-------------|
 | default | Logo images or components |
 
 ## Notes

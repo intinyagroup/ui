@@ -17,7 +17,7 @@ npx @intinyagroup/cli add details
 
 ```svelte
 <script>
-  import { Details } from "@intinyagroup/ui";
+  import { Details } from '@intinyagroup/ui';
 </script>
 
 <Details title="Installation">
@@ -31,17 +31,17 @@ npx @intinyagroup/cli add details
 
 ## Props
 
-| Prop     | Type    | Default | Description            |
-| -------- | ------- | ------- | ---------------------- |
-| title    | string  | -       | Summary/trigger text   |
-| open     | boolean | false   | Initially expanded     |
-| disabled | boolean | false   | Disable toggling       |
-| class    | string  | -       | Additional CSS classes |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| title | string | - | Summary/trigger text |
+| open | boolean | false | Initially expanded |
+| disabled | boolean | false | Disable toggling |
+| class | string | - | Additional CSS classes |
 
 ## Slots
 
-| Slot    | Description         |
-| ------- | ------------------- |
+| Slot | Description |
+|------|-------------|
 | default | Collapsible content |
 
 ## Accessibility

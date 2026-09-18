@@ -18,8 +18,8 @@ npx @intinyagroup/cli add navigation-menu
     NavigationMenuItem,
     NavigationMenuTrigger,
     NavigationMenuContent,
-    NavigationMenuLink,
-  } from "@intinyagroup/ui";
+    NavigationMenuLink
+  } from '@intinyagroup/ui';
 </script>
 
 <NavigationMenu>
@@ -30,15 +30,11 @@ npx @intinyagroup/cli add navigation-menu
         <div class="grid gap-3 p-4 w-96">
           <NavigationMenuLink href="/docs/introduction">
             <div class="font-medium">Introduction</div>
-            <p class="text-muted-foreground">
-              Re-usable components built with Radix UI and Tailwind.
-            </p>
+            <p class="text-muted-foreground">Re-usable components built with Radix UI and Tailwind.</p>
           </NavigationMenuLink>
           <NavigationMenuLink href="/docs/installation">
             <div class="font-medium">Installation</div>
-            <p class="text-muted-foreground">
-              How to install dependencies and structure your app.
-            </p>
+            <p class="text-muted-foreground">How to install dependencies and structure your app.</p>
           </NavigationMenuLink>
         </div>
       </NavigationMenuContent>
@@ -49,9 +45,7 @@ npx @intinyagroup/cli add navigation-menu
         <div class="grid gap-3 p-4 w-96">
           <NavigationMenuLink href="/docs/components/button">
             <div class="font-medium">Button</div>
-            <p class="text-muted-foreground">
-              Interactive button with variants and sizes.
-            </p>
+            <p class="text-muted-foreground">Interactive button with variants and sizes.</p>
           </NavigationMenuLink>
         </div>
       </NavigationMenuContent>
@@ -71,8 +65,8 @@ npx @intinyagroup/cli add navigation-menu
 
 ## Props
 
-| Sub-component           | Description                                                 |
-| ----------------------- | ----------------------------------------------------------- |
-| `NavigationMenu`        | Root — accepts `orientation` (`'horizontal' \| 'vertical'`) |
-| `NavigationMenuContent` | Accepts `align` and `sideOffset`                            |
-| `NavigationMenuLink`    | Accepts `href` and `active`                                 |
+| Sub-component | Description |
+|---------------|-------------|
+| `NavigationMenu` | Root — accepts `orientation` (`'horizontal' \| 'vertical'`) |
+| `NavigationMenuContent` | Accepts `align` and `sideOffset` |
+| `NavigationMenuLink` | Accepts `href` and `active` |

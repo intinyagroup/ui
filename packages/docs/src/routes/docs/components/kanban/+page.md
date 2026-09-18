@@ -6,23 +6,23 @@ A drag-and-drop kanban board built from `KanbanBoard`, `KanbanColumn`, and `Kanb
 
 ```svelte
 <script>
-  import { KanbanBoard, KanbanColumn, KanbanCard } from "@intinyagroup/ui";
+  import { KanbanBoard, KanbanColumn, KanbanCard } from '@intinyagroup/ui';
 
   let columns = $state([
     {
-      id: "todo",
-      title: "To do",
-      accent: "#ef4444",
+      id: 'todo',
+      title: 'To do',
+      accent: '#ef4444',
       cards: [
-        { id: "1", title: "Design sign-up", tags: ["design"] },
-        { id: "2", title: "Wire up auth" },
-      ],
+        { id: '1', title: 'Design sign-up', tags: ['design'] },
+        { id: '2', title: 'Wire up auth' }
+      ]
     },
     {
-      id: "done",
-      title: "Done",
-      cards: [{ id: "3", title: "Ship v0.1", description: "Released 🎉" }],
-    },
+      id: 'done',
+      title: 'Done',
+      cards: [{ id: '3', title: 'Ship v0.1', description: 'Released 🎉' }]
+    }
   ]);
 
   function onCardMove(cardId, fromColumnId, toColumnId, index) {
@@ -54,17 +54,17 @@ type KanbanColumnType = {
 
 ## Props
 
-| Prop         | Type                                                | Default | Description                   |
-| ------------ | --------------------------------------------------- | ------- | ----------------------------- |
-| `columns`    | `KanbanColumnType[]`                                | `[]`    | Column data (bindable)        |
-| `onCardMove` | `(cardId, fromColumnId, toColumnId, index) => void` | —       | Called when a card is dropped |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `columns` | `KanbanColumnType[]` | `[]` | Column data (bindable) |
+| `onCardMove` | `(cardId, fromColumnId, toColumnId, index) => void` | — | Called when a card is dropped |
 
 ### Sub-components
 
-| Component      | Description                                                                   |
-| -------------- | ----------------------------------------------------------------------------- |
+| Component | Description |
+|-----------|-------------|
 | `KanbanColumn` | Renders a single column (takes a `column` prop); used internally by the board |
-| `KanbanCard`   | Renders a single card inside a column                                         |
+| `KanbanCard` | Renders a single card inside a column |
 
 ## Features
 

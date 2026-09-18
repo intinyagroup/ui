@@ -6,9 +6,9 @@ A single-date month calendar with month navigation, min/max date constraints, an
 
 ```svelte
 <script>
-  import { Calendar } from "@intinyagroup/ui";
+  import { Calendar } from '@intinyagroup/ui';
 
-  let date = $state("2026-08-07");
+  let date = $state('2026-08-07');
 </script>
 
 <Calendar bind:value={date} />
@@ -18,35 +18,31 @@ A single-date month calendar with month navigation, min/max date constraints, an
 
 ```svelte
 <!-- Restrict the selectable range -->
-<Calendar
-  min="2026-01-01"
-  max="2026-12-31"
-  onDayClick={(iso) => console.log(iso)}
-/>
+<Calendar min="2026-01-01" max="2026-12-31" onDayClick={(iso) => console.log(iso)} />
 ```
 
 ## Props
 
-| Prop         | Type                     | Default       | Description                                         |
-| ------------ | ------------------------ | ------------- | --------------------------------------------------- |
-| `value`      | `string \| null`         | `null`        | Selected date as `YYYY-MM-DD` (bindable)            |
-| `month`      | `number`                 | current month | Visible month, 0-based (bindable)                   |
-| `year`       | `number`                 | current year  | Visible year (bindable)                             |
-| `min`        | `string`                 | —             | Earliest selectable date (`YYYY-MM-DD`)             |
-| `max`        | `string`                 | —             | Latest selectable date (`YYYY-MM-DD`)               |
-| `onDayClick` | `(date: string) => void` | —             | Called with the `YYYY-MM-DD` when a day is selected |
-| `class`      | `string`                 | —             | Additional classes                                  |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string \| null` | `null` | Selected date as `YYYY-MM-DD` (bindable) |
+| `month` | `number` | current month | Visible month, 0-based (bindable) |
+| `year` | `number` | current year | Visible year (bindable) |
+| `min` | `string` | — | Earliest selectable date (`YYYY-MM-DD`) |
+| `max` | `string` | — | Latest selectable date (`YYYY-MM-DD`) |
+| `onDayClick` | `(date: string) => void` | — | Called with the `YYYY-MM-DD` when a day is selected |
+| `class` | `string` | — | Additional classes |
 
 All other props are forwarded to the root `<div>` (`aria-label`, `id`, etc.).
 
 ## Keyboard navigation
 
-| Key                        | Action                                     |
-| -------------------------- | ------------------------------------------ |
-| `ArrowLeft` / `ArrowRight` | Move focus one day                         |
-| `ArrowUp` / `ArrowDown`    | Move focus one week                        |
-| `Enter` / `Space`          | Select the focused day                     |
-| `Escape`                   | Reset focus to the selected day (or today) |
+| Key | Action |
+|-----|--------|
+| `ArrowLeft` / `ArrowRight` | Move focus one day |
+| `ArrowUp` / `ArrowDown` | Move focus one week |
+| `Enter` / `Space` | Select the focused day |
+| `Escape` | Reset focus to the selected day (or today) |
 
 ## Features
 

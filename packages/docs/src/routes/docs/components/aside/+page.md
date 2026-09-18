@@ -17,7 +17,7 @@ npx @intinyagroup/cli add aside
 
 ```svelte
 <script>
-  import { Aside } from "@intinyagroup/ui";
+  import { Aside } from '@intinyagroup/ui';
 </script>
 
 <Aside>
@@ -27,14 +27,14 @@ npx @intinyagroup/cli add aside
 
 ## Props
 
-| Prop  | Type   | Default | Description            |
-| ----- | ------ | ------- | ---------------------- |
-| class | string | -       | Additional CSS classes |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| class | string | - | Additional CSS classes |
 
 ## Slots
 
-| Slot    | Description   |
-| ------- | ------------- |
+| Slot | Description |
+|------|-------------|
 | default | Aside content |
 
 ## Accessibility

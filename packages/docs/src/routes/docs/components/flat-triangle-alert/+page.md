@@ -11,17 +11,13 @@ A triangle-shaped alert banner for warnings and notices. Uses `clip-path: polygo
 
 ```svelte
 <script>
-  import { TriangleAlert } from "@intinyagroup/flat";
+  import { TriangleAlert } from '@intinyagroup/flat';
 </script>
 
 <div class="flex flex-col gap-6">
   <TriangleAlert message="Warning: disk space is running low" />
   <TriangleAlert message="Heads up: new version available" color="yellow" />
-  <TriangleAlert
-    message="Maintenance window tonight at 2 AM"
-    color="orange"
-    dismissable
-  />
+  <TriangleAlert message="Maintenance window tonight at 2 AM" color="orange" dismissable />
 </div>
 ```
 
@@ -29,7 +25,7 @@ A triangle-shaped alert banner for warnings and notices. Uses `clip-path: polygo
 
 ```svelte
 <script>
-  import { TriangleAlert } from "@intinyagroup/flat";
+  import { TriangleAlert } from '@intinyagroup/flat';
 </script>
 
 <TriangleAlert
@@ -42,13 +38,13 @@ A triangle-shaped alert banner for warnings and notices. Uses `clip-path: polygo
 
 ## Props
 
-| Prop          | Type                            | Default     | Description                      |
-| ------------- | ------------------------------- | ----------- | -------------------------------- |
-| `message`     | `string`                        | —           | Alert message text               |
-| `color`       | `'red' \| 'yellow' \| 'orange'` | `'red'`     | Alert color                      |
-| `dismissable` | `boolean`                       | `false`     | Shows a dismiss (×) button       |
-| `ondismiss`   | `() => void`                    | `undefined` | Callback when dismiss is clicked |
-| `class`       | `string`                        | `undefined` | Additional CSS classes           |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `message` | `string` | — | Alert message text |
+| `color` | `'red' \| 'yellow' \| 'orange'` | `'red'` | Alert color |
+| `dismissable` | `boolean` | `false` | Shows a dismiss (×) button |
+| `ondismiss` | `() => void` | `undefined` | Callback when dismiss is clicked |
+| `class` | `string` | `undefined` | Additional CSS classes |
 
 ## Install
 

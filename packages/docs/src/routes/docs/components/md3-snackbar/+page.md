@@ -11,7 +11,7 @@ A brief message that appears at the bottom of the screen to provide feedback abo
 
 ```svelte
 <script>
-  import { Snackbar } from "@intinyagroup/md3";
+  import { Snackbar } from '@intinyagroup/md3';
 
   let show = $state(false);
 </script>
@@ -22,7 +22,7 @@ A brief message that appears at the bottom of the screen to provide feedback abo
   bind:show
   message="Message sent"
   action="Undo"
-  onaction={() => console.log("Undo clicked")}
+  onaction={() => console.log('Undo clicked')}
 />
 ```
 
@@ -38,7 +38,7 @@ A brief message that appears at the bottom of the screen to provide feedback abo
 
 ```svelte
 <script>
-  import { Snackbar } from "@intinyagroup/md3";
+  import { Snackbar } from '@intinyagroup/md3';
 
   let show = $state(false);
 </script>
@@ -55,15 +55,15 @@ A brief message that appears at the bottom of the screen to provide feedback abo
 
 ## Props
 
-| Prop        | Type                 | Default     | Description                                |
-| ----------- | -------------------- | ----------- | ------------------------------------------ |
-| `message`   | `string`             | —           | Snackbar message text                      |
-| `action`    | `string`             | `undefined` | Action button label                        |
-| `onaction`  | `() => void`         | `undefined` | Callback when action button is clicked     |
-| `ondismiss` | `() => void`         | `undefined` | Callback when snackbar is dismissed        |
-| `duration`  | `number`             | `5000`      | Auto-dismiss duration in ms (0 to disable) |
-| `show`      | `boolean` (bindable) | `false`     | Controls visibility                        |
-| `class`     | `string`             | `undefined` | Additional CSS classes                     |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `message` | `string` | — | Snackbar message text |
+| `action` | `string` | `undefined` | Action button label |
+| `onaction` | `() => void` | `undefined` | Callback when action button is clicked |
+| `ondismiss` | `() => void` | `undefined` | Callback when snackbar is dismissed |
+| `duration` | `number` | `5000` | Auto-dismiss duration in ms (0 to disable) |
+| `show` | `boolean` (bindable) | `false` | Controls visibility |
+| `class` | `string` | `undefined` | Additional CSS classes |
 
 ## Install
 

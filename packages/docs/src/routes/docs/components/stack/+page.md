@@ -11,7 +11,7 @@ A vertical flex container. Sets the gap from the spacing token scale and can ren
 
 ```svelte
 <script>
-  import { Stack } from "@intinyagroup/ui";
+  import { Stack } from '@intinyagroup/ui';
 </script>
 
 <Stack gap={2}>
@@ -27,12 +27,12 @@ A vertical flex container. Sets the gap from the spacing token scale and can ren
 
 ## Props
 
-| Prop       | Type      | Default | Description                      |
-| ---------- | --------- | ------- | -------------------------------- |
-| `gap`      | `number`  | `4`     | Gap from the spacing token scale |
-| `divider`  | `boolean` | `false` | Render a border between children |
-| `class`    | `string`  | —       | Additional CSS classes           |
-| `children` | `Snippet` | —       | Stack content                    |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `gap` | `number` | `4` | Gap from the spacing token scale |
+| `divider` | `boolean` | `false` | Render a border between children |
+| `class` | `string` | — | Additional CSS classes |
+| `children` | `Snippet` | — | Stack content |
 
 ## Features
 

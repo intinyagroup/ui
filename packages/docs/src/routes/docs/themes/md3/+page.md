@@ -17,18 +17,18 @@ pnpm add @intinyagroup/tokens
 
 ```svelte
 <script>
-  import "@intinyagroup/tokens/md3.css";
+  import '@intinyagroup/tokens/md3.css';
 </script>
 ```
 
 ## Token Differences
 
-| Token           | shadcn       | MD3           |
-| --------------- | ------------ | ------------- |
-| `--ui-radius`   | 0.625rem     | 1rem          |
-| `--ui-shadow-*` | subtle       | elevation 0-5 |
-| `--ui-primary`  | oklch violet | oklch blue    |
-| Font            | Inter        | Roboto        |
+| Token | shadcn | MD3 |
+|-------|--------|-----|
+| `--ui-radius` | 0.625rem | 1rem |
+| `--ui-shadow-*` | subtle | elevation 0-5 |
+| `--ui-primary` | oklch violet | oklch blue |
+| Font | Inter | Roboto |
 
 ## MD3-Specific Tokens
 
@@ -52,35 +52,31 @@ For components that don't exist in shadcn, use `@intinyagroup/md3`:
 
 ```svelte
 <script>
-  import "@intinyagroup/tokens/md3.css";
-  import {
-    FAB,
-    Chip,
-    Snackbar,
-    BottomSheet,
-    TopAppBar,
-  } from "@intinyagroup/md3";
+  import '@intinyagroup/tokens/md3.css';
+  import { FAB, Chip, Snackbar, BottomSheet, TopAppBar } from '@intinyagroup/md3';
 </script>
 
 <FAB variant="elevated" onclick={handleClick}>
   <PlusIcon />
 </FAB>
 
-<Chip variant="filter" selected={isActive} onclick={toggleFilter}>Filter</Chip>
+<Chip variant="filter" selected={isActive} onclick={toggleFilter}>
+  Filter
+</Chip>
 ```
 
 ### Available MD3 Components
 
-| Component        | Description                                          |
-| ---------------- | ---------------------------------------------------- |
-| `FAB`            | Floating Action Button (elevated, surface, tertiary) |
-| `Chip`           | Filter, assist, input, suggestion chips              |
-| `Snackbar`       | Bottom notification bar                              |
-| `BottomSheet`    | Modal bottom panel                                   |
-| `TopAppBar`      | App bar (small, medium, large, center)               |
-| `NavigationRail` | Vertical side nav for tablets                        |
-| `Ripple`         | Touch ripple effect                                  |
-| `Badge`          | Notification badge (dot, number, icon)               |
+| Component | Description |
+|-----------|-------------|
+| `FAB` | Floating Action Button (elevated, surface, tertiary) |
+| `Chip` | Filter, assist, input, suggestion chips |
+| `Snackbar` | Bottom notification bar |
+| `BottomSheet` | Modal bottom panel |
+| `TopAppBar` | App bar (small, medium, large, center) |
+| `NavigationRail` | Vertical side nav for tablets |
+| `Ripple` | Touch ripple effect |
+| `Badge` | Notification badge (dot, number, icon) |
 
 ## Dark Mode
 

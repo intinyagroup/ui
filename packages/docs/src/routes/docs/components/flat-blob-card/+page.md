@@ -11,7 +11,7 @@ An organic, blob-shaped card for the Flat theme. Uses an inline SVG `clip-path` 
 
 ```svelte
 <script>
-  import { BlobCard } from "@intinyagroup/flat";
+  import { BlobCard } from '@intinyagroup/flat';
 </script>
 
 <div class="flex flex-wrap gap-8">
@@ -25,10 +25,14 @@ An organic, blob-shaped card for the Flat theme. Uses an inline SVG `clip-path` 
 
 ```svelte
 <script>
-  import { BlobCard } from "@intinyagroup/flat";
+  import { BlobCard } from '@intinyagroup/flat';
 </script>
 
-<BlobCard title="Engagement" description="Daily active users" color="pink">
+<BlobCard
+  title="Engagement"
+  description="Daily active users"
+  color="pink"
+>
   <!-- Optional extra content -->
 </BlobCard>
 ```
@@ -37,13 +41,13 @@ The card is always square (`aspect-square`) and clips to an organic blob path.
 
 ## Props
 
-| Prop          | Type                                                                     | Default     | Description                           |
-| ------------- | ------------------------------------------------------------------------ | ----------- | ------------------------------------- |
-| `color`       | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'`    | Flat color variant                    |
-| `title`       | `string`                                                                 | `undefined` | Card title                            |
-| `description` | `string`                                                                 | `undefined` | Card description                      |
-| `class`       | `string`                                                                 | `undefined` | Additional CSS classes                |
-| `children`    | `Snippet`                                                                | `undefined` | Extra content below title/description |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'` | Flat color variant |
+| `title` | `string` | `undefined` | Card title |
+| `description` | `string` | `undefined` | Card description |
+| `class` | `string` | `undefined` | Additional CSS classes |
+| `children` | `Snippet` | `undefined` | Extra content below title/description |
 
 ## Install
 

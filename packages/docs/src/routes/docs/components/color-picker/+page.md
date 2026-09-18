@@ -17,29 +17,30 @@ npx @intinyagroup/cli add color-picker
 
 ```svelte
 <script>
-  import { ColorPicker } from "@intinyagroup/ui";
+  import { ColorPicker } from '@intinyagroup/ui';
 
-  let color = $state("#6366f1");
+  let color = $state('#6366f1');
 </script>
 
-<ColorPicker bind:value={color} /><p>Selected: {color}</p>
+<ColorPicker bind:value={color} />
+<p>Selected: {color}</p>
 ```
 
 ## Props
 
-| Prop         | Type     | Default   | Description                |
-| ------------ | -------- | --------- | -------------------------- |
-| value        | string   | '#000000' | Current color value (hex)  |
-| showInput    | boolean  | true      | Show hex input field       |
-| showSwatches | boolean  | false     | Show preset color swatches |
-| swatches     | string[] | []        | Preset color hex values    |
-| disabled     | boolean  | false     | Disable interaction        |
-| class        | string   | -         | Additional CSS classes     |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | string | '#000000' | Current color value (hex) |
+| showInput | boolean | true | Show hex input field |
+| showSwatches | boolean | false | Show preset color swatches |
+| swatches | string[] | [] | Preset color hex values |
+| disabled | boolean | false | Disable interaction |
+| class | string | - | Additional CSS classes |
 
 ## Events
 
-| Event  | Detail | Description              |
-| ------ | ------ | ------------------------ |
+| Event | Detail | Description |
+|-------|--------|-------------|
 | change | string | Fires when color changes |
 
 ## Notes

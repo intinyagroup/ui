@@ -1,0 +1,21 @@
+import{D as h}from"./TreeGrid-CLwMb2pe.js";import"./lifecycle-D5JrVwsn.js";import"./render-CHUAUhUb.js";import"./utils-DosA2vOY.js";import"./if-0WVPJ3IP.js";import"./branches-hi3FbZvd.js";import"./each-PDs5jZh8.js";import"./attributes-BALAtxBo.js";import"./class-DwB8_mQf.js";import"./this-BtKAyv0G.js";import"./badge-Z0NBSzYF.js";import"./index-CMj3ooHx.js";import"./svelte-element-DTBlWBSa.js";import"./utils-CCsMBtsj.js";import"./Button-CKYvUoYm.js";import"./input-D7sgznK8.js";import"./toolbar-overflow-B-Qqs6Ww.js";import"./props-kCI09qBY.js";import"./index-C8-d_rLC.js";import"./use-presence-context-8RtOH84O.js";import"./index-client-DKEyF-ei.js";import"./x-wNYCB7xJ.js";import"./index-totOn7k9.js";import"./SearchSelect-Dw38eHCN.js";import"./chevron-right-qMbRDPG5.js";import"./CardFooter-0qIncqg5.js";import"./QRCode-TTX_btiy.js";import"./_commonjsHelpers-CqkleIqs.js";import"./Barcode-CZzrK7IG.js";import"./trash-2-ierFM7Cx.js";import"./grip-vertical-_S2fCJB6.js";import"./chevron-left-OGjglLCP.js";import"./x-CUx0NlTo.js";import"./search-DjBTE3-y.js";import"./chevron-down-D2_Fp8xg.js";import"./file-text-DnBJXGlJ.js";import"./plus-tD5Ocemn.js";const b=[{id:"1",name:"Joshua",department:"Engineering",role:"Architect",salary:45e6,status:"Active"},{id:"2",name:"Budi Santoso",department:"Engineering",role:"Frontend Lead",salary:35e6,status:"Active"},{id:"3",name:"Siti Rahma",department:"Design",role:"UI Lead",salary:3e7,status:"Active"},{id:"4",name:"Dewi Lestari",department:"Design",role:"Product Designer",salary:22e6,status:"Pending"},{id:"5",name:"Alex Wong",department:"Product",role:"VP Product",salary:5e7,status:"Active"}],x=[{accessorKey:"name",header:"Employee Name"},{accessorKey:"department",header:"Department"},{accessorKey:"role",header:"Role"},{accessorKey:"salary",header:"Salary (IDR)"},{accessorKey:"status",header:"Status"}],re={title:"Data/DataTable (Enterprise AG-Grid Style)",component:h,tags:["autodocs"],args:{data:b,columns:x,title:"Enterprise Personnel Grid",description:"AG-Grid / Syncfusion style grid with floating filter row, inline cell editing, context menu, and row grouping tree",searchable:!0,exportable:!0,selectable:!0,densityToggle:!0,columnToggle:!0,floatingFilter:!0,contextMenu:!0,grouping:!0,keyboardNav:!0,clipboard:!0,editableColumns:["role","salary","status"]}},e={args:{floatingFilter:!0}},t={args:{editableColumns:["role","salary","status"],description:"Click any Role, Salary, or Status cell to edit in-place with Enter/Escape handlers"}},r={args:{contextMenu:!0,description:"Right click on table area to open Enterprise Context Menu (Copy, Export, Clear Selection)"}},a={args:{grouping:!0,externalGrouping:["department"],description:"Grouped by Department with aggregation item counter pill and collapsible rows"}};var o,i,n;e.parameters={...e.parameters,docs:{...(o=e.parameters)==null?void 0:o.docs,source:{originalSource:`{
+  args: {
+    floatingFilter: true
+  }
+}`,...(n=(i=e.parameters)==null?void 0:i.docs)==null?void 0:n.source}}};var s,p,l;t.parameters={...t.parameters,docs:{...(s=t.parameters)==null?void 0:s.docs,source:{originalSource:`{
+  args: {
+    editableColumns: ["role", "salary", "status"],
+    description: "Click any Role, Salary, or Status cell to edit in-place with Enter/Escape handlers"
+  }
+}`,...(l=(p=t.parameters)==null?void 0:p.docs)==null?void 0:l.source}}};var c,m,u;r.parameters={...r.parameters,docs:{...(c=r.parameters)==null?void 0:c.docs,source:{originalSource:`{
+  args: {
+    contextMenu: true,
+    description: "Right click on table area to open Enterprise Context Menu (Copy, Export, Clear Selection)"
+  }
+}`,...(u=(m=r.parameters)==null?void 0:m.docs)==null?void 0:u.source}}};var d,g,y;a.parameters={...a.parameters,docs:{...(d=a.parameters)==null?void 0:d.docs,source:{originalSource:`{
+  args: {
+    grouping: true,
+    externalGrouping: ["department"],
+    description: "Grouped by Department with aggregation item counter pill and collapsible rows"
+  }
+}`,...(y=(g=a.parameters)==null?void 0:g.docs)==null?void 0:y.source}}};const ae=["FloatingFilterRow","InPlaceEditing","RightClickContextMenu","RowGroupingTree"];export{e as FloatingFilterRow,t as InPlaceEditing,r as RightClickContextMenu,a as RowGroupingTree,ae as __namedExportsOrder,re as default};

@@ -17,7 +17,7 @@ npx @intinyagroup/cli add stats-counter
 
 ```svelte
 <script>
-  import { StatsCounter } from "@intinyagroup/ui";
+  import { StatsCounter } from '@intinyagroup/ui';
 </script>
 
 <StatsCounter value={12345} duration={2000} />
@@ -25,16 +25,16 @@ npx @intinyagroup/cli add stats-counter
 
 ## Props
 
-| Prop      | Type    | Default | Description                 |
-| --------- | ------- | ------- | --------------------------- |
-| value     | number  | 0       | Target number to animate to |
-| start     | number  | 0       | Starting number             |
-| duration  | number  | 1500    | Animation duration in ms    |
-| separator | boolean | true    | Add thousand separators     |
-| prefix    | string  | ''      | Prefix (e.g. `$`)           |
-| suffix    | string  | ''      | Suffix (e.g. `%`)           |
-| decimals  | number  | 0       | Decimal places              |
-| class     | string  | -       | Additional CSS classes      |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | number | 0 | Target number to animate to |
+| start | number | 0 | Starting number |
+| duration | number | 1500 | Animation duration in ms |
+| separator | boolean | true | Add thousand separators |
+| prefix | string | '' | Prefix (e.g. `$`) |
+| suffix | string | '' | Suffix (e.g. `%`) |
+| decimals | number | 0 | Decimal places |
+| class | string | - | Additional CSS classes |
 
 ## Notes
 

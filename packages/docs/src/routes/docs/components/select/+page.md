@@ -6,13 +6,7 @@ A styled native-like select with custom trigger and dropdown.
 
 ```svelte
 <script>
-  import {
-    Select,
-    SelectTrigger,
-    SelectContent,
-    SelectItem,
-    SelectValue,
-  } from "@intinyagroup/ui";
+  import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@intinyagroup/ui';
 </script>
 
 <Select>

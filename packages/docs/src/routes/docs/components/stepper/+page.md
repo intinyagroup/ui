@@ -17,7 +17,7 @@ npx @intinyagroup/cli add stepper
 
 ```svelte
 <script>
-  import { Stepper } from "@intinyagroup/ui";
+  import { Stepper } from '@intinyagroup/ui';
 
   let currentStep = $state(0);
 </script>
@@ -37,26 +37,26 @@ npx @intinyagroup/cli add stepper
 
 ## Subcomponents
 
-| Component            | Description                   |
-| -------------------- | ----------------------------- |
-| `Stepper`            | Container managing step state |
-| `Stepper.Step`       | Individual step with content  |
+| Component | Description |
+|-----------|-------------|
+| `Stepper` | Container managing step state |
+| `Stepper.Step` | Individual step with content |
 | `Stepper.Navigation` | Optional prev/next button bar |
 
 ## Step Props
 
-| Prop        | Type      | Default | Description      |
-| ----------- | --------- | ------- | ---------------- |
-| title       | string    | -       | Step title       |
-| description | string    | -       | Step description |
-| icon        | Component | -       | Custom step icon |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| title | string | - | Step title |
+| description | string | - | Step description |
+| icon | Component | - | Custom step icon |
 
 ## Navigation Props
 
-| Prop        | Type   | Default  | Description            |
-| ----------- | ------ | -------- | ---------------------- |
-| prevLabel   | string | 'Back'   | Previous button text   |
-| nextLabel   | string | 'Next'   | Next button text       |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| prevLabel | string | 'Back' | Previous button text |
+| nextLabel | string | 'Next' | Next button text |
 | submitLabel | string | 'Submit' | Final step button text |
 
 ## Notes

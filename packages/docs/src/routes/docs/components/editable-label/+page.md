@@ -11,28 +11,24 @@ A label that switches to an inline text input when clicked. Committing (`Enter` 
 
 ```svelte
 <script>
-  import { EditableLabel } from "@intinyagroup/ui";
+  import { EditableLabel } from '@intinyagroup/ui';
 
-  let title = $state("My Project");
+  let title = $state('My Project');
 </script>
 
-<EditableLabel
-  bind:value={title}
-  as="h2"
-  onEdit={(v) => console.log("Renamed to", v)}
-/>
+<EditableLabel bind:value={title} as="h2" onEdit={(v) => console.log('Renamed to', v)} />
 ```
 
 ## Props
 
-| Prop          | Type                                                            | Default           | Description                        |
-| ------------- | --------------------------------------------------------------- | ----------------- | ---------------------------------- |
-| `value`       | `string`                                                        | —                 | Bindable label text                |
-| `placeholder` | `string`                                                        | `'Click to edit'` | Placeholder when empty             |
-| `as`          | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6' \| 'span' \| 'p'` | `'span'`          | Element rendered while not editing |
-| `onEdit`      | `(value: string) => void`                                       | —                 | Called when a change is committed  |
-| `maxLength`   | `number`                                                        | —                 | Max input length while editing     |
-| `class`       | `string`                                                        | —                 | Additional CSS classes             |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | Bindable label text |
+| `placeholder` | `string` | `'Click to edit'` | Placeholder when empty |
+| `as` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6' \| 'span' \| 'p'` | `'span'` | Element rendered while not editing |
+| `onEdit` | `(value: string) => void` | — | Called when a change is committed |
+| `maxLength` | `number` | — | Max input length while editing |
+| `class` | `string` | — | Additional CSS classes |
 
 ## Features
 

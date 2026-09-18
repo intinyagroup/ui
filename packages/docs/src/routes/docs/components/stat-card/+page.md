@@ -17,7 +17,7 @@ npx @intinyagroup/cli add stat-card
 
 ```svelte
 <script>
-  import { StatCard } from "@intinyagroup/ui";
+  import { StatCard } from '@intinyagroup/ui';
 </script>
 
 <div class="grid grid-cols-3 gap-4">
@@ -29,14 +29,14 @@ npx @intinyagroup/cli add stat-card
 
 ## Props
 
-| Prop       | Type                        | Default   | Description               |
-| ---------- | --------------------------- | --------- | ------------------------- |
-| label      | string                      | -         | Metric label              |
-| value      | string \| number            | -         | Metric value              |
-| trend      | 'up' \| 'down' \| 'neutral' | 'neutral' | Trend direction           |
-| trendValue | string                      | -         | Trend value (e.g. "+12%") |
-| icon       | Component                   | -         | Optional leading icon     |
-| class      | string                      | -         | Additional CSS classes    |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| label | string | - | Metric label |
+| value | string \| number | - | Metric value |
+| trend | 'up' \| 'down' \| 'neutral' | 'neutral' | Trend direction |
+| trendValue | string | - | Trend value (e.g. "+12%") |
+| icon | Component | - | Optional leading icon |
+| class | string | - | Additional CSS classes |
 
 ## Notes
 

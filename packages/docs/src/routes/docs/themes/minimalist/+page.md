@@ -17,7 +17,7 @@ npm install @intinyagroup/tokens@alpha
 
 ```svelte
 <script>
-  import "@intinyagroup/tokens/minimalist.css";
+  import '@intinyagroup/tokens/minimalist.css';
 </script>
 ```
 

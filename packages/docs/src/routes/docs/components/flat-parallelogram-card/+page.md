@@ -11,7 +11,7 @@ A slanted card with parallel edges. Clipped with `polygon(15% 0%, 100% 0%, 85% 1
 
 ```svelte
 <script>
-  import { ParallelogramCard } from "@intinyagroup/flat";
+  import { ParallelogramCard } from '@intinyagroup/flat';
 </script>
 
 <div class="flex flex-col gap-6">
@@ -28,7 +28,7 @@ A slanted card with parallel edges. Clipped with `polygon(15% 0%, 100% 0%, 85% 1
 
 ```svelte
 <script>
-  import { ParallelogramCard } from "@intinyagroup/flat";
+  import { ParallelogramCard } from '@intinyagroup/flat';
 </script>
 
 <ParallelogramCard title="Mission" color="orange">
@@ -38,12 +38,12 @@ A slanted card with parallel edges. Clipped with `polygon(15% 0%, 100% 0%, 85% 1
 
 ## Props
 
-| Prop       | Type                                                                     | Default     | Description            |
-| ---------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
-| `title`    | `string`                                                                 | `undefined` | Card title             |
-| `color`    | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'`    | Flat color variant     |
-| `class`    | `string`                                                                 | `undefined` | Additional CSS classes |
-| `children` | `Snippet`                                                                | `undefined` | Card body content      |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | `undefined` | Card title |
+| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'` | Flat color variant |
+| `class` | `string` | `undefined` | Additional CSS classes |
+| `children` | `Snippet` | `undefined` | Card body content |
 
 ## Install
 

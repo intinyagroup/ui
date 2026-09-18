@@ -12,7 +12,7 @@ npx @intinyagroup/cli add slider
 
 ```svelte
 <script>
-  import { Slider } from "@intinyagroup/ui";
+  import { Slider } from '@intinyagroup/ui';
 </script>
 
 <Slider value={[50]} min={0} max={100} step={1} />
@@ -22,7 +22,7 @@ npx @intinyagroup/cli add slider
 
 ```svelte
 <script>
-  import { Slider } from "@intinyagroup/ui";
+  import { Slider } from '@intinyagroup/ui';
 </script>
 
 <Slider
@@ -37,18 +37,18 @@ npx @intinyagroup/cli add slider
 
 ## Props
 
-| Prop             | Type                                       | Default        |
-| ---------------- | ------------------------------------------ | -------------- |
-| `value`          | `number[]`                                 | `[0]`          |
-| `min`            | `number`                                   | `0`            |
-| `max`            | `number`                                   | `100`          |
-| `step`           | `number`                                   | `1`            |
-| `disabled`       | `boolean`                                  | `false`        |
-| `orientation`    | `'horizontal' \| 'vertical'`               | `'horizontal'` |
-| `showLabels`     | `boolean`                                  | `false`        |
-| `labelPosition`  | `'top' \| 'bottom' \| 'left' \| 'right'`   | `'top'`        |
-| `labelFormatter` | `(value: number, index: number) => string` | —              |
-| `class`          | `string`                                   | —              |
+| Prop | Type | Default |
+|------|------|---------|
+| `value` | `number[]` | `[0]` |
+| `min` | `number` | `0` |
+| `max` | `number` | `100` |
+| `step` | `number` | `1` |
+| `disabled` | `boolean` | `false` |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` |
+| `showLabels` | `boolean` | `false` |
+| `labelPosition` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'` |
+| `labelFormatter` | `(value: number, index: number) => string` | — |
+| `class` | `string` | — |
 
 ## Sub-components
 

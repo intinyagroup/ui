@@ -17,7 +17,7 @@ npx @intinyagroup/cli add rating
 
 ```svelte
 <script>
-  import { Rating } from "@intinyagroup/ui";
+  import { Rating } from '@intinyagroup/ui';
 
   let rating = $state(3.5);
 </script>
@@ -29,18 +29,18 @@ npx @intinyagroup/cli add rating
 
 ## Props
 
-| Prop      | Type    | Default | Description             |
-| --------- | ------- | ------- | ----------------------- |
-| value     | number  | 0       | Current rating (0-5)    |
-| max       | number  | 5       | Maximum rating value    |
-| readOnly  | boolean | false   | Disable interaction     |
-| allowHalf | boolean | false   | Allow half-star ratings |
-| class     | string  | -       | Additional CSS classes  |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | number | 0 | Current rating (0-5) |
+| max | number | 5 | Maximum rating value |
+| readOnly | boolean | false | Disable interaction |
+| allowHalf | boolean | false | Allow half-star ratings |
+| class | string | - | Additional CSS classes |
 
 ## Events
 
-| Event  | Detail | Description                   |
-| ------ | ------ | ----------------------------- |
+| Event | Detail | Description |
+|-------|--------|-------------|
 | change | number | Fires when rating is selected |
 
 ## Accessibility

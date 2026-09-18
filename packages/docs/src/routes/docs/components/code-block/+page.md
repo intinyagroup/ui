@@ -17,30 +17,27 @@ npx @intinyagroup/cli add code-block
 
 ```svelte
 <script>
-  import { CodeBlock } from "@intinyagroup/ui";
+  import { CodeBlock } from '@intinyagroup/ui';
 </script>
 
-<CodeBlock
-  language="svelte"
-  code={`<script>
+<CodeBlock language="svelte" code={`<script>
   let count = $state(0);
 </script>
 
 <button onclick={() => count++}>
   Clicks: {count}
-</button>`}
-/>
+</button>`} />
 ```
 
 ## Props
 
-| Prop            | Type    | Default | Description                          |
-| --------------- | ------- | ------- | ------------------------------------ |
-| code            | string  | -       | Source code string to display        |
-| language        | string  | -       | Language identifier for highlighting |
-| showLineNumbers | boolean | false   | Display line numbers                 |
-| showCopyButton  | boolean | true    | Show copy-to-clipboard button        |
-| class           | string  | -       | Additional CSS classes               |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| code | string | - | Source code string to display |
+| language | string | - | Language identifier for highlighting |
+| showLineNumbers | boolean | false | Display line numbers |
+| showCopyButton | boolean | true | Show copy-to-clipboard button |
+| class | string | - | Additional CSS classes |
 
 ## Notes
 

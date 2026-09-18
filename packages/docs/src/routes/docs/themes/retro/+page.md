@@ -17,7 +17,7 @@ npm install @intinyagroup/tokens@alpha
 
 ```svelte
 <script>
-  import "@intinyagroup/tokens/retro.css";
+  import '@intinyagroup/tokens/retro.css';
 </script>
 ```
 

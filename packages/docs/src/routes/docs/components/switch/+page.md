@@ -6,8 +6,8 @@ A toggle switch for on/off states. Built on bits-ui switch primitives.
 
 ```svelte
 <script>
-  import { Switch } from "@intinyagroup/ui";
-  import { Label } from "@intinyagroup/ui";
+  import { Switch } from '@intinyagroup/ui';
+  import { Label } from '@intinyagroup/ui';
 </script>
 
 <div class="flex items-center gap-2">
@@ -20,7 +20,7 @@ A toggle switch for on/off states. Built on bits-ui switch primitives.
 
 ```svelte
 <script>
-  import { Switch } from "@intinyagroup/ui";
+  import { Switch } from '@intinyagroup/ui';
 </script>
 
 <div class="flex items-center gap-4">
@@ -33,7 +33,7 @@ A toggle switch for on/off states. Built on bits-ui switch primitives.
 
 ```svelte
 <script>
-  import { Switch } from "@intinyagroup/ui";
+  import { Switch } from '@intinyagroup/ui';
 </script>
 
 <div class="flex items-center gap-4">
@@ -52,8 +52,8 @@ A toggle switch for on/off states. Built on bits-ui switch primitives.
 
 ```svelte
 <script>
-  import { Switch } from "@intinyagroup/ui";
-  import { Label } from "@intinyagroup/ui";
+  import { Switch } from '@intinyagroup/ui';
+  import { Label } from '@intinyagroup/ui';
 </script>
 
 <div class="flex flex-col gap-3">
@@ -70,12 +70,12 @@ A toggle switch for on/off states. Built on bits-ui switch primitives.
 
 ## Props
 
-| Prop       | Type                | Default     | Description             |
-| ---------- | ------------------- | ----------- | ----------------------- |
-| `checked`  | `boolean`           | `false`     | Switch state (bindable) |
-| `size`     | `'sm' \| 'default'` | `'default'` | Size variant            |
-| `disabled` | `boolean`           | `false`     | Disables the switch     |
-| `class`    | `string`            | —           | Additional classes      |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Switch state (bindable) |
+| `size` | `'sm' \| 'default'` | `'default'` | Size variant |
+| `disabled` | `boolean` | `false` | Disables the switch |
+| `class` | `string` | — | Additional classes |
 
 All other props are forwarded to the underlying element.
 

@@ -34,7 +34,7 @@ Displays a button or link that looks like a button. Renders an `<a>` when `href`
 
 ```svelte
 <script>
-  import { Button } from "@intinyagroup/ui";
+  import { Button } from '@intinyagroup/ui';
 </script>
 
 <div class="flex flex-wrap gap-2">
@@ -47,12 +47,12 @@ Displays a button or link that looks like a button. Renders an `<a>` when `href`
 </div>
 ```
 
-    {/snippet}
-    {#snippet reactSnippet()}
+	{/snippet}
+	{#snippet reactSnippet()}
 
 ```tsx
-import React from "react";
-import { Button } from "@intinyagroup/react";
+import React from 'react';
+import { Button } from '@intinyagroup/react';
 
 export function ButtonExample() {
   return (
@@ -68,8 +68,7 @@ export function ButtonExample() {
 }
 ```
 
-    {/snippet}
-
+	{/snippet}
 </FrameworkTabs>
 ## Sizes
 
@@ -91,14 +90,14 @@ export function ButtonExample() {
 
 ## Props
 
-| Prop       | Type                                                                                 | Default     |
-| ---------- | ------------------------------------------------------------------------------------ | ----------- |
-| `variant`  | `'default' \| 'secondary' \| 'outline' \| 'ghost' \| 'destructive' \| 'link'`        | `'default'` |
-| `size`     | `'xs' \| 'sm' \| 'default' \| 'lg' \| 'icon' \| 'icon-xs' \| 'icon-sm' \| 'icon-lg'` | `'default'` |
-| `href`     | `string`                                                                             | `undefined` |
-| `type`     | `string`                                                                             | `'button'`  |
-| `disabled` | `boolean`                                                                            | `undefined` |
-| `class`    | `string`                                                                             | —           |
+| Prop | Type | Default |
+|------|------|---------|
+| `variant` | `'default' \| 'secondary' \| 'outline' \| 'ghost' \| 'destructive' \| 'link'` | `'default'` |
+| `size` | `'xs' \| 'sm' \| 'default' \| 'lg' \| 'icon' \| 'icon-xs' \| 'icon-sm' \| 'icon-lg'` | `'default'` |
+| `href` | `string` | `undefined` |
+| `type` | `string` | `'button'` |
+| `disabled` | `boolean` | `undefined` |
+| `class` | `string` | — |
 
 All other props are forwarded to the underlying `<button>` or `<a>` element.
 
@@ -113,19 +112,15 @@ npx @intinyagroup/cli add button
 Live playground — tweak the props and watch the button update. Switch to the **Code** tab to copy the generated snippet.
 
 <Playground
-title="Button Playground"
-description="Variants, sizes, disabled state"
-props={buttonProps}
-getCode={(v) =>
-`<Button variant="${v.variant}" size="${v.size}"${v.disabled ? ' disabled' : ''}>${v.label}</Button>`}
-
+	title="Button Playground"
+	description="Variants, sizes, disabled state"
+	props={buttonProps}
+	getCode={(v) =>
+		`<Button variant="${v.variant}" size="${v.size}"${v.disabled ? ' disabled' : ''}>${v.label}</Button>`}
 >
-
-    {#snippet render(values)}
-
-    	<Button variant={values.variant} size={values.size} disabled={values.disabled}>
-    		{values.label}
-    	</Button>
-    {/snippet}
-
+	{#snippet render(values)}
+		<Button variant={values.variant} size={values.size} disabled={values.disabled}>
+			{values.label}
+		</Button>
+	{/snippet}
 </Playground>

@@ -17,7 +17,7 @@ npx @intinyagroup/cli add input-group
 
 ```svelte
 <script>
-  import { InputGroup, Input } from "@intinyagroup/ui";
+  import { InputGroup, Input } from '@intinyagroup/ui';
 </script>
 
 <InputGroup>
@@ -33,17 +33,17 @@ npx @intinyagroup/cli add input-group
 
 ## Props
 
-| Prop  | Type   | Default | Description            |
-| ----- | ------ | ------- | ---------------------- |
-| class | string | -       | Additional CSS classes |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| class | string | - | Additional CSS classes |
 
 ## Slots
 
-| Slot    | Description              |
-| ------- | ------------------------ |
-| default | The input element        |
-| leader  | Content before the input |
-| trailer | Content after the input  |
+| Slot | Description |
+|------|-------------|
+| default | The input element |
+| leader | Content before the input |
+| trailer | Content after the input |
 
 ## Notes
 

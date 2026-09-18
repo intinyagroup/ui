@@ -17,7 +17,7 @@ npx @intinyagroup/cli add avatar-group
 
 ```svelte
 <script>
-  import { AvatarGroup, Avatar } from "@intinyagroup/ui";
+  import { AvatarGroup, Avatar } from '@intinyagroup/ui';
 </script>
 
 <AvatarGroup max={3}>
@@ -30,15 +30,15 @@ npx @intinyagroup/cli add avatar-group
 
 ## Props
 
-| Prop  | Type   | Default | Description                                |
-| ----- | ------ | ------- | ------------------------------------------ |
-| max   | number | 5       | Maximum visible avatars before +N overflow |
-| class | string | -       | Additional CSS classes                     |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| max | number | 5 | Maximum visible avatars before +N overflow |
+| class | string | - | Additional CSS classes |
 
 ## Slots
 
-| Slot    | Description                    |
-| ------- | ------------------------------ |
+| Slot | Description |
+|------|-------------|
 | default | `Avatar` components to display |
 
 ## Accessibility

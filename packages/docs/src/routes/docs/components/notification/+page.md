@@ -11,7 +11,7 @@ A button that requests notification permission and fires a Web Notification. Han
 
 ```svelte
 <script>
-  import { NotificationButton } from "@intinyagroup/ui";
+  import { NotificationButton } from '@intinyagroup/ui';
 </script>
 
 <NotificationButton
@@ -23,13 +23,13 @@ A button that requests notification permission and fires a Web Notification. Han
 
 ## Props
 
-| Prop      | Type         | Default | Description                       |
-| --------- | ------------ | ------- | --------------------------------- |
-| `title`   | `string`     | —       | Notification title                |
-| `body`    | `string`     | `''`    | Notification body                 |
-| `icon`    | `string`     | —       | Optional notification icon URL    |
-| `onClick` | `() => void` | —       | Called when the button is pressed |
-| `class`   | `string`     | —       | Additional CSS classes            |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | — | Notification title |
+| `body` | `string` | `''` | Notification body |
+| `icon` | `string` | — | Optional notification icon URL |
+| `onClick` | `() => void` | — | Called when the button is pressed |
+| `class` | `string` | — | Additional CSS classes |
 
 ## Features
 

@@ -11,7 +11,7 @@ A presence dot with optional text label. States: `online`, `offline`, `away`, `b
 
 ```svelte
 <script>
-  import { StatusIndicator } from "@intinyagroup/ui";
+  import { StatusIndicator } from '@intinyagroup/ui';
 </script>
 
 <StatusIndicator status="online" label="Online" />
@@ -22,13 +22,13 @@ A presence dot with optional text label. States: `online`, `offline`, `away`, `b
 
 ## Props
 
-| Prop          | Type                                                    | Default     | Description                                  |
-| ------------- | ------------------------------------------------------- | ----------- | -------------------------------------------- |
-| `status`      | `'online' \| 'offline' \| 'away' \| 'busy' \| 'custom'` | `'online'`  | Presence state                               |
-| `label`       | `string`                                                | —           | Visible text label; also the accessible name |
-| `customColor` | `string`                                                | `'#22c55e'` | Dot color for `status="custom"`              |
-| `size`        | `'sm' \| 'md' \| 'lg'`                                  | `'md'`      | Dot size                                     |
-| `class`       | `string`                                                | —           | Additional CSS classes                       |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `status` | `'online' \| 'offline' \| 'away' \| 'busy' \| 'custom'` | `'online'` | Presence state |
+| `label` | `string` | — | Visible text label; also the accessible name |
+| `customColor` | `string` | `'#22c55e'` | Dot color for `status="custom"` |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Dot size |
+| `class` | `string` | — | Additional CSS classes |
 
 ## Features
 

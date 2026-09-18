@@ -6,25 +6,25 @@ A row of key metrics displayed as large numbers with labels. Perfect for hero se
 
 ```svelte
 <script>
-  import { Stats } from "@intinyagroup/ui";
+  import { Stats } from '@intinyagroup/ui';
 </script>
 
 <Stats
   stats={[
-    { value: "10K+", label: "Developers" },
-    { value: "50+", label: "Components" },
-    { value: "99%", label: "Uptime" },
-    { value: "4.9", label: "Rating" },
+    { value: '10K+', label: 'Developers' },
+    { value: '50+', label: 'Components' },
+    { value: '99%', label: 'Uptime' },
+    { value: '4.9', label: 'Rating' }
   ]}
 />
 ```
 
 ## Props
 
-| Prop    | Type                                 | Default      |
-| ------- | ------------------------------------ | ------------ |
+| Prop | Type | Default |
+|------|------|---------|
 | `stats` | `{ value: string; label: string }[]` | **required** |
-| `class` | `string`                             | —            |
+| `class` | `string` | — |
 
 ## Install
 

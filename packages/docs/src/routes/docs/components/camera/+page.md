@@ -11,10 +11,10 @@ A camera capture component built on `navigator.mediaDevices.getUserMedia`. Start
 
 ```svelte
 <script>
-  import { CameraCapture } from "@intinyagroup/ui";
+  import { CameraCapture } from '@intinyagroup/ui';
 
   function handleCapture(file) {
-    console.log("Captured", file.name, file.type, file.size);
+    console.log('Captured', file.name, file.type, file.size);
   }
 </script>
 
@@ -29,12 +29,12 @@ Use the rear camera:
 
 ## Props
 
-| Prop        | Type                           | Default  | Description                                   |
-| ----------- | ------------------------------ | -------- | --------------------------------------------- |
-| `facing`    | `'user' \| 'environment'`      | `'user'` | Which camera to request                       |
-| `width`     | `number`                       | `640`    | Ideal video width; height is derived at 4:3   |
-| `onCapture` | `(file: File \| Blob) => void` | —        | Called with the captured photo or picked file |
-| `class`     | `string`                       | —        | Additional CSS classes                        |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `facing` | `'user' \| 'environment'` | `'user'` | Which camera to request |
+| `width` | `number` | `640` | Ideal video width; height is derived at 4:3 |
+| `onCapture` | `(file: File \| Blob) => void` | — | Called with the captured photo or picked file |
+| `class` | `string` | — | Additional CSS classes |
 
 ## Features
 

@@ -11,17 +11,17 @@ A complete profile card: optional cover image, overlapping avatar (or initials f
 
 ```svelte
 <script>
-  import { UserProfileCard } from "@intinyagroup/ui";
+  import { UserProfileCard } from '@intinyagroup/ui';
 
   const stats = [
-    { label: "Posts", value: 128 },
-    { label: "Followers", value: "12.4k" },
-    { label: "Following", value: 231 },
+    { label: 'Posts', value: 128 },
+    { label: 'Followers', value: '12.4k' },
+    { label: 'Following', value: 231 }
   ];
 
   const socials = [
-    { icon: "𝕏", href: "https://x.com/user" },
-    { icon: "in", href: "https://linkedin.com/in/user", label: "LinkedIn" },
+    { icon: '𝕏', href: 'https://x.com/user' },
+    { icon: 'in', href: 'https://linkedin.com/in/user', label: 'LinkedIn' }
   ];
 </script>
 
@@ -33,24 +33,24 @@ A complete profile card: optional cover image, overlapping avatar (or initials f
   cover="/cover.jpg"
   {stats}
   {socials}
-  onContact={() => console.log("contact")}
+  onContact={() => console.log('contact')}
 />
 ```
 
 ## Props
 
-| Prop           | Type              | Default     | Description                                      |
-| -------------- | ----------------- | ----------- | ------------------------------------------------ |
-| `name`         | `string`          | —           | Profile name                                     |
-| `avatar`       | `string`          | —           | Avatar image URL; initials fallback when omitted |
-| `role`         | `string`          | —           | Role or headline                                 |
-| `bio`          | `string`          | —           | Short bio                                        |
-| `stats`        | `ProfileStat[]`   | `[]`        | Stats row items                                  |
-| `socials`      | `ProfileSocial[]` | `[]`        | Social link buttons                              |
-| `cover`        | `string`          | —           | Cover image URL; muted placeholder otherwise     |
-| `contactLabel` | `string`          | `'Contact'` | Contact button label                             |
-| `onContact`    | `() => void`      | —           | Shows the contact button when provided           |
-| `class`        | `string`          | —           | Additional CSS classes                           |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | — | Profile name |
+| `avatar` | `string` | — | Avatar image URL; initials fallback when omitted |
+| `role` | `string` | — | Role or headline |
+| `bio` | `string` | — | Short bio |
+| `stats` | `ProfileStat[]` | `[]` | Stats row items |
+| `socials` | `ProfileSocial[]` | `[]` | Social link buttons |
+| `cover` | `string` | — | Cover image URL; muted placeholder otherwise |
+| `contactLabel` | `string` | `'Contact'` | Contact button label |
+| `onContact` | `() => void` | — | Shows the contact button when provided |
+| `class` | `string` | — | Additional CSS classes |
 
 ### ProfileStat
 

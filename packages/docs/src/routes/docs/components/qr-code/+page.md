@@ -6,7 +6,7 @@ Renders a QR code as inline SVG using the [`qrcode`](https://github.com/soldair/
 
 ```svelte
 <script>
-  import { QRCode } from "@intinyagroup/ui";
+  import { QRCode } from '@intinyagroup/ui';
 </script>
 
 <QRCode value="https://intinya.digital" />
@@ -21,21 +21,21 @@ Renders a QR code as inline SVG using the [`qrcode`](https://github.com/soldair/
   level="H"
   fgColor="#1a1a2e"
   bgColor="#f5f5f5"
-  onReady={(svg) => console.log("rendered", svg.length, "bytes of SVG")}
+  onReady={(svg) => console.log('rendered', svg.length, 'bytes of SVG')}
 />
 ```
 
 ## Props
 
-| Prop      | Type                       | Default     | Description                                        |
-| --------- | -------------------------- | ----------- | -------------------------------------------------- |
-| `value`   | `string`                   | —           | The data to encode (required)                      |
-| `size`    | `number`                   | `200`       | QR code size in pixels                             |
-| `fgColor` | `string`                   | `'#000000'` | Foreground (module) color                          |
-| `bgColor` | `string`                   | `'#ffffff'` | Background color                                   |
-| `level`   | `'L' \| 'M' \| 'Q' \| 'H'` | `'M'`       | Error-correction level (L=7%, M=15%, Q=25%, H=30%) |
-| `class`   | `string`                   | —           | Additional classes                                 |
-| `onReady` | `(svg: string) => void`    | —           | Called with the generated SVG markup               |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | The data to encode (required) |
+| `size` | `number` | `200` | QR code size in pixels |
+| `fgColor` | `string` | `'#000000'` | Foreground (module) color |
+| `bgColor` | `string` | `'#ffffff'` | Background color |
+| `level` | `'L' \| 'M' \| 'Q' \| 'H'` | `'M'` | Error-correction level (L=7%, M=15%, Q=25%, H=30%) |
+| `class` | `string` | — | Additional classes |
+| `onReady` | `(svg: string) => void` | — | Called with the generated SVG markup |
 
 The SVG is generated asynchronously; the component renders nothing until it's ready. Generation errors are caught and logged instead of breaking the render.
 

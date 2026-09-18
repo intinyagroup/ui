@@ -6,21 +6,12 @@ A menu of actions triggered by a button. Built on bits-ui dropdown menu.
 
 ```svelte
 <script>
-  import {
-    DropdownMenu,
-    DropdownMenuTrigger,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuLabel,
-  } from "@intinyagroup/ui";
-  import { Button } from "@intinyagroup/ui";
+  import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from '@intinyagroup/ui';
+  import { Button } from '@intinyagroup/ui';
 </script>
 
 <DropdownMenu>
-  <DropdownMenuTrigger
-    ><Button variant="outline">Open menu</Button></DropdownMenuTrigger
-  >
+  <DropdownMenuTrigger><Button variant="outline">Open menu</Button></DropdownMenuTrigger>
   <DropdownMenuContent class="w-48">
     <DropdownMenuLabel>My Account</DropdownMenuLabel>
     <DropdownMenuSeparator />

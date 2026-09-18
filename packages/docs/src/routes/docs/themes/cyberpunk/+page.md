@@ -17,7 +17,7 @@ npm install @intinyagroup/tokens@alpha
 
 ```svelte
 <script>
-  import "@intinyagroup/tokens/cyberpunk.css";
+  import '@intinyagroup/tokens/cyberpunk.css';
 </script>
 ```
 

@@ -20,9 +20,9 @@ npx @intinyagroup/cli add sheet
     SheetTitle,
     SheetDescription,
     SheetFooter,
-    SheetClose,
-  } from "@intinyagroup/ui";
-  import { Button } from "@intinyagroup/ui";
+    SheetClose
+  } from '@intinyagroup/ui';
+  import { Button } from '@intinyagroup/ui';
 </script>
 
 <Sheet>
@@ -59,8 +59,8 @@ npx @intinyagroup/cli add sheet
 
 ## Props
 
-| Sub-component  | Description                                                                       |
-| -------------- | --------------------------------------------------------------------------------- |
+| Sub-component | Description |
+|---------------|-------------|
 | `SheetContent` | Accepts `side` (`'top' \| 'bottom' \| 'left' \| 'right'`) — defaults to `'right'` |
-| `SheetTrigger` | Opens the sheet on click                                                          |
-| `SheetClose`   | Closes the sheet on click                                                         |
+| `SheetTrigger` | Opens the sheet on click |
+| `SheetClose` | Closes the sheet on click |

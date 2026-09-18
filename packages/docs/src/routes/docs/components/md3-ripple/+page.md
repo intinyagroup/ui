@@ -11,7 +11,7 @@ A container that adds an expanding ripple animation on pointer interaction. Wrap
 
 ```svelte
 <script>
-  import { Ripple } from "@intinyagroup/md3";
+  import { Ripple } from '@intinyagroup/md3';
 </script>
 
 <Ripple class="rounded-lg bg-white p-8 shadow-md cursor-pointer">
@@ -31,7 +31,7 @@ A container that adds an expanding ripple animation on pointer interaction. Wrap
 
 ```svelte
 <script>
-  import { Ripple } from "@intinyagroup/md3";
+  import { Ripple } from '@intinyagroup/md3';
 </script>
 
 <Ripple class="rounded-lg bg-surface p-4">
@@ -41,11 +41,11 @@ A container that adds an expanding ripple animation on pointer interaction. Wrap
 
 ## Props
 
-| Prop       | Type      | Default          | Description                    |
-| ---------- | --------- | ---------------- | ------------------------------ |
-| `color`    | `string`  | `'currentColor'` | Ripple color (CSS color value) |
-| `class`    | `string`  | `undefined`      | Additional CSS classes         |
-| `children` | `Snippet` | `undefined`      | Content to wrap                |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `color` | `string` | `'currentColor'` | Ripple color (CSS color value) |
+| `class` | `string` | `undefined` | Additional CSS classes |
+| `children` | `Snippet` | `undefined` | Content to wrap |
 
 The ripple responds to pointer down events and creates an expanding circular animation from the click position.
 

@@ -6,8 +6,8 @@ A form label that associates with inputs for accessibility. Built on bits-ui lab
 
 ```svelte
 <script>
-  import { Label } from "@intinyagroup/ui";
-  import { Input } from "@intinyagroup/ui";
+  import { Label } from '@intinyagroup/ui';
+  import { Input } from '@intinyagroup/ui';
 </script>
 
 <div class="flex w-72 flex-col gap-2">
@@ -20,8 +20,8 @@ A form label that associates with inputs for accessibility. Built on bits-ui lab
 
 ```svelte
 <script>
-  import { Label } from "@intinyagroup/ui";
-  import { Checkbox } from "@intinyagroup/ui";
+  import { Label } from '@intinyagroup/ui';
+  import { Checkbox } from '@intinyagroup/ui';
 </script>
 
 <div class="flex items-center gap-2">
@@ -34,8 +34,8 @@ A form label that associates with inputs for accessibility. Built on bits-ui lab
 
 ```svelte
 <script>
-  import { Label } from "@intinyagroup/ui";
-  import { Input } from "@intinyagroup/ui";
+  import { Label } from '@intinyagroup/ui';
+  import { Input } from '@intinyagroup/ui';
 </script>
 
 <div class="flex w-72 flex-col gap-2">
@@ -46,10 +46,10 @@ A form label that associates with inputs for accessibility. Built on bits-ui lab
 
 ## Props
 
-| Prop    | Type     | Default | Description                       |
-| ------- | -------- | ------- | --------------------------------- |
-| `for`   | `string` | —       | ID of the associated form control |
-| `class` | `string` | —       | Additional classes                |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `for` | `string` | — | ID of the associated form control |
+| `class` | `string` | — | Additional classes |
 
 All other props are forwarded to the underlying `<label>` element.
 

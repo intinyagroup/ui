@@ -18,14 +18,12 @@ npx @intinyagroup/cli add context-menu
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuSeparator,
-    ContextMenuLabel,
-  } from "@intinyagroup/ui";
+    ContextMenuLabel
+  } from '@intinyagroup/ui';
 </script>
 
 <ContextMenu>
-  <ContextMenuTrigger
-    class="flex h-40 w-40 items-center justify-center rounded-md border border-dashed text-sm"
-  >
+  <ContextMenuTrigger class="flex h-40 w-40 items-center justify-center rounded-md border border-dashed text-sm">
     Right click here
   </ContextMenuTrigger>
   <ContextMenuContent>

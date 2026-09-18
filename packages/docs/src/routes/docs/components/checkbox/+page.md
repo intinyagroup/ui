@@ -6,8 +6,8 @@ A toggleable checkbox with checked and indeterminate states. Built on bits-ui ch
 
 ```svelte
 <script>
-  import { Checkbox } from "@intinyagroup/ui";
-  import { Label } from "@intinyagroup/ui";
+  import { Checkbox } from '@intinyagroup/ui';
+  import { Label } from '@intinyagroup/ui';
 </script>
 
 <div class="flex items-center gap-2">
@@ -20,7 +20,7 @@ A toggleable checkbox with checked and indeterminate states. Built on bits-ui ch
 
 ```svelte
 <script>
-  import { Checkbox } from "@intinyagroup/ui";
+  import { Checkbox } from '@intinyagroup/ui';
 </script>
 
 <div class="flex items-center gap-4">
@@ -39,8 +39,8 @@ A toggleable checkbox with checked and indeterminate states. Built on bits-ui ch
 
 ```svelte
 <script>
-  import { Checkbox } from "@intinyagroup/ui";
-  import { Label } from "@intinyagroup/ui";
+  import { Checkbox } from '@intinyagroup/ui';
+  import { Label } from '@intinyagroup/ui';
 </script>
 
 <div class="flex flex-col gap-3">
@@ -57,13 +57,13 @@ A toggleable checkbox with checked and indeterminate states. Built on bits-ui ch
 
 ## Props
 
-| Prop            | Type      | Default | Description                           |
-| --------------- | --------- | ------- | ------------------------------------- |
-| `checked`       | `boolean` | `false` | Checked state (bindable)              |
-| `indeterminate` | `boolean` | `false` | Indeterminate state (bindable)        |
-| `disabled`      | `boolean` | `false` | Disables the checkbox                 |
-| `required`      | `boolean` | `false` | Marks as required for form validation |
-| `class`         | `string`  | —       | Additional classes                    |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `checked` | `boolean` | `false` | Checked state (bindable) |
+| `indeterminate` | `boolean` | `false` | Indeterminate state (bindable) |
+| `disabled` | `boolean` | `false` | Disables the checkbox |
+| `required` | `boolean` | `false` | Marks as required for form validation |
+| `class` | `string` | — | Additional classes |
 
 All other props are forwarded to the underlying element.
 

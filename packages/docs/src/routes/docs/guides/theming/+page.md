@@ -49,33 +49,33 @@ html.dark {
 
 ```ts
 // Theme toggle
-const theme = localStorage.getItem("theme") ?? "light";
-document.documentElement.classList.toggle("dark", theme === "dark");
+const theme = localStorage.getItem('theme') ?? 'light';
+document.documentElement.classList.toggle('dark', theme === 'dark');
 
 function toggle() {
-  const dark = document.documentElement.classList.toggle("dark");
-  localStorage.setItem("theme", dark ? "dark" : "light");
+  const dark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
 }
 ```
 
 ## All Variables
 
-| Variable                  | Purpose              |
-| ------------------------- | -------------------- |
-| `--ui-background`         | Page background      |
-| `--ui-foreground`         | Default text         |
-| `--ui-card`               | Card surface         |
-| `--ui-card-foreground`    | Card text            |
-| `--ui-primary`            | Primary action color |
-| `--ui-primary-foreground` | Text on primary      |
-| `--ui-secondary`          | Secondary surface    |
-| `--ui-muted`              | Muted surface        |
-| `--ui-muted-foreground`   | Muted text           |
-| `--ui-accent`             | Accent color         |
-| `--ui-border`             | Border color         |
-| `--ui-ring`               | Focus ring           |
-| `--ui-radius`             | Border radius        |
-| `--ui-shadow-sm/md/lg/xl` | Shadow levels        |
+| Variable | Purpose |
+|----------|---------|
+| `--ui-background` | Page background |
+| `--ui-foreground` | Default text |
+| `--ui-card` | Card surface |
+| `--ui-card-foreground` | Card text |
+| `--ui-primary` | Primary action color |
+| `--ui-primary-foreground` | Text on primary |
+| `--ui-secondary` | Secondary surface |
+| `--ui-muted` | Muted surface |
+| `--ui-muted-foreground` | Muted text |
+| `--ui-accent` | Accent color |
+| `--ui-border` | Border color |
+| `--ui-ring` | Focus ring |
+| `--ui-radius` | Border radius |
+| `--ui-shadow-sm/md/lg/xl` | Shadow levels |
 
 ## Building a Custom Theme
 

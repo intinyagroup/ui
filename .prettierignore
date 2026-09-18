@@ -10,3 +10,5 @@ packages/*/.svelte-kit
 packages/*/.turbo
 packages/storybook/storybook-static
 pnpm-lock.yaml
+packages/docs/**/*.md
+*.md

@@ -17,9 +17,9 @@ npx @intinyagroup/cli add password-input
 
 ```svelte
 <script>
-  import { PasswordInput } from "@intinyagroup/ui";
+  import { PasswordInput } from '@intinyagroup/ui';
 
-  let password = $state("");
+  let password = $state('');
 </script>
 
 <PasswordInput bind:value={password} placeholder="Enter password" />
@@ -27,17 +27,17 @@ npx @intinyagroup/cli add password-input
 
 ## Props
 
-| Prop        | Type    | Default | Description            |
-| ----------- | ------- | ------- | ---------------------- |
-| value       | string  | ''      | Current password value |
-| placeholder | string  | -       | Input placeholder      |
-| disabled    | boolean | false   | Disable input          |
-| class       | string  | -       | Additional CSS classes |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | string | '' | Current password value |
+| placeholder | string | - | Input placeholder |
+| disabled | boolean | false | Disable input |
+| class | string | - | Additional CSS classes |
 
 ## Events
 
-| Event  | Detail | Description              |
-| ------ | ------ | ------------------------ |
+| Event | Detail | Description |
+|-------|--------|-------------|
 | change | string | Fires when value changes |
 
 ## Notes

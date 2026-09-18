@@ -11,7 +11,7 @@ An ellipse-shaped badge for tags, counts, and labels. Clipped with `ellipse(50% 
 
 ```svelte
 <script>
-  import { EllipseBadge } from "@intinyagroup/flat";
+  import { EllipseBadge } from '@intinyagroup/flat';
 </script>
 
 <div class="flex items-center gap-6">
@@ -25,7 +25,7 @@ An ellipse-shaped badge for tags, counts, and labels. Clipped with `ellipse(50% 
 
 ```svelte
 <script>
-  import { EllipseBadge } from "@intinyagroup/flat";
+  import { EllipseBadge } from '@intinyagroup/flat';
 </script>
 
 <EllipseBadge label="LIMITED" color="purple" size="md" />
@@ -33,12 +33,12 @@ An ellipse-shaped badge for tags, counts, and labels. Clipped with `ellipse(50% 
 
 ## Props
 
-| Prop    | Type                                                                     | Default     | Description            |
-| ------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
-| `label` | `string`                                                                 | —           | Badge text             |
-| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'`    | Flat color variant     |
-| `size`  | `'sm' \| 'md' \| 'lg'`                                                   | `'md'`      | Badge size             |
-| `class` | `string`                                                                 | `undefined` | Additional CSS classes |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | — | Badge text |
+| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'` | Flat color variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Badge size |
+| `class` | `string` | `undefined` | Additional CSS classes |
 
 ## Install
 

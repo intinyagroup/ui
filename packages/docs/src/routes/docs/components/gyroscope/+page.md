@@ -11,7 +11,7 @@ Reads device orientation (`alpha`, `beta`, `gamma`) from the DeviceOrientation/D
 
 ```svelte
 <script>
-  import { Gyroscope } from "@intinyagroup/ui";
+  import { Gyroscope } from '@intinyagroup/ui';
 
   function handleReading({ alpha, beta, gamma }) {
     console.log(alpha.toFixed(1), beta.toFixed(1), gamma.toFixed(1));
@@ -33,13 +33,13 @@ Use the reading in your own UI via the children snippet:
 
 ## Props
 
-| Prop          | Type                                                             | Default | Description                          |
-| ------------- | ---------------------------------------------------------------- | ------- | ------------------------------------ |
-| `enabled`     | `boolean`                                                        | `true`  | Bindable toggle for the sensor       |
-| `sensitivity` | `number`                                                         | `1`     | Multiplier applied to `beta`/`gamma` |
-| `onReading`   | `(data: { alpha: number; beta: number; gamma: number }) => void` | —       | Called with each reading             |
-| `children`    | `Snippet<[Reading]>`                                             | —       | Receives the current reading         |
-| `class`       | `string`                                                         | —       | Additional CSS classes               |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `enabled` | `boolean` | `true` | Bindable toggle for the sensor |
+| `sensitivity` | `number` | `1` | Multiplier applied to `beta`/`gamma` |
+| `onReading` | `(data: { alpha: number; beta: number; gamma: number }) => void` | — | Called with each reading |
+| `children` | `Snippet<[Reading]>` | — | Receives the current reading |
+| `class` | `string` | — | Additional CSS classes |
 
 ## Features
 

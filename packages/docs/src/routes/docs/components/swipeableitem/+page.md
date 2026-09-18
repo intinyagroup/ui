@@ -33,13 +33,13 @@ A list row that swipes horizontally to reveal action buttons pinned behind it. D
 
 ## Props
 
-| Prop        | Type                | Default  | Description                              |
-| ----------- | ------------------- | -------- | ---------------------------------------- |
-| `children`  | `Snippet`           | —        | Visible row content                      |
-| `actions`   | `Snippet`           | —        | Buttons revealed behind the content      |
-| `threshold` | `number`            | `80`     | Pixels swiped before the item stays open |
-| `direction` | `'left' \| 'right'` | `'left'` | Which swipe reveals the actions          |
-| `class`     | `string`            | —        | Additional CSS classes                   |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `Snippet` | — | Visible row content |
+| `actions` | `Snippet` | — | Buttons revealed behind the content |
+| `threshold` | `number` | `80` | Pixels swiped before the item stays open |
+| `direction` | `'left' \| 'right'` | `'left'` | Which swipe reveals the actions |
+| `class` | `string` | — | Additional CSS classes |
 
 ## Features
 

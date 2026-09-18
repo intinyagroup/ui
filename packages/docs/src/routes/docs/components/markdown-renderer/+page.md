@@ -17,7 +17,7 @@ npx @intinyagroup/cli add markdown-renderer
 
 ```svelte
 <script>
-  import { MarkdownRenderer } from "@intinyagroup/ui";
+  import { MarkdownRenderer } from '@intinyagroup/ui';
 
   const content = `
 ## Hello World
@@ -34,10 +34,10 @@ This is **bold** and this is *italic*.
 
 ## Props
 
-| Prop    | Type   | Default | Description               |
-| ------- | ------ | ------- | ------------------------- |
-| content | string | -       | Markdown string to render |
-| class   | string | -       | Additional CSS classes    |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| content | string | - | Markdown string to render |
+| class | string | - | Additional CSS classes |
 
 ## Notes
 

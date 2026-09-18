@@ -12,7 +12,7 @@ npx @intinyagroup/cli add date-picker
 
 ```svelte
 <script>
-  import { DatePicker } from "@intinyagroup/ui";
+  import { DatePicker } from '@intinyagroup/ui';
 </script>
 
 <DatePicker />
@@ -20,10 +20,10 @@ npx @intinyagroup/cli add date-picker
 
 ## Props
 
-| Prop          | Type                     | Default         |
-| ------------- | ------------------------ | --------------- |
-| `value`       | `DateValue \| undefined` | `undefined`     |
-| `placeholder` | `string`                 | `"Pick a date"` |
-| `disabled`    | `boolean`                | `false`         |
+| Prop | Type | Default |
+|------|------|---------|
+| `value` | `DateValue \| undefined` | `undefined` |
+| `placeholder` | `string` | `"Pick a date"` |
+| `disabled` | `boolean` | `false` |
 
 The `DatePicker` is a self-contained component that renders a trigger button, calendar popover, and handles date selection internally.

@@ -6,7 +6,7 @@ Tabbed content with keyboard navigation, built on bits-ui tabs.
 
 ```svelte
 <script>
-  import { Tabs, TabsList, TabsTrigger, TabsContent } from "@intinyagroup/ui";
+  import { Tabs, TabsList, TabsTrigger, TabsContent } from '@intinyagroup/ui';
 </script>
 
 <Tabs value="account" class="w-80">

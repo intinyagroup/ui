@@ -17,13 +17,13 @@ npx @intinyagroup/cli add signature-pad
 
 ```svelte
 <script>
-  import { SignaturePad, Button } from "@intinyagroup/ui";
+  import { SignaturePad, Button } from '@intinyagroup/ui';
 
   let pad;
 
   function save() {
     const dataUrl = pad.toDataURL();
-    console.log("Signature:", dataUrl);
+    console.log('Signature:', dataUrl);
   }
 </script>
 
@@ -35,19 +35,19 @@ npx @intinyagroup/cli add signature-pad
 
 ## Props
 
-| Prop            | Type   | Default   | Description             |
-| --------------- | ------ | --------- | ----------------------- |
-| width           | number | 400       | Canvas width in pixels  |
-| height          | number | 200       | Canvas height in pixels |
-| penColor        | string | '#000000' | Stroke color            |
-| backgroundColor | string | '#ffffff' | Canvas background       |
-| class           | string | -         | Additional CSS classes  |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| width | number | 400 | Canvas width in pixels |
+| height | number | 200 | Canvas height in pixels |
+| penColor | string | '#000000' | Stroke color |
+| backgroundColor | string | '#ffffff' | Canvas background |
+| class | string | - | Additional CSS classes |
 
 ## Methods
 
-| Method        | Description                  |
-| ------------- | ---------------------------- |
-| `clear()`     | Clear the canvas             |
+| Method | Description |
+|--------|-------------|
+| `clear()` | Clear the canvas |
 | `toDataURL()` | Export signature as data URL |
 
 ## Notes

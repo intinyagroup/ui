@@ -17,7 +17,7 @@ npx @intinyagroup/cli add aspect-ratio
 
 ```svelte
 <script>
-  import { AspectRatio } from "@intinyagroup/ui";
+  import { AspectRatio } from '@intinyagroup/ui';
 </script>
 
 <AspectRatio ratio={16 / 9}>
@@ -27,15 +27,15 @@ npx @intinyagroup/cli add aspect-ratio
 
 ## Props
 
-| Prop  | Type   | Default | Description                         |
-| ----- | ------ | ------- | ----------------------------------- |
-| ratio | number | 1       | Width-to-height ratio (e.g. `16/9`) |
-| class | string | -       | Additional CSS classes              |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| ratio | number | 1 | Width-to-height ratio (e.g. `16/9`) |
+| class | string | - | Additional CSS classes |
 
 ## Slots
 
-| Slot    | Description                             |
-| ------- | --------------------------------------- |
+| Slot | Description |
+|------|-------------|
 | default | Content constrained to the aspect ratio |
 
 ## Notes

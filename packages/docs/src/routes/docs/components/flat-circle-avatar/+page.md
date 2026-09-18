@@ -11,18 +11,13 @@ A circular avatar with a bold flat-color ring. Shows an image when `src` is prov
 
 ```svelte
 <script>
-  import { CircleAvatar } from "@intinyagroup/flat";
+  import { CircleAvatar } from '@intinyagroup/flat';
 </script>
 
 <div class="flex items-center gap-6">
   <CircleAvatar initials="AK" ringColor="blue" />
   <CircleAvatar initials="ML" ringColor="pink" size="lg" ringWidth="6px" />
-  <CircleAvatar
-    src="/images/avatar.png"
-    alt="User"
-    ringColor="green"
-    size="xl"
-  />
+  <CircleAvatar src="/images/avatar.png" alt="User" ringColor="green" size="xl" />
 </div>
 ```
 
@@ -30,7 +25,7 @@ A circular avatar with a bold flat-color ring. Shows an image when `src` is prov
 
 ```svelte
 <script>
-  import { CircleAvatar } from "@intinyagroup/flat";
+  import { CircleAvatar } from '@intinyagroup/flat';
 </script>
 
 <CircleAvatar
@@ -44,15 +39,15 @@ A circular avatar with a bold flat-color ring. Shows an image when `src` is prov
 
 ## Props
 
-| Prop        | Type                                                                     | Default     | Description                  |
-| ----------- | ------------------------------------------------------------------------ | ----------- | ---------------------------- |
-| `src`       | `string`                                                                 | `undefined` | Image source                 |
-| `alt`       | `string`                                                                 | `''`        | Image alt text               |
-| `initials`  | `string`                                                                 | `undefined` | Initials shown when no image |
-| `ringColor` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'`    | Ring color                   |
-| `size`      | `'sm' \| 'md' \| 'lg' \| 'xl'`                                           | `'md'`      | Avatar size                  |
-| `ringWidth` | `string`                                                                 | `'4px'`     | Ring border width            |
-| `class`     | `string`                                                                 | `''`        | Additional CSS classes       |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | `string` | `undefined` | Image source |
+| `alt` | `string` | `''` | Image alt text |
+| `initials` | `string` | `undefined` | Initials shown when no image |
+| `ringColor` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'` | Ring color |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Avatar size |
+| `ringWidth` | `string` | `'4px'` | Ring border width |
+| `class` | `string` | `''` | Additional CSS classes |
 
 ## Install
 

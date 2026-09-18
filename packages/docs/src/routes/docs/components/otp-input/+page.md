@@ -17,30 +17,31 @@ npx @intinyagroup/cli add otp-input
 
 ```svelte
 <script>
-  import { OtpInput } from "@intinyagroup/ui";
+  import { OtpInput } from '@intinyagroup/ui';
 
-  let code = $state("");
+  let code = $state('');
 </script>
 
-<OtpInput length={6} bind:value={code} /><p>Code: {code}</p>
+<OtpInput length={6} bind:value={code} />
+<p>Code: {code}</p>
 ```
 
 ## Props
 
-| Prop      | Type    | Default | Description               |
-| --------- | ------- | ------- | ------------------------- |
-| value     | string  | ''      | Current code value        |
-| length    | number  | 6       | Number of input cells     |
-| autoFocus | boolean | true    | Focus first cell on mount |
-| disabled  | boolean | false   | Disable all inputs        |
-| class     | string  | -       | Additional CSS classes    |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | string | '' | Current code value |
+| length | number | 6 | Number of input cells |
+| autoFocus | boolean | true | Focus first cell on mount |
+| disabled | boolean | false | Disable all inputs |
+| class | string | - | Additional CSS classes |
 
 ## Events
 
-| Event    | Detail | Description                     |
-| -------- | ------ | ------------------------------- |
+| Event | Detail | Description |
+|-------|--------|-------------|
 | complete | string | Fires when all cells are filled |
-| change   | string | Fires on each input change      |
+| change | string | Fires on each input change |
 
 ## Notes
 

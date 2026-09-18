@@ -17,10 +17,10 @@ npx @intinyagroup/cli add file-uploader
 
 ```svelte
 <script>
-  import { FileUploader } from "@intinyagroup/ui";
+  import { FileUploader } from '@intinyagroup/ui';
 
   function handleUpload(files) {
-    console.log("Uploading:", files);
+    console.log('Uploading:', files);
   }
 </script>
 
@@ -29,26 +29,26 @@ npx @intinyagroup/cli add file-uploader
 
 ## Props
 
-| Prop     | Type    | Default | Description                            |
-| -------- | ------- | ------- | -------------------------------------- |
-| accept   | string  | -       | Accepted file types (e.g. `"image/*"`) |
-| multiple | boolean | false   | Allow multiple files                   |
-| maxSize  | number  | -       | Max file size in bytes                 |
-| disabled | boolean | false   | Disable upload                         |
-| class    | string  | -       | Additional CSS classes                 |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| accept | string | - | Accepted file types (e.g. `"image/*"`) |
+| multiple | boolean | false | Allow multiple files |
+| maxSize | number | - | Max file size in bytes |
+| disabled | boolean | false | Disable upload |
+| class | string | - | Additional CSS classes |
 
 ## Events
 
-| Event  | Detail | Description               |
-| ------ | ------ | ------------------------- |
+| Event | Detail | Description |
+|-------|--------|-------------|
 | upload | File[] | Fires with accepted files |
-| error  | string | Fires on validation error |
+| error | string | Fires on validation error |
 
 ## Slots
 
-| Slot      | Description                 |
-| --------- | --------------------------- |
-| default   | Custom drop zone content    |
+| Slot | Description |
+|------|-------------|
+| default | Custom drop zone content |
 | uploading | Content shown during upload |
 
 ## Notes

@@ -17,7 +17,7 @@ npx @intinyagroup/cli add empty-state
 
 ```svelte
 <script>
-  import { EmptyState, Button } from "@intinyagroup/ui";
+  import { EmptyState, Button } from '@intinyagroup/ui';
 </script>
 
 <EmptyState
@@ -30,18 +30,18 @@ npx @intinyagroup/cli add empty-state
 
 ## Props
 
-| Prop        | Type   | Default   | Description                 |
-| ----------- | ------ | --------- | --------------------------- |
-| title       | string | 'No data' | Heading text                |
-| description | string | -         | Supporting description text |
-| class       | string | -         | Additional CSS classes      |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| title | string | 'No data' | Heading text |
+| description | string | - | Supporting description text |
+| class | string | - | Additional CSS classes |
 
 ## Slots
 
-| Slot    | Description                      |
-| ------- | -------------------------------- |
+| Slot | Description |
+|------|-------------|
 | default | Action buttons or custom content |
-| icon    | Custom icon above the title      |
+| icon | Custom icon above the title |
 
 ## Notes
 

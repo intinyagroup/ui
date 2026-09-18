@@ -6,7 +6,7 @@ A message box for feedback — success, info, warning, or error.
 
 ```svelte
 <script>
-  import { Alert, AlertTitle, AlertDescription } from "@intinyagroup/ui";
+  import { Alert, AlertTitle, AlertDescription } from '@intinyagroup/ui';
 </script>
 
 <Alert>
@@ -22,10 +22,10 @@ A message box for feedback — success, info, warning, or error.
 
 ## Props
 
-| Prop      | Type                         | Default     |
-| --------- | ---------------------------- | ----------- |
+| Prop | Type | Default |
+|------|------|---------|
 | `variant` | `'default' \| 'destructive'` | `'default'` |
-| `class`   | `string`                     | —           |
+| `class` | `string` | — |
 
 ## Install
 

@@ -28,24 +28,24 @@ A fixed bottom navigation bar for mobile apps. `TabBar` pins to the bottom with 
 
 ### TabBar
 
-| Prop       | Type               | Default | Description                  |
-| ---------- | ------------------ | ------- | ---------------------------- |
-| `value`    | `string \| number` | —       | Bindable active tab value    |
-| `blur`     | `boolean`          | `true`  | Backdrop blur behind the bar |
-| `class`    | `string`           | —       | Additional CSS classes       |
-| `children` | `Snippet`          | —       | `TabBarItem`s                |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string \| number` | — | Bindable active tab value |
+| `blur` | `boolean` | `true` | Backdrop blur behind the bar |
+| `class` | `string` | — | Additional CSS classes |
+| `children` | `Snippet` | — | `TabBarItem`s |
 
 ### TabBarItem
 
-| Prop      | Type                      | Default | Description                              |
-| --------- | ------------------------- | ------- | ---------------------------------------- |
-| `value`   | `string \| number`        | —       | Tab value, compared against the parent's |
-| `label`   | `string`                  | —       | Tab label                                |
-| `icon`    | `Snippet`                 | —       | Optional icon                            |
-| `badge`   | `number`                  | —       | Badge count; caps display at `99+`       |
-| `onclick` | `(e: MouseEvent) => void` | —       | Click handler                            |
-| `active`  | `boolean`                 | —       | Override the parent's value comparison   |
-| `class`   | `string`                  | —       | Additional CSS classes                   |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string \| number` | — | Tab value, compared against the parent's |
+| `label` | `string` | — | Tab label |
+| `icon` | `Snippet` | — | Optional icon |
+| `badge` | `number` | — | Badge count; caps display at `99+` |
+| `onclick` | `(e: MouseEvent) => void` | — | Click handler |
+| `active` | `boolean` | — | Override the parent's value comparison |
+| `class` | `string` | — | Additional CSS classes |
 
 ## Features
 

@@ -19,11 +19,11 @@ npx @intinyagroup/cli add form
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
-  } from "@intinyagroup/ui";
-  import { Input } from "@intinyagroup/ui";
-  import { Button } from "@intinyagroup/ui";
-  import { superForm } from "sveltekit-superforms";
+    FormMessage
+  } from '@intinyagroup/ui';
+  import { Input } from '@intinyagroup/ui';
+  import { Button } from '@intinyagroup/ui';
+  import { superForm } from 'sveltekit-superforms';
 
   const { form, enhance } = superForm(data.form);
 </script>
@@ -56,8 +56,8 @@ npx @intinyagroup/cli add form
 
 ## Props
 
-| Sub-component | Description                                                                        |
-| ------------- | ---------------------------------------------------------------------------------- |
-| `FormField`   | Requires `form` and `name` — provides `value`, `errors`, `constraints` via snippet |
-| `FormLabel`   | Auto-highlights red when the field has errors                                      |
-| `FormMessage` | Renders the first validation error for the field                                   |
+| Sub-component | Description |
+|---------------|-------------|
+| `FormField` | Requires `form` and `name` — provides `value`, `errors`, `constraints` via snippet |
+| `FormLabel` | Auto-highlights red when the field has errors |
+| `FormMessage` | Renders the first validation error for the field |

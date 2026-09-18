@@ -17,7 +17,7 @@ npx @intinyagroup/cli add menubar
 
 ```svelte
 <script>
-  import { Menubar } from "@intinyagroup/ui";
+  import { Menubar } from '@intinyagroup/ui';
 </script>
 
 <Menubar>
@@ -43,14 +43,14 @@ npx @intinyagroup/cli add menubar
 
 ## Subcomponents
 
-| Component           | Description                              |
-| ------------------- | ---------------------------------------- |
-| `Menubar.Menu`      | Wraps a trigger and its dropdown content |
-| `Menubar.Trigger`   | Menu button that opens the dropdown      |
-| `Menubar.Content`   | Dropdown menu panel                      |
-| `Menubar.Item`      | Clickable menu item                      |
-| `Menubar.Separator` | Visual divider between items             |
-| `Menubar.Shortcut`  | Keyboard shortcut display                |
+| Component | Description |
+|-----------|-------------|
+| `Menubar.Menu` | Wraps a trigger and its dropdown content |
+| `Menubar.Trigger` | Menu button that opens the dropdown |
+| `Menubar.Content` | Dropdown menu panel |
+| `Menubar.Item` | Clickable menu item |
+| `Menubar.Separator` | Visual divider between items |
+| `Menubar.Shortcut` | Keyboard shortcut display |
 
 ## Accessibility
 

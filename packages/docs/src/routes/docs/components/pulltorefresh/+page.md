@@ -11,9 +11,9 @@ A wrapper that turns a downward pull at the top of its scrollable container into
 
 ```svelte
 <script>
-  import { PullToRefresh } from "@intinyagroup/ui";
+  import { PullToRefresh } from '@intinyagroup/ui';
 
-  let items = $state(["a", "b", "c"]);
+  let items = $state(['a', 'b', 'c']);
 
   async function refresh() {
     await new Promise((r) => setTimeout(r, 1200));
@@ -32,12 +32,12 @@ A wrapper that turns a downward pull at the top of its scrollable container into
 
 ## Props
 
-| Prop        | Type                  | Default | Description                                            |
-| ----------- | --------------------- | ------- | ------------------------------------------------------ |
-| `onRefresh` | `() => Promise<void>` | —       | Async callback run when the pull crosses the threshold |
-| `disabled`  | `boolean`             | `false` | Disable the refresh gesture                            |
-| `class`     | `string`              | —       | Additional CSS classes                                 |
-| `children`  | `Snippet`             | —       | Scrollable content                                     |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onRefresh` | `() => Promise<void>` | — | Async callback run when the pull crosses the threshold |
+| `disabled` | `boolean` | `false` | Disable the refresh gesture |
+| `class` | `string` | — | Additional CSS classes |
+| `children` | `Snippet` | — | Scrollable content |
 
 ## Features
 

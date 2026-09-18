@@ -14,7 +14,6 @@ npx @intinyagroup/cli init
 ```
 
 This sets up:
-
 - `components.json` — alias config
 - `src/lib/utils.ts` — `cn()` helper
 - Token CSS import
@@ -46,7 +45,6 @@ npx @intinyagroup/cli add pagination
 ```
 
 Component registries are versioned:
-
 - **155 components** across core, md3, and flat packages
 - Embedded file contents — works offline, no monorepo needed
 
@@ -67,7 +65,6 @@ npx @intinyagroup/cli doctor
 ```
 
 Checks:
-
 - `components.json` exists + aliases valid
 - Token CSS imported
 - Installed components match registry
@@ -97,7 +94,6 @@ npx @intinyagroup/cli list --verbose
 ## Publishing Components
 
 Components come from the [Intinya UI monorepo](https://github.com/intinyagroup/ui). The registry generator scans `packages/{core,md3,flat}/src/lib/components/` and embeds:
-
 - File contents
 - Runtime dependencies
 - Props metadata (for tooling)

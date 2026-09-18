@@ -20,21 +20,21 @@ npx @intinyagroup/cli add command
     CommandEmpty,
     CommandGroup,
     CommandItem,
-    CommandSeparator,
-  } from "@intinyagroup/ui";
-  import { onMount } from "svelte";
+    CommandSeparator
+  } from '@intinyagroup/ui';
+  import { onMount } from 'svelte';
 
   let open = $state(false);
 
   onMount(() => {
     function handleKeydown(e: KeyboardEvent) {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         open = !open;
       }
     }
-    document.addEventListener("keydown", handleKeydown);
-    return () => document.removeEventListener("keydown", handleKeydown);
+    document.addEventListener('keydown', handleKeydown);
+    return () => document.removeEventListener('keydown', handleKeydown);
   });
 </script>
 
@@ -70,9 +70,9 @@ npx @intinyagroup/cli add command
 
 ## Props
 
-| Sub-component   | Description                                                                   |
-| --------------- | ----------------------------------------------------------------------------- |
+| Sub-component | Description |
+|---------------|-------------|
 | `CommandDialog` | Wraps Command in a Dialog — accepts `open` (bindable), `title`, `description` |
-| `CommandInput`  | Search input — accepts `value` (bindable)                                     |
-| `CommandItem`   | Accepts `value` for filtering, `onSelect` callback                            |
-| `CommandGroup`  | Accepts `heading` for group label                                             |
+| `CommandInput` | Search input — accepts `value` (bindable) |
+| `CommandItem` | Accepts `value` for filtering, `onSelect` callback |
+| `CommandGroup` | Accepts `heading` for group label |

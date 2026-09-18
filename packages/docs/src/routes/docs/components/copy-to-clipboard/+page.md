@@ -17,7 +17,7 @@ npx @intinyagroup/cli add copy-to-clipboard
 
 ```svelte
 <script>
-  import { CopyToClipboard } from "@intinyagroup/ui";
+  import { CopyToClipboard } from '@intinyagroup/ui';
 </script>
 
 <CopyToClipboard text="npm install @intinyagroup/ui">
@@ -27,18 +27,18 @@ npx @intinyagroup/cli add copy-to-clipboard
 
 ## Props
 
-| Prop           | Type   | Default | Description                        |
-| -------------- | ------ | ------- | ---------------------------------- |
-| text           | string | -       | Text to copy to clipboard          |
-| copiedDuration | number | 2000    | Duration (ms) to show copied state |
-| class          | string | -       | Additional CSS classes             |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| text | string | - | Text to copy to clipboard |
+| copiedDuration | number | 2000 | Duration (ms) to show copied state |
+| class | string | - | Additional CSS classes |
 
 ## Slots
 
-| Slot    | Description                       |
-| ------- | --------------------------------- |
-| default | Trigger element (button content)  |
-| copied  | Content shown during copied state |
+| Slot | Description |
+|------|-------------|
+| default | Trigger element (button content) |
+| copied | Content shown during copied state |
 
 ## Accessibility
 

@@ -1,0 +1,1 @@
+const r={parameters:{controls:{matchers:{color:/(background|color)$/i,date:/Date$/i}},themes:{default:"neutral",list:[{name:"neutral",class:"",color:"#ffffff"},{name:"warm",class:"",color:"#f6f1e8"},{name:"dark",class:"dark",color:"#1a1a1a"}]}},decorators:[(e,a)=>({template:`<div data-ui-theme="${a.globals.theme||"neutral"}">${e()}</div>`})]};export{r as default};

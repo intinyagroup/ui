@@ -11,7 +11,7 @@ A card whose edge points left or right like an arrow. Clipped to a pointed polyg
 
 ```svelte
 <script>
-  import { ArrowCard } from "@intinyagroup/flat";
+  import { ArrowCard } from '@intinyagroup/flat';
 </script>
 
 <div class="flex flex-col gap-6">
@@ -28,7 +28,7 @@ A card whose edge points left or right like an arrow. Clipped to a pointed polyg
 
 ```svelte
 <script>
-  import { ArrowCard } from "@intinyagroup/flat";
+  import { ArrowCard } from '@intinyagroup/flat';
 </script>
 
 <ArrowCard title="Checkout" direction="right" color="green">
@@ -38,13 +38,13 @@ A card whose edge points left or right like an arrow. Clipped to a pointed polyg
 
 ## Props
 
-| Prop        | Type                                                                     | Default     | Description                |
-| ----------- | ------------------------------------------------------------------------ | ----------- | -------------------------- |
-| `title`     | `string`                                                                 | `undefined` | Card title                 |
-| `direction` | `'left' \| 'right'`                                                      | `'right'`   | Direction the arrow points |
-| `color`     | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'`    | Flat color variant         |
-| `class`     | `string`                                                                 | `undefined` | Additional CSS classes     |
-| `children`  | `Snippet`                                                                | `undefined` | Card body content          |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | `undefined` | Card title |
+| `direction` | `'left' \| 'right'` | `'right'` | Direction the arrow points |
+| `color` | `'red' \| 'blue' \| 'green' \| 'purple' \| 'pink' \| 'orange' \| 'teal'` | `'blue'` | Flat color variant |
+| `class` | `string` | `undefined` | Additional CSS classes |
+| `children` | `Snippet` | `undefined` | Card body content |
 
 ## Install
 
