@@ -168,10 +168,11 @@ jobs:
                 elif [[ "$STAGE" = "prepared" && "$pkg_ver" == *-beta* ]]; then
                   pkg_tag="beta"
                 fi
-                if npm publish --tag "$pkg_tag" --access public; then
-                  published=true
-                  break
-                fi
+                for attempt in 1 2 3 4; do
+                  if npm publish --tag "$pkg_tag" --access public; then
+                    published=true
+                    break
+                  fi
                   if [ "$attempt" -lt 4 ]; then
                     echo "Publish failed for $pkg (attempt $attempt), waiting 20s before retry..."
                     sleep 20
