@@ -23,7 +23,7 @@
     "@intinyagroup/grid-core": "workspace:*",
     "@intinyagroup/rich-text": "workspace:*",
     "pdf-lib": "^1.17.1",
-    "pptxgenjs": "^3.12.0"
+    "pptxgenjs": "^4.0.1"
   },
   "devDependencies": {
     "@sveltejs/package": "^2.5.8",
