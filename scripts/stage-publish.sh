@@ -25,6 +25,7 @@ fi
 PACKAGES=(
   tokens
   core
+  diagram
   grid-core
   data-table
   md3
