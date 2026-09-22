@@ -137,7 +137,7 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
           npm whoami
-          ORDER=(tokens grid-core core md3 flat cli editor-core native rich-text motion \
+          ORDER=(tokens diagram grid-core core md3 flat cli editor-core native rich-text motion \
                  motion-captions motion-effects motion-media motion-player motion-studio \
                  motion-three book-writer calendar charts collaboration kanban pdf-viewer \
                  slides spreadsheet data-table image-editor react react-data-table notion-database file-manager)
