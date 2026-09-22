@@ -1,3 +1,4 @@
+export { Handle as FlowHandle, Position } from "@xyflow/svelte";
 export { default as FlowCanvas } from "./FlowCanvas.svelte";
 export { default as GraphToolbar } from "./GraphToolbar.svelte";
 export { default as InspectorShell } from "./InspectorShell.svelte";
