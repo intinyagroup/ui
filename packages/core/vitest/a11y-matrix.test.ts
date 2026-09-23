@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, it, expect } from "vitest";
-
+import { setupBrowserFixtures } from "../src/test-utils";
 // Import every testable core component
 import { Button } from "../components/button";
 import { Badge } from "../components/badge";
@@ -20,6 +20,7 @@ function snippet() {
 function textSnippet(text: string) {
   return { render: () => text } as any;
 }
+setupBrowserFixtures();
 
 describe("Accessibility regression matrix — @intinyagroup/ui", () => {
   describe("Interactive elements must have accessible names", () => {
