@@ -88,7 +88,6 @@ export interface DataTableProps<TData extends RowData, _TValue> {
   onExport?: (format: "csv" | "xlsx", data: TData[]) => void;
 }
 
- 
 export function DataTable<TData extends RowData, _TValue>({
   columns,
   data,
