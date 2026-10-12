@@ -280,7 +280,6 @@
         {#if swimlaneBy && swimlaneValues.length > 0}
           {#each swimlaneValues as sv (sv)}
             {@const svCards = getSwimlaneCards(column.id, sv)}
-            <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div>
               <button
                 onclick={() => toggleSwimlane(column.id, sv)}
@@ -463,7 +462,6 @@
 {/if}
 
 {#snippet cardRenderer(card: KanbanCard, columnId: string, index: number)}
-  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <div
     role="button"
     tabindex="0"
@@ -520,7 +518,6 @@
 
         <!-- Title (inline editable) -->
         {#if editingCardId === card.id}
-          <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
           <input
             type="text"
             value={editingTitle}

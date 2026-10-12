@@ -23,6 +23,7 @@
   import FormFieldRenderer from "./FormFieldRenderer.svelte";
   import SearchPanel from "./SearchPanel.svelte";
   import PageManipulationPanel from "./PageManipulationPanel.svelte";
+  import { SvelteSet } from "svelte/reactivity";
 
   let {
     src,
@@ -228,7 +229,7 @@
 
   // Page selection
   function togglePageSelection(page: number) {
-    const next = new Set(selectedPages);
+    const next = new SvelteSet(selectedPages);
     if (next.has(page)) next.delete(page);
     else next.add(page);
     selectedPages = next;

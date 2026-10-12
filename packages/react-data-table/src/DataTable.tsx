@@ -88,7 +88,7 @@ export interface DataTableProps<TData extends RowData, _TValue> {
   onExport?: (format: "csv" | "xlsx", data: TData[]) => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- positional generic kept for API compatibility
+ 
 export function DataTable<TData extends RowData, _TValue>({
   columns,
   data,

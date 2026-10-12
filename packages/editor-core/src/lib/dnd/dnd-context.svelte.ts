@@ -1,5 +1,6 @@
 import { getContext, setContext } from "svelte";
 import { writable, type Writable } from "svelte/store";
+import { SvelteMap } from "svelte/reactivity";
 
 const DND_KEY = Symbol("intinya-dnd");
 
@@ -56,8 +57,8 @@ export function setDndContext(callbacks: DragCallbacks = {}): DndContextValue {
   // read this instead of re-subscribing.
   let current: DragState = initialDragState();
 
-  const droppables: Map<string, HTMLElement> = new Map();
-  const sortableIndexes: Map<string, number> = new Map();
+  const droppables: Map<string, HTMLElement> = new SvelteMap();
+  const sortableIndexes: Map<string, number> = new SvelteMap();
   let startPointer: { x: number; y: number } | null = null;
 
   function publish(next: DragState): void {

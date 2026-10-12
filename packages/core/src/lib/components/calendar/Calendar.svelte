@@ -3,6 +3,7 @@
   import { cn } from "../../utils.js";
   import { formatDate, getLocale } from "../../i18n/index.js";
   import type { HTMLAttributes } from "svelte/elements";
+  import { SvelteDate } from "svelte/reactivity";
 
   interface CalendarDay {
     date: Date;
@@ -169,7 +170,7 @@
   function moveFocus(delta: number) {
     const parsed = parseISO(focusedISO);
     if (!parsed) return;
-    const target = new Date(parsed);
+    const target = new SvelteDate(parsed);
     target.setDate(parsed.getDate() + delta);
     // Navigate to the month the focused cell lands in.
     if (target.getMonth() !== month || target.getFullYear() !== year) {

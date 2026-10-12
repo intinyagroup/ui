@@ -210,7 +210,6 @@
 </script>
 
 <div class={cn("relative inline-block w-full max-w-sm", className)}>
-  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <div
     role="button"
     tabindex={disabled ? -1 : 0}

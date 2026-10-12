@@ -66,7 +66,6 @@
     class="w-full h-7 px-2 rounded-md border border-[var(--ui-primary)] bg-[var(--ui-background)] text-sm text-[var(--ui-foreground)] outline-none ring-2 ring-[var(--ui-ring)]/20"
   />
 {:else if editable}
-  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <span
     role="button"
     tabindex="0"

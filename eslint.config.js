@@ -60,9 +60,11 @@ export default tseslint.config(
       "svelte/no-dom-manipulating": "off",
       // All 83 legacy loops now carry explicit keys; keep it enforced.
       "svelte/require-each-key": "error",
-      "svelte/prefer-svelte-reactivity": "warn",
+      // All Map/Set/Date sites now use Svelte* reactive wrappers; enforce.
+      "svelte/prefer-svelte-reactivity": "error",
       "svelte/prefer-writable-derived": "warn",
-      "svelte/no-unused-svelte-ignore": "warn",
+      // Dead svelte-ignore comments were purged; new ones must earn their keep.
+      "svelte/no-unused-svelte-ignore": "error",
     },
   },
   {

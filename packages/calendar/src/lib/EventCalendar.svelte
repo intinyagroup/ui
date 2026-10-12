@@ -32,6 +32,7 @@
     type CalendarRecurrence,
     type CalendarResource,
   } from "./recurrence";
+  import { SvelteDate, SvelteMap } from "svelte/reactivity";
 
   export type CalendarView = "month" | "week" | "day" | "resourceTimeline";
 
@@ -153,7 +154,7 @@
 
     const origDurationMs =
       new Date(ev.end).getTime() - new Date(ev.start).getTime();
-    const newStart = new Date(targetDate);
+    const newStart = new SvelteDate(targetDate);
     if (targetHour !== undefined) {
       newStart.setHours(targetHour, 0, 0, 0);
     } else {
@@ -283,14 +284,14 @@
         const endMinutes = dragCreateEnd.hour * 60 + dragCreateEnd.minute;
 
         if (endMinutes - startMinutes >= 15) {
-          const startDate = new Date(date);
+          const startDate = new SvelteDate(date);
           startDate.setHours(
             dragCreateStart.hour,
             dragCreateStart.minute,
             0,
             0,
           );
-          const endDate = new Date(date);
+          const endDate = new SvelteDate(date);
           endDate.setHours(dragCreateEnd.hour, dragCreateEnd.minute, 0, 0);
 
           onDragCreate?.({ start: startDate, end: endDate });
@@ -406,7 +407,7 @@
     });
 
     const columns: CalendarEvent[][] = [];
-    const layoutMap = new Map<string, { colIndex: number }>();
+    const layoutMap = new SvelteMap<string, { colIndex: number }>();
 
     for (const ev of sorted) {
       let placed = false;
@@ -610,10 +611,10 @@
     const [startH, startM] = newEventStartTime.split(":").map(Number);
     const [endH, endM] = newEventEndTime.split(":").map(Number);
 
-    const startDate = new Date(newEventDate);
+    const startDate = new SvelteDate(newEventDate);
     startDate.setHours(startH || 0, startM || 0, 0, 0);
 
-    const endDate = new Date(newEventDate);
+    const endDate = new SvelteDate(newEventDate);
     endDate.setHours(endH || 0, endM || 0, 0, 0);
 
     const newEv: CalendarEvent = {
@@ -981,7 +982,6 @@
             {@const widthPercent = 100 / ev.colTotal}
             {@const leftPercent = ev.colIndex * widthPercent}
 
-            <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
             <div
               role="button"
               tabindex="0"
@@ -1129,7 +1129,6 @@
           {@const widthPercent = 100 / ev.colTotal}
           {@const leftPercent = ev.colIndex * widthPercent}
 
-          <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
           <div
             role="button"
             tabindex="0"

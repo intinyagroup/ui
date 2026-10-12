@@ -3,6 +3,7 @@
   import { cn } from "@intinyagroup/grid-core/utils";
   import type { PDFDocumentProxy } from "pdfjs-dist";
   import * as pdfjsLib from "pdfjs-dist";
+  import { SvelteMap } from "svelte/reactivity";
 
   let {
     pdf,
@@ -35,7 +36,7 @@
         if (ctx) {
           await page.render({ canvasContext: ctx, viewport }).promise;
           thumbnails.set(i, canvas.toDataURL("image/jpeg", 0.5));
-          thumbnails = new Map(thumbnails);
+          thumbnails = new SvelteMap(thumbnails);
         }
       } catch {
         // Skip failed thumbnails

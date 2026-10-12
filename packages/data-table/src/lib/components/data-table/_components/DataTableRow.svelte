@@ -64,7 +64,6 @@
   }
 </script>
 
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <tr
   class="group border-t border-[var(--ui-border)]/70 transition-colors hover:bg-[var(--ui-secondary)]/45 {row.getIsGrouped()
     ? 'bg-[var(--ui-secondary)]/30 font-semibold cursor-pointer'

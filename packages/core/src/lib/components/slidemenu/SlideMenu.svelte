@@ -73,7 +73,6 @@
     style="padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right)"
   >
     {#if overlay}
-      <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
         class="absolute inset-0 bg-black/50"
         style="animation: intinya-slide-menu-fade 200ms ease-out"

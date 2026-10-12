@@ -12,6 +12,7 @@
 <script lang="ts">
   import { cn } from "../../utils.js";
   import TreeNode from "./TreeNode.svelte";
+  import { SvelteSet } from "svelte/reactivity";
 
   let {
     data = [],
@@ -30,7 +31,7 @@
   } = $props();
 
   function initExpanded(nodes: TreeViewNode[]): Set<string> {
-    const ids = new Set<string>();
+    const ids = new SvelteSet<string>();
     function collect(list: TreeViewNode[]) {
       for (const n of list) {
         if (n.expanded) ids.add(n.id);
@@ -47,7 +48,7 @@
   });
 
   function toggleExpand(id: string) {
-    const next = new Set(expandedIds);
+    const next = new SvelteSet(expandedIds);
     const willExpand = !next.has(id);
     if (willExpand) {
       next.add(id);

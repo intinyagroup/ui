@@ -12,6 +12,7 @@
 <script lang="ts">
   import { tick } from "svelte";
   import { cn } from "$lib/utils.js";
+  import { SvelteSet } from "svelte/reactivity";
 
   type Props = {
     options?: DropdownTreeNode[];
@@ -123,7 +124,7 @@
   });
 
   function initializeExpanded(nodes: DropdownTreeNode[]) {
-    const next = new Set<string>();
+    const next = new SvelteSet<string>();
     function visit(items: DropdownTreeNode[]) {
       for (const node of items) {
         if (node.expanded) next.add(node.value);
@@ -170,7 +171,7 @@
   function toggleExpanded(node: DropdownTreeNode, force?: boolean) {
     if (!node.children?.length) return;
     const expanded = force ?? !isExpanded(node);
-    const next = new Set(expandedValues);
+    const next = new SvelteSet(expandedValues);
     if (expanded) next.add(node.value);
     else next.delete(node.value);
     expandedValues = next;

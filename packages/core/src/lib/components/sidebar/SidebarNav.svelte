@@ -4,6 +4,7 @@
   import SidebarNavItem, {
     type SidebarNavItemData,
   } from "./SidebarNavItem.svelte";
+  import { SvelteSet } from "svelte/reactivity";
 
   let {
     items = [],
@@ -80,7 +81,7 @@
   });
 
   function toggleExpanded(id: string) {
-    const next = new Set(expandedIds);
+    const next = new SvelteSet(expandedIds);
     if (next.has(id)) next.delete(id);
     else next.add(id);
     const ids = [...next];
@@ -113,7 +114,7 @@
   $effect(() => {
     const ancestors = ancestorIdsForActive();
     if (!ancestors.length) return;
-    const next = new Set(expandedIds);
+    const next = new SvelteSet(expandedIds);
     ancestors.forEach((id) => next.add(id));
     if (next.size === expandedIds.size) return;
     const ids = [...next];

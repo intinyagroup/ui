@@ -7,6 +7,7 @@
     HardDrive,
   } from "lucide-svelte";
   import { getChildrenInFolder, type FileItem } from "../file-model.js";
+  import { SvelteSet } from "svelte/reactivity";
 
   let {
     items = [],
@@ -22,7 +23,7 @@
 
   function toggleFolder(id: string, e: MouseEvent) {
     e.stopPropagation();
-    const next = new Set(expandedFolders);
+    const next = new SvelteSet(expandedFolders);
     if (next.has(id)) next.delete(id);
     else next.add(id);
     expandedFolders = next;
@@ -31,7 +32,7 @@
   function handleSelect(id: string | null) {
     onNavigate(id);
     if (id) {
-      const next = new Set(expandedFolders);
+      const next = new SvelteSet(expandedFolders);
       next.add(id);
       expandedFolders = next;
     }

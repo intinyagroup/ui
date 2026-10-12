@@ -1355,8 +1355,6 @@
 
   <!-- Slash Command Popover Menu -->
   {#if showSlashMenu && slashFilteredCommands.length > 0}
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
     <div
       class="absolute z-50 w-64 max-h-72 overflow-y-auto rounded-xl border border-[var(--ui-border)] bg-[var(--ui-popover)] p-1.5 shadow-2xl text-[var(--ui-popover-foreground)] animate-in fade-in-50 zoom-in-95"
       style="top: {slashMenuPos.top}px; left: {slashMenuPos.left}px;"

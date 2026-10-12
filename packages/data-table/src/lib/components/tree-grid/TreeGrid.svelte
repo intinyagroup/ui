@@ -19,6 +19,7 @@
   } from "lucide-svelte";
   import type { Snippet } from "svelte";
   import { untrack } from "svelte";
+  import { SvelteSet } from "svelte/reactivity";
 
   export interface TreeGridColumn<T> {
     id: string;
@@ -137,7 +138,7 @@
 
   async function toggleExpand(node: FlatTreeRow<TData>, e: MouseEvent) {
     e.stopPropagation();
-    const next = new Set(expanded);
+    const next = new SvelteSet(expanded);
     const nodeId = node.id;
 
     if (next.has(nodeId)) {
@@ -158,7 +159,7 @@
       node.hasChildren &&
       (!node.children || node.children.length === 0)
     ) {
-      const nextLoading = new Set(loadingNodes);
+      const nextLoading = new SvelteSet(loadingNodes);
       nextLoading.add(nodeId);
       loadingNodes = nextLoading;
 
@@ -179,7 +180,7 @@
       } catch (err) {
         console.error(`Failed to load child nodes for ${nodeId}`, err);
       } finally {
-        const finishedLoading = new Set(loadingNodes);
+        const finishedLoading = new SvelteSet(loadingNodes);
         finishedLoading.delete(nodeId);
         loadingNodes = finishedLoading;
       }
@@ -322,8 +323,6 @@
             {@const isSelected = internalSelected.has(row.id)}
             {@const isIndeterminate = indeterminateSet.has(row.id)}
 
-            <!-- svelte-ignore a11y_click_events_have_key_events -->
-            <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
             <tr
               class="group/row transition-colors cursor-pointer {isSelected
                 ? 'bg-[var(--ui-primary)]/8'

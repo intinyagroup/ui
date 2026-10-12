@@ -7,6 +7,7 @@
     type CommandContext,
     type CommandFilteredState,
   } from "./command-context.svelte.js";
+  import { SvelteMap, SvelteSet } from "svelte/reactivity";
 
   export type CommandRootApi = {
     setValue: (v: string) => void;
@@ -46,15 +47,15 @@
   let selectedIndex = $state(0);
   let key = $state(0);
 
-  const items = new Map<string, any>();
-  const groups = new Map<string, any>();
-  const groupItems = new Map<string, Set<string>>();
+  const items = new SvelteMap<string, any>();
+  const groups = new SvelteMap<string, any>();
+  const groupItems = new SvelteMap<string, Set<string>>();
   let inputNode: HTMLElement | null = $state(null);
   let viewportNode: HTMLElement | null = $state(null);
 
   function recomputeFiltered(): CommandFilteredState {
-    const filteredItems = new Map<string, number>();
-    const visibleGroups = new Set<string>();
+    const filteredItems = new SvelteMap<string, number>();
+    const visibleGroups = new SvelteSet<string>();
 
     if (!shouldFilter || search === "") {
       for (const [val] of items) filteredItems.set(val, 1);

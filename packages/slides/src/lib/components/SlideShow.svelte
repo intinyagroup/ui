@@ -113,7 +113,6 @@
   }
 </script>
 
-<!-- svelte-ignore a11y_no_no_noninteractive_element_interactions -->
 <div
   class="fixed inset-0 z-[100] bg-black flex items-center justify-center"
   onmousemove={resetControlsTimer}

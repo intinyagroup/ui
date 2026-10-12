@@ -29,8 +29,6 @@
 
 <li class={cn("list-none", className)}>
   {#if onclick}
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <button
       type="button"
       {disabled}

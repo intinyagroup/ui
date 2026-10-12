@@ -47,6 +47,7 @@
   import CellGrid from "./CellGrid.svelte";
   import FormulaBar from "./FormulaBar.svelte";
   import SheetTabs from "./SheetTabs.svelte";
+  import { SvelteSet } from "svelte/reactivity";
 
   let {
     initialData,
@@ -150,7 +151,7 @@
     if (!activeSheet) return [activeCellId];
     const ranges = activeSheet.selection.ranges;
     if (ranges.length === 0) return [activeCellId];
-    const ids = new Set<string>();
+    const ids = new SvelteSet<string>();
     for (const range of ranges) {
       for (const { row, col } of getCellsInRange(range)) {
         ids.add(getCellId(row, col));

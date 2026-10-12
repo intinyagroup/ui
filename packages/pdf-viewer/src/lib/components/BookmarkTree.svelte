@@ -2,6 +2,7 @@
   import { ChevronRight, ChevronDown, BookOpen } from "lucide-svelte";
   import { cn } from "@intinyagroup/grid-core/utils";
   import type { Bookmark } from "../pdf-core.js";
+  import { SvelteSet } from "svelte/reactivity";
 
   let {
     bookmarks = [],
@@ -16,7 +17,7 @@
   let expanded = $state<Set<string>>(new Set());
 
   function toggleExpand(title: string) {
-    const next = new Set(expanded);
+    const next = new SvelteSet(expanded);
     if (next.has(title)) next.delete(title);
     else next.add(title);
     expanded = next;
@@ -29,7 +30,7 @@
   onMount(() => {
     // Auto-expand top-level
     bookmarks.forEach((b) => expanded.add(b.title));
-    expanded = new Set(expanded);
+    expanded = new SvelteSet(expanded);
   });
 
   import { onMount } from "svelte";

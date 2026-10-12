@@ -14,6 +14,7 @@
   import FileViewList from "./FileViewList.svelte";
   import FilePreviewModal from "./FilePreviewModal.svelte";
   import { untrack } from "svelte";
+  import { SvelteSet } from "svelte/reactivity";
 
   let {
     items = [],
@@ -99,7 +100,7 @@
 
   function handleToggleSelect(id: string, e: MouseEvent) {
     e.stopPropagation();
-    const next = new Set(selectedIds);
+    const next = new SvelteSet(selectedIds);
     if (next.has(id)) next.delete(id);
     else next.add(id);
     selectedIds = next;

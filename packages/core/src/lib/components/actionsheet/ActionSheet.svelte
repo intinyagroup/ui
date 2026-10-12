@@ -66,7 +66,6 @@
     role="presentation"
     style="padding-bottom: env(safe-area-inset-bottom)"
   >
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
       class="absolute inset-0 bg-black/50"
       style="animation: intinya-action-sheet-fade 200ms ease-out"

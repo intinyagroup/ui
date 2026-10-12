@@ -1048,7 +1048,6 @@
   {/if}
 
   <!-- Desktop Table (hidden on mobile if mobileCardView is true) -->
-  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <div
     class="max-w-full overflow-x-auto {mobileCardView ? 'hidden sm:block' : ''}"
     bind:this={tableContainer}

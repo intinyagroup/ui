@@ -16,6 +16,7 @@
     paginateContentEstimate,
     type PaginatedPage,
   } from "../pagination-engine.js";
+  import { SvelteMap } from "svelte/reactivity";
 
   let {
     metadata,
@@ -47,7 +48,7 @@
     measuring = true;
 
     const containerWidth = containerEl.clientWidth - 48;
-    const newMap = new Map<string, PaginatedPage[]>();
+    const newMap = new SvelteMap<string, PaginatedPage[]>();
 
     for (const chapter of previewChapters) {
       const titleHtml = `<h2 style="font-size:${layout.chapterTitleSize}pt;font-weight:${layout.chapterTitleWeight};text-align:${layout.chapterTitleAlign};margin-bottom:1.5em;">${chapter.title}</h2>`;

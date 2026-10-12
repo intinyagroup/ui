@@ -25,8 +25,9 @@
     Tooltip,
     Filler,
   } from "chart.js";
+  import { SvelteSet } from "svelte/reactivity";
 
-  const registeredTypes = new Set<ChartType>();
+  const registeredTypes = new SvelteSet<ChartType>();
 
   function registerForType(chartType: ChartType) {
     if (registeredTypes.has(chartType)) return;
