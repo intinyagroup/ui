@@ -17,3 +17,6 @@ dist/
 
 # Turborepo
 .turbo/
+
+# Storybook build output — regenerate with pnpm build:storybook
+packages/storybook/storybook-static/
