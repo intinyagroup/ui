@@ -24,8 +24,8 @@
   "dependencies": {
     "@intinyagroup/ui": "workspace:*",
     "@intinyagroup/grid-core": "workspace:*",
-    "@tanstack/svelte-virtual": "^3.13.35",
-    "@tanstack/table-core": "^9.2.4",
+    "@tanstack/svelte-virtual": "^3.13.39",
+    "@tanstack/table-core": "^9.2.8",
     "lucide-svelte": "^1.0.1"
   },
   "devDependencies": {
