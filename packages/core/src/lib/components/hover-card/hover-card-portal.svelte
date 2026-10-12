@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { LinkPreview as HoverCardPrimitive } from "bits-ui";
+  import { Portal } from "@ark-ui/svelte/portal";
+  import type { ComponentProps } from "svelte";
 
-  let { ...restProps }: HoverCardPrimitive.PortalProps = $props();
+  let { ...restProps }: ComponentProps<typeof Portal> = $props();
 </script>
 
-<HoverCardPrimitive.Portal {...restProps} />
+<Portal {...restProps} />

@@ -27,8 +27,9 @@
 </script>
 
 <script lang="ts">
-  import { Toggle as TogglePrimitive } from "bits-ui";
+  import { Toggle as ArkToggle } from "@ark-ui/svelte/toggle";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
@@ -37,15 +38,19 @@
     size = "default",
     variant = "default",
     ...restProps
-  }: TogglePrimitive.RootProps & {
+  }: ComponentProps<typeof ArkToggle.Root> & {
     variant?: ToggleVariant;
     size?: ToggleSize;
   } = $props();
 </script>
 
-<TogglePrimitive.Root
+<ArkToggle.Root
   bind:ref
-  bind:pressed
+  {pressed}
+  onPressedChange={(newPressed) => {
+    pressed = newPressed;
+    restProps.onPressedChange?.(newPressed);
+  }}
   data-slot="toggle"
   class={cn(toggleVariants({ variant, size }), className)}
   {...restProps}

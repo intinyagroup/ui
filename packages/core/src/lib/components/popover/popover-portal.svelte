@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { Popover as PopoverPrimitive } from "bits-ui";
+  import { Portal } from "@ark-ui/svelte/portal";
+  import type { ComponentProps } from "svelte";
 
-  let { ...restProps }: PopoverPrimitive.PortalProps = $props();
+  let { ...restProps }: ComponentProps<typeof Portal> = $props();
 </script>
 
-<PopoverPrimitive.Portal {...restProps} />
+<Portal {...restProps} />

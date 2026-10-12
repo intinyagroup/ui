@@ -1,7 +1,11 @@
 <script lang="ts">
-  import { Menubar as MenubarPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
+  import type { ComponentProps } from "svelte";
 
-  let { ...restProps }: MenubarPrimitive.MenuProps = $props();
+  let { children, ...restProps }: ComponentProps<typeof ArkMenu.Root> =
+    $props();
 </script>
 
-<MenubarPrimitive.Menu {...restProps} />
+<ArkMenu.Root {...restProps}>
+  {@render children?.()}
+</ArkMenu.Root>

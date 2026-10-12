@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { Tooltip as TooltipPrimitive } from "bits-ui";
+  import { Portal } from "@ark-ui/svelte/portal";
+  import type { ComponentProps } from "svelte";
 
-  let { ...restProps }: TooltipPrimitive.PortalProps = $props();
+  let { ...restProps }: ComponentProps<typeof Portal> = $props();
 </script>
 
-<TooltipPrimitive.Portal {...restProps} />
+<Portal {...restProps} />

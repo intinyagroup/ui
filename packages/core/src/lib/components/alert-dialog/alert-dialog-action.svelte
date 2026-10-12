@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
+  import { Dialog as ArkDialog } from "@ark-ui/svelte/dialog";
   import {
     buttonVariants,
     type ButtonVariant,
     type ButtonSize,
   } from "$lib/components/button/index.js";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
@@ -13,13 +14,13 @@
     variant = "default",
     size = "default",
     ...restProps
-  }: AlertDialogPrimitive.ActionProps & {
+  }: ComponentProps<typeof ArkDialog.CloseTrigger> & {
     variant?: ButtonVariant;
     size?: ButtonSize;
   } = $props();
 </script>
 
-<AlertDialogPrimitive.Action
+<ArkDialog.CloseTrigger
   bind:ref
   data-slot="alert-dialog-action"
   class={cn(

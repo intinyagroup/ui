@@ -20,8 +20,9 @@
 </script>
 
 <script lang="ts">
-  import { ToggleGroup as ToggleGroupPrimitive } from "bits-ui";
+  import { ToggleGroup as ArkToggleGroup } from "@ark-ui/svelte/toggle-group";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
@@ -32,7 +33,7 @@
     orientation = "horizontal",
     variant = "default",
     ...restProps
-  }: ToggleGroupPrimitive.RootProps &
+  }: ComponentProps<typeof ArkToggleGroup.Root> &
     ToggleVariants & {
       spacing?: number;
       orientation?: "horizontal" | "vertical";
@@ -58,8 +59,12 @@
 Discriminated Unions + Destructing (required for bindable) do not
 get along, so we shut typescript up by casting `value` to `never`.
 -->
-<ToggleGroupPrimitive.Root
-  bind:value={value as never}
+<ArkToggleGroup.Root
+  value={value as never}
+  onValueChange={(e) => {
+    value = e.value as never;
+    restProps.onValueChange?.(e);
+  }}
   bind:ref
   {orientation}
   data-slot="toggle-group"

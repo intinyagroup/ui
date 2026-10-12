@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { Dialog as SheetPrimitive } from "bits-ui";
+  import { Dialog as ArkDialog } from "@ark-ui/svelte/dialog";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
     ...restProps
-  }: SheetPrimitive.OverlayProps = $props();
+  }: ComponentProps<typeof ArkDialog.Backdrop> = $props();
 </script>
 
-<SheetPrimitive.Overlay
+<ArkDialog.Backdrop
   bind:ref
   data-slot="sheet-overlay"
   class={cn(

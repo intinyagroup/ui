@@ -1,16 +1,20 @@
 <script lang="ts">
-  import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     value = $bindable(""),
+    children,
     ...restProps
-  }: ContextMenuPrimitive.RadioGroupProps = $props();
+  }: ComponentProps<typeof ArkMenu.RadioItemGroup> = $props();
 </script>
 
-<ContextMenuPrimitive.RadioGroup
+<ArkMenu.RadioItemGroup
   bind:ref
   bind:value
   data-slot="context-menu-radio-group"
   {...restProps}
-/>
+>
+  {@render children?.()}
+</ArkMenu.RadioItemGroup>

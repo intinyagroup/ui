@@ -1,8 +1,14 @@
 <script lang="ts">
-  import { Dialog as SheetPrimitive } from "bits-ui";
+  import { Dialog as ArkDialog } from "@ark-ui/svelte/dialog";
+  import type { ComponentProps } from "svelte";
 
-  let { ref = $bindable(null), ...restProps }: SheetPrimitive.CloseProps =
-    $props();
+  let {
+    ref = $bindable(null),
+    children,
+    ...restProps
+  }: ComponentProps<typeof ArkDialog.CloseTrigger> = $props();
 </script>
 
-<SheetPrimitive.Close bind:ref data-slot="sheet-close" {...restProps} />
+<ArkDialog.CloseTrigger bind:ref data-slot="sheet-close" {...restProps}>
+  {@render children?.()}
+</ArkDialog.CloseTrigger>

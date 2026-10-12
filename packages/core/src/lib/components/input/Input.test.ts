@@ -93,4 +93,32 @@ describe("Input", () => {
     expect(input).toHaveAttribute("name", "email");
     expect(input).toHaveAttribute("autocomplete", "email");
   });
+  it("preserves logical form and bidi attributes for long localized values", () => {
+    render(Input, {
+      name: "بحث",
+      dir: "auto",
+      maxlength: 200,
+      "aria-label": "ابحث عن عنصر في القائمة الطويلة",
+    });
+    const input = screen.getByRole("textbox", {
+      name: "ابحث عن عنصر في القائمة الطويلة",
+    });
+    expect(input).toHaveAttribute("name", "بحث");
+    expect(input).toHaveAttribute("dir", "auto");
+    expect(input).toHaveAttribute("maxlength", "200");
+    expect(input).toHaveClass("min-w-0");
+  });
+  it("uses semantic tokens for invalid and focus states", () => {
+    render(Input, { "aria-invalid": true });
+    const input = screen.getByRole("textbox");
+    expect(input.className).toContain("aria-invalid:border-destructive");
+    expect(input.className).toContain("focus-visible:ring-ring/50");
+  });
+  it("retains file input name and multiple-selection semantics", () => {
+    render(Input, { type: "file", name: "attachments", multiple: true });
+    const input = document.querySelector('input[type="file"]');
+    expect(input).toHaveAttribute("name", "attachments");
+    expect(input).toHaveAttribute("multiple");
+    expect(input).toHaveClass("min-w-0");
+  });
 });

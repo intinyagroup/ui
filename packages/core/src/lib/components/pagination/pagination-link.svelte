@@ -1,21 +1,25 @@
 <script lang="ts">
-  import { Pagination as PaginationPrimitive } from "bits-ui";
+  import { Pagination as ArkPagination } from "@ark-ui/svelte/pagination";
   import {
     buttonVariants,
     type ButtonSize,
   } from "$lib/components/button/index.js";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
+
   let {
     ref = $bindable(null),
     class: className,
     size = "icon",
     isActive,
     page,
+    value: _ignoredValue,
     children,
     ...restProps
-  }: PaginationPrimitive.PageProps & {
+  }: ComponentProps<typeof ArkPagination.Item> & {
     size?: ButtonSize;
     isActive: boolean;
+    page: { value: number; href: string };
   } = $props();
 </script>
 
@@ -23,9 +27,9 @@
   {page.value}
 {/snippet}
 
-<PaginationPrimitive.Page
+<ArkPagination.Item
   bind:ref
-  {page}
+  value={page.value}
   aria-current={isActive ? "page" : undefined}
   data-slot="pagination-link"
   data-active={isActive}
@@ -42,4 +46,4 @@
   {:else}
     {@render Fallback()}
   {/if}
-</PaginationPrimitive.Page>
+</ArkPagination.Item>

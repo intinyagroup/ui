@@ -1,8 +1,11 @@
 <script lang="ts">
-  import { Popover as PopoverPrimitive } from "bits-ui";
+  import { Popover as ArkPopover } from "@ark-ui/svelte/popover";
+  import type { ComponentProps } from "svelte";
 
-  let { ref = $bindable(null), ...restProps }: PopoverPrimitive.CloseProps =
-    $props();
+  let {
+    ref = $bindable(null),
+    ...restProps
+  }: ComponentProps<typeof ArkPopover.CloseTrigger> = $props();
 </script>
 
-<PopoverPrimitive.Close bind:ref data-slot="popover-close" {...restProps} />
+<ArkPopover.CloseTrigger bind:ref data-slot="popover-close" {...restProps} />

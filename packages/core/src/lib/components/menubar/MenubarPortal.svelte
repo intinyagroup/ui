@@ -1,7 +1,10 @@
 <script lang="ts">
-  import { Menubar as MenubarPrimitive } from "bits-ui";
+  import { Portal } from "@ark-ui/svelte/portal";
+  import type { ComponentProps } from "svelte";
 
-  let { ...restProps }: MenubarPrimitive.PortalProps = $props();
+  let { children, ...restProps }: ComponentProps<typeof Portal> = $props();
 </script>
 
-<MenubarPrimitive.Portal {...restProps} />
+<Portal {...restProps}>
+  {@render children?.()}
+</Portal>

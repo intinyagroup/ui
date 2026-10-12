@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
   import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
@@ -9,12 +10,12 @@
     inset,
     children,
     ...restProps
-  }: DropdownMenuPrimitive.SubTriggerProps & {
+  }: ComponentProps<typeof ArkMenu.TriggerItem> & {
     inset?: boolean;
   } = $props();
 </script>
 
-<DropdownMenuPrimitive.SubTrigger
+<ArkMenu.TriggerItem
   bind:ref
   data-slot="dropdown-menu-sub-trigger"
   data-inset={inset}
@@ -26,4 +27,4 @@
 >
   {@render children?.()}
   <ChevronRightIcon class="ml-auto" />
-</DropdownMenuPrimitive.SubTrigger>
+</ArkMenu.TriggerItem>

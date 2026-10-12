@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
+  import type { ComponentProps } from "svelte";
 
-  let {
-    open = $bindable(false),
-    ...restProps
-  }: DropdownMenuPrimitive.SubProps = $props();
+  let { children, ...restProps }: ComponentProps<typeof ArkMenu.Root> =
+    $props();
 </script>
 
-<DropdownMenuPrimitive.Sub bind:open {...restProps} />
+<ArkMenu.Root {...restProps}>
+  {@render children?.()}
+</ArkMenu.Root>

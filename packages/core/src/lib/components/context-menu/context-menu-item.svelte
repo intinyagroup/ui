@@ -1,20 +1,22 @@
 <script lang="ts">
-  import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
     inset,
     variant = "default",
+    children,
     ...restProps
-  }: ContextMenuPrimitive.ItemProps & {
+  }: ComponentProps<typeof ArkMenu.Item> & {
     inset?: boolean;
     variant?: "default" | "destructive";
   } = $props();
 </script>
 
-<ContextMenuPrimitive.Item
+<ArkMenu.Item
   bind:ref
   data-slot="context-menu-item"
   data-inset={inset}
@@ -24,4 +26,6 @@
     className,
   )}
   {...restProps}
-/>
+>
+  {@render children?.()}
+</ArkMenu.Item>

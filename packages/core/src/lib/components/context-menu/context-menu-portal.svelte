@@ -1,7 +1,10 @@
 <script lang="ts">
-  import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+  import { Portal } from "@ark-ui/svelte/portal";
+  import type { ComponentProps } from "svelte";
 
-  let { ...restProps }: ContextMenuPrimitive.PortalProps = $props();
+  let { children, ...restProps }: ComponentProps<typeof Portal> = $props();
 </script>
 
-<ContextMenuPrimitive.Portal {...restProps} />
+<Portal {...restProps}>
+  {@render children?.()}
+</Portal>

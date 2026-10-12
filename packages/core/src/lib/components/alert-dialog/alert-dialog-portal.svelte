@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
+  import { Portal, type PortalProps } from "@ark-ui/svelte/portal";
 
-  let { ...restProps }: AlertDialogPrimitive.PortalProps = $props();
+  let { ...restProps }: PortalProps = $props();
 </script>
 
-<AlertDialogPrimitive.Portal {...restProps} />
+<Portal {...restProps} />

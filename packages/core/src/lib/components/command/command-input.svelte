@@ -1,34 +1,54 @@
 <script lang="ts">
-  import { Command as CommandPrimitive } from "bits-ui";
   import * as InputGroup from "$lib/components/input-group/index.js";
   import SearchIcon from "@lucide/svelte/icons/search";
   import { cn } from "$lib/utils.js";
+  import { getCommandContext } from "./command-context.svelte.js";
 
   let {
     ref = $bindable(null),
     class: className,
     value = $bindable(""),
     ...restProps
-  }: CommandPrimitive.InputProps = $props();
+  }: {
+    ref?: HTMLElement | null;
+    class?: string;
+    value?: string;
+    [key: string]: any;
+  } = $props();
+
+  const ctx = getCommandContext();
+
+  $effect(() => {
+    ctx.setSearch(value);
+  });
+
+  $effect(() => {
+    if (ref) ctx.setInputNode(ref);
+  });
+
+  function handleInput(e: Event) {
+    const target = e.target as HTMLInputElement;
+    value = target.value;
+    ctx.setSearch(target.value);
+    ctx.setSelectedIndex(0);
+  }
 </script>
 
 <div data-slot="command-input-wrapper" class="p-1 pb-0">
   <InputGroup.Root
     class="h-8! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-2!"
   >
-    <CommandPrimitive.Input
-      {value}
+    <InputGroup.Input
+      bind:ref
       data-slot="command-input"
+      {value}
+      oninput={handleInput}
       class={cn(
         "w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}
       {...restProps}
-    >
-      {#snippet child({ props })}
-        <InputGroup.Input {...props} bind:value bind:ref />
-      {/snippet}
-    </CommandPrimitive.Input>
+    />
     <InputGroup.Addon>
       <SearchIcon class="size-4 shrink-0 opacity-50" />
     </InputGroup.Addon>

@@ -1,8 +1,11 @@
 <script lang="ts">
-  import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
+  import type { ComponentProps } from "svelte";
 
-  let { open = $bindable(false), ...restProps }: ContextMenuPrimitive.SubProps =
+  let { children, ...restProps }: ComponentProps<typeof ArkMenu.Root> =
     $props();
 </script>
 
-<ContextMenuPrimitive.Sub bind:open {...restProps} />
+<ArkMenu.Root {...restProps}>
+  {@render children?.()}
+</ArkMenu.Root>

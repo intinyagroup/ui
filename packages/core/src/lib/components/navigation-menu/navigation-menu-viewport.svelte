@@ -1,16 +1,17 @@
 <script lang="ts">
-  import { NavigationMenu as NavigationMenuPrimitive } from "bits-ui";
+  import { NavigationMenu as ArkNavMenu } from "@ark-ui/svelte/navigation-menu";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
     ...restProps
-  }: NavigationMenuPrimitive.ViewportProps = $props();
+  }: ComponentProps<typeof ArkNavMenu.Viewport> = $props();
 </script>
 
 <div class={cn("absolute start-0 top-full isolate z-50 flex justify-center")}>
-  <NavigationMenuPrimitive.Viewport
+  <ArkNavMenu.Viewport
     bind:ref
     data-slot="navigation-menu-viewport"
     class={cn(

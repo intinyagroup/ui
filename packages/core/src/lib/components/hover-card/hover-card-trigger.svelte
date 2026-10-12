@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { LinkPreview as HoverCardPrimitive } from "bits-ui";
+  import { HoverCard as ArkHoverCard } from "@ark-ui/svelte/hover-card";
+  import type { ComponentProps } from "svelte";
 
-  let { ref = $bindable(null), ...restProps }: HoverCardPrimitive.TriggerProps =
-    $props();
+  let {
+    ref = $bindable(null),
+    ...restProps
+  }: ComponentProps<typeof ArkHoverCard.Trigger> = $props();
 </script>
 
-<HoverCardPrimitive.Trigger
-  bind:ref
-  data-slot="hover-card-trigger"
-  {...restProps}
-/>
+<ArkHoverCard.Trigger bind:ref data-slot="hover-card-trigger" {...restProps} />

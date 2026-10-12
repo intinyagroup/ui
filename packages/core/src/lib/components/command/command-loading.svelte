@@ -1,8 +1,25 @@
 <script lang="ts">
-  import { Command as CommandPrimitive } from "bits-ui";
+  import type { Snippet } from "svelte";
 
-  let { ref = $bindable(null), ...restProps }: CommandPrimitive.LoadingProps =
-    $props();
+  let {
+    ref = $bindable(null),
+    progress,
+    children,
+    ...restProps
+  }: {
+    ref?: HTMLElement | null;
+    progress?: number;
+    children?: Snippet;
+    [key: string]: any;
+  } = $props();
 </script>
 
-<CommandPrimitive.Loading bind:ref {...restProps} />
+<div
+  bind:this={ref}
+  data-slot="command-loading"
+  role="status"
+  aria-busy="true"
+  {...restProps}
+>
+  {@render children?.()}
+</div>

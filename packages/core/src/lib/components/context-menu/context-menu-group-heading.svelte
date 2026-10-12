@@ -1,18 +1,20 @@
 <script lang="ts">
-  import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
     inset,
+    children,
     ...restProps
-  }: ContextMenuPrimitive.GroupHeadingProps & {
+  }: ComponentProps<typeof ArkMenu.ItemGroupLabel> & {
     inset?: boolean;
   } = $props();
 </script>
 
-<ContextMenuPrimitive.GroupHeading
+<ArkMenu.ItemGroupLabel
   bind:ref
   data-slot="context-menu-group-heading"
   data-inset={inset}
@@ -21,4 +23,6 @@
     className,
   )}
   {...restProps}
-/>
+>
+  {@render children?.()}
+</ArkMenu.ItemGroupLabel>

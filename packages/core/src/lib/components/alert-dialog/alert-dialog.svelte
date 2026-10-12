@@ -1,10 +1,21 @@
 <script lang="ts">
-  import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
+  import { Dialog as ArkDialog } from "@ark-ui/svelte/dialog";
+  import type { ComponentProps } from "svelte";
 
   let {
     open = $bindable(false),
+    children,
     ...restProps
-  }: AlertDialogPrimitive.RootProps = $props();
+  }: ComponentProps<typeof ArkDialog.Root> = $props();
 </script>
 
-<AlertDialogPrimitive.Root bind:open {...restProps} />
+<ArkDialog.Root
+  bind:open
+  onOpenChange={(e) => {
+    open = e.open;
+    restProps.onOpenChange?.(e);
+  }}
+  {...restProps}
+>
+  {@render children?.()}
+</ArkDialog.Root>

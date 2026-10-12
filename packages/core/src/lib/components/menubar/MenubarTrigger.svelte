@@ -1,15 +1,17 @@
 <script lang="ts">
-  import { Menubar as MenubarPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
+    children,
     ...restProps
-  }: MenubarPrimitive.TriggerProps = $props();
+  }: ComponentProps<typeof ArkMenu.Trigger> = $props();
 </script>
 
-<MenubarPrimitive.Trigger
+<ArkMenu.Trigger
   bind:ref
   data-slot="menubar-trigger"
   class={cn(
@@ -17,4 +19,6 @@
     className,
   )}
   {...restProps}
-/>
+>
+  {@render children?.()}
+</ArkMenu.Trigger>

@@ -34,7 +34,6 @@
     "@intinyagroup/tokens": "workspace:*",
     "@lucide/svelte": "^1.28.0",
     "@tanstack/svelte-virtual": "^3.13.35",
-    "bits-ui": "^1.8.0",
     "chart.js": "^4.5.1",
     "clsx": "^2.1.1",
     "formsnap": "^2.0.1",

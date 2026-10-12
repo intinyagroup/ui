@@ -30,7 +30,7 @@ describe("Tabs (compound)", () => {
 
   it("hides inactive tab content via data attributes", () => {
     render(TabsTest);
-    // bits-ui Tabs uses data attributes for active/inactive state
+    // Ark UI Tabs uses data attributes for active/inactive state
     const contents = screen.getAllByRole("tabpanel");
     expect(contents.length).toBeGreaterThan(0);
   });

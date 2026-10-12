@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { NavigationMenu as NavigationMenuPrimitive } from "bits-ui";
+  import { NavigationMenu as ArkNavMenu } from "@ark-ui/svelte/navigation-menu";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
   import NavigationMenuViewport from "./navigation-menu-viewport.svelte";
 
   let {
@@ -9,12 +10,12 @@
     viewport = true,
     children,
     ...restProps
-  }: NavigationMenuPrimitive.RootProps & {
+  }: ComponentProps<typeof ArkNavMenu.Root> & {
     viewport?: boolean;
   } = $props();
 </script>
 
-<NavigationMenuPrimitive.Root
+<ArkNavMenu.Root
   bind:ref
   data-slot="navigation-menu"
   data-viewport={viewport}
@@ -28,4 +29,4 @@
   {#if viewport}
     <NavigationMenuViewport />
   {/if}
-</NavigationMenuPrimitive.Root>
+</ArkNavMenu.Root>

@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
   import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-  import { cn, type WithoutChild } from "$lib/utils.js";
+  import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
@@ -9,12 +10,12 @@
     inset,
     children,
     ...restProps
-  }: WithoutChild<ContextMenuPrimitive.SubTriggerProps> & {
+  }: ComponentProps<typeof ArkMenu.TriggerItem> & {
     inset?: boolean;
   } = $props();
 </script>
 
-<ContextMenuPrimitive.SubTrigger
+<ArkMenu.TriggerItem
   bind:ref
   data-slot="context-menu-sub-trigger"
   data-inset={inset}
@@ -26,4 +27,4 @@
 >
   {@render children?.()}
   <ChevronRightIcon class="ml-auto" />
-</ContextMenuPrimitive.SubTrigger>
+</ArkMenu.TriggerItem>

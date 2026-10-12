@@ -1,4 +1,5 @@
 import Action from "./alert-dialog-action.svelte";
+import Body from "./alert-dialog-body.svelte";
 import Cancel from "./alert-dialog-cancel.svelte";
 import Content from "./alert-dialog-content.svelte";
 import Description from "./alert-dialog-description.svelte";
@@ -19,6 +20,7 @@ export {
   Portal,
   Footer,
   Header,
+  Body,
   Trigger,
   Overlay,
   Content,
@@ -32,6 +34,7 @@ export {
   Portal as AlertDialogPortal,
   Footer as AlertDialogFooter,
   Header as AlertDialogHeader,
+  Body as AlertDialogBody,
   Trigger as AlertDialogTrigger,
   Overlay as AlertDialogOverlay,
   Content as AlertDialogContent,

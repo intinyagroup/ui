@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { NavigationMenu as NavigationMenuPrimitive } from "bits-ui";
+  import { NavigationMenu as ArkNavMenu } from "@ark-ui/svelte/navigation-menu";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
     ...restProps
-  }: NavigationMenuPrimitive.IndicatorProps = $props();
+  }: ComponentProps<typeof ArkNavMenu.Indicator> = $props();
 </script>
 
-<NavigationMenuPrimitive.Indicator
+<ArkNavMenu.Indicator
   bind:ref
   data-slot="navigation-menu-indicator"
   class={cn(
@@ -21,4 +22,4 @@
   <div
     class="rounded-tl-sm bg-border shadow-md relative top-[60%] h-2 w-2 rotate-45"
   ></div>
-</NavigationMenuPrimitive.Indicator>
+</ArkNavMenu.Indicator>

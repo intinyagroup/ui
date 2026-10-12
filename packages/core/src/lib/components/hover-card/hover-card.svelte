@@ -1,8 +1,11 @@
 <script lang="ts">
-  import { LinkPreview as HoverCardPrimitive } from "bits-ui";
+  import { HoverCard as ArkHoverCard } from "@ark-ui/svelte/hover-card";
+  import type { ComponentProps } from "svelte";
 
-  let { open = $bindable(false), ...restProps }: HoverCardPrimitive.RootProps =
-    $props();
+  let {
+    open = $bindable(false),
+    ...restProps
+  }: ComponentProps<typeof ArkHoverCard.Root> = $props();
 </script>
 
-<HoverCardPrimitive.Root bind:open {...restProps} />
+<ArkHoverCard.Root bind:open {...restProps} />

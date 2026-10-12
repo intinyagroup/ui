@@ -1,10 +1,21 @@
 <script lang="ts">
-  import { Dialog as SheetPrimitive } from "bits-ui";
+  import { Dialog as ArkDialog } from "@ark-ui/svelte/dialog";
+  import type { ComponentProps } from "svelte";
 
-  // Bits owns modal focus trapping, focus restoration, and body scroll prevention.
-  // Do not add a second lock here; preserve primitive dismissal behavior.
-  let { open = $bindable(false), ...restProps }: SheetPrimitive.RootProps =
-    $props();
+  let {
+    open = $bindable(false),
+    children,
+    ...restProps
+  }: ComponentProps<typeof ArkDialog.Root> = $props();
 </script>
 
-<SheetPrimitive.Root bind:open {...restProps} />
+<ArkDialog.Root
+  bind:open
+  onOpenChange={(e) => {
+    open = e.open;
+    restProps.onOpenChange?.(e);
+  }}
+  {...restProps}
+>
+  {@render children?.()}
+</ArkDialog.Root>

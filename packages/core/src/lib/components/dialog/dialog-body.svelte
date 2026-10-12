@@ -1,0 +1,20 @@
+<script lang="ts">
+  import { cn, type WithElementRef } from "$lib/utils.js";
+  import type { HTMLAttributes } from "svelte/elements";
+
+  let {
+    ref = $bindable(null),
+    class: className,
+    children,
+    ...restProps
+  }: WithElementRef<HTMLAttributes<HTMLDivElement>> = $props();
+</script>
+
+<div
+  bind:this={ref}
+  data-slot="dialog-body"
+  class={cn("flex-1 min-h-0 overflow-y-auto px-1 py-1 -mx-1", className)}
+  {...restProps}
+>
+  {@render children?.()}
+</div>

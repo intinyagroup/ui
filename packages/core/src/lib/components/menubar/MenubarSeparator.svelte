@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { Menubar as MenubarPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
     ...restProps
-  }: MenubarPrimitive.SeparatorProps = $props();
+  }: ComponentProps<typeof ArkMenu.Separator> = $props();
 </script>
 
-<MenubarPrimitive.Separator
+<ArkMenu.Separator
   bind:ref
   data-slot="menubar-separator"
   class={cn("-mx-1 my-1 h-px bg-border", className)}

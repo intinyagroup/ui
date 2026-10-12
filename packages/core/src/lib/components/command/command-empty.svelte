@@ -1,17 +1,37 @@
 <script lang="ts">
-  import { Command as CommandPrimitive } from "bits-ui";
   import { cn } from "$lib/utils.js";
+  import { getCommandContext } from "./command-context.svelte.js";
+  import type { Snippet } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
+    forceMount = false,
+    children,
     ...restProps
-  }: CommandPrimitive.EmptyProps = $props();
+  }: {
+    ref?: HTMLElement | null;
+    class?: string;
+    forceMount?: boolean;
+    children?: Snippet;
+    [key: string]: any;
+  } = $props();
+
+  const ctx = getCommandContext();
+
+  const visible = $derived(
+    forceMount || (ctx.search !== "" && ctx.filtered.count === 0),
+  );
 </script>
 
-<CommandPrimitive.Empty
-  bind:ref
-  data-slot="command-empty"
-  class={cn("py-6 text-center text-sm", className)}
-  {...restProps}
-/>
+{#if visible}
+  <div
+    bind:this={ref}
+    data-slot="command-empty"
+    role="option"
+    class={cn("py-6 text-center text-sm", className)}
+    {...restProps}
+  >
+    {@render children?.()}
+  </div>
+{/if}

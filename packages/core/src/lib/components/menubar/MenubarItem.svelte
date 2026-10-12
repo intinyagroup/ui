@@ -1,20 +1,22 @@
 <script lang="ts">
-  import { Menubar as MenubarPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
     inset,
     variant = "default",
+    children,
     ...restProps
-  }: MenubarPrimitive.ItemProps & {
+  }: ComponentProps<typeof ArkMenu.Item> & {
     inset?: boolean;
     variant?: "default" | "destructive";
   } = $props();
 </script>
 
-<MenubarPrimitive.Item
+<ArkMenu.Item
   bind:ref
   data-slot="menubar-item"
   data-inset={inset}
@@ -24,4 +26,6 @@
     className,
   )}
   {...restProps}
-/>
+>
+  {@render children?.()}
+</ArkMenu.Item>

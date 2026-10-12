@@ -1,14 +1,11 @@
 <script lang="ts">
-  import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
+  import { Dialog as ArkDialog } from "@ark-ui/svelte/dialog";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     ...restProps
-  }: AlertDialogPrimitive.TriggerProps = $props();
+  }: ComponentProps<typeof ArkDialog.Trigger> = $props();
 </script>
 
-<AlertDialogPrimitive.Trigger
-  bind:ref
-  data-slot="alert-dialog-trigger"
-  {...restProps}
-/>
+<ArkDialog.Trigger bind:ref data-slot="alert-dialog-trigger" {...restProps} />

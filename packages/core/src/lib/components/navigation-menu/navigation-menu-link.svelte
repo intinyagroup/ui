@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { NavigationMenu as NavigationMenuPrimitive } from "bits-ui";
+  import { NavigationMenu as ArkNavMenu } from "@ark-ui/svelte/navigation-menu";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
     ...restProps
-  }: NavigationMenuPrimitive.LinkProps = $props();
+  }: ComponentProps<typeof ArkNavMenu.Link> = $props();
 </script>
 
-<NavigationMenuPrimitive.Link
+<ArkNavMenu.Link
   bind:ref
   data-slot="navigation-menu-link"
   class={cn(

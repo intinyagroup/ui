@@ -1,15 +1,16 @@
 <script lang="ts">
-  import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
+  import { Dialog as ArkDialog } from "@ark-ui/svelte/dialog";
   import { cn } from "$lib/utils.js";
+  import type { ComponentProps } from "svelte";
 
   let {
     ref = $bindable(null),
     class: className,
     ...restProps
-  }: AlertDialogPrimitive.DescriptionProps = $props();
+  }: ComponentProps<typeof ArkDialog.Description> = $props();
 </script>
 
-<AlertDialogPrimitive.Description
+<ArkDialog.Description
   bind:ref
   data-slot="alert-dialog-description"
   class={cn(

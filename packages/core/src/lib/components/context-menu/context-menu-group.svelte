@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+  import { Menu as ArkMenu } from "@ark-ui/svelte/menu";
+  import type { ComponentProps } from "svelte";
 
-  let { ref = $bindable(null), ...restProps }: ContextMenuPrimitive.GroupProps =
-    $props();
+  let {
+    ref = $bindable(null),
+    children,
+    ...restProps
+  }: ComponentProps<typeof ArkMenu.ItemGroup> = $props();
 </script>
 
-<ContextMenuPrimitive.Group
-  bind:ref
-  data-slot="context-menu-group"
-  {...restProps}
-/>
+<ArkMenu.ItemGroup bind:ref data-slot="context-menu-group" {...restProps}>
+  {@render children?.()}
+</ArkMenu.ItemGroup>
