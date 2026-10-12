@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { RequestHandler } from "./$types";
 import { base } from "$app/paths";
 
@@ -15,8 +17,6 @@ const staticPages = [
 
 // Component docs (124 pages — generated from filesystem)
 function componentPages(): string[] {
-  const fs = require("node:fs");
-  const path = require("node:path");
   const dir = path.join(process.cwd(), "src/routes/docs/components");
   return fs
     .readdirSync(dir)
@@ -25,8 +25,6 @@ function componentPages(): string[] {
 }
 
 function themePages(): string[] {
-  const fs = require("node:fs");
-  const path = require("node:path");
   const dir = path.join(process.cwd(), "src/routes/docs/themes");
   return fs
     .readdirSync(dir)

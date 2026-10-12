@@ -2,7 +2,7 @@
 // Copy pagefind search assets from build/ into .svelte-kit/output/client/
 // so `vite preview` (which serves from output/client) can reach them.
 // pagefind writes to build/pagefind; SvelteKit preview serves .svelte-kit/output/client.
-import { cpSync, rmSync, mkdirSync, existsSync } from "node:fs";
+import { cpSync, rmSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 

@@ -312,7 +312,7 @@
         open = false;
         query = "";
         break;
-      default:
+      default: {
         if (
           event.key.length !== 1 ||
           event.ctrlKey ||
@@ -334,6 +334,7 @@
             item.node.label.toLocaleLowerCase().startsWith(query),
         );
         if (match >= 0) setActive((start + match) % flatNodes.length);
+      }
     }
   }
 </script>

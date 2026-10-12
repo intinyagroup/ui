@@ -13,13 +13,7 @@
  * Usage: node scripts/generate-registry.mjs
  *        (run from packages/cli, or pass repo root as argv[2])
  */
-import {
-  readdirSync,
-  readFileSync,
-  writeFileSync,
-  mkdirSync,
-  existsSync,
-} from "node:fs";
+import { readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, relative, sep, basename, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
@@ -246,13 +240,6 @@ function categoryOf(name) {
 function tagsOf(name, category) {
   const tokens = name.split("-").filter((t) => t.length >= 2);
   return [...new Set([category, ...tokens])];
-}
-
-function titleCase(name) {
-  return name
-    .split("-")
-    .map((s) => (s ? s[0].toUpperCase() + s.slice(1) : s))
-    .join(" ");
 }
 
 function simpleDescription(name) {

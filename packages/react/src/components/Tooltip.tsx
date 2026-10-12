@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Tooltip as ArkTooltip } from "@ark-ui/react/tooltip";
-import { Portal } from "@ark-ui/react/portal";
 import { cn } from "../utils.js";
 
 export const TooltipRoot = ArkTooltip.Root;

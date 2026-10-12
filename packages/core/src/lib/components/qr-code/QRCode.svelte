@@ -40,7 +40,6 @@
         onReady(markup);
       })
       .catch((err) => {
-        // eslint-disable-next-line no-console
         console.error("[QRCode] Failed to generate QR code:", err);
       });
   });

@@ -100,9 +100,9 @@ function createCollaborationStore() {
 
   let ws: WebSocket | null = null;
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
-  let userId = `user-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+  const userId = `user-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
   let userName = "Anonymous";
-  let userColor = userColors[Math.floor(Math.random() * userColors.length)];
+  const userColor = userColors[Math.floor(Math.random() * userColors.length)];
 
   function connect(roomId: string, name: string, serverUrl: string) {
     userName = name;

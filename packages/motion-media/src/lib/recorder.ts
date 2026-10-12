@@ -71,7 +71,9 @@ export async function startCanvasRecording(
     try {
       const a = await navigator.mediaDevices.getUserMedia({ audio: true });
       a.getAudioTracks().forEach((t) => stream.addTrack(t));
-    } catch {}
+    } catch {
+      // Microphone permission denied; recording continues without audio.
+    }
   }
   return startRecording(stream, options);
 }

@@ -1,8 +1,5 @@
 import * as React from "react";
-import {
-  Dialog as ArkDialog,
-  type DialogRootProps,
-} from "@ark-ui/react/dialog";
+import { Dialog as ArkDialog } from "@ark-ui/react/dialog";
 import { Portal } from "@ark-ui/react/portal";
 import { cn } from "../utils.js";
 

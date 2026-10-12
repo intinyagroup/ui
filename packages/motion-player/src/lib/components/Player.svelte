@@ -320,7 +320,9 @@
       return;
     }
     lastClickTime = now;
-    if (clickToPlay) isPlaying ? pause() : play();
+    if (clickToPlay)
+      if (isPlaying) pause();
+      else play();
     onClick?.();
   }
 
@@ -339,7 +341,8 @@
   function handleKeydown(e: KeyboardEvent) {
     if (spaceKeyToPlayOrPause && e.key === " ") {
       e.preventDefault();
-      isPlaying ? pause() : play();
+      if (isPlaying) pause();
+      else play();
     }
     if (e.key === "ArrowLeft") {
       e.preventDefault();

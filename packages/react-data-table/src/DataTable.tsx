@@ -69,7 +69,10 @@ export interface ServerSideConfig {
   onSearchChange?: (search: string) => void;
 }
 
-export interface DataTableProps<TData extends RowData, TValue> {
+// TValue kept for API compatibility (positional generic).
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- positional generic kept for API compatibility
+export interface DataTableProps<TData extends RowData, _TValue> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- ColumnDef value type is intentionally open.
   columns: ColumnDef<typeof reactFeatures, TData, any>[];
   data: TData[];
   title?: string;
@@ -85,13 +88,15 @@ export interface DataTableProps<TData extends RowData, TValue> {
   onExport?: (format: "csv" | "xlsx", data: TData[]) => void;
 }
 
-export function DataTable<TData extends RowData, TValue>({
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- positional generic kept for API compatibility
+export function DataTable<TData extends RowData, _TValue>({
   columns,
   data,
   title,
   searchKey,
   searchPlaceholder = "Search...",
-  debounceMs = 300,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- reserved for consumer-side debounce wiring
+  debounceMs: _debounceMs = 300,
   loading = false,
   exportable = true,
   enableMultiSort = true,
@@ -99,7 +104,7 @@ export function DataTable<TData extends RowData, TValue>({
   className,
   serverSide,
   onExport,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData, _TValue>) {
   // Client-side fallback state
   const [clientSorting, setClientSorting] = React.useState<SortingState>([]);
   const [clientPagination, setClientPagination] =

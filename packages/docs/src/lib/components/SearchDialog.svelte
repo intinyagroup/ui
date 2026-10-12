@@ -10,7 +10,6 @@
   async function loadPagefind() {
     if (pagefind) return;
     try {
-      // @ts-ignore — pagefind is generated at build time, not available to Vite bundler
       const path = "/pagefind/pagefind.js";
       pagefind = await import(/* @vite-ignore */ path);
     } catch {

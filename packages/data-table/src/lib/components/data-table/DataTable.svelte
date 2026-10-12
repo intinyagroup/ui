@@ -969,7 +969,7 @@
       {:else}
         {#each rowModel.rows as row (row.id)}
           <div
-            class="p-4 space-y-2.5 transition-colors {!!rowSelection[row.id]
+            class="p-4 space-y-2.5 transition-colors {rowSelection[row.id]
               ? 'bg-[var(--ui-primary)]/5'
               : ''}"
           >
@@ -1151,7 +1151,7 @@
                 <tr
                   class="absolute w-full border-t border-[var(--ui-border)]/70 transition-colors hover:bg-[var(--ui-secondary)]/45 {selectable
                     ? 'cursor-pointer'
-                    : ''} {!!rowSelection[row.id]
+                    : ''} {rowSelection[row.id]
                     ? 'bg-[var(--ui-primary)]/5'
                     : ''}"
                   style="height: {virtualRow.size}px; transform: translateY({virtualRow.start}px);"

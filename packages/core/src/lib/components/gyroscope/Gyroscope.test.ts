@@ -69,7 +69,8 @@ function removeEventListenerStub(
 function dispatch(event: string, init?: unknown) {
   (listeners[event] ?? []).forEach((l) => {
     const ev = init ?? new Event(event);
-    typeof l === "function" ? l(ev) : l.handleEvent(ev);
+    if (typeof l === "function") l(ev);
+    else l.handleEvent(ev);
   });
 }
 

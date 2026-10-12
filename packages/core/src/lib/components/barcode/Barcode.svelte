@@ -31,7 +31,6 @@
           margin: 4,
         });
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.error("[Barcode] Failed to generate barcode:", e);
       }
     }
