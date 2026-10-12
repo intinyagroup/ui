@@ -92,7 +92,7 @@
         {field.readOnly ? 'opacity-70 cursor-not-allowed' : ''}"
     >
       <option value="">Select...</option>
-      {#each field.options ?? [] as option}
+      {#each field.options ?? [] as option (option.value)}
         <option value={option.value}>{option.label}</option>
       {/each}
     </select>
@@ -108,7 +108,7 @@
       class="w-full h-full px-1 border border-[var(--ui-border)] rounded text-sm bg-transparent text-[var(--ui-foreground)] outline-none focus:border-[var(--ui-primary)] overflow-auto
         {field.readOnly ? 'opacity-70 cursor-not-allowed' : ''}"
     >
-      {#each field.options ?? [] as option}
+      {#each field.options ?? [] as option (option.value)}
         <option value={option.value}>{option.label}</option>
       {/each}
     </select>

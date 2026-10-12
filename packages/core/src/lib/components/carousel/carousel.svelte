@@ -109,7 +109,7 @@
 
   {#if showDots && total > 1}
     <div class="flex justify-center gap-2 mt-4">
-      {#each { length: total } as _, i}
+      {#each { length: total } as _, i (i)}
         <button
           type="button"
           onclick={() => scrollTo(i)}

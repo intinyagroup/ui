@@ -291,7 +291,7 @@
             </th>
           {/if}
 
-          {#each columns as col, idx}
+          {#each columns as col, idx (col.id)}
             <th
               class="px-3.5 py-2.5 select-none"
               style={col.width
@@ -352,7 +352,7 @@
               {/if}
 
               <!-- Data Cells -->
-              {#each columns as col, colIdx}
+              {#each columns as col, colIdx (col.id)}
                 {@const isTreeColumn = col.treeColumn ?? colIdx === 0}
                 {@const rawValue = col.cell
                   ? col.cell(row)

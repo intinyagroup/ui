@@ -13,7 +13,7 @@
     class="hidden w-60 shrink-0 border-r border-[var(--ui-border)] py-8 pr-4 md:block"
   >
     <nav class="flex flex-col gap-6">
-      {#each navigation as section}
+      {#each navigation as section (section.title)}
         <div>
           <a
             href={section.href}
@@ -23,7 +23,7 @@
           </a>
           {#if section.items}
             <div class="flex flex-col gap-0.5">
-              {#each section.items as item}
+              {#each section.items as item (item.title)}
                 <a
                   href={item.href}
                   class="rounded-md px-2 py-1.5 text-sm transition-colors {page
@@ -61,7 +61,7 @@
       class="fixed inset-x-0 top-28 z-20 max-h-[60vh] overflow-y-auto border-b border-[var(--ui-border)] bg-[var(--ui-background)] p-4 shadow-lg md:hidden"
     >
       <nav class="flex flex-col gap-6">
-        {#each navigation as section}
+        {#each navigation as section (section.title)}
           <div>
             <a
               href={section.href}
@@ -72,7 +72,7 @@
             </a>
             {#if section.items}
               <div class="flex flex-col gap-0.5">
-                {#each section.items as item}
+                {#each section.items as item (item.title)}
                   <a
                     href={item.href}
                     onclick={() => (mobileMenuOpen = false)}

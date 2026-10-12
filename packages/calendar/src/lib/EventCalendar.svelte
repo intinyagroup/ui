@@ -747,7 +747,7 @@
       class="grid grid-cols-7 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-center text-xs font-semibold text-[var(--ui-muted-foreground)] py-2"
       style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center;"
     >
-      {#each dayNames as day}
+      {#each dayNames as day (day)}
         <div class="capitalize">{day}</div>
       {/each}
     </div>
@@ -756,7 +756,7 @@
       class="grid grid-cols-7 divide-x divide-y divide-[var(--ui-border)]"
       style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr));"
     >
-      {#each monthDays as { date, currentMonth }}
+      {#each monthDays as { date, currentMonth } (date.toISOString())}
         {@const dayEvents = getEventsForDay(date)}
         {@const todayActive = isToday(date)}
 
@@ -856,7 +856,7 @@
       class="grid grid-cols-4 md:grid-cols-8 border-b border-[var(--ui-border)] bg-[var(--ui-secondary)]/20 text-center text-xs font-semibold text-[var(--ui-muted-foreground)] py-2"
     >
       <div class="col-span-1">Time</div>
-      {#each isMobile ? mobileWeekDays : weekDays as d}
+      {#each isMobile ? mobileWeekDays : weekDays as d (d.toISOString())}
         <div class="col-span-1 flex flex-col items-center">
           <span class="capitalize"
             >{format(d, "EEE", { locale: activeDateFnsLocale })}</span
@@ -914,13 +914,13 @@
       <div
         class="col-span-1 divide-y divide-[var(--ui-border)]/50 text-right pr-2 text-[11px] font-medium text-[var(--ui-muted-foreground)]"
       >
-        {#each hours as hour}
+        {#each hours as hour (hour)}
           <div class="h-14 pt-1">{String(hour).padStart(2, "0")}:00</div>
         {/each}
       </div>
 
       <!-- Day Grid Columns -->
-      {#each isMobile ? mobileWeekDays : weekDays as d}
+      {#each isMobile ? mobileWeekDays : weekDays as d (d.toISOString())}
         {@const dayEvents = getTimedEventsForDay(d)}
         {@const layoutEvents = computeOverlappingLayout(dayEvents)}
         {@const isCurrentDay = isToday(d)}
@@ -935,7 +935,7 @@
           onclick={() => openCreateModal(d)}
           class="col-span-1 divide-y divide-[var(--ui-border)]/50 relative hover:bg-[var(--ui-secondary)]/10 cursor-pointer select-none"
         >
-          {#each hours as hour}
+          {#each hours as hour (hour)}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
               class="h-14 transition-colors hover:bg-[var(--ui-primary)]/10 pointer-events-auto"
@@ -1076,7 +1076,7 @@
       <div
         class="col-span-2 divide-y divide-[var(--ui-border)]/50 text-right pr-3 text-xs font-medium text-[var(--ui-muted-foreground)]"
       >
-        {#each hours as hour}
+        {#each hours as hour (hour)}
           <div class="h-16 pt-2">{String(hour).padStart(2, "0")}:00</div>
         {/each}
       </div>
@@ -1088,7 +1088,7 @@
         onclick={() => openCreateModal(currentDate)}
         class="col-span-10 divide-y divide-[var(--ui-border)]/50 relative p-1 hover:bg-[var(--ui-secondary)]/10 cursor-pointer select-none"
       >
-        {#each hours as hour}
+        {#each hours as hour (hour)}
           <div
             class="h-16 pointer-events-auto"
             onmousedown={(e) =>
@@ -1222,7 +1222,7 @@
               class="relative grid"
               style="grid-template-columns: repeat({timelineHours.length}, minmax(0, 1fr));"
             >
-              {#each timelineHours as hour}
+              {#each timelineHours as hour (hour)}
                 <div
                   class="border-r border-[var(--ui-border)] px-1 py-2 text-center"
                 >
@@ -1262,7 +1262,7 @@
                   class="pointer-events-none absolute inset-0 grid"
                   style="grid-template-columns: repeat({timelineHours.length}, minmax(0, 1fr));"
                 >
-                  {#each timelineHours as _hour}<div
+                  {#each timelineHours as _hour (_hour)}<div
                       class="border-r border-[var(--ui-border)]/50"
                     ></div>{/each}
                 </div>
@@ -1372,7 +1372,7 @@
               >Tag Color</span
             >
             <div class="flex items-center gap-2">
-              {#each presetColors as col}
+              {#each presetColors as col (col)}
                 <button
                   type="button"
                   onclick={() => (newEventColor = col)}

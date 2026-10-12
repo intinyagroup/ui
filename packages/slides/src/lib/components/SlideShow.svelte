@@ -246,7 +246,7 @@
       <div
         class="mt-4 flex justify-center gap-2 overflow-x-auto max-w-4xl mx-auto"
       >
-        {#each visibleSlides as slide, i}
+        {#each visibleSlides as slide, i (slide.id)}
           <button
             onclick={() => (currentSlide = i)}
             class={cn(
@@ -259,7 +259,7 @@
             <div class="w-full h-full bg-white p-0.5 text-[5px] leading-tight">
               {#each slide.elements
                 .filter((e) => e.type === "text")
-                .slice(0, 2) as el}
+                .slice(0, 2) as el (el.id)}
                 <div class="truncate">{el.content.slice(0, 15)}</div>
               {/each}
             </div>

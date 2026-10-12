@@ -100,7 +100,7 @@
           >
             {#each slide.elements
               .filter((e) => e.type === "text")
-              .slice(0, 3) as el}
+              .slice(0, 3) as el (el.id)}
               <div
                 class:font-bold={el.style?.fontWeight === "bold"}
                 style="font-size: {Math.max(
@@ -175,7 +175,7 @@
         <div
           class="absolute bottom-full left-0 right-0 mb-1 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-lg p-1 z-10 max-h-64 overflow-auto"
         >
-          {#each slideLayouts as layout}
+          {#each slideLayouts as layout (layout.value)}
             <button
               onclick={() => {
                 onAddSlide(layout.value);

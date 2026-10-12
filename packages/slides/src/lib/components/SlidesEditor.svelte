@@ -183,7 +183,7 @@
     >
       <div class="flex items-center gap-3">
         <span class="text-xs text-[var(--ui-muted-foreground)]">Theme:</span>
-        {#each defaultThemes as theme}
+        {#each defaultThemes as theme (theme.id)}
           <button
             onclick={() => handleThemeChange(theme)}
             class={cn(

@@ -61,7 +61,7 @@
 
   {#if features.length > 0}
     <ul class="flex flex-1 flex-col gap-3">
-      {#each features as feature}
+      {#each features as feature, i (i)}
         <li
           class="flex items-start gap-2 text-sm text-[var(--ui-muted-foreground)]"
         >

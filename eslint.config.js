@@ -58,9 +58,8 @@ export default tseslint.config(
       "svelte/no-navigation-without-resolve": "off",
       // Canvas/SVG primitives (Barcode, QRCode, charts) draw via direct DOM.
       "svelte/no-dom-manipulating": "off",
-      // Legacy templates predate keyed-each guidance; upgrading 83 loops is
-      // tracked separately, tracked as warnings for visibility.
-      "svelte/require-each-key": "warn",
+      // All 83 legacy loops now carry explicit keys; keep it enforced.
+      "svelte/require-each-key": "error",
       "svelte/prefer-svelte-reactivity": "warn",
       "svelte/prefer-writable-derived": "warn",
       "svelte/no-unused-svelte-ignore": "warn",

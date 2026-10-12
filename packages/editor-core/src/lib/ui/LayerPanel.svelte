@@ -7,7 +7,7 @@
 <div class="w-60 border-r border-[var(--ui-border)] bg-[var(--ui-card)] p-4">
   <h3 class="mb-4 text-sm font-semibold">Layers</h3>
   <div class="space-y-1">
-    {#each elements as el}
+    {#each elements as el (el.id)}
       <button
         onclick={() => editor.select(el.id)}
         class="flex w-full items-center gap-2 rounded px-2 py-1.5 text-sm text-left

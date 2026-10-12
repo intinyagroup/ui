@@ -522,7 +522,7 @@
               </div>
 
               <div class="space-y-1.5 mt-3 text-xs">
-                {#each properties.filter((p) => p.key !== titlePropertyKey) as prop}
+                {#each properties.filter((p) => p.key !== titlePropertyKey) as prop (prop.key)}
                   <div class="flex items-center justify-between text-[11px]">
                     <span class="text-[var(--ui-muted-foreground)]"
                       >{prop.label}</span

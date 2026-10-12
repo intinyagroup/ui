@@ -16,7 +16,7 @@
   bind:this={ref}
   class={cn("grid grid-cols-2 gap-6 md:grid-cols-4", className)}
 >
-  {#each stats as stat}
+  {#each stats as stat, i (i)}
     <div class="flex flex-col items-center gap-1 text-center">
       <span
         class="text-3xl font-bold tracking-tight text-[var(--ui-foreground)]"

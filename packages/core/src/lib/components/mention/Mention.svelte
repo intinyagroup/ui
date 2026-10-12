@@ -202,7 +202,7 @@
           No users found
         </div>
       {:else}
-        {#each filtered as user, index}
+        {#each filtered as user, index (user.id)}
           <button
             type="button"
             role="option"

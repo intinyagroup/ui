@@ -60,7 +60,7 @@
       class="absolute top-full left-0 z-50 mt-2 w-64 p-3 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-lg"
     >
       <div class="grid grid-cols-7 gap-1.5 mb-3">
-        {#each presetColors as color}
+        {#each presetColors as color (color)}
           <button
             type="button"
             aria-label="Select color {color}"

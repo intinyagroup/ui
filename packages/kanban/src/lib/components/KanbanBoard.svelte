@@ -391,7 +391,7 @@
               >Labels</span
             >
             <div class="flex flex-wrap gap-1.5">
-              {#each detailCard.labels as label}
+              {#each detailCard.labels as label (label.text + label.color)}
                 <span
                   class="text-[10px] font-medium px-2 py-0.5 rounded-full text-white"
                   style="background-color: {label.color}"
@@ -446,7 +446,7 @@
               >Tags</span
             >
             <div class="flex flex-wrap gap-1.5">
-              {#each detailCard.tags as tag}
+              {#each detailCard.tags as tag (tag)}
                 <Badge variant="secondary" class="text-[10px]">{tag}</Badge>
               {/each}
             </div>
@@ -507,7 +507,7 @@
         <!-- Labels -->
         {#if card.labels && card.labels.length > 0}
           <div class="flex flex-wrap gap-1 mb-1.5">
-            {#each card.labels as label}
+            {#each card.labels as label (label.text + label.color)}
               <span
                 class="text-[9px] font-medium px-1.5 py-0.5 rounded-full text-white"
                 style="background-color: {label.color}"
@@ -559,7 +559,7 @@
             </span>
           {/if}
           {#if card.tags}
-            {#each card.tags as tag}
+            {#each card.tags as tag (tag)}
               <span
                 class="text-[10px] px-1.5 py-0.5 rounded bg-[var(--ui-secondary)] text-[var(--ui-muted-foreground)]"
               >

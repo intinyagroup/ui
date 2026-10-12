@@ -158,7 +158,7 @@
           <span class="text-xs text-[var(--ui-muted-foreground)]"
             >Permissions:</span
           >
-          {#each Object.entries(permissions) as [key, value]}
+          {#each Object.entries(permissions) as [key, value] (key)}
             <label class="flex items-center gap-2 text-sm cursor-pointer">
               <input
                 type="checkbox"

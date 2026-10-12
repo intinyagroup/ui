@@ -133,7 +133,7 @@
       <span class="text-xs text-[var(--ui-muted-foreground)]"
         >Active watermarks:</span
       >
-      {#each currentWatermarks as wm}
+      {#each currentWatermarks as wm (wm.id)}
         <div
           class="flex items-center justify-between text-sm px-2 py-1 rounded bg-[var(--ui-secondary)]/50"
         >

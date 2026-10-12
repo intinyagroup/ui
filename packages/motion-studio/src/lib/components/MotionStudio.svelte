@@ -226,7 +226,7 @@
           <span class="text-[10px] text-[var(--ui-muted-foreground)]"
             >Effects:</span
           >
-          {#each effectPresets.slice(0, 4) as fx}
+          {#each effectPresets.slice(0, 4) as fx (fx.type)}
             <Button
               variant="ghost"
               size="sm"

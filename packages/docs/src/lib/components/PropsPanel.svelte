@@ -37,7 +37,7 @@
           onchange={(e) => onchange(prop.name, e.currentTarget.value)}
           class="h-7 w-full rounded-md border border-[var(--ui-border)] bg-[var(--ui-background)] px-2 text-xs outline-none focus-visible:border-[var(--ui-ring)] focus-visible:ring-2 focus-visible:ring-[var(--ui-ring)]/40"
         >
-          {#each prop.values ?? [] as option}
+          {#each prop.values ?? [] as option (option)}
             <option value={option}>{option}</option>
           {/each}
         </select>

@@ -18,7 +18,7 @@
 <div class="w-60 border-r border-[var(--ui-border)] bg-[var(--ui-card)] p-4">
   <h3 class="mb-4 text-sm font-semibold">Components</h3>
   <div class="grid grid-cols-2 gap-2">
-    {#each components as comp}
+    {#each components as comp (comp.id)}
       <Draggable id="new-{comp.id}" data={{ type: comp.id }}>
         <div
           class="flex flex-col items-center gap-1 rounded-lg border border-[var(--ui-border)] p-3 text-xs hover:bg-[var(--ui-muted)] cursor-grab"

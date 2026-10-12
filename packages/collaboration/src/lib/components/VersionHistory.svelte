@@ -135,7 +135,7 @@
             class="px-3 py-1.5 rounded-lg border border-[var(--ui-input)] text-sm"
           >
             <option value="">Version A</option>
-            {#each allVersions as v}
+            {#each allVersions as v (v.id)}
               <option value={v.id}>{v.name} ({formatTime(v.createdAt)})</option>
             {/each}
           </select>
@@ -145,7 +145,7 @@
             class="px-3 py-1.5 rounded-lg border border-[var(--ui-input)] text-sm"
           >
             <option value="">Version B</option>
-            {#each allVersions as v}
+            {#each allVersions as v (v.id)}
               <option value={v.id}>{v.name} ({formatTime(v.createdAt)})</option>
             {/each}
           </select>

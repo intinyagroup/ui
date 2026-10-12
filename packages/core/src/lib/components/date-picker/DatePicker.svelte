@@ -184,7 +184,7 @@
               <ArkDatePicker.Table class="w-full border-collapse">
                 <ArkDatePicker.TableHead>
                   <ArkDatePicker.TableRow class="flex">
-                    {#each api().weekDays as weekDay}
+                    {#each api().weekDays as weekDay (weekDay.long)}
                       <ArkDatePicker.TableHeader
                         class="flex w-9 items-center justify-center text-xs font-medium text-[var(--ui-muted-foreground)]"
                       >
@@ -195,9 +195,9 @@
                 </ArkDatePicker.TableHead>
 
                 <ArkDatePicker.TableBody>
-                  {#each api().weeks as week}
+                  {#each api().weeks as week (String(week[0]))}
                     <ArkDatePicker.TableRow class="flex w-full">
-                      {#each week as day}
+                      {#each week as day (String(day))}
                         <ArkDatePicker.TableCell
                           value={day}
                           class="relative flex size-9 items-center justify-center rounded-md p-0 text-sm outline-none focus-within:relative focus-within:z-20"

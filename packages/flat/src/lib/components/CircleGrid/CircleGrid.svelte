@@ -34,7 +34,7 @@
 </script>
 
 <div class={cn("flex flex-wrap items-center justify-center gap-3", className)}>
-  {#each Array.from({ length: count }) as _, i}
+  {#each Array.from({ length: count }) as _, i (i)}
     <div class={cn("rounded-full", sizeClasses[size], colorMap[color])}></div>
   {/each}
 </div>

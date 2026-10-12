@@ -269,7 +269,7 @@
       <div
         class="absolute top-full right-0 z-50 mt-1 p-2 rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] shadow-lg grid grid-cols-4 gap-1"
       >
-        {#each colors as color}
+        {#each colors as color (color)}
           <button
             onclick={() => {
               onToolColor(color);

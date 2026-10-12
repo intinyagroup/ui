@@ -203,7 +203,7 @@
       role="tablist"
       aria-label="Testimonial navigation"
     >
-      {#each { length: total } as _, i}
+      {#each { length: total } as _, i (i)}
         <button
           type="button"
           onclick={() => goTo(i)}

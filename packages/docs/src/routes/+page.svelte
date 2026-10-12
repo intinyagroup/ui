@@ -150,7 +150,7 @@
 
 <section class="mx-auto max-w-7xl px-4 pb-16">
   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-    {#each features as feature}
+    {#each features as feature (feature.title)}
       <div
         class="rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] p-5"
       >
@@ -176,7 +176,7 @@
     </p>
   </div>
   <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
-    {#each themes as theme}
+    {#each themes as theme (theme.name)}
       <button
         onclick={() => {
           activeTheme = theme.name;
@@ -261,7 +261,7 @@
 <section class="mx-auto max-w-7xl px-4 pb-20">
   <h2 class="mb-4 text-2xl font-semibold">Popular components</h2>
   <div class="flex flex-wrap gap-2">
-    {#each components as name}
+    {#each components as name (name)}
       <a
         href="/docs/components/{name.toLowerCase()}"
         class="rounded-lg border border-[var(--ui-border)] bg-[var(--ui-card)] px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--ui-muted)]"

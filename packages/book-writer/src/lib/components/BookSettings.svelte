@@ -61,7 +61,7 @@
 
   <!-- Tabs -->
   <div class="flex border-b border-[var(--ui-border)]">
-    {#each [{ id: "metadata", label: "Info" }, { id: "layout", label: "Layout" }, { id: "typography", label: "Type" }] as tab}
+    {#each [{ id: "metadata", label: "Info" }, { id: "layout", label: "Layout" }, { id: "typography", label: "Type" }] as tab (tab.id)}
       <button
         onclick={() => (activeTab = tab.id as typeof activeTab)}
         class={cn(
@@ -270,7 +270,7 @@
           onchange={(e) => updateLayout("fontFamily", e.currentTarget.value)}
           class="w-full mt-1 px-2 py-1.5 rounded border border-[var(--ui-input)] text-sm"
         >
-          {#each fontOptions as font}
+          {#each fontOptions as font (font.value)}
             <option value={font.value}>{font.label}</option>
           {/each}
         </select>

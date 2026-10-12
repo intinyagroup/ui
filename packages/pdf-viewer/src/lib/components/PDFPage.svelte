@@ -160,7 +160,7 @@
   <div class="absolute inset-0 pointer-events-none">
     {#each annotations.filter((a) => a.pageNumber === pageNumber) as annotation (annotation.id)}
       {#if annotation.type === "highlight" && annotation.rects}
-        {#each annotation.rects as rect}
+        {#each annotation.rects as rect, i (i)}
           <div
             class="absolute pointer-events-auto cursor-pointer hover:opacity-80"
             style="left: {rect.x * scale}px; top: {rect.y *

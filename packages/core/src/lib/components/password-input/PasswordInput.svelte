@@ -62,7 +62,7 @@
   {#if strength && value && strengthInfo}
     <div class="mt-2">
       <div class="flex gap-1 mb-1">
-        {#each [1, 2, 3, 4] as level}
+        {#each [1, 2, 3, 4] as level (level)}
           <div
             class={cn(
               "h-1.5 flex-1 rounded-full transition-colors",

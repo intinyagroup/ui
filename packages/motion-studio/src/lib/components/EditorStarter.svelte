@@ -76,7 +76,7 @@
     </div>
 
     <div class="grid grid-cols-2 gap-4">
-      {#each templates as template}
+      {#each templates as template (template.name)}
         <button
           onclick={() => onCreateProject(template)}
           class="flex flex-col items-start p-4 rounded-xl border border-[var(--ui-border)] bg-[var(--ui-card)] hover:border-[var(--ui-primary)]/50 hover:shadow-md transition-all cursor-pointer text-left"

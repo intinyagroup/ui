@@ -71,7 +71,7 @@
 
     <!-- Type selector -->
     <div class="flex gap-2 mb-4">
-      {#each types as type}
+      {#each types as type (type.value)}
         <button
           onclick={() => {
             selectedType = type.value;

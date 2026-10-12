@@ -54,7 +54,7 @@
   <!-- Code -->
   <div class="overflow-x-auto">
     <pre class="p-4 text-sm font-mono leading-relaxed"><code
-        >{#each lines as line, i}{#if showLineNumbers}<span
+        >{#each lines as line, i (i)}{#if showLineNumbers}<span
               class="inline-block w-8 text-right mr-4 text-[var(--ui-muted-foreground)]/50 select-none"
               >{i + 1}</span
             >{/if}{line}

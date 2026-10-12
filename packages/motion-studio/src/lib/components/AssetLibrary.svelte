@@ -75,7 +75,7 @@
   />
 
   <div class="flex-1 overflow-auto p-2 space-y-1">
-    {#each files as file}
+    {#each files as file (file.url)}
       {@const Icon = getIcon(file.type)}
       <button
         class="w-full flex items-center gap-2 px-2 py-1.5 rounded text-left hover:bg-[var(--ui-secondary)] transition-colors cursor-pointer"

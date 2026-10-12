@@ -201,7 +201,7 @@
       onchange={(e) => handleFieldChange(rule.id, e.currentTarget.value)}
       aria-label="Filter field"
     >
-      {#each fields as f}
+      {#each fields as f (f.id)}
         <option value={f.id}>{f.label}</option>
       {/each}
     </select>
@@ -214,7 +214,7 @@
         handleOperatorChange(rule.id, e.currentTarget.value as FilterOperator)}
       aria-label="Filter operator"
     >
-      {#each ops as op}
+      {#each ops as op (op)}
         <option value={op}>{formatOperatorLabel(op)}</option>
       {/each}
     </select>
@@ -240,7 +240,7 @@
           aria-label="Filter select option"
         >
           <option value="">Select option...</option>
-          {#each fieldDef.options as opt}
+          {#each fieldDef.options as opt (String(opt.value))}
             <option value={String(opt.value)}>{opt.label}</option>
           {/each}
         </select>

@@ -73,7 +73,7 @@
       <div
         class="flex gap-1 px-4 py-2 border-b border-[var(--ui-border)] overflow-x-auto"
       >
-        {#each emojiCategories as category}
+        {#each emojiCategories as category (category.name)}
           <button
             onclick={() => (activeCategory = category.name)}
             class={cn(

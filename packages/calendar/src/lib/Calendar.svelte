@@ -170,7 +170,7 @@
     class="grid grid-cols-7 gap-1 mb-2 text-center"
     style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.25rem; margin-bottom: 0.5rem; text-align: center;"
   >
-    {#each dayNames as d}
+    {#each dayNames as d (d)}
       <div
         class="text-center text-[11px] font-medium text-[var(--ui-muted-foreground)] py-1"
         style="text-align: center; font-size: 0.6875rem; padding: 0.25rem 0;"

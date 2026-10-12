@@ -56,7 +56,7 @@
         >Quick templates:</span
       >
       <div class="flex flex-wrap gap-1.5">
-        {#each mathTemplates as template}
+        {#each mathTemplates as template (template.label)}
           <button
             onclick={() => (latex = template.latex)}
             class="px-2 py-1 rounded border border-[var(--ui-border)] text-xs hover:bg-[var(--ui-secondary)] transition-colors cursor-pointer"

@@ -272,7 +272,7 @@
           >Effects ({sequence.effects.length})</span
         >
         <div class="mt-2 space-y-1">
-          {#each sequence.effects as fx}
+          {#each sequence.effects as fx (fx.id)}
             <div
               class="flex items-center justify-between px-2 py-1 rounded bg-[var(--ui-secondary)]/50"
             >

@@ -147,7 +147,7 @@
     class="flex items-center gap-1 text-xs overflow-x-auto py-0.5"
     aria-label="Breadcrumb"
   >
-    {#each breadcrumbs as crumb, idx}
+    {#each breadcrumbs as crumb, idx (crumb.id ?? crumb.name)}
       {#if idx > 0}
         <ChevronRight
           class="size-3 text-[var(--ui-muted-foreground)] shrink-0"

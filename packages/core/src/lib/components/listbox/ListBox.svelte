@@ -208,7 +208,7 @@
       No options
     </div>
   {:else}
-    {#each groupsToRender as group}
+    {#each groupsToRender as group (group.options[0].value)}
       {#if group.label}<div
           class="px-2 pb-1 pt-2 text-xs font-medium text-muted-foreground"
           role="presentation"

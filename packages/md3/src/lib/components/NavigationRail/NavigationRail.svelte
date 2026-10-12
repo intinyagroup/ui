@@ -32,7 +32,7 @@
     </div>
   {/if}
 
-  {#each items as item}
+  {#each items as item (item.label)}
     <button
       class={cn(
         "flex flex-col items-center gap-1 p-2 rounded-2xl",

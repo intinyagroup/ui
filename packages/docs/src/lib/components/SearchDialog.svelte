@@ -111,7 +111,7 @@
 
       {#if results.length > 0}
         <div class="max-h-80 overflow-y-auto p-2">
-          {#each results as result}
+          {#each results as result (result.url)}
             <button
               onclick={() => onSelect(result.url)}
               class="flex w-full flex-col gap-1 rounded-lg px-3 py-2 text-left hover:bg-[var(--ui-muted)]"

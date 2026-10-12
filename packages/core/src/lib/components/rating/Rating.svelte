@@ -101,7 +101,7 @@
   )}
   onkeydown={handleKeydown}
 >
-  {#each Array.from({ length: max }, (_, i) => i + 1) as star}
+  {#each Array.from({ length: max }, (_, i) => i + 1) as star (star)}
     {@const displayValue = hoverValue > 0 ? hoverValue : value}
     {@const fillLevel = Math.max(0, Math.min(1, displayValue - (star - 1)))}
 

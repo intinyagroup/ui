@@ -93,7 +93,7 @@
 
     <!-- Tabs -->
     <div class="flex border-b border-[var(--ui-border)]">
-      {#each [{ id: "users", label: "Users", icon: Users, count: state.users.length }, { id: "comments", label: "Comments", icon: MessageSquare, count: state.comments.length }, { id: "versions", label: "History", icon: Clock, count: state.versions.length }] as tab}
+      {#each [{ id: "users", label: "Users", icon: Users, count: state.users.length }, { id: "comments", label: "Comments", icon: MessageSquare, count: state.comments.length }, { id: "versions", label: "History", icon: Clock, count: state.versions.length }] as tab (tab.id)}
         <button
           onclick={() => (activeTab = tab.id as typeof activeTab)}
           class={cn(
@@ -204,7 +204,7 @@
                 <div
                   class="ml-6 space-y-2 border-l-2 border-[var(--ui-border)] pl-3"
                 >
-                  {#each comment.replies as reply}
+                  {#each comment.replies as reply (reply.id)}
                     <div>
                       <div class="flex items-center gap-2 mb-1">
                         <span class="text-xs font-medium"

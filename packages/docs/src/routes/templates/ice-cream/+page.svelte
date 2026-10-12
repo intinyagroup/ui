@@ -275,7 +275,7 @@
           >
             <span class="text-3xl font-black text-[#2B231D]">4.9</span>
             <div class="flex text-[#F5A623]">
-              {#each Array(5) as _}
+              {#each Array(5) as _, i (i)}
                 <Star class="size-3.5 fill-[#F5A623]" />
               {/each}
             </div>
@@ -313,7 +313,7 @@
 
         <!-- Flavors Horizontal Scroll / Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-          {#each flavors as item}
+          {#each flavors as item (item.id)}
             <div
               class="group flex flex-col items-center text-center p-6 rounded-[2.5rem] transition-all duration-300 hover:shadow-xl hover:-translate-y-2 cursor-pointer"
               style="background-color: {item.color};"
@@ -477,7 +477,7 @@
     <section class="py-14 bg-[#F8F5EE] border-y border-[#EDE6D8]">
       <div class="max-w-7xl mx-auto px-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {#each valueProps as prop}
+          {#each valueProps as prop (prop.title)}
             <div class="flex flex-col items-center text-center space-y-3">
               <div
                 class="size-14 rounded-full bg-white shadow-sm flex items-center justify-center text-[#148A7E]"
@@ -551,12 +551,12 @@
 
         <!-- Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-          {#each testimonials as review}
+          {#each testimonials as review (review.name)}
             <Card
               class="rounded-3xl bg-[#FDFBF7] border-none p-8 space-y-4 shadow-sm hover:shadow-md transition-shadow"
             >
               <div class="flex text-[#F5A623]">
-                {#each Array(review.rating) as _}
+                {#each Array(review.rating) as _, i (i)}
                   <Star class="size-4 fill-[#F5A623]" />
                 {/each}
               </div>
@@ -592,7 +592,7 @@
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {#each gallery as imgUrl}
+        {#each gallery as imgUrl (imgUrl)}
           <div
             class="group rounded-3xl overflow-hidden shadow-sm h-64 relative cursor-pointer"
           >

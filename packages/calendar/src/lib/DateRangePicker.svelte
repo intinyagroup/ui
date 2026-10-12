@@ -293,7 +293,7 @@
         class="grid grid-cols-7 mb-1 text-center"
         style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; margin-bottom: 0.25rem;"
       >
-        {#each dayNames as day}
+        {#each dayNames as day (day)}
           <span
             class="text-[11px] font-semibold text-[var(--ui-muted-foreground)] py-1 capitalize"
             style="text-align: center; font-size: 0.6875rem; padding: 0.25rem 0;"
@@ -308,7 +308,7 @@
         class="grid grid-cols-7 gap-y-1"
         style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 0.25rem;"
       >
-        {#each calendarDays as { date, calendarDate, currentMonth }}
+        {#each calendarDays as { date, calendarDate, currentMonth } (date.toISOString())}
           {@const isStart = startDateObj
             ? isSameDay(startDateObj, date)
             : false}
@@ -373,7 +373,7 @@
       <div
         class="flex flex-wrap items-center gap-1.5 border-t border-[var(--ui-border)] mt-3 pt-2.5"
       >
-        {#each activePresets as preset}
+        {#each activePresets as preset (preset.label)}
           <button
             type="button"
             onclick={() => {

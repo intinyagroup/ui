@@ -344,7 +344,7 @@
       </svg>
 
       <!-- Clock numbers -->
-      {#each mode === "hours" ? hourNumbers : minuteNumbers as num, i}
+      {#each mode === "hours" ? hourNumbers : minuteNumbers as num, i (num)}
         {@const total =
           mode === "hours" ? hourNumbers.length : minuteNumbers.length}
         {@const angle = getAngle(i, total)}
