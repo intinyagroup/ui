@@ -16,7 +16,7 @@
     "test": "turbo run test",
     "test:ui": "turbo run test --filter=@intinyagroup/ui",
     "check": "turbo run check --continue",
-    "lint": "pnpm -r --if-present run lint",
+    "lint": "prettier --check . && node scripts/ui-quality-gate.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "version": "changeset version",
