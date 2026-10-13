@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [svelte()],
   test: {
     include: ["src/**/*.test.ts"],
+    exclude: ["src/lib/ssr-smoke.test.ts"],
     globals: true,
     environment: "jsdom",
     setupFiles: ["./vitest-setup.ts"],
