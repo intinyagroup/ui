@@ -107,9 +107,9 @@ export function createContentBlock(
 // Backward-compatible constructor
 export function createChapter(
   title: string,
-  type: any = "chapter",
+  type: ContentBlockType = "chapter",
 ): ContentBlock {
-  return createContentBlock(title, type as ContentBlockType, null);
+  return createContentBlock(title, type, null);
 }
 
 export function createDefaultSettings(): BookSettings {

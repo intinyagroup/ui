@@ -100,7 +100,7 @@ export function getCaptionStyles(
       break;
     }
   }
-  let anim = "";
+  let anim: string;
   switch (style.animation) {
     case "pop-in":
       anim = `transform: scale(${Math.min(1, progress * 2)}); opacity: ${Math.min(1, progress * 3)};`;

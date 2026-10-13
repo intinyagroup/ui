@@ -1,4 +1,4 @@
-import { render, expect } from "@testing-library/svelte";
+import { render } from "@testing-library/svelte";
 import { describe, it, vi } from "vitest";
 import Gyroscope from "./Gyroscope.svelte";
 

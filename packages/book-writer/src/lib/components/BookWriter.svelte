@@ -11,6 +11,7 @@
     getEstimatedPages,
     type Chapter,
     type ContentBlock,
+    type ContentBlockType,
     type BookMetadata,
     type BookLayout,
     type BookSettings,
@@ -51,7 +52,7 @@
   }
 
   function handleAddChapter(
-    type: any = "page",
+    type: ContentBlockType = "page",
     parentId: string | null = null,
   ) {
     const defaultTitle = parentId

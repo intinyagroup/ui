@@ -22,7 +22,7 @@ export type CrossRef = {
 export function resolveCrossRef(
   ref: string,
   chapters: Chapter[],
-  pageNumbers?: Map<string, number>,
+  _pageNumbers?: Map<string, number>,
 ): string {
   const match = ref.match(/\{ref:(\w+):(.+?)\}/);
   if (!match) return ref;

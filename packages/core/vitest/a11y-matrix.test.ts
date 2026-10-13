@@ -1,24 +1,24 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, it, expect } from "vitest";
+import type { Snippet } from "svelte";
 import { setupBrowserFixtures } from "../src/test-utils";
 // Import every testable core component
 import { Button } from "../components/button";
 import { Badge } from "../components/badge";
-import { Card, CardHeader, CardContent, CardFooter } from "../components/card";
-import { Alert, AlertTitle, AlertDescription } from "../components/alert";
+import { Card } from "../components/card";
+import { Alert } from "../components/alert";
 import { Input } from "../components/input";
-import { Avatar, AvatarFallback } from "../components/avatar";
 import { Flex } from "../components/flex";
 import { Grid } from "../components/grid";
 import { Stack } from "../components/stack";
 import { SidebarNav } from "../components/sidebar";
 
-function snippet() {
-  return { render: () => "child" } as any;
+function snippet(): Snippet {
+  return { render: () => "child" } as unknown as Snippet;
 }
 
-function textSnippet(text: string) {
-  return { render: () => text } as any;
+function textSnippet(text: string): Snippet {
+  return { render: () => text } as unknown as Snippet;
 }
 setupBrowserFixtures();
 
@@ -47,7 +47,7 @@ describe("Accessibility regression matrix — @intinyagroup/ui", () => {
       render(Card, {
         children: {
           render: () => `<div><header>Header</header></div>`,
-        } as any,
+        } as unknown as Snippet,
       });
       expect(screen.getByRole("header")).toBeInTheDocument();
     });
@@ -56,7 +56,7 @@ describe("Accessibility regression matrix — @intinyagroup/ui", () => {
       render(Card, {
         children: {
           render: () => `<div><footer>Footer</footer></div>`,
-        } as any,
+        } as unknown as Snippet,
       });
       expect(screen.getByRole("contentinfo")).toBeInTheDocument();
     });
@@ -74,7 +74,7 @@ describe("Accessibility regression matrix — @intinyagroup/ui", () => {
           render: () => `
             <div role="alert"><h2>Title</h2><p>Content</p></div>
           `,
-        } as any,
+        } as unknown as Snippet,
       });
       expect(screen.getByText("Title")).toBeInTheDocument();
     });

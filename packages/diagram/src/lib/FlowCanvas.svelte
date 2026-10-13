@@ -1,5 +1,12 @@
 <script lang="ts">
-  import { SvelteFlow, Background, Controls, MiniMap } from "@xyflow/svelte";
+  import {
+    SvelteFlow,
+    Background,
+    Controls,
+    MiniMap,
+    type Node,
+    type Edge,
+  } from "@xyflow/svelte";
   import type { Snippet } from "svelte";
   import type {
     GraphEdge,
@@ -48,8 +55,8 @@
   data-slot="flow-canvas"
 >
   <SvelteFlow
-    nodes={flowNodes as any}
-    edges={edges as any}
+    nodes={flowNodes as Node[]}
+    edges={edges as Edge[]}
     {nodeTypes}
     {fitView}
     {viewport}

@@ -1,7 +1,8 @@
-import type { Table } from "@tanstack/table-core";
+import type { RowData, Table } from "@tanstack/table-core";
+import { coreFeatures } from "./table-core.js";
 
-export type KeyboardNavigationOptions = {
-  table: Table<any>;
+export type KeyboardNavigationOptions<TData extends RowData = RowData> = {
+  table: Table<typeof coreFeatures, TData>;
   onCellSelect?: (rowId: string, columnId: string) => void;
   onCellEdit?: (rowId: string, columnId: string) => void;
   onRowSelect?: (rowId: string) => void;
@@ -14,7 +15,9 @@ export type FocusedCell = {
   columnId: string;
 };
 
-export function createKeyboardNavigation(options: KeyboardNavigationOptions) {
+export function createKeyboardNavigation<TData extends RowData>(
+  options: KeyboardNavigationOptions<TData>,
+) {
   const {
     table,
     onCellSelect,
@@ -36,10 +39,6 @@ export function createKeyboardNavigation(options: KeyboardNavigationOptions) {
 
   function findRowById(rowId: string) {
     return getVisibleRows().find((r) => r.id === rowId);
-  }
-
-  function findColumnById(columnId: string) {
-    return getVisibleColumns().find((c) => c.id === columnId);
   }
 
   function moveFocus(rowDelta: number, columnDelta: number) {
@@ -75,7 +74,7 @@ export function createKeyboardNavigation(options: KeyboardNavigationOptions) {
     // Ignore if typing in an input
     if ((e.target as HTMLElement)?.tagName === "INPUT") return;
 
-    const { key, ctrlKey, metaKey, shiftKey } = e;
+    const { key, ctrlKey, metaKey } = e;
     const isCtrl = ctrlKey || metaKey;
 
     switch (key) {

@@ -3,7 +3,7 @@
 // ============================================
 
 import { writable, derived, get } from "svelte/store";
-import type { BookSettings, Chapter } from "@intinyagroup/book-writer";
+import type { BookSettings } from "@intinyagroup/book-writer";
 
 export type VersionEntry = {
   id: string;
@@ -34,10 +34,9 @@ export type VersionHistoryState = {
 };
 
 const STORAGE_KEY = "book-writer-versions";
-const AUTO_SAVE_KEY = "book-writer-autosave";
 
 function createVersionHistoryStore() {
-  const { subscribe, update, set } = writable<VersionHistoryState>({
+  const { subscribe, update } = writable<VersionHistoryState>({
     versions: [],
     currentVersionId: null,
     compareVersionId: null,

@@ -2,8 +2,6 @@
 // Three.js scene model — serializable 3D scene
 // ============================================
 
-import * as THREE from "three";
-
 export type ThreeSceneConfig = {
   camera: {
     type: "perspective" | "orthographic";

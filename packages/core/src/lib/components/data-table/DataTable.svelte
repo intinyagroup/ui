@@ -1,19 +1,19 @@
 <script lang="ts" module>
   import type { Snippet } from "svelte";
 
-  export type ColumnDef = {
+  export type ColumnDef<TRow = Record<string, unknown>> = {
     id: string;
     header: string | Snippet<[]>;
     accessorKey?: string;
-    accessorFn?: (row: any) => any;
-    cell?: Snippet<[row: any]>;
+    accessorFn?: (row: TRow) => unknown;
+    cell?: Snippet<[row: TRow]>;
     sortable?: boolean;
     class?: string;
   };
 
-  export type DataTableProps = {
-    data: any[];
-    columns: ColumnDef[];
+  export type DataTableProps<TRow = Record<string, unknown>> = {
+    data: TRow[];
+    columns: ColumnDef<TRow>[];
     class?: string;
     /** Number of rows per page. @default 10 */
     pageSize?: number;
@@ -22,7 +22,7 @@
   };
 </script>
 
-<script lang="ts">
+<script lang="ts" generics="TRow">
   import { cn } from "$lib/utils.js";
 
   let {
@@ -31,7 +31,7 @@
     class: className = "",
     pageSize = 10,
     selectable = false,
-  }: DataTableProps = $props();
+  }: DataTableProps<TRow> = $props();
 
   // ---- Sorting State ----
   let sorting = $state<Array<{ id: string; desc: boolean }>>([]);
@@ -52,15 +52,15 @@
       if (!col) continue;
 
       sorted.sort((a, b) => {
-        let valA: any;
-        let valB: any;
+        let valA: unknown;
+        let valB: unknown;
 
         if (col.accessorFn) {
           valA = col.accessorFn(a);
           valB = col.accessorFn(b);
         } else if (col.accessorKey) {
-          valA = a[col.accessorKey];
-          valB = b[col.accessorKey];
+          valA = (a as Record<string, unknown>)[col.accessorKey];
+          valB = (b as Record<string, unknown>)[col.accessorKey];
         } else {
           return 0;
         }
@@ -69,7 +69,8 @@
         if (valA === null || valA === undefined) return 1;
         if (valB === null || valB === undefined) return -1;
 
-        const comparison = valA < valB ? -1 : 1;
+        const comparison =
+          (valA as string | number) < (valB as string | number) ? -1 : 1;
         return sort.desc ? -comparison : comparison;
       });
     }
@@ -110,17 +111,19 @@
   );
 
   // ---- Helpers ----
-  function getRowKey(row: any, index: number): string {
-    return row.id ?? row._id ?? String(index);
+  function getRowKey(row: TRow, index: number): string {
+    const r = row as Record<string, unknown>;
+    return (r.id ?? r._id ?? String(index)) as string;
   }
 
-  function getCellValue(row: any, col: ColumnDef): any {
+  function getCellValue(row: TRow, col: ColumnDef<TRow>): unknown {
     if (col.accessorFn) return col.accessorFn(row);
-    if (col.accessorKey) return row[col.accessorKey];
+    if (col.accessorKey)
+      return (row as Record<string, unknown>)[col.accessorKey];
     return undefined;
   }
 
-  function toggleSort(col: ColumnDef) {
+  function toggleSort(col: ColumnDef<TRow>) {
     if (!col.sortable) return;
 
     const existing = sorting.find((s) => s.id === col.id);
@@ -140,13 +143,13 @@
     pageIndex = 0;
   }
 
-  function getSortDirection(col: ColumnDef): "asc" | "desc" | undefined {
+  function getSortDirection(col: ColumnDef<TRow>): "asc" | "desc" | undefined {
     const sort = sorting.find((s) => s.id === col.id);
     if (!sort) return undefined;
     return sort.desc ? "desc" : "asc";
   }
 
-  function toggleRowSelection(row: any, absoluteIndex: number) {
+  function toggleRowSelection(row: TRow, absoluteIndex: number) {
     const key = getRowKey(row, absoluteIndex);
     rowSelection = {
       ...rowSelection,

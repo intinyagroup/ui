@@ -77,12 +77,10 @@ export async function getDeviceInfo(): Promise<DeviceInfo> {
  */
 export async function getPlatform(): Promise<"ios" | "android" | "web"> {
   const info = await getDeviceInfo();
-  const g = globalThis as { navigator?: Navigator };
-  const nav = g.navigator;
   if (info.platform === "ios") return "ios";
   if (info.platform === "android") return "android";
   if (info.platform === "web") {
-    const nav = (globalThis as any).navigator as Navigator | undefined;
+    const nav = (globalThis as { navigator?: Navigator }).navigator;
     const ua = nav?.userAgent ?? "";
     if (/iPad|iPhone|iPod/.test(ua)) return "ios";
     if (/Android/.test(ua)) return "android";

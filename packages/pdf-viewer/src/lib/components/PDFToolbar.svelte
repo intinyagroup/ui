@@ -110,7 +110,7 @@
 
   const tools: {
     id: AnnotationTool;
-    icon: any;
+    icon: typeof Highlighter | null;
     label: string;
     group: string;
   }[] = [

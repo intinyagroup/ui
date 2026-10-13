@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { HTMLAttributes } from "svelte/elements";
 import type { Snippet } from "svelte";
 
 export function cn(...inputs: ClassValue[]): string {

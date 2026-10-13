@@ -15,9 +15,9 @@
     ref?: HTMLDivElement | null;
     class?: string;
     value?: string | Record<string, unknown>;
-    item?: any;
+    item?: string | Record<string, unknown>;
     children?: import("svelte").Snippet;
-    [key: string]: any;
+    [key: string]: unknown;
   } = $props();
 </script>
 

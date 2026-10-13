@@ -2,8 +2,8 @@
 // PDF export for slides
 // ============================================
 
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
-import type { Presentation, Slide, SlideElement } from "./slide-model.js";
+import { PDFDocument, StandardFonts } from "pdf-lib";
+import type { Presentation } from "./slide-model.js";
 import { aspectRatios } from "./slide-model.js";
 
 /** Export presentation as PDF */

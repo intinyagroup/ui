@@ -42,10 +42,7 @@
     return ids;
   }
 
-  let expandedIds = $state<Set<string>>(new Set());
-  $effect(() => {
-    expandedIds = initExpanded(data);
-  });
+  let expandedIds = $derived(initExpanded(data));
 
   function toggleExpand(id: string) {
     const next = new SvelteSet(expandedIds);

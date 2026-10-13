@@ -1,10 +1,21 @@
 <script lang="ts">
   import { Search, X } from "lucide-svelte";
 
+  type PagefindResultData = {
+    url: string;
+    meta?: { title?: string };
+    excerpt: string;
+  };
+  type PagefindSearchResult = { data: () => Promise<PagefindResultData> };
+  type PagefindSearchResponse = { results: PagefindSearchResult[] };
+  type PagefindApi = {
+    search: (query: string) => Promise<PagefindSearchResponse>;
+  };
+
   let { open = $bindable(false) }: { open?: boolean } = $props();
   let query = $state("");
   let results = $state<{ url: string; title: string; excerpt: string }[]>([]);
-  let pagefind: any = $state(null);
+  let pagefind = $state<PagefindApi | null>(null);
   let loading = $state(false);
 
   async function loadPagefind() {
@@ -25,7 +36,7 @@
     loading = true;
     const res = await pagefind.search(query);
     results = await Promise.all(
-      res.results.slice(0, 10).map(async (r: any) => {
+      res.results.slice(0, 10).map(async (r) => {
         const data = await r.data();
         return {
           url: data.url,

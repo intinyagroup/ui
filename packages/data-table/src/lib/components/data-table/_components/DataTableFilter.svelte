@@ -1,5 +1,7 @@
-<script lang="ts">
+<script lang="ts" generics="TData extends RowData">
   import { untrack } from "svelte";
+  import type { Column, RowData } from "@tanstack/table-core";
+  import { coreFeatures } from "@intinyagroup/grid-core";
   import {
     Popover as PopoverRoot,
     PopoverTrigger,
@@ -28,7 +30,7 @@
     column,
     onFilterChange,
   }: {
-    column: Column<any, unknown>;
+    column: Column<typeof coreFeatures, TData, unknown>;
     onFilterChange: (filterValue: unknown) => void;
   } = $props();
 

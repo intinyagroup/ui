@@ -26,7 +26,7 @@
     placeholder?: string;
     disabled?: boolean;
     class?: string;
-    onSelect?: (date: CalendarDate) => void;
+    onSelect?: (date: CalendarDate | null) => void;
   } = $props();
 
   let open = $state(false);
@@ -49,7 +49,7 @@
 
   function clear() {
     value = null;
-    onSelect?.(null as any);
+    onSelect?.(null);
   }
 </script>
 

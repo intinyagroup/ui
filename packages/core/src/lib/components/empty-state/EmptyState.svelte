@@ -10,7 +10,7 @@
     action,
     class: className,
   }: {
-    icon?: any;
+    icon?: typeof Inbox;
     title?: string;
     description?: string;
     action?: Snippet;

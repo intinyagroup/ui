@@ -25,7 +25,7 @@
     children?: Snippet;
     class?: string;
     shortcutKey?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   } = $props();
 
   // ⌘K / Ctrl+K keyboard shortcut

@@ -34,7 +34,7 @@ program
   .command("init")
   .description("Initialize Intinya UI in your project")
   .option("-f, --framework <framework>", "framework: svelte (default) or react")
-  .action(async (opts: { framework?: "svelte" | "react" }) => {
+  .action(async (_opts: { framework?: "svelte" | "react" }) => {
     try {
       const result = initProject(process.cwd());
       console.log(`Detected project type: ${result.projectType}`);

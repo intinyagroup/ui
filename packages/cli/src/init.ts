@@ -116,7 +116,7 @@ export function initProject(cwd: string): InitResult {
   // 1. components.json
   const componentsPath = join(root, "components.json");
   const existing = existsSync(componentsPath);
-  let componentsJson: "created" | "updated" | "error" = "created";
+  let componentsJson: "created" | "updated" | "error";
   let cssConfigured: string | undefined;
   try {
     let cfg: typeof DEFAULT_COMPONENTS_JSON;

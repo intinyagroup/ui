@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="TData">
   import type {
     Header,
     HeaderGroup,
@@ -24,7 +24,7 @@
     floatingFilter = false,
     density = "spacious",
   }: {
-    headerGroups: HeaderGroup<any>[];
+    headerGroups: HeaderGroup<TData>[];
     selectable: boolean;
     selectAllChecked: boolean;
     onToggleSelectAll: () => void;
@@ -43,10 +43,13 @@
   let dragColumnId = $state<string | null>(null);
   let dropTargetId = $state<string | null>(null);
 
-  function columnAlign(columnDefOrMeta: any) {
+  function columnAlign(
+    columnDefOrMeta:
+      DataTableMeta<TData> | { meta?: DataTableMeta<TData> } | undefined,
+  ): DataTableMeta<TData>["align"] {
     if (!columnDefOrMeta) return undefined;
     if ("align" in columnDefOrMeta) return columnDefOrMeta.align;
-    const meta = columnDefOrMeta.meta;
+    const meta = "meta" in columnDefOrMeta ? columnDefOrMeta.meta : undefined;
     return meta && typeof meta === "object" ? meta.align : undefined;
   }
 
@@ -107,7 +110,8 @@
         {@const isPinnedRight = column.getIsPinned() === "end"}
         {@const canSort = column.getCanSort()}
         {@const currentSort = column.getIsSorted()}
-        {@const meta = column.columnDef.meta as DataTableMeta<any> | undefined}
+        {@const meta = column.columnDef.meta as
+          DataTableMeta<TData> | undefined}
 
         <th
           class="px-4 py-3 transition-all relative select-none

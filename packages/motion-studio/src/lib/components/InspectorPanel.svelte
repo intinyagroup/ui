@@ -2,7 +2,7 @@
   import { Trash2, Copy } from "lucide-svelte";
   import { Button, Input } from "@intinyagroup/ui";
   import { cn } from "@intinyagroup/grid-core/utils";
-  import type { Sequence, Effect } from "@intinyagroup/motion";
+  import type { Sequence, Effect, Composition } from "@intinyagroup/motion";
   // effectPresets available via @intinyagroup/motion-effects if needed
 
   let {
@@ -13,20 +13,20 @@
     onDuplicateSequence,
   }: {
     sequence: Sequence;
-    composition: any;
+    composition: Composition;
     onUpdateSequence: (seq: Sequence) => void;
     onDeleteSequence: (id: string) => void;
     onDuplicateSequence: () => void;
   } = $props();
 
-  function updateProp(key: string, value: any) {
+  function updateProp(key: string, value: string | number) {
     onUpdateSequence({
       ...sequence,
       props: { ...sequence.props, [key]: value },
     });
   }
 
-  function updateStyle(key: string, value: any) {
+  function updateStyle(key: string, value: number) {
     onUpdateSequence({
       ...sequence,
       style: { ...sequence.style, [key]: value },

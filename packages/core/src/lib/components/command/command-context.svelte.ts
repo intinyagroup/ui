@@ -3,7 +3,6 @@
  * Provides shared context for search, filtering, selection, and keyboard navigation.
  */
 import { getContext, setContext } from "svelte";
-import type { Writable } from "svelte/store";
 
 const SCORE_CONTINUE_MATCH = 1;
 const SCORE_SPACE_WORD_JUMP = 0.9;

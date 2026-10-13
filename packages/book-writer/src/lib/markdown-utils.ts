@@ -2,7 +2,7 @@
 // Markdown utilities — export & import
 // ============================================
 
-import type { Chapter, BookMetadata, BookSettings } from "./book-model.js";
+import type { Chapter, BookMetadata } from "./book-model.js";
 
 /** Convert HTML to Markdown */
 export function htmlToMarkdown(html: string): string {

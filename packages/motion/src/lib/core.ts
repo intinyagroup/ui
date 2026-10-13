@@ -13,7 +13,7 @@ export type Composition = {
   durationMs: number;
   background: string;
   sequences: Sequence[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 };
 
 // ----- Sequence -----
@@ -23,6 +23,7 @@ export type Sequence = {
   from: number; // frame offset
   durationInFrames: number;
   type: "video" | "audio" | "image" | "text" | "shape" | "component";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- public model type; sequence props are loose key/values consumed in arithmetic/string contexts downstream (motion-player, motion-effects)
   props: Record<string, any>;
   style: SequenceStyle;
   effects: Effect[];
@@ -120,7 +121,7 @@ export type TransitionType =
 export type Transition = {
   type: TransitionType;
   durationInFrames: number;
-  params?: Record<string, any>;
+  params?: Record<string, unknown>;
 };
 
 // ----- Keyframes -----

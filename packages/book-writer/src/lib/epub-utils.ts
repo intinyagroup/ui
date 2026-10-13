@@ -4,7 +4,6 @@
 
 import Epub from "epubjs";
 import type { Chapter, BookMetadata, BookLayout } from "./book-model.js";
-import { htmlToMarkdown, markdownToHtml } from "./markdown-utils.js";
 import { extractImageUrls } from "./image-utils.js";
 
 /** Generate EPUB from book data with embedded images */

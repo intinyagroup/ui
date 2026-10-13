@@ -11,7 +11,7 @@
     ref?: HTMLElement | null;
     class?: string;
     forceMount?: boolean;
-    [key: string]: any;
+    [key: string]: unknown;
   } = $props();
 </script>
 

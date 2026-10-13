@@ -28,7 +28,7 @@
     showSidebar: boolean;
   } = $props();
 
-  const typeIcons: Record<string, any> = {
+  const typeIcons: Record<string, typeof Highlighter | null> = {
     highlight: Highlighter,
     underline: Highlighter,
     strikethrough: Highlighter,

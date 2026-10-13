@@ -62,24 +62,32 @@ export default tseslint.config(
       "svelte/require-each-key": "error",
       // All Map/Set/Date sites now use Svelte* reactive wrappers; enforce.
       "svelte/prefer-svelte-reactivity": "error",
-      "svelte/prefer-writable-derived": "warn",
+      "svelte/prefer-writable-derived": "error",
+      // $bindable() prop defaults are flagged as "useless assignment" but are
+      // the declared default in the component contract; tsc/svelte-check own
+      // real dead code in .svelte files.
+      "no-useless-assignment": "off",
       // Dead svelte-ignore comments were purged; new ones must earn their keep.
       "svelte/no-unused-svelte-ignore": "error",
     },
   },
   {
-    // Legacy-era patterns kept visible but non-blocking for now.
     files: ["**/*.ts", "**/*.svelte", "**/*.svelte.ts"],
     rules: {
-      "@typescript-eslint/no-explicit-any": "warn",
-      "no-useless-assignment": "warn",
+      "@typescript-eslint/no-explicit-any": "error",
+    },
+  },
+  {
+    files: ["**/*.ts"],
+    rules: {
+      "no-useless-assignment": "error",
     },
   },
   {
     files: ["**/*.ts", "**/*.svelte.ts"],
     rules: {
       "@typescript-eslint/no-unused-vars": [
-        "warn",
+        "error",
         {
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",

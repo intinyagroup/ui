@@ -44,7 +44,7 @@ describe("ProgressSteps", () => {
 
   it("jumps to a completed step on click", async () => {
     // completed=3 → steps 0,1,2 render as buttons; step 3 (Done) is current
-    const { rerender } = render(ProgressSteps, {
+    render(ProgressSteps, {
       steps: [
         { label: "Account" },
         { label: "Payment" },

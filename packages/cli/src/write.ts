@@ -45,30 +45,15 @@ const IMPORT_RE = /(import\s+(?:[\w$*{},\s]+?\s+from\s+)?)(['"])([^'"]+)\2/g;
  */
 export function rewriteComponentSource(
   source: string,
-  opts: WriteOptions,
+  _opts: WriteOptions,
 ): string {
   const s = new MagicString(source);
   const seenBare = new Set<string>();
   let match: RegExpExecArray | null;
   while ((match = IMPORT_RE.exec(source)) !== null) {
-    const prefix = match[1];
-    const quote = match[2];
     const spec = match[3];
     const start = match.index;
     const end = IMPORT_RE.lastIndex;
-    if (spec.startsWith("$lib/")) {
-      const rel = spec.slice("$lib/".length);
-      const isUtils = rel === "utils.js" || rel === "utils.ts";
-      const isI18n = rel === "i18n/index.js" || rel === "i18n/index.ts";
-      const newSpec = isUtils
-        ? opts.aliases.utils.endsWith(".js") ||
-          opts.aliases.utils.endsWith(".ts")
-          ? opts.aliases.utils
-          : `${opts.aliases.utils}.js`
-        : isI18n
-          ? `${opts.aliases.lib}/${rel.replace(/\.ts$/, ".js")}`
-          : `${opts.aliases.components}/${rel.replace(/^components\//, "").replace(/\.ts$/, ".js")}`;
-    }
 
     if (!spec.startsWith(".")) {
       if (seenBare.has(spec)) {

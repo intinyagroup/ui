@@ -11,11 +11,7 @@
     onValueChange: (value: string) => void;
   } = $props();
 
-  let inputValue = $state(value);
-
-  $effect(() => {
-    inputValue = value;
-  });
+  let inputValue = $derived(value);
 
   function handleKeydown(e: KeyboardEvent) {
     if (e.key === "Enter") {

@@ -56,7 +56,7 @@ async function startRecording(
 
 export async function startScreenRecording(options: RecordingOptions = {}) {
   const stream = await navigator.mediaDevices.getDisplayMedia({
-    video: { displaySurface: "monitor" } as any,
+    video: { displaySurface: "monitor" },
     audio: options.audio,
   });
   return startRecording(stream, options);

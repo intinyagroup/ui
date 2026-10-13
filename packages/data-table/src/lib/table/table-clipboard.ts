@@ -1,11 +1,14 @@
-import type { Table } from "@tanstack/table-core";
+import type { RowData, Table } from "@tanstack/table-core";
+import { coreFeatures } from "@intinyagroup/grid-core";
 
-export type ClipboardOptions = {
-  table: Table<any>;
+export type ClipboardOptions<TData extends RowData = RowData> = {
+  table: Table<typeof coreFeatures, TData>;
   onPaste?: (data: string[][]) => void;
 };
 
-export function createClipboard(options: ClipboardOptions) {
+export function createClipboard<TData extends RowData>(
+  options: ClipboardOptions<TData>,
+) {
   const { table, onPaste } = options;
 
   function getSelectedCellData(): string[][] {

@@ -40,7 +40,7 @@
     onAnnotationChange?: (annotations: Annotation[]) => void;
     onFormFieldChange?: (fieldId: string, value: string | boolean) => void;
     onPageManipulation?: (operations: PageOperation[]) => void;
-    onExport?: (format: string, options: any) => void;
+    onExport?: (format: string, options: Record<string, unknown>) => void;
   } = $props();
 
   // Core state
@@ -178,7 +178,7 @@
       const annotation: Annotation = {
         id: `ann-${Date.now()}`,
         pageNumber: currentPage,
-        type: tool as any,
+        type: tool as Annotation["type"],
         color: selectedAnnotationColor,
         opacity: tool === "highlight" ? 0.4 : 1,
         strokeWidth: 2,
@@ -282,7 +282,12 @@
     showSidebar = !showSidebar;
   }
 
-  function handleWatermarkAdd(wm: any) {
+  function handleWatermarkAdd(wm: {
+    color: string;
+    opacity: number;
+    text: string;
+    fontSize?: number;
+  }) {
     // Add watermark to all pages
     const newAnnotations: Annotation[] = Array.from(
       { length: totalPages },

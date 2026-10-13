@@ -22,10 +22,7 @@
   const tag = $derived(as as keyof HTMLElementTagNameMap);
 
   let editing = $state(false);
-  let draft = $state("");
-  $effect(() => {
-    draft = value;
-  });
+  let draft = $derived(value);
   let inputEl = $state<HTMLInputElement | null>(null);
 
   const headingSizes: Record<string, string> = {

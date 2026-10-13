@@ -58,7 +58,7 @@
   const formats: {
     value: ExportFormat;
     label: string;
-    icon: any;
+    icon: typeof FileText;
     description: string;
   }[] = [
     {

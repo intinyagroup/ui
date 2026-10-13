@@ -2,8 +2,8 @@
 // Collaboration store — WebSocket, presence, changes
 // ============================================
 
-import { writable, derived, get } from "svelte/store";
-import type { BookSettings, Chapter } from "@intinyagroup/book-writer";
+import { writable, derived } from "svelte/store";
+import type { BookSettings } from "@intinyagroup/book-writer";
 
 // Types
 export type User = {
@@ -68,6 +68,23 @@ export type CollaborationState = {
   versions: VersionSnapshot[];
   pendingChanges: Change[];
 };
+
+// Messages received over the WebSocket (already JSON-parsed by the runtime).
+type IncomingMessage =
+  | { type: "user-joined"; userId: string; userName: string; userColor: string }
+  | { type: "user-left"; userId: string }
+  | {
+      type: "cursor-update";
+      userId: string;
+      chapterId: string;
+      offset: number;
+      length: number;
+    }
+  | { type: "change"; change: Change }
+  | { type: "comment"; comment: Comment }
+  | { type: "comment-reply"; commentId: string; reply: CommentReply }
+  | { type: "version-snapshot"; snapshot: VersionSnapshot }
+  | { type: "presence"; userId: string };
 
 // User colors for avatars
 const userColors = [
@@ -158,13 +175,13 @@ function createCollaborationStore() {
     set(defaultState);
   }
 
-  function sendMessage(message: any) {
+  function sendMessage(message: Record<string, unknown>) {
     if (ws?.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify(message));
     }
   }
 
-  function handleMessage(message: any) {
+  function handleMessage(message: IncomingMessage) {
     switch (message.type) {
       case "user-joined":
         update((s) => ({

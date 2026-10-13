@@ -2,13 +2,7 @@
 // Sheet store — multi-sheet state management
 // ============================================
 
-import { writable, derived, get } from "svelte/store";
-import {
-  createCellMap,
-  type CellMap,
-  type CellValue,
-  type CellStyle,
-} from "./cell-model.js";
+import { createCellMap, type CellMap } from "./cell-model.js";
 import {
   createSelectionState,
   type SelectionState,
@@ -47,7 +41,7 @@ export function createSheet(name?: string): Sheet {
 }
 
 export function createWorkbookState(sheetCount = 1): WorkbookState {
-  const sheets = Array.from({ length: sheetCount }, (_, i) => createSheet());
+  const sheets = Array.from({ length: sheetCount }, () => createSheet());
   return {
     sheets,
     activeSheetId: sheets[0].id,

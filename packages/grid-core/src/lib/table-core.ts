@@ -62,7 +62,7 @@ export type ServerSideConfig = {
   manualExpanding?: boolean;
 };
 
-export type DataTableMeta<TData> = {
+export type DataTableMeta<_TData> = {
   editable?: boolean;
   align?: "left" | "right" | "center";
   filterType?: "text" | "number" | "select" | "date";

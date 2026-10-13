@@ -1,5 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
+import type { RowData, Table } from "@tanstack/table-core";
 import { createClipboard } from "./table-clipboard.js";
+import { coreFeatures } from "./table-core.js";
 
 describe("table-clipboard", () => {
   const mockTable = {
@@ -23,7 +25,7 @@ describe("table-clipboard", () => {
     getFilteredRowModel: () => ({
       rows: [{ id: "0", getValue: (colId: string) => `val-${colId}` }],
     }),
-  } as any;
+  } as unknown as Table<typeof coreFeatures, RowData>;
 
   it("gets selected cell data matrix properly", () => {
     const clip = createClipboard({ table: mockTable });

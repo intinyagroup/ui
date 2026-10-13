@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import SegmentedControl from "./SegmentedControl.svelte";
 
 const options = [
@@ -55,7 +55,7 @@ describe("SegmentedControl", () => {
   });
 
   it("updates value when an option is clicked", async () => {
-    const { component } = render(SegmentedControl, { value: "all", options });
+    render(SegmentedControl, { value: "all", options });
     await fireEvent.click(screen.getByRole("tab", { name: "Done" }));
     expect(screen.getByRole("tab", { name: "Done" })).toHaveAttribute(
       "aria-selected",

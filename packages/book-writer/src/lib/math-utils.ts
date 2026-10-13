@@ -6,11 +6,22 @@
  * Render LaTeX math to HTML using KaTeX
  * Falls back to plain text if KaTeX is not loaded
  */
+type KatexApi = {
+  renderToString(
+    latex: string,
+    options?: {
+      displayMode?: boolean;
+      throwOnError?: boolean;
+      trust?: boolean;
+    },
+  ): string;
+};
+
 export function renderMath(latex: string, displayMode = false): string {
   if (typeof window === "undefined") return latex;
 
   // Check if KaTeX is available
-  const katex = (window as any).katex;
+  const katex = (window as Window & { katex?: KatexApi }).katex;
   if (!katex) {
     // Load KaTeX dynamically
     loadKaTeX();

@@ -15,7 +15,7 @@
     value?: string | number;
     change?: number;
     changeLabel?: string;
-    icon?: any;
+    icon?: typeof TrendingUp;
     class?: string;
   } = $props();
 

@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from "svelte";
   import {
     Chart as ChartJS,
+    type ChartComponentLike,
     type ChartData,
     type ChartOptions,
     type ChartType,
@@ -31,7 +32,7 @@
 
   function registerForType(chartType: ChartType) {
     if (registeredTypes.has(chartType)) return;
-    const components: any[] = [Tooltip, Legend];
+    const components: ChartComponentLike[] = [Tooltip, Legend];
     if (chartType === "bar")
       components.push(CategoryScale, LinearScale, BarController, BarElement);
     else if (chartType === "line")
@@ -69,8 +70,8 @@
     title,
   }: {
     type?: ChartType;
-    data: ChartData<any>;
-    options?: ChartOptions<any>;
+    data: ChartData;
+    options?: ChartOptions;
     height?: number;
     width?: number;
     class?: string;
@@ -89,7 +90,7 @@
     );
   }
 
-  const defaultOptions: ChartOptions<any> = $derived.by(() => {
+  const defaultOptions: ChartOptions = $derived.by(() => {
     const tooltipBg = readToken("--ui-card", "rgba(0,0,0,0.8)");
     const gridColor = readToken("--ui-border", "rgba(0,0,0,0.05)");
     return {
@@ -124,8 +125,8 @@
     } as const;
   });
 
-  let lastData: ChartData<any> | undefined;
-  let lastOptions: ChartOptions<any> | undefined;
+  let lastData: ChartData | undefined;
+  let lastOptions: ChartOptions | undefined;
 
   function createChart() {
     if (!canvas) return;
@@ -144,7 +145,8 @@
   function updateChart() {
     if (!chart || (data === lastData && options === lastOptions)) return;
     chart.data = data;
-    if (options) chart.options = { ...defaultOptions, ...options } as any;
+    if (options)
+      chart.options = { ...defaultOptions, ...options } as ChartOptions;
     chart.update();
     lastData = data;
     lastOptions = options;

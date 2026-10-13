@@ -1,5 +1,9 @@
 import "@intinyagroup/tokens";
 
+type PreviewStory = () => string;
+type PreviewContext = { globals: { theme?: string } };
+type PreviewDecoratorResult = { template: string };
+
 const preview = {
   parameters: {
     controls: {
@@ -18,7 +22,7 @@ const preview = {
     },
   },
   decorators: [
-    (story: any, context: any) => {
+    (story: PreviewStory, context: PreviewContext): PreviewDecoratorResult => {
       const theme = context.globals.theme || "neutral";
       return {
         template: `<div data-ui-theme="${theme}">${story()}</div>`,

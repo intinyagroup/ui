@@ -3,6 +3,7 @@ import { writable, derived } from "svelte/store";
 export interface EditorElement {
   id: string;
   type: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- exported element props bag; arbitrary shape passed in and read out as DOM attributes by property panels
   props: Record<string, any>;
   x: number;
   y: number;

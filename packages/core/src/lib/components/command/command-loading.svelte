@@ -10,7 +10,7 @@
     ref?: HTMLElement | null;
     progress?: number;
     children?: Snippet;
-    [key: string]: any;
+    [key: string]: unknown;
   } = $props();
 </script>
 

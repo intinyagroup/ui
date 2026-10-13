@@ -2,11 +2,7 @@
 // Render pipeline — canvas-based frame rendering + export
 // ============================================
 
-import type {
-  Composition,
-  Sequence,
-  VideoExportOptions,
-} from "@intinyagroup/motion";
+import type { Composition, VideoExportOptions } from "@intinyagroup/motion";
 import { getFilterString } from "@intinyagroup/motion-effects";
 
 export type ExportProgress = {

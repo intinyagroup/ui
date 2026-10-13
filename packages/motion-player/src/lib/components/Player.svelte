@@ -61,7 +61,7 @@
     onClick,
   }: {
     composition: Composition;
-    inputProps?: Record<string, any>;
+    inputProps?: Record<string, unknown>;
     loop?: boolean;
     autoPlay?: boolean;
     clickToPlay?: boolean;
@@ -154,8 +154,9 @@
     | "error"
     | "waiting"
     | "resume";
-  let eventListeners = $state<Record<string, ((detail?: any) => void)[]>>({});
-  function emit(event: PlayerEvent, detail?: any) {
+  type PlayerEventListener = (detail?: unknown) => void;
+  let eventListeners = $state<Record<string, PlayerEventListener[]>>({});
+  function emit(event: PlayerEvent, detail?: unknown) {
     (eventListeners[event] ?? []).forEach((cb) => cb(detail));
   }
 
@@ -181,8 +182,8 @@
     requestFullscreen: () => void;
     exitFullscreen: () => void;
     isFullscreen: () => boolean;
-    addEventListener: (e: PlayerEvent, cb: (d?: any) => void) => void;
-    removeEventListener: (e: PlayerEvent, cb: (d?: any) => void) => void;
+    addEventListener: (e: PlayerEvent, cb: PlayerEventListener) => void;
+    removeEventListener: (e: PlayerEvent, cb: PlayerEventListener) => void;
   };
 
   function formatTimecode(

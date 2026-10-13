@@ -1,4 +1,12 @@
-<script lang="ts" generics="TItem extends Record<string, any>">
+<script lang="ts" module>
+  // Row bag constraint for the public `items` generic. Kept loose because
+  // consumers legitimately pass interface-typed rows, which do not satisfy
+  // `Record<string, unknown>` (interfaces have no implicit index signature).
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export type NotionDatabaseItem = Record<string, any>;
+</script>
+
+<script lang="ts" generics="TItem extends NotionDatabaseItem">
   import {
     Table as TableIcon,
     Kanban as BoardIcon,
@@ -131,7 +139,7 @@
   // Board/calendar/gallery continue to use this strictly filtered/sorted list
   const filteredItems = $derived(filterAppliedItems);
 
-  const tableColumns = $derived.by<ColumnDef<TItem, any>[]>(() => {
+  const tableColumns = $derived.by<ColumnDef<TItem, unknown>[]>(() => {
     return properties.map((prop) => ({
       accessorKey: prop.key,
       header: prop.label,

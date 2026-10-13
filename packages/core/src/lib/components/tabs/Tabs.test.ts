@@ -2,9 +2,6 @@ import { render, screen, fireEvent } from "@testing-library/svelte";
 import { describe, it, expect } from "vitest";
 import { createRawSnippet } from "svelte";
 import Tabs from "./tabs.svelte";
-import TabsList from "./tabs-list.svelte";
-import TabsTrigger from "./tabs-trigger.svelte";
-import TabsContent from "./tabs-content.svelte";
 import TabsTest from "./TabsTest.svelte";
 
 function textSnippet(text: string) {

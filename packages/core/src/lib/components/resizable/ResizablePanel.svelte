@@ -1,5 +1,9 @@
 <script lang="ts" module>
   let panelIdCounter = 0;
+
+  function nextPanelId(): string {
+    return `resizable-panel-${++panelIdCounter}`;
+  }
 </script>
 
 <script lang="ts">
@@ -26,7 +30,7 @@
     children?: Snippet;
   } = $props();
 
-  const id = `resizable-panel-${++panelIdCounter}`;
+  const id = nextPanelId();
 
   const ctx = getContext<{
     direction: string;

@@ -160,8 +160,10 @@
     }
   });
 
-  function handleInput(event: Event) {
-    const input = event.currentTarget as HTMLInputElement;
+  function handleInput(
+    event: Event & { currentTarget: EventTarget & HTMLInputElement },
+  ) {
+    const input = event.currentTarget;
     const caret = input.selectionStart ?? input.value.length;
     const nextRaw = sanitizeRaw(input.value);
     const rawBeforeCaret = sanitizeRaw(input.value.slice(0, caret));
@@ -177,11 +179,13 @@
     const nextCaret = formattedCaretForRawIndex(nextCaretRawIndex);
     input.setSelectionRange(nextCaret, nextCaret);
     onrawvaluechange?.(nextRaw);
-    oninput?.(event as any);
+    oninput?.(event);
   }
 
-  function handleBlur(event: FocusEvent) {
-    onblur?.(event as any);
+  function handleBlur(
+    event: FocusEvent & { currentTarget: EventTarget & HTMLInputElement },
+  ) {
+    onblur?.(event);
   }
 </script>
 

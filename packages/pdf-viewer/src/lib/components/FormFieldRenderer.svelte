@@ -12,11 +12,7 @@
     onValueChange: (id: string, value: string | boolean) => void;
   } = $props();
 
-  let localValue = $state(field.value);
-
-  $effect(() => {
-    localValue = field.value;
-  });
+  let localValue = $derived(field.value);
 
   function handleTextChange(value: string) {
     localValue = value;

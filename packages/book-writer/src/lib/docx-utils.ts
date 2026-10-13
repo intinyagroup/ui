@@ -2,6 +2,7 @@
 // DOCX export — convert book to Word document
 // ============================================
 
+import type { IRunOptions } from "docx";
 import {
   Document,
   Packer,
@@ -13,17 +14,6 @@ import {
   Header,
   Footer,
   PageNumber,
-  NumberFormat,
-  Table as DocxTable,
-  TableRow,
-  TableCell,
-  WidthType,
-  BorderStyle,
-  ImageRun,
-  ExternalHyperlink,
-  Tab,
-  TabStopPosition,
-  TabStopType,
 } from "docx";
 import type {
   Chapter,
@@ -277,7 +267,7 @@ function extractTextRuns(el: HTMLElement): TextRun[] {
       const tag = childEl.tagName.toLowerCase();
       const text = childEl.textContent ?? "";
 
-      const options: any = { text };
+      const options: IRunOptions = { text };
 
       switch (tag) {
         case "strong":

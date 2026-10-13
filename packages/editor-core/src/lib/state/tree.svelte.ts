@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { editor, type EditorElement } from "./editor.svelte.js";
+import { editor } from "./editor.svelte.js";
 
 export interface TreeNode {
   id: string;

@@ -32,6 +32,7 @@
     labels?: KanbanLabel[];
     priority?: "low" | "medium" | "high";
     assignee?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- public card type; consumers legitimately attach arbitrary domain fields read by card snippets
     [key: string]: any;
   };
 

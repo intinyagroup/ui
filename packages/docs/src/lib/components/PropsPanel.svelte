@@ -7,8 +7,8 @@
     onchange,
   }: {
     schema?: PlaygroundProp[];
-    values: Record<string, any>;
-    onchange: (name: string, value: any) => void;
+    values: Record<string, string | number | boolean>;
+    onchange: (name: string, value: string | number | boolean) => void;
   } = $props();
 </script>
 
@@ -21,8 +21,8 @@
         </span>
         <input
           type="text"
-          value={values[prop.name]}
-          placeholder={prop.default ?? ""}
+          value={values[prop.name] as string | number}
+          placeholder={String(prop.default ?? "")}
           oninput={(e) => onchange(prop.name, e.currentTarget.value)}
           class="h-7 w-full rounded-md border border-[var(--ui-border)] bg-[var(--ui-background)] px-2 text-xs outline-none focus-visible:border-[var(--ui-ring)] focus-visible:ring-2 focus-visible:ring-[var(--ui-ring)]/40"
         />
@@ -33,7 +33,7 @@
           {prop.label ?? prop.name}
         </span>
         <select
-          value={values[prop.name]}
+          value={values[prop.name] as string | number}
           onchange={(e) => onchange(prop.name, e.currentTarget.value)}
           class="h-7 w-full rounded-md border border-[var(--ui-border)] bg-[var(--ui-background)] px-2 text-xs outline-none focus-visible:border-[var(--ui-ring)] focus-visible:ring-2 focus-visible:ring-[var(--ui-ring)]/40"
         >
@@ -54,7 +54,7 @@
               min={prop.min}
               max={prop.max}
               step={prop.step ?? 1}
-              value={values[prop.name]}
+              value={values[prop.name] as string | number}
               oninput={(e) =>
                 onchange(prop.name, Number(e.currentTarget.value))}
               class="h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-[var(--ui-muted)] accent-[var(--ui-primary)]"
@@ -64,7 +64,7 @@
               min={prop.min}
               max={prop.max}
               step={prop.step ?? 1}
-              value={values[prop.name]}
+              value={values[prop.name] as string | number}
               oninput={(e) =>
                 onchange(prop.name, Number(e.currentTarget.value))}
               class="w-14 rounded-md border border-[var(--ui-border)] bg-[var(--ui-background)] px-1.5 py-0.5 text-right text-xs outline-none focus-visible:border-[var(--ui-ring)]"
@@ -73,7 +73,7 @@
         {:else}
           <input
             type="number"
-            value={values[prop.name]}
+            value={values[prop.name] as string | number}
             oninput={(e) => onchange(prop.name, Number(e.currentTarget.value))}
             class="h-7 w-full rounded-md border border-[var(--ui-border)] bg-[var(--ui-background)] px-2 text-xs outline-none focus-visible:border-[var(--ui-ring)] focus-visible:ring-2 focus-visible:ring-[var(--ui-ring)]/40"
           />
@@ -88,7 +88,7 @@
           type="button"
           role="switch"
           aria-label={prop.label ?? prop.name}
-          aria-checked={values[prop.name]}
+          aria-checked={values[prop.name] as boolean}
           onclick={() => onchange(prop.name, !values[prop.name])}
           class="relative h-5 w-9 rounded-full transition-colors {values[
             prop.name
@@ -113,13 +113,13 @@
         <div class="flex items-center gap-2">
           <input
             type="color"
-            value={values[prop.name]}
+            value={values[prop.name] as string | number}
             oninput={(e) => onchange(prop.name, e.currentTarget.value)}
             class="size-7 cursor-pointer rounded-md border border-[var(--ui-border)] bg-transparent p-0.5"
           />
           <input
             type="text"
-            value={values[prop.name]}
+            value={values[prop.name] as string | number}
             oninput={(e) => onchange(prop.name, e.currentTarget.value)}
             class="h-7 flex-1 rounded-md border border-[var(--ui-border)] bg-[var(--ui-background)] px-2 font-mono text-xs outline-none focus-visible:border-[var(--ui-ring)]"
           />

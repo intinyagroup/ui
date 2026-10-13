@@ -1,4 +1,12 @@
-<script lang="ts" generics="TData extends Record<string, any>">
+<script lang="ts" module>
+  // Row bag constraint for the public row generic. Kept loose because consumers
+  // legitimately pass interface-typed rows, which do not satisfy
+  // `Record<string, unknown>` (interfaces have no implicit index signature).
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type TreeGridRow = Record<string, any>;
+</script>
+
+<script lang="ts" generics="TData extends TreeGridRow">
   import {
     flatToTree,
     treeToFlat,
@@ -86,13 +94,8 @@
   let expanded = $state<Set<string>>(initialExpanded);
   let loadingNodes = $state<Set<string>>(new Set<string>());
   let searchQuery = $state("");
-  let internalSelected = $state<Set<string>>(new Set(selectedIds));
+  let internalSelected = $derived(new Set(selectedIds));
   let indeterminateSet = $state<Set<string>>(new Set<string>());
-
-  // Sync external selectedIds if provided
-  $effect(() => {
-    internalSelected = new Set(selectedIds);
-  });
 
   // Convert incoming flat or hierarchical data to canonical TreeNode structure
   const rawTree = $derived.by<TreeNode<TData>[]>(() => {

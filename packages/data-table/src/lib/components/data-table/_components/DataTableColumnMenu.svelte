@@ -1,4 +1,6 @@
-<script lang="ts">
+<script lang="ts" generics="TData extends RowData">
+  import type { Column, RowData } from "@tanstack/table-core";
+  import { coreFeatures } from "@intinyagroup/grid-core";
   import {
     DropdownMenu as DropdownMenuRoot,
     DropdownMenuTrigger,
@@ -28,7 +30,6 @@
     Expand,
     Shrink,
   } from "lucide-svelte";
-  import type { Column } from "@tanstack/table-core";
 
   let {
     column,
@@ -41,7 +42,7 @@
     canExpand = false,
     onExpand,
   }: {
-    column: Column<any, unknown>;
+    column: Column<typeof coreFeatures, TData, unknown>;
     onSort: (direction: "asc" | "desc" | null) => void;
     onPin: (side: "start" | "end" | null) => void;
     onHide: () => void;

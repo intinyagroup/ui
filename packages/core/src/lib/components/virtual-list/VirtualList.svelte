@@ -1,4 +1,5 @@
-<script lang="ts">
+<script lang="ts" generics="T extends { id?: string }">
+  import type { Snippet } from "svelte";
   import { cn } from "../../utils.js";
 
   let {
@@ -9,11 +10,11 @@
     children,
     onEndReached,
   }: {
-    items?: any[];
+    items?: T[];
     itemHeight?: number;
     overscan?: number;
     class?: string;
-    children?: (args: { item: any; index: number }) => any;
+    children?: Snippet<[{ item: T; index: number }]>;
     onEndReached?: () => void;
   } = $props();
 

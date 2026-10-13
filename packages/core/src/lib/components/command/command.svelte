@@ -6,6 +6,8 @@
     computeCommandScore,
     type CommandContext,
     type CommandFilteredState,
+    type CommandGroupData,
+    type CommandItemData,
   } from "./command-context.svelte.js";
   import { SvelteMap, SvelteSet } from "svelte/reactivity";
 
@@ -40,6 +42,7 @@
     vimBindings?: boolean;
     disablePointerSelection?: boolean;
     children?: Snippet;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- restProps bag spread onto the root element; arbitrary HTML attributes pass through unchanged
     [key: string]: any;
   } = $props();
 
@@ -47,8 +50,8 @@
   let selectedIndex = $state(0);
   let key = $state(0);
 
-  const items = new SvelteMap<string, any>();
-  const groups = new SvelteMap<string, any>();
+  const items = new SvelteMap<string, CommandItemData>();
+  const groups = new SvelteMap<string, CommandGroupData>();
   const groupItems = new SvelteMap<string, Set<string>>();
   let inputNode: HTMLElement | null = $state(null);
   let viewportNode: HTMLElement | null = $state(null);

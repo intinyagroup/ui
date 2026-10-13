@@ -48,7 +48,7 @@
     );
     const currentIndex = radios.indexOf(event.target as HTMLInputElement);
 
-    let nextIndex: number | null = null;
+    let nextIndex: number | null;
 
     switch (event.key) {
       case "ArrowDown":

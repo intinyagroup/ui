@@ -1,14 +1,15 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, it, expect } from "vitest";
+import { createRawSnippet, type Snippet } from "svelte";
 
 import { Button } from "../components/button";
 import { Input } from "../components/input";
 import { Alert } from "../components/alert";
 import { Badge } from "../components/badge";
-import { Avatar, AvatarFallback } from "../components/avatar";
+import { Avatar } from "../components/avatar";
 
-function snippet(text: string) {
-  return { render: () => text } as any;
+function snippet(text: string): Snippet {
+  return createRawSnippet(() => ({ render: () => text }));
 }
 
 describe("Visual regression states — @intinyagroup/ui", () => {
@@ -90,9 +91,9 @@ describe("Visual regression states — @intinyagroup/ui", () => {
   describe("Avatar states", () => {
     it("renders avatar with fallback text", () => {
       render(Avatar, {
-        children: {
+        children: createRawSnippet(() => ({
           render: () => `<span>AB</span>`,
-        } as any,
+        })),
       });
       expect(screen.getByText("AB")).toBeInTheDocument();
     });

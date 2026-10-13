@@ -2,13 +2,6 @@
 // Unit conversion utilities — px, pt, mm, cm, inch, em, rem
 // ============================================
 
-// Standard DPI: 96 (CSS standard), 72 (PostScript/PDF), 300 (print)
-const DPI = {
-  css: 96,
-  postscript: 72,
-  print: 300,
-} as const;
-
 // Conversion factors to pixels (at CSS 96dpi)
 const TO_PX: Record<string, number> = {
   px: 1,

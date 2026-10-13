@@ -59,7 +59,7 @@
       orientation === "horizontal"
         ? event.key === "ArrowLeft"
         : event.key === "ArrowUp";
-    let next = index;
+    let next: number;
     if (event.key === "Home") next = 0;
     else if (event.key === "End") next = items.length - 1;
     else if (forward) next = (index + 1) % items.length;

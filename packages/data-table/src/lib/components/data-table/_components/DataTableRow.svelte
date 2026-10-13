@@ -44,14 +44,17 @@
     focusedCell?: { rowId: string; columnId: string } | null;
   } = $props();
 
-  function columnAlign(columnDefOrMeta: any) {
+  function columnAlign(
+    columnDefOrMeta:
+      DataTableMeta<TData> | { meta?: DataTableMeta<TData> } | undefined,
+  ): DataTableMeta<TData>["align"] {
     if (!columnDefOrMeta) return undefined;
     if ("align" in columnDefOrMeta) return columnDefOrMeta.align;
-    const meta = columnDefOrMeta.meta;
+    const meta = "meta" in columnDefOrMeta ? columnDefOrMeta.meta : undefined;
     return meta && typeof meta === "object" ? meta.align : undefined;
   }
 
-  function getCellStyle(column: any) {
+  function getCellStyle(column: { getSize: () => number }) {
     const width = column.getSize();
     const style: Record<string, string> = {};
     if (width !== 150) {
@@ -123,7 +126,7 @@
 
   {#each row.getVisibleCells() as tableCell (tableCell.id)}
     {@const meta = tableCell.column.columnDef.meta as
-      DataTableMeta<any> | undefined}
+      DataTableMeta<TData> | undefined}
     {@const isPinnedLeft = tableCell.column.getIsPinned() === "start"}
     {@const isPinnedRight = tableCell.column.getIsPinned() === "end"}
     {@const isEditable =

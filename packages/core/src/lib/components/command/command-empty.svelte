@@ -14,7 +14,7 @@
     class?: string;
     forceMount?: boolean;
     children?: Snippet;
-    [key: string]: any;
+    [key: string]: unknown;
   } = $props();
 
   const ctx = getCommandContext();

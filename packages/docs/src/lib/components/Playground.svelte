@@ -4,11 +4,16 @@
   import CodeBlock from "./CodeBlock.svelte";
   import type { Snippet } from "svelte";
 
+  // Dynamic prop values passed into the render snippet / getCode callback.
+  // Kept loose because call sites spread these into narrow-typed component props.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type PlaygroundValues = Record<string, any>;
+
   export type PlaygroundProp = {
     name: string;
     label?: string;
     type: "string" | "number" | "boolean" | "enum" | "color";
-    default?: any;
+    default?: string | number | boolean;
     values?: string[]; // for enum
     min?: number; // for number
     max?: number; // for number
@@ -27,13 +32,13 @@
     title?: string;
     description?: string;
     props?: PlaygroundProp[];
-    render: Snippet<[Record<string, any>]>;
-    getCode: (values: Record<string, any>) => string;
+    render: Snippet<[PlaygroundValues]>;
+    getCode: (values: PlaygroundValues) => string;
     className?: string;
   } = $props();
 
-  function defaults(): Record<string, any> {
-    const init: Record<string, any> = {};
+  function defaults(): PlaygroundValues {
+    const init: PlaygroundValues = {};
     for (const p of props) {
       if (p.default !== undefined) {
         init[p.name] = p.default;
@@ -50,7 +55,7 @@
     return init;
   }
 
-  let values = $state<Record<string, any>>(defaults());
+  let values = $state<PlaygroundValues>(defaults());
 
   let tab = $state<"preview" | "code">("preview");
   let showProps = $state(true);

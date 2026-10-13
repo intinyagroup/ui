@@ -22,16 +22,12 @@
   } = $props();
 
   let editingTitle = $state(false);
-  let titleValue = $state(chapter.title);
+  let titleValue = $derived(chapter.title);
   let showImageUploader = $state(false);
   let showFootnoteDialog = $state(false);
   let showCrossRefDialog = $state(false);
   let showMathEditor = $state(false);
   let footnoteContent = $state("");
-
-  $effect(() => {
-    titleValue = chapter.title;
-  });
 
   function commitTitle() {
     editingTitle = false;

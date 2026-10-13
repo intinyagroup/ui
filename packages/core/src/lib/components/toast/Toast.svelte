@@ -8,7 +8,7 @@
     Info,
   } from "lucide-svelte";
 
-  const icons: Record<string, any> = {
+  const icons: Record<string, typeof CheckCircle | null> = {
     success: CheckCircle,
     error: AlertCircle,
     warning: AlertTriangle,

@@ -366,6 +366,8 @@
           ],
         })}
         <div class="w-56">
+          <!-- Collection is invariant in its item type; the Select wrapper prop resolves to the default item type, so a concrete collection needs a cast. -->
+          <!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -- ListCollection is invariant in its item generic; wrapper's unparameterized collection prop can't accept a concrete ListCollection without changing the public Select API -->
           <Select disabled={v.disabled} collection={collection as any}>
             <SelectTrigger>
               <SelectValue placeholder={v.placeholder} />

@@ -23,7 +23,7 @@
     forceMount?: boolean;
     keywords?: string[];
     onSelect?: () => void;
-    [key: string]: any;
+    [key: string]: unknown;
   } = $props();
 
   const ctx = getCommandContext();

@@ -27,8 +27,11 @@
     onMetadataChange({ ...metadata, [field]: value });
   }
 
-  function updateLayout(field: keyof BookLayout, value: any) {
-    onLayoutChange({ ...layout, [field]: value });
+  function updateLayout(
+    field: keyof BookLayout,
+    value: BookLayout[keyof BookLayout],
+  ) {
+    onLayoutChange({ ...layout, [field]: value } as BookLayout);
   }
 
   function handleCoverUpload(e: Event) {

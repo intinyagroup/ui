@@ -5,6 +5,10 @@
 
   let groupUid = 0;
 
+  function nextGroupUid(): number {
+    return ++groupUid;
+  }
+
   let {
     ref = $bindable(null),
     class: className,
@@ -20,12 +24,12 @@
     heading?: string;
     value?: string;
     forceMount?: boolean;
-    [key: string]: any;
+    [key: string]: unknown;
   } = $props();
 
   const ctx = getCommandContext();
   const resolvedValue = $derived(
-    value ?? heading ?? `__cmd_group_${++groupUid}`,
+    value ?? heading ?? `__cmd_group_${nextGroupUid()}`,
   );
 
   $effect(() => {

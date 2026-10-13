@@ -1,13 +1,14 @@
-<script lang="ts">
+<script lang="ts" generics="TData extends RowData">
   import { GripVertical, X } from "lucide-svelte";
-  import type { Column } from "@tanstack/table-core";
+  import type { Column, RowData } from "@tanstack/table-core";
+  import { coreFeatures } from "@intinyagroup/grid-core";
 
   let {
     columns,
     grouping,
     onGroupingChange,
   }: {
-    columns: Column<any, unknown>[];
+    columns: Column<typeof coreFeatures, TData, unknown>[];
     grouping: string[];
     onGroupingChange: (grouping: string[]) => void;
   } = $props();

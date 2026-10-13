@@ -2,11 +2,7 @@
 // Pagination Engine — measure + split into pages
 // ============================================
 
-import {
-  pageSizes,
-  getEffectivePageSize,
-  type BookLayout,
-} from "./book-model.js";
+import { getEffectivePageSize, type BookLayout } from "./book-model.js";
 
 export type PaginatedPage = {
   pageNumber: number;
@@ -98,17 +94,14 @@ function waitForImages(container: HTMLElement): Promise<void> {
 function splitIntoPages(
   container: HTMLElement,
   pageHeightPx: number,
-  pageWidthPx: number,
-  layout: BookLayout,
+  _pageWidthPx: number,
+  _layout: BookLayout,
 ): PaginationResult {
   const pages: PaginatedPage[] = [];
   const children = Array.from(container.childNodes);
   let currentPageContent: string[] = [];
   let currentPageHeight = 0;
   let pageNumber = 1;
-
-  // Reserve space for chapter title
-  const titleHeight = layout.chapterTitleSize * 1.5 * (96 / 72); // pt to px
 
   for (const child of children) {
     const childHeight = measureNodeHeight(child as HTMLElement);

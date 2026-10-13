@@ -253,7 +253,6 @@
   let showColumnsDropdown = $state(false);
   let columnSizing = $state<Record<string, number>>({});
   let rowSelection = $state<RowSelectionState>({});
-  let selectAllChecked = $state(false);
   let activeFilterColumnId = $state<string | null>(null);
   let scrollContainer = $state<HTMLElement | null>(null);
   let tableContainer = $state<HTMLElement | null>(null);
@@ -476,11 +475,10 @@
     if (clip) await clip.pasteFromClipboard();
   }
 
-  $effect(() => {
-    selectAllChecked =
-      rowModel.rows.length > 0 &&
-      Object.keys(rowSelection).length === rowModel.rows.length;
-  });
+  const selectAllChecked = $derived(
+    rowModel.rows.length > 0 &&
+      Object.keys(rowSelection).length === rowModel.rows.length,
+  );
 
   function toggleColumnVisibility(columnId: string, visible: boolean) {
     columnVisibility = { ...columnVisibility, [columnId]: visible };
