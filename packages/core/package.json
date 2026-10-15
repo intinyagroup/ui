@@ -27,8 +27,8 @@
     "build": "svelte-package -o dist && find dist -name \"*.test.*\" -delete && find dist -name \"*Test.svelte*\" ! -name \"Testimonial*\" -delete",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "dev": "svelte-package -o dist -w",
-    "test": "vitest run && vitest run --config vitest.ssr.config.ts",
-    "test:ssr": "vitest run --config vitest.ssr.config.ts"
+    "test": "NODE_OPTIONS=\"--experimental-require-module\" vitest run && NODE_OPTIONS=\"--experimental-require-module\" vitest run --config vitest.ssr.config.ts",
+    "test:ssr": "NODE_OPTIONS=\"--experimental-require-module\" vitest run --config vitest.ssr.config.ts"
   },
   "dependencies": {
     "@ark-ui/svelte": "^5.24.1",
