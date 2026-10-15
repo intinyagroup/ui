@@ -34,11 +34,11 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
-    "@sveltejs/package": "^2.5.8",
-    "svelte": "^5.55.2",
-    "svelte-check": "^4.4.6",
+    "@sveltejs/package": "^3.0.0",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.6",
     "typescript": "^6.0.2",
-    "@sveltejs/vite-plugin-svelte": "^5.1.1"
+    "@sveltejs/vite-plugin-svelte": "^7.3.1"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"
