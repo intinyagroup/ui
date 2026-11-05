@@ -122,3 +122,19 @@ describe("Input", () => {
     expect(input).toHaveClass("min-w-0");
   });
 });
+
+// Browsers forbid assigning a non-empty filename, even when a consumer passes value.
+describe("file input browser restrictions", () => {
+  it("ignores text value props and preserves file selection", async () => {
+    const { container } = render(Input, {
+      type: "file",
+      value: "forbidden-name.txt",
+    });
+    const input = container.querySelector("input")!;
+    expect(input.value).toBe("");
+    const file = new File(["evidence"], "evidence.txt", { type: "text/plain" });
+    await fireEvent.change(input, { target: { files: [file] } });
+    expect(input.files?.[0]).toBe(file);
+    expect(input.value).toBe("");
+  });
+});
