@@ -25,6 +25,22 @@ export const IndonesianLocaleWithMondayStart: Story = {
   },
 };
 
+export const IndonesianLongDateFormat: Story = {
+  args: {
+    locale: "id-ID",
+    format: "d MMMM yyyy",
+    firstDayOfWeek: 1,
+    placeholder: "Pilih rentang tanggal...",
+  },
+};
+
+export const USDateFormat: Story = {
+  args: {
+    locale: "en-US",
+    format: "MM/dd/yyyy",
+  },
+};
+
 export const CustomPresets: Story = {
   args: {
     presets: [
