@@ -14,16 +14,22 @@
   import Calendar, { type CalendarDate } from "./Calendar.svelte";
   import { Calendar as CalendarIcon, X } from "lucide-svelte";
   import { cn } from "@intinyagroup/ui/utils";
+  import { formatCalendarDate } from "./format-date";
 
   let {
     value = $bindable(null),
     placeholder = "Select date...",
+    locale = "en-GB",
+    format = "d MMM yyyy",
     disabled = false,
     class: className,
     onSelect,
   }: {
     value?: CalendarDate | null;
     placeholder?: string;
+    /** date-fns format pattern used for the selected date. */
+    format?: string;
+    locale?: string;
     disabled?: boolean;
     class?: string;
     onSelect?: (date: CalendarDate | null) => void;
@@ -33,12 +39,7 @@
 
   function formatDateDisplay(date: CalendarDate | null): string {
     if (!date) return "";
-    const d = new Date(date.year, date.month, date.day);
-    return d.toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
+    return formatCalendarDate(date, format, locale);
   }
 
   function handleSelect(date: CalendarDate) {

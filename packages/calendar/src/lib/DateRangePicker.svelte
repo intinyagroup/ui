@@ -21,9 +21,10 @@
     isSameMonth,
     isWithinInterval,
     isBefore,
-    format,
+    format as formatDateFns,
   } from "date-fns";
   import { id as localeId, enUS as localeEn } from "date-fns/locale";
+  import { formatCalendarDate } from "./format-date";
 
   export type CalendarDate = { year: number; month: number; day: number };
   export type DateRange = {
@@ -43,6 +44,7 @@
     disabled = false,
     placeholder = "Select date range...",
     locale = "en-US",
+    format = "dd/MM/yyyy",
     firstDayOfWeek = 0, // 0 = Sunday, 1 = Monday
     presets,
     class: className,
@@ -54,6 +56,8 @@
     disabled?: boolean;
     placeholder?: string;
     locale?: string;
+    /** date-fns format pattern used for each endpoint. */
+    format?: string;
     firstDayOfWeek?: number;
     presets?: DateRangePreset[];
     class?: string;
@@ -92,7 +96,9 @@
   const dayNames = $derived.by(() => {
     const start = startOfWeek(viewDate, { weekStartsOn });
     return Array.from({ length: 7 }, (_, i) => {
-      return format(addDays(start, i), "EEE", { locale: activeDateFnsLocale });
+      return formatDateFns(addDays(start, i), "EEE", {
+        locale: activeDateFnsLocale,
+      });
     });
   });
 
@@ -145,9 +151,8 @@
   }
 
   function formatDisplayDate(date: CalendarDate | null): string {
-    const d = toDate(date);
-    if (!d) return "";
-    return format(d, "dd/MM/yyyy", { locale: activeDateFnsLocale });
+    if (!date) return "";
+    return formatCalendarDate(date, format, locale);
   }
 
   const label = $derived.by(() => {
@@ -275,7 +280,9 @@
         <span
           class="text-xs font-semibold text-[var(--ui-foreground)] capitalize"
         >
-          {format(viewDate, "MMMM yyyy", { locale: activeDateFnsLocale })}
+          {formatDateFns(viewDate, "MMMM yyyy", {
+            locale: activeDateFnsLocale,
+          })}
         </span>
         <Button
           variant="ghost"
